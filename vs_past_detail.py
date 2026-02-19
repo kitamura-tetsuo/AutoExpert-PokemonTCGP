@@ -2,7 +2,9 @@ import argparse
 import sys
 import os
 import json
+import random
 import deckgym
+import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -12,12 +14,58 @@ sys.path.append(os.getcwd())
 from autoexpert.skill_library import SkillLibrary
 from autoexpert.config import settings
 
+# Configure logging to stderr to keep stdout clean for JSON
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', stream=sys.stderr)
+
 def parse_args():
-    parser = argparse.ArgumentParser(description="Detailed battle analysis for LLM.")
+    parser = argparse.ArgumentParser(description="Detailed battle analysis between current and past expert.")
     parser.add_argument("--deck_a", type=str, required=True, help="Deck file for Player 0.")
     parser.add_argument("--deck_b", type=str, required=True, help="Deck file for Player 1.")
     parser.add_argument("--seed", type=int, required=True, help="Random seed.")
+    parser.add_argument("--past_dir", type=str, default="past_repo", help="Path to the past repository.")
+    parser.add_argument("--repo_url", type=str, default="https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP", help="URL of the past repository to clone.")
     return parser.parse_args()
+
+def ensure_past_repo(past_dir: str, repo_url: str):
+    path = Path(past_dir)
+    if not path.exists():
+        logging.info(f"Past repository not found at {past_dir}. Downloading...")
+        import subprocess
+        try:
+            zip_url = f"{repo_url.rstrip('/')}/archive/refs/heads/main.zip"
+            zip_path = Path("repo_temp.zip")
+            subprocess.run(["curl", "-L", "-o", str(zip_path), zip_url], check=True)
+            subprocess.run(["unzip", "-q", str(zip_path)], check=True)
+            repo_name = repo_url.rstrip("/").split("/")[-1]
+            unzipped_dirs = list(Path(".").glob(f"{repo_name}-*"))
+            if unzipped_dirs:
+                unzipped_dir = unzipped_dirs[0]
+                unzipped_dir.rename(past_dir)
+                zip_path.unlink()
+        except Exception as e:
+            logging.error(f"Failed to download repository: {e}")
+            logging.info("Falling back to shallow clone...")
+            subprocess.run(["git", "clone", "--depth", "1", repo_url, past_dir], check=True)
+
+def get_play_func(skill_data: Optional[Dict[str, Any]]):
+    if not skill_data:
+        def play_func(state, game):
+            return random.choice(game.legal_actions())
+        return play_func
+    
+    code = skill_data["code"]
+    namespace = {"deckgym": deckgym}
+    try:
+        exec(code, namespace)
+        play_func = namespace.get("play")
+        if not play_func:
+            raise ValueError("No 'play' function found in skill code.")
+        return play_func
+    except Exception as e:
+        logging.error(f"Error executing skill code: {e}")
+        def play_func(state, game):
+            return random.choice(game.legal_actions())
+        return play_func
 
 def get_cards_mapping():
     cards = deckgym.get_all_cards()
@@ -63,83 +111,59 @@ def decode_pokemon(obs, start_idx, card_mapping):
     return res
 
 def decode_observation(obs, card_mapping):
-    # obs is a list/array of floats
     ptr = 0
-    # 1. Turn Info
     turn_count = int(obs[ptr]); ptr += 1
     my_points = int(obs[ptr]); ptr += 1
     opp_points = int(obs[ptr]); ptr += 1
     is_my_turn = obs[ptr] > 0.5; ptr += 1
     
-    # 1.1 Turn Flags
     has_played_support = obs[ptr] > 0.5; ptr += 1
     has_retreated = obs[ptr] > 0.5; ptr += 1
     ko_last_turn = obs[ptr] > 0.5; ptr += 1
     
-    # 1.2 Energy Info
     current_energy = {ENERGY_TYPES[i]: 1 for i in range(10) if obs[ptr+i] > 0.5}; ptr += 10
     my_next_energy = {ENERGY_TYPES[i]: 1 for i in range(10) if obs[ptr+i] > 0.5}; ptr += 10
     opp_next_energy = {ENERGY_TYPES[i]: 1 for i in range(10) if obs[ptr+i] > 0.5}; ptr += 10
     
-    # 2. Hand Counts
     my_hand_count = int(obs[ptr]); ptr += 1
     opp_hand_count = int(obs[ptr]); ptr += 1
     
-    # 3. My Active
     my_active = decode_pokemon(obs, ptr, card_mapping); ptr += 24
-    
-    # 4. My Bench
-    my_bench = []
-    for _ in range(3):
-        my_bench.append(decode_pokemon(obs, ptr, card_mapping)); ptr += 24
-        
-    # 5. Opponent Active
+    my_bench = [decode_pokemon(obs, ptr + i*24, card_mapping) for i in range(3)]; ptr += 72
     opp_active = decode_pokemon(obs, ptr, card_mapping); ptr += 24
+    opp_bench = [decode_pokemon(obs, ptr + i*24, card_mapping) for i in range(3)]; ptr += 72
     
-    # 6. Opponent Bench
-    opp_bench = []
-    for _ in range(3):
-        opp_bench.append(decode_pokemon(obs, ptr, card_mapping)); ptr += 24
-        
-    # 7. My Hand Slots (10)
     my_hand = []
     for _ in range(10):
         idx = int(obs[ptr])
         if idx >= 0: my_hand.append(card_mapping.get(idx, f"Unknown({idx})"))
         ptr += 1
         
-    # 8. Opponent Hand Slots (10) - Known cards
     opp_hand_known = []
     for _ in range(10):
         idx = int(obs[ptr])
         if idx >= 0: opp_hand_known.append(card_mapping.get(idx, f"Unknown({idx})"))
         ptr += 1
         
-    # 9. My Deck IDs (20)
     my_deck = []
     for _ in range(20):
         idx = int(obs[ptr])
         if idx >= 0: my_deck.append(card_mapping.get(idx, f"Unknown({idx})"))
         ptr += 1
         
-    # 10. Opponent Deck Count
     opp_deck_count = int(obs[ptr]); ptr += 1
-    
-    # 10.1 Opponent Known Deck (20)
     opp_deck_known = []
     for _ in range(20):
         idx = int(obs[ptr])
         if idx >= 0: opp_deck_known.append(card_mapping.get(idx, f"Unknown({idx})"))
         ptr += 1
         
-    # 11. My Discard
     my_discard = []
     for _ in range(10):
         idx = int(obs[ptr])
         if idx >= 0: my_discard.append(card_mapping.get(idx, f"Unknown({idx})"))
         ptr += 1
         
-    # 12. Opponent Discard
     opp_discard = []
     for _ in range(10):
         idx = int(obs[ptr])
@@ -168,26 +192,60 @@ def decode_observation(obs, card_mapping):
 
 def main():
     args = parse_args()
-    import random
     random.seed(args.seed)
     card_mapping = get_cards_mapping()
     
-    # Find active expert skill
+    ensure_past_repo(args.past_dir, args.repo_url)
+    
+    # 1. Load Current Best (P0)
+    current_best_func = None
     library = SkillLibrary()
     best_skill = library.get_best_skill()
     if best_skill:
-        print(f"Using expert skill: {best_skill['name']}")
-        code = best_skill["code"]
-        local_vars = {}
-        exec(code, {"deckgym": deckgym}, local_vars)
-        play_func = local_vars.get("play")
+        logging.info(f"Using expert skill from library for Player 0: {best_skill['name']}")
+        current_best_func = get_play_func(best_skill)
     else:
-        print("No expert skill found. Using random choice.")
-        play_func = None
+        try:
+            import candidate_player
+            import importlib
+            importlib.reload(candidate_player)
+            current_best_func = candidate_player.play
+            logging.info("Using candidate_player.play for Player 0.")
+        except ImportError:
+            logging.warning("No current expert found. Using random.")
+            current_best_func = get_play_func(None)
+
+    # 2. Load Past Best (P1)
+    past_best_func = None
+    past_candidate_path = Path(args.past_dir) / "candidate_player.py"
+    if past_candidate_path.exists():
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("past_candidate_player", str(past_candidate_path))
+            past_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(past_module)
+            past_best_func = past_module.play
+            logging.info(f"Using candidate_player.play from {args.past_dir} for Player 1.")
+        except Exception as e:
+             logging.error(f"Error loading past candidate: {e}")
+
+    if not past_best_func:
+        past_skill_dir = Path(args.past_dir) / "skill_library"
+        if past_skill_dir.exists():
+            past_library = SkillLibrary(directory=past_skill_dir)
+            past_best = past_library.get_best_skill()
+            if past_best:
+                 logging.info(f"Using past library skill: {past_best['name']}")
+                 past_best_func = get_play_func(past_best)
+        
+    if not past_best_func:
+        logging.warning("No past expert found. Using random for Player 1.")
+        past_best_func = get_play_func(None)
+
+    play_funcs = [current_best_func, past_best_func]
 
     deck_a_path = str(settings.DECK_DIR / args.deck_a)
     if not Path(deck_a_path).exists(): deck_a_path = str(Path("train_data") / args.deck_a)
-    
     deck_b_path = str(settings.DECK_DIR / args.deck_b)
     if not Path(deck_b_path).exists(): deck_b_path = str(Path("train_data") / args.deck_b)
 
@@ -196,34 +254,21 @@ def main():
     step = 0
     while not game.get_state().is_game_over() and step < 500:
         state = game.get_state()
-        curr_player = state.current_player
+        curr_p = state.current_player
         
-        # Get encoded observation for the current player
-        obs_vec = game.encode_observation(player_id=curr_player)
+        obs_vec = game.encode_observation(player_id=curr_p)
         decoded = decode_observation(obs_vec, card_mapping)
         
-        print(f"\n--- STEP {step} (Player {curr_player} Turn) ---")
+        # Use stderr for "STEP" labels if you want clean JSON output, 
+        # but the user likely wants to see them in the log.
+        print(f"\n--- STEP {step} (Player {curr_p} Turn) ---")
         print(json.dumps(decoded, indent=2))
         
         legal = game.legal_actions()
         legal_names = {aid: game.action_name(aid) for aid in legal}
         print(f"Legal Actions: {legal_names}")
         
-        # Determine action
-        if play_func:
-            # Note: AutoExpert play functions typically take (state, game)
-            # We must be careful if the expert was trained on raw state or encoded.
-            # Most current skills use 'game.legal_actions()' and logic based on 'state'.
-            try:
-                action_id = play_func(state, game)
-            except Exception as e:
-                print(f"Error in play_func: {e}")
-                import random
-                action_id = random.choice(legal)
-        else:
-            import random
-            action_id = random.choice(legal)
-            
+        action_id = play_funcs[curr_p](state, game)
         action_name = game.action_name(action_id)
         print(f"Selected Action: {action_id} - {action_name}")
         

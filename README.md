@@ -49,7 +49,7 @@ This will run 5 matches between the current best skill and the best skill in `pa
 ### Detailed Battle Analysis (for LLM)
 To examine the game state encoding and actions step-by-step for a specific match:
 ```bash
-python main.py vs-detail --deck-a mewtwoex.txt --deck-b mewtwoex.txt --seed 4250
+python main.py vs-past-detail --deck-a mewtwoex.txt --deck-b mewtwoex.txt --seed 4250
 ```
 This command outputs the detailed internal state (encoded observation) and available actions for each step, which is useful for LLM debugging and understanding the Deep Learning model's input.
 

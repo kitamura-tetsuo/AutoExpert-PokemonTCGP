@@ -36,11 +36,13 @@ def main():
     vs_past_parser.add_argument("--league-student", type=str, default=None, help="CSV file for student league decks")
     vs_past_parser.add_argument("--league-teacher", type=str, default=None, help="CSV file for teacher league decks")
 
-    # VS Detail command
-    vs_detail_parser = subparsers.add_parser("vs-detail", help="Show step-by-step detailed observation and actions")
-    vs_detail_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
-    vs_detail_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
-    vs_detail_parser.add_argument("--seed", type=int, required=True, help="Random seed")
+    # VS Past Detail command
+    vs_past_detail_parser = subparsers.add_parser("vs-past-detail", help="Show step-by-step detailed observation and actions against past expert")
+    vs_past_detail_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
+    vs_past_detail_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
+    vs_past_detail_parser.add_argument("--seed", type=int, required=True, help="Random seed")
+    vs_past_detail_parser.add_argument("--past-dir", type=str, default="past_repo", help="Path to past repository")
+    vs_past_detail_parser.add_argument("--repo-url", type=str, default="https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP", help="URL of the past repository")
 
     args = parser.parse_args()
     
@@ -92,12 +94,14 @@ def main():
         
         subprocess.run(cmd)
 
-    elif args.command == "vs-detail":
+    elif args.command == "vs-past-detail":
         import subprocess
-        cmd = ["uv", "run", "python3", "vs_detail.py",
+        cmd = ["uv", "run", "python3", "vs_past_detail.py",
                "--deck_a", args.deck_a,
                "--deck_b", args.deck_b,
-               "--seed", str(args.seed)]
+               "--seed", str(args.seed),
+               "--past_dir", args.past_dir,
+               "--repo_url", args.repo_url]
         
         subprocess.run(cmd)
         

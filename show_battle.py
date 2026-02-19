@@ -380,30 +380,34 @@ def main():
     library = SkillLibrary()
     best_skill = library.get_best_skill()
     
+    play_func = None
     if best_skill:
         logging.info(f"Using best skill: {best_skill['name']} (Win Rate: {best_skill['win_rate']:.2%})")
         code = best_skill["code"]
-    else:
-        logging.warning("No skills found in library. Using a simple random/default strategy.")
-        code = """
-def play(state, game):
-    import random
-    actions = game.legal_actions()
-    return random.choice(actions)
-"""
-
-    # Prepare the play function
-    local_vars = {}
-    try:
-        exec(code, {"deckgym": deckgym}, local_vars)
-        play_func = local_vars.get("play")
-        if not play_func:
-            raise ValueError("No 'play' function found in skill code.")
-    except Exception as e:
-        logging.error(f"Error executing skill code: {e}")
-        # Fallback to random
-        def play_func(state, game):
-            return random.choice(game.legal_actions())
+        local_vars = {}
+        try:
+            exec(code, {"deckgym": deckgym}, local_vars)
+            play_func = local_vars.get("play")
+            if not play_func:
+                raise ValueError("No 'play' function found in skill code.")
+        except Exception as e:
+            logging.error(f"Error executing skill code: {e}")
+            play_func = None
+            
+    if not play_func:
+        # Fallback to candidate_player.py
+        try:
+            import candidate_player
+            import importlib
+            importlib.reload(candidate_player)
+            play_func = candidate_player.play
+            logging.info("Using candidate_player.play as expert skill.")
+        except ImportError:
+            logging.warning("No expert skill found in library or candidate_player.py. Using random strategy.")
+            def play_func(state, game):
+                import random
+                actions = game.legal_actions()
+                return random.choice(actions)
 
     # Initialize Game
     deck_a_path = str(settings.DECK_DIR / args.deck_a)

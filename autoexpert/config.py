@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     JULES_API_URL: str = "https://jules.googleapis.com/v1alpha"
     
     # Simulation settings
-    NUM_SIMULATIONS: int = 100
+    NUM_SIMULATIONS: int = 1000
     MAX_ITERATIONS: int = 50
     MAX_RETRIES_PER_GOAL: int = 3
     

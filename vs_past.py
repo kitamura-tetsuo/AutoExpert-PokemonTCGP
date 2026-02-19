@@ -81,10 +81,10 @@ def get_play_func(skill_data: Optional[Dict[str, Any]]):
         return play_func
     
     code = skill_data["code"]
-    local_vars = {}
+    namespace = {"deckgym": deckgym}
     try:
-        exec(code, {"deckgym": deckgym}, local_vars)
-        play_func = local_vars.get("play")
+        exec(code, namespace)
+        play_func = namespace.get("play")
         if not play_func:
             raise ValueError("No 'play' function found in skill code.")
         return play_func

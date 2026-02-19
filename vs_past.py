@@ -146,13 +146,29 @@ def main():
     # Ensure past repository exists
     ensure_past_repo(args.past_dir, args.repo_url)
     
-    # 1. Load Current Best Skill
-    current_library = SkillLibrary()
-    current_best = current_library.get_best_skill()
-    if current_best:
-        logging.info(f"Current Best Skill: {current_best['name']} (Win Rate: {current_best['win_rate']:.2%})")
-    else:
-        logging.info("Current Library is empty. Using random strategy for Player 0.")
+    # 1. Load Current Best Skill (or Candidate Player)
+    current_play_func = None
+    if os.path.exists("candidate_player.py"):
+        try:
+            import candidate_player
+            import importlib
+            importlib.reload(candidate_player)
+            current_play_func = candidate_player.play
+            logging.info("Using 'candidate_player.py' for Player 0.")
+        except Exception as e:
+            logging.error(f"Failed to load candidate_player.py: {e}")
+
+    if current_play_func is None:
+        current_library = SkillLibrary()
+        current_best = current_library.get_best_skill()
+        if current_best:
+            logging.info(f"Current Best Skill: {current_best['name']} (Win Rate: {current_best['win_rate']:.2%})")
+            current_play_func = get_play_func(current_best)
+        else:
+            logging.info("Current Library is empty. Using random strategy for Player 0.")
+            def random_play(state, game):
+                return random.choice(game.legal_actions())
+            current_play_func = random_play
         
     # 2. Load Past Best Skill
     past_skill_dir = Path(args.past_dir) / "skill_library"
@@ -164,7 +180,7 @@ def main():
         logging.info(f"Past Library ({past_skill_dir}) is empty. Using random strategy for Player 1.")
 
     play_funcs = [
-        get_play_func(current_best),
+        current_play_func,
         get_play_func(past_best)
     ]
 

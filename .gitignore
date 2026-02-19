@@ -3,3 +3,5 @@
 
 **/*.pyc
 **/*.html
+
+past_repo/*

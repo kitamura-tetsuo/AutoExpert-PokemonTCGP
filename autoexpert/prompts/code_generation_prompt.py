@@ -24,11 +24,13 @@ Actions usually look like:
 - "UseItem(hand_idx)": Use a Trainer item card.
 - "UseSupporter(hand_idx)": Use a Supporter card.
 
-REQUIREMENTS:
+Requirements:
 1. The function MUST return a valid integer action ID from `game.legal_actions()`.
 2. Do not use any external libraries other than `deckgym`.
 3. Keep the logic efficient.
-4. If multiple good actions are available, prioritize: 
+4. Your ultimate goal is to achieve a win rate of at least 51% over 1000 matches against the past version of yourself using the following command:
+   `python main.py vs-past --matches 1000`
+5. If multiple good actions are available, prioritize: 
    - Attaching energy to active if it needs it.
    - Attacking if possible.
    - Evolution or playing pokemon to bench if needed.

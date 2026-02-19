@@ -22,12 +22,27 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def parse_args():
     parser = argparse.ArgumentParser(description="Battle between Current Expert and Past Expert.")
     parser.add_argument("--past_dir", type=str, default="past_repo", help="Path to the past repository.")
+    parser.add_argument("--repo_url", type=str, default="https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP", help="URL of the past repository to clone.")
     parser.add_argument("--deck_a", type=str, default="mewtwoex.txt", help="Path to deck 1 file.")
     parser.add_argument("--deck_b", type=str, default="mewtwoex.txt", help="Path to deck 2 file.")
     parser.add_argument("--output", type=str, default="vs_past_battle.html", help="Path to output HTML file.")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()), help="Random seed.")
     parser.add_argument("--num_matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
     return parser.parse_args()
+
+def ensure_past_repo(past_dir: str, repo_url: str):
+    path = Path(past_dir)
+    if not path.exists():
+        logging.info(f"Past repository not found at {past_dir}. Cloning from {repo_url}...")
+        import subprocess
+        try:
+            subprocess.run(["git", "clone", repo_url, past_dir], check=True)
+            logging.info("Clone successful.")
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Failed to clone repository: {e}")
+            sys.exit(1)
+    else:
+        logging.info(f"Using existing past repository at {past_dir}")
 
 def get_play_func(skill_data: Optional[Dict[str, Any]]):
     if not skill_data:
@@ -101,6 +116,9 @@ def run_match(game, play_funcs, record_history=False):
 
 def main():
     args = parse_args()
+    
+    # Ensure past repository exists
+    ensure_past_repo(args.past_dir, args.repo_url)
     
     # 1. Load Current Best Skill
     current_library = SkillLibrary()

@@ -28,8 +28,8 @@ def parse_args():
     parser.add_argument("--output", type=str, default="vs_past_battle.html", help="Path to output HTML file.")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()), help="Random seed.")
     parser.add_argument("--num_matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
-    parser.add_argument("--league_decks_student", type=str, default=None, help="CSV file for student league decks")
-    parser.add_argument("--league_decks_teacher", type=str, default=None, help="CSV file for teacher league decks")
+    parser.add_argument("--league_decks_student", type=str, default="train_data/teacher.csv", help="CSV file for student league decks")
+    parser.add_argument("--league_decks_teacher", type=str, default="train_data/teacher.csv", help="CSV file for teacher league decks")
     return parser.parse_args()
 
 def ensure_past_repo(past_dir: str, repo_url: str):

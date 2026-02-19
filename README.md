@@ -39,6 +39,13 @@ This will iterate 10 times, each time trying to improve a specific strategic goa
 python main.py skills
 ```
 
+### Match Against Past Code
+To compare the current best expert against an expert from a past version of the repository:
+```bash
+python main.py vs-past --past-dir past_repo --matches 5
+```
+This will run 5 matches between the current best skill and the best skill in `past_repo/skill_library`, and generate a visualization of the last match.
+
 ## Structure
 - `autoexpert/autoexpert.py`: Main loop.
 - `autoexpert/utils/llm_client.py`: Jules API interface.

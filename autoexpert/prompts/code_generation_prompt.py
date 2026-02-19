@@ -34,7 +34,6 @@ REQUIREMENTS:
    - Evolution or playing pokemon to bench if needed.
    - Using drawing items (Professor's Research).
 
-OUTPUT FORMAT:
 Provide ONLY the Python code for the `play` function. Do not include explanations outside the code block.
 """
 

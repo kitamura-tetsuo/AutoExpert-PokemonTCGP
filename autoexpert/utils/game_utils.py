@@ -22,8 +22,9 @@ def state_to_text(state: deckgym.State) -> str:
             lines.append("Active: None")
             
         bench = state.get_bench_pokemon(p_idx)
-        if bench:
-            bench_str = ", ".join([f"{p.name} (HP: {p.remaining_hp}/{p.hp})" for p in bench])
+        bench_pokemon = [p for p in bench if p is not None] if bench else []
+        if bench_pokemon:
+            bench_str = ", ".join([f"{p.name} (HP: {p.remaining_hp}/{p.hp})" for p in bench_pokemon])
             lines.append(f"Bench: {bench_str}")
         else:
             lines.append("Bench: None")

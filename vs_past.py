@@ -35,14 +35,41 @@ def parse_args():
 def ensure_past_repo(past_dir: str, repo_url: str):
     path = Path(past_dir)
     if not path.exists():
-        logging.info(f"Past repository not found at {past_dir}. Cloning from {repo_url}...")
+        logging.info(f"Past repository not found at {past_dir}. Downloading from {repo_url}...")
         import subprocess
+        import shutil
         try:
-            subprocess.run(["git", "clone", repo_url, past_dir], check=True)
-            logging.info("Clone successful.")
-        except subprocess.CalledProcessError as e:
-            logging.error(f"Failed to clone repository: {e}")
-            sys.exit(1)
+            # zip_url is like https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP/archive/refs/heads/main.zip
+            zip_url = f"{repo_url.rstrip('/')}/archive/refs/heads/main.zip"
+            zip_path = Path("repo_temp.zip")
+            
+            logging.info(f"Downloading ZIP from {zip_url}...")
+            subprocess.run(["curl", "-L", "-o", str(zip_path), zip_url], check=True)
+            
+            logging.info("Extracting ZIP...")
+            subprocess.run(["unzip", "-q", str(zip_path)], check=True)
+            
+            # The unzipped folder name is usually {repo_name}-{branch}
+            repo_name = repo_url.rstrip("/").split("/")[-1]
+            # Try main branch first
+            unzipped_dirs = list(Path(".").glob(f"{repo_name}-*"))
+            if not unzipped_dirs:
+                raise Exception(f"Could not find unzipped directory starting with {repo_name}-")
+            
+            unzipped_dir = unzipped_dirs[0]
+            unzipped_dir.rename(past_dir)
+            zip_path.unlink()
+            logging.info("Download and extraction successful.")
+        except Exception as e:
+            logging.error(f"Failed to download repository: {e}")
+            # Fallback to depth 1 clone if download fails
+            logging.info("Falling back to shallow clone...")
+            try:
+                subprocess.run(["git", "clone", "--depth", "1", repo_url, past_dir], check=True)
+                logging.info("Shallow clone successful.")
+            except subprocess.CalledProcessError as e2:
+                logging.error(f"Failed to clone repository: {e2}")
+                sys.exit(1)
     else:
         logging.info(f"Using existing past repository at {past_dir}")
 

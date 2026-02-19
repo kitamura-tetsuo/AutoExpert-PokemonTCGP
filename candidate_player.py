@@ -1,5 +1,4 @@
 import re
-import random
 
 def play(state, game):
     """
@@ -15,37 +14,64 @@ def play(state, game):
         name = game.action_name(aid)
         actions.append((aid, name))
 
-    # Group actions by type
+    # Categorize actions
     attacks = []
-    attach_energy = []
-    evolutions = []
+    attach_energy_active = []
+    attach_energy_bench = []
+    evolutions_active = []
+    evolutions_bench = []
     place_active = []
     place_bench = []
-    play_card = []
+
+    supporters = [] # Draw supporters mostly
+    items = [] # Items, Stadiums, other trainers
     abilities = []
-    end_turn = []
     retreat = []
+    end_turn = []
+
+    # Helper for categorizing Play actions (Trainers)
+    def is_supporter(name):
+        return any(x in name for x in ["Professor", "Research", "Erika", "Bill", "Misty", "Giovanni", "Sabrina", "Koga", "Lt. Surge", "Blaine", "Brock"])
 
     for aid, name in actions:
         if name.startswith("Attack("):
             attacks.append((aid, name))
         elif name.startswith("Attach("):
-            attach_energy.append((aid, name))
+            # Format: Attach([(0, Psychic)], true) OR Attach(Psychic, 0)
+            # Check for active position (0)
+            if "(0," in name or "[(0," in name or ", 0)" in name:
+                attach_energy_active.append((aid, name))
+            else:
+                attach_energy_bench.append((aid, name))
         elif name.startswith("Evolve("):
-            evolutions.append((aid, name))
+            if ", 0)" in name:
+                evolutions_active.append((aid, name))
+            else:
+                evolutions_bench.append((aid, name))
         elif name.startswith("Place("):
             if ", 0)" in name:
                 place_active.append((aid, name))
             else:
                 place_bench.append((aid, name))
         elif name.startswith("Play("):
-            play_card.append((aid, name))
+            # Play usually means playing a Trainer card (Item, Supporter, Stadium)
+            if is_supporter(name):
+                supporters.append((aid, name))
+            else:
+                items.append((aid, name))
+        elif name.startswith("UseItem("):
+            items.append((aid, name))
+        elif name.startswith("UseSupporter("):
+            supporters.append((aid, name))
         elif name.startswith("UseAbility("):
             abilities.append((aid, name))
         elif name == "EndTurn":
             end_turn.append((aid, name))
         elif name.startswith("Retreat("):
             retreat.append((aid, name))
+        else:
+            # Fallback
+            items.append((aid, name))
 
     # 1. Setup Phase: Must place active
     if place_active:
@@ -53,12 +79,19 @@ def play(state, game):
 
     current_player = state.current_player
     active = state.get_active_pokemon(current_player)
-    bench = state.get_bench_pokemon(current_player)
-    opponent = 1 - current_player
-    opp_active = state.get_active_pokemon(opponent)
+
+    # Safety check: if active is None but game continues (e.g. KO replacement),
+    # and no place_active actions, maybe we need to select active from bench?
+    # Usually handled by specific actions, but let's assume if active is None we can't do much else.
+    if active is None:
+        # If we have bench, maybe a specialized action is available?
+        # But usually place_active handles initial setup.
+        pass
+
+    opp_active = state.get_active_pokemon(1 - current_player)
     opp_hp = opp_active.remaining_hp if opp_active else 0
 
-    # Helper to check damage
+    # Helper to estimate damage
     def get_attack_damage(attack_obj):
         dmg = getattr(attack_obj, 'damage', 0)
         if dmg == 0:
@@ -74,85 +107,81 @@ def play(state, game):
                 if idx < len(active.attacks):
                     atk = active.attacks[idx]
                     dmg = get_attack_damage(atk)
-                    # Simple lethal check. Doesn't account for resistance/weakness if not computed in damage property.
-                    # Assuming damage property is base damage.
-                    # But verifying lethal is always good.
                     if dmg >= opp_hp and opp_hp > 0:
                         return aid
 
     # 3. Evolution (High Priority)
-    if evolutions:
-        # Prioritize evolving active
-        for aid, name in evolutions:
-            if ", 0)" in name:
-                return aid
-        return evolutions[0][0]
+    if evolutions_active:
+        return evolutions_active[0][0]
+    if evolutions_bench:
+        return evolutions_bench[0][0]
 
-    # 4. Bench Setup (Place Basics)
-    bench_count = len([p for p in bench if p is not None])
-    if place_bench and bench_count < 3:
-        # Just place whatever we can to build board
-        return place_bench[0][0]
-
-    # 5. Use Supporters (Draw)
-    # Prioritize Professor's Research / other draw supporters
+    # 4. Draw Supporters (If hand low)
     hand = state.get_hand(current_player)
     hand_size = len(hand)
 
-    draw_supporters = [a for a in play_card if "Professor" in a[1] or "Research" in a[1] or "Erika" in a[1] or "Bill" in a[1]]
-    if draw_supporters:
-        # Use if hand is small OR we haven't attached energy yet and have none in hand
-        # We can't easily check hand content types without card objects, but low hand size is a good proxy.
-        if hand_size < 4:
-            return draw_supporters[0][0]
+    draw_supporters = []
+    for aid, name in supporters:
+        if "Professor" in name or "Research" in name or "Erika" in name or "Bill" in name:
+            draw_supporters.append(aid)
 
-    # 6. Attach Energy
-    if attach_energy:
-        # Logic:
-        # 1. If Active needs energy for max attack, attach to active.
-        # 2. If Active full, attach to bench.
+    if draw_supporters and hand_size < 4:
+        return draw_supporters[0]
 
-        needs_energy = False
-        if active and hasattr(active, 'attacks'):
-            attached = len(active.attached_energy)
-            max_cost = 0
-            for atk in active.attacks:
-                cost_val = 0
-                if hasattr(atk, 'cost'):
-                    if isinstance(atk.cost, int): cost_val = atk.cost
-                    elif isinstance(atk.cost, list): cost_val = len(atk.cost)
-                if cost_val > max_cost: max_cost = cost_val
+    # 5. Energy Attachment
+    needs_energy = False
+    if active and hasattr(active, 'attacks'):
+        attached = len(active.attached_energy)
+        max_cost = 0
+        for atk in active.attacks:
+            cost_val = 0
+            if hasattr(atk, 'cost'):
+                if isinstance(atk.cost, int):
+                    cost_val = atk.cost
+                elif isinstance(atk.cost, list):
+                    cost_val = len(atk.cost)
+            if hasattr(atk, 'energy_required'):
+                 if isinstance(atk.energy_required, int):
+                     cost_val = atk.energy_required
+                 elif isinstance(atk.energy_required, list):
+                     cost_val = len(atk.energy_required)
 
-            if attached < max_cost:
-                needs_energy = True
+            if cost_val > max_cost:
+                max_cost = cost_val
 
-        attach_active = [a for a in attach_energy if ", 0)" in a[1]]
-        attach_bench_acts = [a for a in attach_energy if ", 0)" not in a[1]]
+        if attached < max_cost:
+            needs_energy = True
 
-        if needs_energy and attach_active:
-            return attach_active[0][0]
-        elif attach_bench_acts:
-            # Attach to bench if available
-            return attach_bench_acts[0][0]
-        elif attach_active:
-            # If no bench to attach to, attach to active even if full (overcharge/thin deck)
-            return attach_active[0][0]
+    if needs_energy and attach_energy_active:
+        return attach_energy_active[0][0]
 
-    # 7. Use Items (Potions, Balls, etc)
-    potions = [a for a in play_card if "Potion" in a[1]]
+    # If active full, attach to bench
+    if attach_energy_bench:
+        return attach_energy_bench[0][0]
+
+    # If no bench, attach to active anyway
+    if attach_energy_active:
+        return attach_energy_active[0][0]
+
+    # 6. Bench Setup
+    bench = state.get_bench_pokemon(current_player)
+    bench_count = len([p for p in bench if p is not None])
+
+    if place_bench and bench_count < 3:
+        return place_bench[0][0]
+
+    # 7. Items
+    potions = [aid for aid, name in items if "Potion" in name]
     if potions and active and active.remaining_hp < active.total_hp:
-        # Heal if damaged
-        return potions[0][0]
+        return potions[0]
 
-    balls = [a for a in play_card if "Ball" in a[1]]
+    balls = [aid for aid, name in items if "Ball" in name]
     if balls and bench_count < 3:
-        # Search for pokemon
-        return balls[0][0]
+        return balls[0]
 
-    others = [a for a in play_card if a not in potions and a not in balls and a not in draw_supporters]
-    if others:
-        # Use X Speed, Red Card, etc.
-        return others[0][0]
+    other_items = [aid for aid, name in items if aid not in potions and aid not in balls]
+    if other_items:
+        return other_items[0]
 
     # 8. Abilities
     if abilities:
@@ -178,9 +207,6 @@ def play(state, game):
         return attacks[0][0]
 
     # 10. Retreat
-    # If we are here, we can't attack, or we choose not to (but we usually choose to attack if possible).
-    # If active is stuck (no energy to attack) and we have bench with energy, retreat?
-    # For now, simple logic: if active is near death, try to retreat.
     if retreat and active and active.remaining_hp <= 40 and bench_count > 0:
         return retreat[0][0]
 

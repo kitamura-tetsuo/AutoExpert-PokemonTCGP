@@ -242,7 +242,7 @@ def main():
             logging.error(f"Failed to start match: {e}")
             continue
         
-        if winner != -1:
+        if winner is not None and winner != -1:
             wins[winner] += 1
             logging.info(f"Match {i+1} Winner: Player {winner} ({'Current' if winner == 0 else 'Past'}) in {steps} steps")
             

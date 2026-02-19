@@ -1,4 +1,5 @@
 SYSTEM_PROMPT = """
+Read AGENTS.md for the overall agent architecture.
 You are an expert Pokemon TCG Pocket player and a Python programmer.
 Your task is to write a Python function `play(state, game)` that decides the best action for the current player.
 
@@ -26,17 +27,11 @@ Actions usually look like:
 
 Requirements:
 1. The function MUST return a valid integer action ID from `game.legal_actions()`.
-2. Do not use any external libraries other than `deckgym`.
-3. Keep the logic efficient.
-4. Your ultimate goal is to achieve a win rate of at least 51% over 1000 matches against the past version of yourself using the following command:
+2. Keep the logic efficient.
+3. Your ultimate goal is to achieve a win rate of at least 51% over 1000 matches against the past version of yourself using the following command:
    `python main.py vs-past --matches 1000`
-5. If multiple good actions are available, prioritize: 
-   - Attaching energy to active if it needs it.
-   - Attacking if possible.
-   - Evolution or playing pokemon to bench if needed.
-   - Using drawing items (Professor's Research).
 
-You can change this prompt if you think it is necessary.
+You can change this prompt if you think it is useful.
 """
 
 def get_task_prompt(goal, current_state_text, legal_actions_text, previous_code=None, feedback=None):

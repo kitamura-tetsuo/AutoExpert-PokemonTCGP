@@ -13,7 +13,7 @@ class CodeGenerator:
         """Calls Jules to generate a Python play function."""
         task_prompt = get_task_prompt(goal, state_text, legal_actions_text, previous_code, feedback)
         
-        full_prompt = f"{SYSTEM_PROMPT}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory."
+        full_prompt = f"{SYSTEM_PROMPT}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
         # Create session
         session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")

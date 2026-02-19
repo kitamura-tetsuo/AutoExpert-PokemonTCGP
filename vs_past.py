@@ -28,6 +28,8 @@ def parse_args():
     parser.add_argument("--output", type=str, default="vs_past_battle.html", help="Path to output HTML file.")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()), help="Random seed.")
     parser.add_argument("--num_matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
+    parser.add_argument("--league_decks_student", type=str, default=None, help="CSV file for student league decks")
+    parser.add_argument("--league_decks_teacher", type=str, default=None, help="CSV file for teacher league decks")
     return parser.parse_args()
 
 def ensure_past_repo(past_dir: str, repo_url: str):
@@ -112,7 +114,31 @@ def run_match(game, play_funcs, record_history=False):
         if match:
             winner_val = int(match.group(1))
             
-    return winner_val, history
+    return winner_val, history, step_count
+
+def load_league_decks(csv_path: str):
+    if not csv_path:
+        return None, None
+    
+    import csv
+    decks = []
+    weights = []
+    
+    try:
+        with open(csv_path, mode='r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Assuming signature column contains the deck filename without .txt
+                # and lower_ci contains the weight
+                sig = row['signature']
+                weight = float(row['lower_ci'])
+                decks.append(f"{sig}.txt")
+                weights.append(weight)
+    except Exception as e:
+        logging.error(f"Error loading league decks from {csv_path}: {e}")
+        return None, None
+        
+    return decks, weights
 
 def main():
     args = parse_args()
@@ -142,24 +168,61 @@ def main():
         get_play_func(past_best)
     ]
 
-    deck_a_path = str(settings.DECK_DIR / args.deck_a)
-    deck_b_path = str(settings.DECK_DIR / args.deck_b)
-    
+    # Handle League Decks
+    student_decks, student_weights = load_league_decks(args.league_decks_student)
+    teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
+
     wins = [0, 0]
     last_history = []
     
+    longest_loss = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
+    shortest_loss = {"steps": float('inf'), "seed": None, "deck_a": None, "deck_b": None}
+    
     for i in range(args.num_matches):
         seed = args.seed + i
-        logging.info(f"Starting Match {i+1}/{args.num_matches} (Seed: {seed})")
-        game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
         
-        winner, history = run_match(game, play_funcs, record_history=(i == args.num_matches - 1))
+        # Select decks
+        if student_decks and student_weights:
+            deck_a = random.choices(student_decks, weights=student_weights, k=1)[0]
+        else:
+            deck_a = args.deck_a
+            
+        if teacher_decks and teacher_weights:
+            deck_b = random.choices(teacher_decks, weights=teacher_weights, k=1)[0]
+        else:
+            deck_b = args.deck_b
+
+        deck_a_path = str(settings.DECK_DIR / deck_a)
+        deck_b_path = str(settings.DECK_DIR / deck_b)
+        
+        # Check if decks exist in current repo (fallback to train_data if not in deckgym-core/example_decks)
+        if not Path(deck_a_path).exists():
+            deck_a_path = str(Path("train_data") / deck_a)
+        if not Path(deck_b_path).exists():
+            deck_b_path = str(Path("train_data") / deck_b)
+
+        logging.info(f"Starting Match {i+1}/{args.num_matches} (Seed: {seed})")
+        logging.info(f"Decks: P0: {deck_a} vs P1: {deck_b}")
+        
+        try:
+            game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
+            winner, history, steps = run_match(game, play_funcs, record_history=(i == args.num_matches - 1))
+        except Exception as e:
+            logging.error(f"Failed to start match: {e}")
+            continue
         
         if winner != -1:
             wins[winner] += 1
-            logging.info(f"Match {i+1} Winner: Player {winner} ({'Current' if winner == 0 else 'Past'})")
+            logging.info(f"Match {i+1} Winner: Player {winner} ({'Current' if winner == 0 else 'Past'}) in {steps} steps")
+            
+            # Track loss (Player 1 won)
+            if winner == 1:
+                if steps > longest_loss["steps"]:
+                    longest_loss = {"steps": steps, "seed": seed, "deck_a": deck_a, "deck_b": deck_b}
+                if steps < shortest_loss["steps"]:
+                    shortest_loss = {"steps": steps, "seed": seed, "deck_a": deck_a, "deck_b": deck_b}
         else:
-            logging.info(f"Match {i+1} ended in a draw/limit.")
+            logging.info(f"Match {i+1} ended in a draw/limit after {steps} steps.")
             
         if i == args.num_matches - 1:
             last_history = history
@@ -169,6 +232,13 @@ def main():
     print(f"Past (P1) Wins: {wins[1]}")
     if sum(wins) > 0:
         print(f"Current Win Rate: {wins[0] / sum(wins):.2%}")
+
+    if wins[1] > 0:
+        print("\n--- Loss Analysis (P1 Victory) ---")
+        print(f"Longest Loss:  {longest_loss['steps']} steps (Seed: {longest_loss['seed']})")
+        print(f"  Decks: P0: {longest_loss['deck_a']} vs P1: {longest_loss['deck_b']}")
+        print(f"Shortest Loss: {shortest_loss['steps']} steps (Seed: {shortest_loss['seed']})")
+        print(f"  Decks: P0: {shortest_loss['deck_a']} vs P1: {shortest_loss['deck_b']}")
 
     # Generate HTML for the last match
     generate_html(last_history, args.output)

@@ -46,6 +46,13 @@ python main.py vs-past --past-dir past_repo --matches 5
 ```
 This will run 5 matches between the current best skill and the best skill in `past_repo/skill_library`, and generate a visualization of the last match.
 
+### Detailed Battle Analysis (for LLM)
+To examine the game state encoding and actions step-by-step for a specific match:
+```bash
+python main.py vs-detail --deck-a mewtwoex.txt --deck-b mewtwoex.txt --seed 4250
+```
+This command outputs the detailed internal state (encoded observation) and available actions for each step, which is useful for LLM debugging and understanding the Deep Learning model's input.
+
 ## Structure
 - `autoexpert/autoexpert.py`: Main loop.
 - `autoexpert/utils/llm_client.py`: Jules API interface.

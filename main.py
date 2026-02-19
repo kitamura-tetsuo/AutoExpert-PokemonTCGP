@@ -32,6 +32,14 @@ def main():
     vs_past_parser.add_argument("--output", type=str, default="vs_past.html", help="Path to output HTML file")
     vs_past_parser.add_argument("--matches", type=int, default=1, help="Number of matches to run")
     vs_past_parser.add_argument("--seed", type=int, default=None, help="Random seed")
+    vs_past_parser.add_argument("--league-student", type=str, default=None, help="CSV file for student league decks")
+    vs_past_parser.add_argument("--league-teacher", type=str, default=None, help="CSV file for teacher league decks")
+
+    # VS Detail command
+    vs_detail_parser = subparsers.add_parser("vs-detail", help="Show step-by-step detailed observation and actions")
+    vs_detail_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
+    vs_detail_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
+    vs_detail_parser.add_argument("--seed", type=int, required=True, help="Random seed")
 
     args = parser.parse_args()
     
@@ -76,6 +84,19 @@ def main():
                "--num_matches", str(args.matches)]
         if args.seed is not None:
             cmd.extend(["--seed", str(args.seed)])
+        if args.league_student:
+            cmd.extend(["--league_decks_student", args.league_student])
+        if args.league_teacher:
+            cmd.extend(["--league_decks_teacher", args.league_teacher])
+        
+        subprocess.run(cmd)
+
+    elif args.command == "vs-detail":
+        import subprocess
+        cmd = ["uv", "run", "python3", "vs_detail.py",
+               "--deck_a", args.deck_a,
+               "--deck_b", args.deck_b,
+               "--seed", str(args.seed)]
         
         subprocess.run(cmd)
         

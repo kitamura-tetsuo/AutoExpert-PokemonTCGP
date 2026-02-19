@@ -74,11 +74,6 @@ class AutoExpert:
             goal = self.curriculum.get_next_goal(self.source_name)
             print(f"Objective: {goal}")
             
-            # 2. Get current game context for prompting
-            env = PokemonEnv(self.deck_a, self.deck_b)
-            state_text, legal_actions = env.get_observation()
-            legal_actions_text = "\n".join([f"{aid}: {env.game.action_name(aid)}" for aid in legal_actions])
-            
             # 3. Generate/Improve Code (Iterative prompting)
             best_code = None
             best_win_rate = -1.0
@@ -92,7 +87,7 @@ class AutoExpert:
             
             for retry in range(settings.MAX_RETRIES_PER_GOAL):
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
-                code = self.code_generator.generate(goal, state_text, legal_actions_text, previous_code, feedback, wait_completion=wait_completion)
+                code = self.code_generator.generate(goal, previous_code, feedback, wait_completion=wait_completion)
                 
                 if not wait_completion:
                     print("Jules task created successfully. Ending iteration as requested.")

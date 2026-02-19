@@ -28,21 +28,17 @@ Actions usually look like:
 Requirements:
 1. The function MUST return a valid integer action ID from `game.legal_actions()`.
 2. Keep the logic efficient.
-3. Your ultimate goal is to achieve a win rate of at least 51% over 1000 matches against the past version of yourself using the following command:
-   `python main.py vs-past --matches 1000`
+3. Your ultimate goal is to achieve a win rate of at least 51% over 100 matches against the past version of yourself using the following command:
+   `python main.py vs-past --matches 100`
+4. If you want to analyze a specific match in detail (e.g., to debug an error or see why you lost), use the following command:
+   `python main.py vs-detail --deck-a [FAILING_DECK] --deck-b [OPPONENT_DECK] --seed [FAIL_SEED]`
 
 You can change this prompt if you think it is useful.
 """
 
-def get_task_prompt(goal, current_state_text, legal_actions_text, previous_code=None, feedback=None):
+def get_task_prompt(goal, previous_code=None, feedback=None):
     prompt = f"""
 GOAL: {goal}
-
-CURRENT STATE:
-{current_state_text}
-
-LEGAL ACTIONS (ID: Name):
-{legal_actions_text}
 """
     if previous_code:
         prompt += f"\nPREVIOUS CODE:\n```python\n{previous_code}\n```"

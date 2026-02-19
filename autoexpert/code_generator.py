@@ -9,9 +9,9 @@ class CodeGenerator:
     def __init__(self, source_name: str):
         self.source_name = source_name
 
-    def generate(self, goal: str, state_text: str, legal_actions_text: str, previous_code: Optional[str] = None, feedback: Optional[str] = None, wait_completion: bool = True) -> str:
+    def generate(self, goal: str, previous_code: Optional[str] = None, feedback: Optional[str] = None, wait_completion: bool = True) -> str:
         """Calls Jules to generate a Python play function."""
-        task_prompt = get_task_prompt(goal, state_text, legal_actions_text, previous_code, feedback)
+        task_prompt = get_task_prompt(goal, previous_code, feedback)
         
         full_prompt = f"{SYSTEM_PROMPT}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 

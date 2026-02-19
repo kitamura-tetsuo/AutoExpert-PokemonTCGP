@@ -17,6 +17,13 @@ def main():
     # List skills command
     subparsers.add_parser("skills", help="List all learned skills")
     
+    # Show battle command
+    battle_parser = subparsers.add_parser("show-battle", help="Visualize a self-match battle using the best expert")
+    battle_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
+    battle_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
+    battle_parser.add_argument("--output", type=str, default="battle.html", help="Path to output HTML file")
+    battle_parser.add_argument("--seed", type=int, default=None, help="Random seed")
+    
     args = parser.parse_args()
     
     if args.command == "learn":
@@ -38,6 +45,17 @@ def main():
         library = SkillLibrary()
         print("Learned Skills Summary:")
         print(library.get_all_skills_summary())
+        
+    elif args.command == "show-battle":
+        import subprocess
+        cmd = ["uv", "run", "python3", "show_battle.py", 
+               "--deck_a", args.deck_a, 
+               "--deck_b", args.deck_b, 
+               "--output", args.output]
+        if args.seed is not None:
+            cmd.extend(["--seed", str(args.seed)])
+        
+        subprocess.run(cmd)
         
     else:
         parser.print_help()

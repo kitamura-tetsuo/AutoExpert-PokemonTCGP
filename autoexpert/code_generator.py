@@ -9,7 +9,7 @@ class CodeGenerator:
     def __init__(self, source_name: str):
         self.source_name = source_name
 
-    def generate(self, goal: str, state_text: str, legal_actions_text: str, previous_code: Optional[str] = None, feedback: Optional[str] = None) -> str:
+    def generate(self, goal: str, state_text: str, legal_actions_text: str, previous_code: Optional[str] = None, feedback: Optional[str] = None, wait_completion: bool = True) -> str:
         """Calls Jules to generate a Python play function."""
         task_prompt = get_task_prompt(goal, state_text, legal_actions_text, previous_code, feedback)
         
@@ -19,7 +19,12 @@ class CodeGenerator:
         session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")
         session_id = session["id"]
         
-        print(f"Jules session created: {session_id}. Waiting for completion...")
+        print(f"Jules session created: {session_id}.")
+        
+        if not wait_completion:
+            return "SESSION_CREATED_ASYNC"
+
+        print(f"Waiting for completion...")
         completed_session = client.wait_for_session(session_id)
         
         # In a real Voyager system, we'd extract the code from the response.

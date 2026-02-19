@@ -36,4 +36,4 @@ jobs:
         env:
           JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
         run: |
-          uv run python main.py learn --max-iter 1
+          uv run python main.py learn --max-iter 1 --no-wait-completion

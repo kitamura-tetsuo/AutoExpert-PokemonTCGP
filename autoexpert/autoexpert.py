@@ -28,8 +28,8 @@ class AutoExpert:
         self.code_generator = CodeGenerator(self.source_name)
         self.verifier = Verifier(deck_a, deck_b)
 
-    def learn(self, max_iterations: int = settings.MAX_ITERATIONS):
-        print(f"Starting AutoExpert Learning Loop (Max Iterations: {max_iterations})")
+    def learn(self, max_iterations: int = settings.MAX_ITERATIONS, wait_completion: bool = True):
+        print(f"Starting AutoExpert Learning Loop (Max Iterations: {max_iterations}, Wait: {wait_completion})")
         
         for i in range(max_iterations):
             print(f"\n=== Iteration {i+1} ===")
@@ -56,8 +56,12 @@ class AutoExpert:
             
             for retry in range(settings.MAX_RETRIES_PER_GOAL):
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
-                code = self.code_generator.generate(goal, state_text, legal_actions_text, previous_code, feedback)
+                code = self.code_generator.generate(goal, state_text, legal_actions_text, previous_code, feedback, wait_completion=wait_completion)
                 
+                if not wait_completion:
+                    print("Jules task created successfully. Ending iteration as requested.")
+                    return # Exit early as we can't proceed without code
+
                 if not code:
                     print("Failed to generate code.")
                     break

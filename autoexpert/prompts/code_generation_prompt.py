@@ -36,7 +36,7 @@ Requirements:
    - Evolution or playing pokemon to bench if needed.
    - Using drawing items (Professor's Research).
 
-Provide ONLY the Python code for the `play` function. Do not include explanations outside the code block.
+You can change this prompt if you think it is necessary.
 """
 
 def get_task_prompt(goal, current_state_text, legal_actions_text, previous_code=None, feedback=None):

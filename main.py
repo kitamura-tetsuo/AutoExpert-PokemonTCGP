@@ -13,6 +13,7 @@ def main():
     learn_parser.add_argument("--deck-a", type=str, default="venusaur-exeggutor.txt", help="Deck file for Player 0")
     learn_parser.add_argument("--deck-b", type=str, default="weezing-arbok.txt", help="Deck file for Player 1 (opponent)")
     learn_parser.add_argument("--max-iter", type=int, default=settings.MAX_ITERATIONS, help="Max iterations")
+    learn_parser.add_argument("--no-wait-completion", action="store_true", help="Don't wait for Jules session to complete")
     
     # List skills command
     subparsers.add_parser("skills", help="List all learned skills")
@@ -55,7 +56,7 @@ def main():
             sys.exit(1)
             
         expert = AutoExpert(str(deck_a), str(deck_b))
-        expert.learn(max_iterations=args.max_iter)
+        expert.learn(max_iterations=args.max_iter, wait_completion=not args.no_wait_completion)
         
     elif args.command == "skills":
         from autoexpert.skill_library import SkillLibrary

@@ -9,297 +9,266 @@ def play(state, game):
     if not legal_actions:
         return 0
 
-    # Parse all actions once
+    # 1. Parse Legal Actions
     actions = []
     for aid in legal_actions:
         name = game.action_name(aid)
         actions.append((aid, name))
 
-    # Group actions by type
-    attacks = []
-    attach_energy = []
-    evolutions = []
-    place_active = []
-    place_bench = []
-    play_card = [] # Items/Supporters/PlayPokemon
-    abilities = []
-    end_turn = []
-    retreat = []
+    action_types = {
+        "attack": [],
+        "attach_active": [],
+        "attach_bench": [],
+        "evolve": [],
+        "place_active": [],
+        "place_bench": [],
+        "play_item": [],
+        "play_supporter": [],
+        "ability": [],
+        "retreat": [],
+        "end_turn": []
+    }
 
     for aid, name in actions:
         if name.startswith("Attack("):
-            attacks.append((aid, name))
+            match = re.search(r"Attack\((\d+)\)", name)
+            idx = int(match.group(1)) if match else 0
+            action_types["attack"].append((aid, name, idx))
         elif name.startswith("Attach("):
-            attach_energy.append((aid, name))
+            if ", 0)" in name:
+                action_types["attach_active"].append((aid, name))
+            else:
+                action_types["attach_bench"].append((aid, name))
         elif name.startswith("Evolve("):
-            evolutions.append((aid, name))
+            action_types["evolve"].append((aid, name))
         elif name.startswith("Place("):
             if ", 0)" in name:
-                place_active.append((aid, name))
+                action_types["place_active"].append((aid, name))
             else:
-                place_bench.append((aid, name))
+                action_types["place_bench"].append((aid, name))
         elif name.startswith("PlayPokemon("):
-            place_bench.append((aid, name))
+            action_types["place_bench"].append((aid, name))
         elif name.startswith("Play(") or name.startswith("Use"):
-            play_card.append((aid, name))
+            if any(x in name for x in ["Research", "Sabrina", "Giovanni", "Erika", "Misty", "Blaine", "Koga"]):
+                action_types["play_supporter"].append((aid, name))
+            else:
+                action_types["play_item"].append((aid, name))
+        elif name.startswith("UseItem("):
+             action_types["play_item"].append((aid, name))
+        elif name.startswith("UseSupporter("):
+             action_types["play_supporter"].append((aid, name))
         elif name.startswith("UseAbility("):
-            abilities.append((aid, name))
+            action_types["ability"].append((aid, name))
         elif name == "EndTurn":
-            end_turn.append((aid, name))
+            action_types["end_turn"].append((aid, name))
         elif name.startswith("Retreat("):
-            retreat.append((aid, name))
+            action_types["retreat"].append((aid, name))
 
-    # 1. Setup Phase: Must place active
-    if place_active:
-        return place_active[0][0]
-
+    # 2. Analyze State
     current_player = state.current_player
-    try:
-        active = state.get_active_pokemon(current_player)
-    except:
-        active = None
-
-    try:
-        bench = state.get_bench_pokemon(current_player)
-    except:
-        bench = []
-
     opponent = 1 - current_player
-    try:
-        opp_active = state.get_active_pokemon(opponent)
-        opp_hp = opp_active.remaining_hp if opp_active else 0
-    except:
-        opp_active = None
-        opp_hp = 0
 
-    # Helper to check damage
-    def get_attack_damage(attack_idx, extra_damage=0):
-        if not active or not hasattr(active, 'attacks') or attack_idx >= len(active.attacks):
+    my_active = state.get_active_pokemon(current_player)
+    my_bench = state.get_bench_pokemon(current_player)
+    my_hand = state.get_hand(current_player)
+
+    opp_active = state.get_active_pokemon(opponent)
+    opp_bench = state.get_bench_pokemon(opponent)
+    opp_hand = state.get_hand(opponent)
+
+    # Helpers
+    def get_damage(card, attack_idx):
+        if not card or not hasattr(card, 'attacks') or attack_idx >= len(card.attacks):
             return 0
-        atk = active.attacks[attack_idx]
+        atk = card.attacks[attack_idx]
         dmg = getattr(atk, 'fixed_damage', 0)
         if dmg == 0:
             dmg = getattr(atk, 'damage', 0)
-        return dmg + extra_damage
+        return dmg
 
-    # Helper: Check if card needs energy
-    def get_missing_energy(card):
-        if not hasattr(card, 'attacks') or not card.attacks:
+    def is_lethal(damage):
+        if not opp_active: return False
+        return damage >= opp_active.remaining_hp
+
+    def get_missing_energy(card, attack_idx=None):
+        if not card or not hasattr(card, 'attacks') or not card.attacks:
             return []
 
-        attached = [str(e) for e in card.attached_energy]
-
-        # Find best attack (max damage)
         target_attack = None
-        max_dmg = -1
-        for atk in card.attacks:
-            d = getattr(atk, 'fixed_damage', 0)
-            if d >= max_dmg:
-                max_dmg = d
-                target_attack = atk
+        if attack_idx is not None and attack_idx < len(card.attacks):
+             target_attack = card.attacks[attack_idx]
+        else:
+            max_dmg = -1
+            for atk in card.attacks:
+                d = getattr(atk, 'fixed_damage', 0)
+                if d >= max_dmg:
+                    max_dmg = d
+                    target_attack = atk
 
         if not target_attack:
             return []
 
         cost = getattr(target_attack, 'cost', [])
-        # Sort cost: put "Colorless" at the end to ensure specific types match first
-        # Because we iterate cost and remove from attached.
-        # But wait, we want to match specific cost with specific energy.
-        # So we should iterate SPECIFIC costs first.
-
+        attached = [str(e) for e in card.attached_energy]
         sorted_cost = sorted([str(c) for c in cost], key=lambda x: 1 if x == "Colorless" else 0)
 
         temp_attached = list(attached)
         missing = []
-
         for c_str in sorted_cost:
             found = False
-            if c_str in temp_attached:
-                temp_attached.remove(c_str)
-                found = True
-            elif c_str == "Colorless":
-                 if temp_attached:
-                     # Prefer removing Colorless or non-matching types if possible?
-                     # Actually any energy pays for Colorless.
-                     # Just pop first?
-                     temp_attached.pop(0)
-                     found = True
-
+            if c_str != "Colorless":
+                if c_str in temp_attached:
+                    temp_attached.remove(c_str)
+                    found = True
+            else:
+                if temp_attached:
+                    temp_attached.pop(0)
+                    found = True
             if not found:
                 missing.append(c_str)
-
         return missing
 
-    # 2. Check for Lethal (Win Game)
-    giovanni = [a for a in play_card if "Giovanni" in a[1]]
+    # --- Strategy Execution ---
 
-    if attacks:
-        max_dmg = -1
-        best_lethal = None
-        best_attack = attacks[0][0]
+    # 0. Setup: Place Active
+    if action_types["place_active"]:
+        mewtwo = [a for a in action_types["place_active"] if "Mewtwo" in a[1]]
+        if mewtwo: return mewtwo[0][0]
+        return action_types["place_active"][0][0]
 
-        for aid, name in attacks:
-            match = re.search(r"Attack\((\d+)\)", name)
-            if match:
-                idx = int(match.group(1))
-                dmg = get_attack_damage(idx)
+    # 1. Win Game (Lethal)
+    best_attack_dmg = 0
+    best_attack_id = None
 
-                # Check lethal without Giovanni
-                if dmg >= opp_hp and opp_hp > 0:
-                    return aid
+    if action_types["attack"]:
+        for aid, name, idx in action_types["attack"]:
+            dmg = get_damage(my_active, idx)
+            if is_lethal(dmg):
+                return aid
+            if dmg > best_attack_dmg:
+                best_attack_dmg = dmg
+                best_attack_id = aid
 
-                # Check lethal WITH Giovanni
-                if giovanni and (dmg + 10) >= opp_hp and opp_hp > 0:
+        if best_attack_id is None and action_types["attack"]:
+             # If all attacks do 0 dmg or just uncalculated, pick first
+             best_attack_id = action_types["attack"][0][0]
+
+        # Check Giovanni + Attack
+        giovanni = [a for a in action_types["play_supporter"] if "Giovanni" in a[1]]
+        if giovanni:
+            for aid, name, idx in action_types["attack"]:
+                dmg = get_damage(my_active, idx)
+                if is_lethal(dmg + 10):
                     return giovanni[0][0]
 
-                if dmg > max_dmg:
-                    max_dmg = dmg
-                    best_attack = aid
+    # 2. Evolve
+    if action_types["evolve"]:
+        evolve_active = [a for a in action_types["evolve"] if ", 0)" in a[1]]
+        if evolve_active: return evolve_active[0][0]
+        return action_types["evolve"][0][0]
 
-        # If lethal found (handled above), return it.
-        # Otherwise, we will use best_attack later.
+    # 3. Attach Energy
+    if action_types["attach_active"] or action_types["attach_bench"]:
+        active_missing = get_missing_energy(my_active)
+        if active_missing:
+            for aid, name in action_types["attach_active"]:
+                match = re.search(r"Attach\((.+?), 0\)", name)
+                if match:
+                    etype = match.group(1)
+                    if etype.startswith("Some("): etype = etype[5:-1]
+                    if etype in active_missing or "Colorless" in active_missing:
+                        return aid
 
-    # 3. Evolution (High Priority)
-    if evolutions:
-        return evolutions[0][0]
-
-    # 4. Attach Energy
-    if attach_energy:
-        # Check Active Needs
-        if active:
-            missing = get_missing_energy(active)
-            if missing:
-                attach_active = [a for a in attach_energy if ", 0)" in a[1]]
-                for action_tuple in attach_active:
-                    aid, name = action_tuple
-                    match = re.search(r"Attach\((.+?), 0\)", name)
-                    if match:
-                        etype = match.group(1)
-                        if etype.startswith("Some("): etype = etype[5:-1]
-
-                        if etype in missing or "Colorless" in missing:
-                            return aid
-
-        # Check Bench Needs
-        # Position 1, 2, 3...
-        # attach_bench = [a for a in attach_energy if ", 0)" not in a[1]]
-        # We need to map position to card
-        # bench is a list [PlayedCard, PlayedCard, ...]
-        # bench indices correspond to position 1, 2, 3
-
-        for i, b_card in enumerate(bench):
-            if b_card is not None:
-                missing = get_missing_energy(b_card)
-                if missing:
+        for i, b_card in enumerate(my_bench):
+            if b_card:
+                bench_missing = get_missing_energy(b_card)
+                if bench_missing:
                     pos = i + 1
-                    # Find actions for this pos
-                    # Action format: Attach(Type, Pos) -> Pos matches integer
-                    # Regex: Attach(..., pos)
-
-                    target_actions = [a for a in attach_energy if f", {pos})" in a[1]]
-                    for action_tuple in target_actions:
-                        aid, name = action_tuple
-                        match = re.search(r"Attach\((.+?), " + str(pos) + r"\)", name)
-                        if match:
+                    target_actions = [a for a in action_types["attach_bench"] if f", {pos})" in a[1]]
+                    for aid, name in target_actions:
+                         match = re.search(r"Attach\((.+?), " + str(pos) + r"\)", name)
+                         if match:
                             etype = match.group(1)
                             if etype.startswith("Some("): etype = etype[5:-1]
-
-                            if etype in missing or "Colorless" in missing:
+                            if etype in bench_missing or "Colorless" in bench_missing:
                                 return aid
 
-        # Fallback: Attach to Bench (if available) then Active
-        attach_bench = [a for a in attach_energy if ", 0)" not in a[1]]
-        if attach_bench:
-            return attach_bench[0][0]
+        # Fallback: Attach to active (even if not strictly missing for BEST attack, maybe charges second best or just to have energy)
+        if action_types["attach_active"]:
+             return action_types["attach_active"][0][0]
+        if action_types["attach_bench"]:
+            return action_types["attach_bench"][0][0]
 
-        attach_active = [a for a in attach_energy if ", 0)" in a[1]]
-        if attach_active:
-             return attach_active[0][0]
+    # 4. Play Basics to Bench
+    if action_types["place_bench"]:
+        mewtwo = [a for a in action_types["place_bench"] if "Mewtwo" in a[1]]
+        if mewtwo: return mewtwo[0][0]
+        return action_types["place_bench"][0][0]
 
-    # 5. Play Basics to Bench
-    if place_bench:
-        return place_bench[0][0]
+    # 5. Supporters
+    if action_types["play_supporter"]:
+        # Research
+        research = [a for a in action_types["play_supporter"] if "Research" in a[1]]
+        if research:
+            # Conservative: only if hand is very small
+            if len(my_hand) <= 2:
+                return research[0][0]
 
-    # 6. Supporters/Items
-    if play_card:
-        # Professor's Research
-        research = [a for a in play_card if "Research" in a[1]]
-        hand = state.get_hand(current_player)
-        if research and len(hand) < 5:
-             return research[0][0]
-
-        # Potions
-        potions = [a for a in play_card if "Potion" in a[1]]
-        if potions and active and active.remaining_hp < active.total_hp:
-            return potions[0][0]
-
-        # PokeBall / Computer Search
-        search_items = [a for a in play_card if "Ball" in a[1] or "Computer" in a[1]]
-        if search_items:
-            return search_items[0][0]
-
-        # Sabrina (Use if we can't kill active)
-        sabrina = [a for a in play_card if "Sabrina" in a[1]]
+        # Sabrina
+        sabrina = [a for a in action_types["play_supporter"] if "Sabrina" in a[1]]
         if sabrina:
-            can_kill = False
-            # Check if we can kill current active
-            if attacks:
-                for aid, name in attacks:
-                    match = re.search(r"Attack\((\d+)\)", name)
-                    if match:
-                        idx = int(match.group(1))
-                        if get_attack_damage(idx) >= opp_hp:
-                            can_kill = True
+            # Use if opponent active is strong and I can't kill it
+            # and they have bench to switch to.
+            if opp_active and opp_active.remaining_hp > 80 and not is_lethal(best_attack_dmg):
+                 if opp_bench and any(b is not None for b in opp_bench):
+                     return sabrina[0][0]
 
-            if not can_kill:
-                 return sabrina[0][0]
+        # Misty (Water acceleration?)
+        misty = [a for a in action_types["play_supporter"] if "Misty" in a[1]]
+        if misty: return misty[0][0]
 
-        # Red Card
-        red_card = [a for a in play_card if "RedCard" in a[1]]
-        try:
-            opp_hand = state.get_hand(opponent)
-            if red_card and len(opp_hand) >= 4:
-                return red_card[0][0]
-        except:
-            pass
+        # Blaine/Koga/Erika... Generic use?
+        # Maybe random if nothing else?
+        pass
 
-        # X Speed
-        x_speed = [a for a in play_card if "XSpeed" in a[1]]
-        if x_speed and active and active.remaining_hp <= 40:
+    # 6. Items
+    if action_types["play_item"]:
+        potion = [a for a in action_types["play_item"] if "Potion" in a[1]]
+        if potion and my_active and my_active.remaining_hp < my_active.total_hp:
+            return potion[0][0]
+
+        red_card = [a for a in action_types["play_item"] if "RedCard" in a[1]]
+        if red_card and len(opp_hand) >= 4:
+            return red_card[0][0]
+
+        search = [a for a in action_types["play_item"] if "Ball" in a[1] or "Computer" in a[1]]
+        if search: return search[0][0]
+
+        x_speed = [a for a in action_types["play_item"] if "XSpeed" in a[1]]
+        if x_speed and my_active and my_active.remaining_hp < 60:
              return x_speed[0][0]
 
     # 7. Abilities
-    if abilities:
-        return abilities[0][0]
+    if action_types["ability"]:
+        return action_types["ability"][0][0]
 
-    # 8. Attack (Best Damage)
-    if attacks:
-        # Re-calculate best attack
-        max_dmg = -1
-        best_attack = attacks[0][0]
-
-        for aid, name in attacks:
-            match = re.search(r"Attack\((\d+)\)", name)
-            if match:
-                idx = int(match.group(1))
-                dmg = get_attack_damage(idx)
-                if dmg > max_dmg:
-                    max_dmg = dmg
-                    best_attack = aid
-        return best_attack
+    # 8. Attack
+    if best_attack_id:
+        return best_attack_id
 
     # 9. Retreat
-    if retreat and active and active.remaining_hp <= 40:
-        bench_count = 0
-        for p in bench:
-            if p is not None:
-                bench_count += 1
-        if bench_count > 0:
-            return retreat[0][0]
+    if action_types["retreat"]:
+        if my_active and my_active.remaining_hp <= 40:
+             has_backup = False
+             for b in my_bench:
+                 if b and b.attached_energy:
+                     has_backup = True
+                     break
+             if has_backup:
+                 return action_types["retreat"][0][0]
 
     # 10. End Turn
-    if end_turn:
-        return end_turn[0][0]
+    if action_types["end_turn"]:
+        return action_types["end_turn"][0][0]
 
-    # Fallback
     return legal_actions[0]

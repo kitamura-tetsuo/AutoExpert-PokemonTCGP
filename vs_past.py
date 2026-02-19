@@ -186,17 +186,40 @@ def main():
             return random.choice(game.legal_actions())
 
     # 2. Load Past Best Skill
-    past_skill_dir = Path(args.past_dir) / "skill_library"
-    past_library = SkillLibrary(directory=past_skill_dir)
-    past_best = past_library.get_best_skill()
-    if past_best:
-        logging.info(f"Past Best Skill: {past_best['name']} (Win Rate: {past_best['win_rate']:.2%})")
-    else:
-        logging.info(f"Past Library ({past_skill_dir}) is empty. Using random strategy for Player 1.")
+    past_candidate_path = Path(args.past_dir) / "candidate_player.py"
+    past_best_func = None
+
+    if past_candidate_path.exists():
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("past_candidate_player", str(past_candidate_path))
+            past_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(past_module)
+            past_best_func = past_module.play
+            logging.info(f"Using candidate_player.play from {args.past_dir} for Player 1.")
+        except Exception as e:
+            logging.error(f"Error loading past candidate player: {e}")
+
+    if not past_best_func:
+        past_skill_dir = Path(args.past_dir) / "skill_library"
+        if past_skill_dir.exists():
+            past_library = SkillLibrary(directory=past_skill_dir)
+            past_best = past_library.get_best_skill()
+            if past_best:
+                logging.info(f"Past Best Skill from library: {past_best['name']} (Win Rate: {past_best['win_rate']:.2%})")
+                past_best_func = get_play_func(past_best)
+            else:
+                logging.info(f"Past Library ({past_skill_dir}) is empty.")
+        else:
+            logging.info(f"Past Library ({past_skill_dir}) not found.")
+
+    if not past_best_func:
+        logging.info("Using random strategy for Player 1.")
+        past_best_func = get_play_func(None)
 
     play_funcs = [
         current_best_func,
-        get_play_func(past_best)
+        past_best_func
     ]
 
     # Handle League Decks

@@ -38,7 +38,9 @@ def play(state, game):
                 place_active.append((aid, name))
             else:
                 place_bench.append((aid, name))
-        elif name.startswith("Play("):
+        elif name.startswith("PlayPokemon("):
+            place_bench.append((aid, name))
+        elif name.startswith("Play(") or name.startswith("Use"):
             play_card.append((aid, name))
         elif name.startswith("UseAbility("):
             abilities.append((aid, name))
@@ -52,146 +54,230 @@ def play(state, game):
         return place_active[0][0]
 
     current_player = state.current_player
-    active = state.get_active_pokemon(current_player)
-    bench = state.get_bench_pokemon(current_player)
+    try:
+        active = state.get_active_pokemon(current_player)
+    except:
+        active = None
+
+    try:
+        bench = state.get_bench_pokemon(current_player)
+    except:
+        bench = []
+
     opponent = 1 - current_player
-    opp_active = state.get_active_pokemon(opponent)
-    opp_hp = opp_active.remaining_hp if opp_active else 0
+    try:
+        opp_active = state.get_active_pokemon(opponent)
+        opp_hp = opp_active.remaining_hp if opp_active else 0
+    except:
+        opp_active = None
+        opp_hp = 0
 
     # Helper to check damage
-    def get_attack_damage(attack_idx):
+    def get_attack_damage(attack_idx, extra_damage=0):
         if not active or not hasattr(active, 'attacks') or attack_idx >= len(active.attacks):
             return 0
         atk = active.attacks[attack_idx]
         dmg = getattr(atk, 'fixed_damage', 0)
         if dmg == 0:
             dmg = getattr(atk, 'damage', 0)
-        return dmg
+        return dmg + extra_damage
+
+    # Helper: Check if card needs energy
+    def get_missing_energy(card):
+        if not hasattr(card, 'attacks') or not card.attacks:
+            return []
+
+        attached = [str(e) for e in card.attached_energy]
+
+        # Find best attack (max damage)
+        target_attack = None
+        max_dmg = -1
+        for atk in card.attacks:
+            d = getattr(atk, 'fixed_damage', 0)
+            if d >= max_dmg:
+                max_dmg = d
+                target_attack = atk
+
+        if not target_attack:
+            return []
+
+        cost = getattr(target_attack, 'cost', [])
+        # Sort cost: put "Colorless" at the end to ensure specific types match first
+        # Because we iterate cost and remove from attached.
+        # But wait, we want to match specific cost with specific energy.
+        # So we should iterate SPECIFIC costs first.
+
+        sorted_cost = sorted([str(c) for c in cost], key=lambda x: 1 if x == "Colorless" else 0)
+
+        temp_attached = list(attached)
+        missing = []
+
+        for c_str in sorted_cost:
+            found = False
+            if c_str in temp_attached:
+                temp_attached.remove(c_str)
+                found = True
+            elif c_str == "Colorless":
+                 if temp_attached:
+                     # Prefer removing Colorless or non-matching types if possible?
+                     # Actually any energy pays for Colorless.
+                     # Just pop first?
+                     temp_attached.pop(0)
+                     found = True
+
+            if not found:
+                missing.append(c_str)
+
+        return missing
 
     # 2. Check for Lethal (Win Game)
+    giovanni = [a for a in play_card if "Giovanni" in a[1]]
+
     if attacks:
         max_dmg = -1
         best_lethal = None
+        best_attack = attacks[0][0]
+
         for aid, name in attacks:
             match = re.search(r"Attack\((\d+)\)", name)
             if match:
                 idx = int(match.group(1))
                 dmg = get_attack_damage(idx)
+
+                # Check lethal without Giovanni
+                if dmg >= opp_hp and opp_hp > 0:
+                    return aid
+
+                # Check lethal WITH Giovanni
+                if giovanni and (dmg + 10) >= opp_hp and opp_hp > 0:
+                    return giovanni[0][0]
+
                 if dmg > max_dmg:
                     max_dmg = dmg
-                    best_lethal = aid
+                    best_attack = aid
 
-        if max_dmg >= opp_hp and opp_hp > 0:
-            return best_lethal
+        # If lethal found (handled above), return it.
+        # Otherwise, we will use best_attack later.
 
     # 3. Evolution (High Priority)
     if evolutions:
-        # Always evolve if possible
         return evolutions[0][0]
 
-    # 4. Use "Free" Items (PokeBall, etc)
-    balls = [a for a in play_card if "Ball" in a[1]]
-    if balls:
-        return balls[0][0]
-
-    # 5. Attach Energy
-    # Prioritize attaching energy before using supporters like Research which discard hand
+    # 4. Attach Energy
     if attach_energy:
-        # Check active needs
-        active_needs = False
-        max_cost = 0
-        current_energy_count = 0
+        # Check Active Needs
+        if active:
+            missing = get_missing_energy(active)
+            if missing:
+                attach_active = [a for a in attach_energy if ", 0)" in a[1]]
+                for action_tuple in attach_active:
+                    aid, name = action_tuple
+                    match = re.search(r"Attach\((.+?), 0\)", name)
+                    if match:
+                        etype = match.group(1)
+                        if etype.startswith("Some("): etype = etype[5:-1]
 
-        if active and hasattr(active, 'attacks'):
-            current_energy_count = len(active.attached_energy)
-            for atk in active.attacks:
-                cost = getattr(atk, 'cost', [])
-                if isinstance(cost, list):
-                    if len(cost) > max_cost:
-                        max_cost = len(cost)
-                elif isinstance(cost, int): # Fallback
-                     if cost > max_cost:
-                        max_cost = cost
+                        if etype in missing or "Colorless" in missing:
+                            return aid
 
-            if current_energy_count < max_cost:
-                active_needs = True
+        # Check Bench Needs
+        # Position 1, 2, 3...
+        # attach_bench = [a for a in attach_energy if ", 0)" not in a[1]]
+        # We need to map position to card
+        # bench is a list [PlayedCard, PlayedCard, ...]
+        # bench indices correspond to position 1, 2, 3
 
-        attach_active_actions = [a for a in attach_energy if ", 0)" in a[1]]
-        attach_bench_actions = [a for a in attach_energy if ", 0)" not in a[1]]
+        for i, b_card in enumerate(bench):
+            if b_card is not None:
+                missing = get_missing_energy(b_card)
+                if missing:
+                    pos = i + 1
+                    # Find actions for this pos
+                    # Action format: Attach(Type, Pos) -> Pos matches integer
+                    # Regex: Attach(..., pos)
 
-        if active_needs and attach_active_actions:
-            return attach_active_actions[0][0]
-        elif attach_bench_actions:
-            # If active full, prefer bench
-            return attach_bench_actions[0][0]
-        elif attach_active_actions:
-            # If no bench, attach to active
-            return attach_active_actions[0][0]
+                    target_actions = [a for a in attach_energy if f", {pos})" in a[1]]
+                    for action_tuple in target_actions:
+                        aid, name = action_tuple
+                        match = re.search(r"Attach\((.+?), " + str(pos) + r"\)", name)
+                        if match:
+                            etype = match.group(1)
+                            if etype.startswith("Some("): etype = etype[5:-1]
 
-    # 6. Supporters (Draw/Setup)
-    # Professor's Research
-    hand = state.get_hand(current_player)
-    research = [a for a in play_card if "Research" in a[1]]
-    if research:
-        if len(hand) < 5:
-            return research[0][0]
+                            if etype in missing or "Colorless" in missing:
+                                return aid
 
-    # 7. More Supporters/Items
-    # Potion
-    potions = [a for a in play_card if "Potion" in a[1]]
-    if potions and active and active.remaining_hp < active.total_hp:
-        return potions[0][0]
+        # Fallback: Attach to Bench (if available) then Active
+        attach_bench = [a for a in attach_energy if ", 0)" not in a[1]]
+        if attach_bench:
+            return attach_bench[0][0]
 
-    # Giovanni (if attacking)
-    giovanni = [a for a in play_card if "Giovanni" in a[1]]
-    if giovanni and attacks: # Only use if we can attack
-        return giovanni[0][0]
+        attach_active = [a for a in attach_energy if ", 0)" in a[1]]
+        if attach_active:
+             return attach_active[0][0]
 
-    # Sabrina (Disrupt)
-    sabrina = [a for a in play_card if "Sabrina" in a[1]]
-    if sabrina:
-        # Use if opponent active is NOT killable this turn
-        can_kill = False
-        if attacks:
-             for aid, name in attacks:
-                match = re.search(r"Attack\((\d+)\)", name)
-                if match:
-                    idx = int(match.group(1))
-                    if get_attack_damage(idx) >= opp_hp:
-                        can_kill = True
-                        break
-        if not can_kill:
-            return sabrina[0][0]
+    # 5. Play Basics to Bench
+    if place_bench:
+        return place_bench[0][0]
 
-    # Red Card (Disrupt hand)
-    red_card = [a for a in play_card if "RedCard" in a[1]]
-    if red_card:
+    # 6. Supporters/Items
+    if play_card:
+        # Professor's Research
+        research = [a for a in play_card if "Research" in a[1]]
+        hand = state.get_hand(current_player)
+        if research and len(hand) < 5:
+             return research[0][0]
+
+        # Potions
+        potions = [a for a in play_card if "Potion" in a[1]]
+        if potions and active and active.remaining_hp < active.total_hp:
+            return potions[0][0]
+
+        # PokeBall / Computer Search
+        search_items = [a for a in play_card if "Ball" in a[1] or "Computer" in a[1]]
+        if search_items:
+            return search_items[0][0]
+
+        # Sabrina (Use if we can't kill active)
+        sabrina = [a for a in play_card if "Sabrina" in a[1]]
+        if sabrina:
+            can_kill = False
+            # Check if we can kill current active
+            if attacks:
+                for aid, name in attacks:
+                    match = re.search(r"Attack\((\d+)\)", name)
+                    if match:
+                        idx = int(match.group(1))
+                        if get_attack_damage(idx) >= opp_hp:
+                            can_kill = True
+
+            if not can_kill:
+                 return sabrina[0][0]
+
+        # Red Card
+        red_card = [a for a in play_card if "RedCard" in a[1]]
         try:
             opp_hand = state.get_hand(opponent)
-            if len(opp_hand) >= 4:
+            if red_card and len(opp_hand) >= 4:
                 return red_card[0][0]
         except:
-            pass # Ignore if error
+            pass
 
-    # X Speed (Retreat assistance)
-    x_speed = [a for a in play_card if "XSpeed" in a[1]]
-    if x_speed and active and active.remaining_hp <= 40:
-        return x_speed[0][0]
+        # X Speed
+        x_speed = [a for a in play_card if "XSpeed" in a[1]]
+        if x_speed and active and active.remaining_hp <= 40:
+             return x_speed[0][0]
 
-    # 8. Place Bench (Basics)
-    if place_bench:
-        bench_count = len([p for p in bench if p is not None])
-        if bench_count < 3:
-            return place_bench[0][0]
-
-    # 9. Abilities
+    # 7. Abilities
     if abilities:
         return abilities[0][0]
 
-    # 10. Attack (Maximize Damage)
+    # 8. Attack (Best Damage)
     if attacks:
-        best_attack = None
+        # Re-calculate best attack
         max_dmg = -1
+        best_attack = attacks[0][0]
+
         for aid, name in attacks:
             match = re.search(r"Attack\((\d+)\)", name)
             if match:
@@ -200,24 +286,18 @@ def play(state, game):
                 if dmg > max_dmg:
                     max_dmg = dmg
                     best_attack = aid
+        return best_attack
 
-        if best_attack:
-            return best_attack
-        return attacks[0][0]
-
-    # 11. Retreat
+    # 9. Retreat
     if retreat and active and active.remaining_hp <= 40:
-        # Check if we have bench with energy?
-        has_backup = False
+        bench_count = 0
         for p in bench:
-            if p and len(p.attached_energy) > 0:
-                has_backup = True
-                break
-
-        if has_backup:
+            if p is not None:
+                bench_count += 1
+        if bench_count > 0:
             return retreat[0][0]
 
-    # 12. End Turn
+    # 10. End Turn
     if end_turn:
         return end_turn[0][0]
 

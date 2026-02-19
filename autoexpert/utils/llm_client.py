@@ -18,6 +18,11 @@ class JulesClient:
         response.raise_for_status()
         return response.json().get("sources", [])
 
+    def list_sessions(self) -> List[Dict[str, Any]]:
+        response = requests.get(f"{self.base_url}/sessions", headers=self.headers)
+        response.raise_for_status()
+        return response.json().get("sessions", [])
+
     def create_session(self, prompt: str, source_name: str, title: str = "AutoExpert Task") -> Dict[str, Any]:
         data = {
             "prompt": prompt,

@@ -1,5 +1,5 @@
 import time
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from autoexpert.config import settings
 from autoexpert.env import PokemonEnv
 from autoexpert.skill_library import SkillLibrary
@@ -28,7 +28,43 @@ class AutoExpert:
         self.code_generator = CodeGenerator(self.source_name)
         self.verifier = Verifier(deck_a, deck_b)
 
+    def get_active_tasks(self) -> List[Dict[str, Any]]:
+        """Returns a list of active or review-pending Jules sessions."""
+        try:
+            sessions = client.list_sessions()
+            # States that indicate the task is still occupying the repo or needs attention
+            active_states = {
+                "QUEUED", 
+                "PLANNING", 
+                "AWAITING_PLAN_APPROVAL", 
+                "AWAITING_USER_FEEDBACK", 
+                "IN_PROGRESS", 
+                "PAUSED"
+            }
+            
+            active = []
+            for s in sessions:
+                state = s.get("state")
+                source = s.get("sourceContext", {}).get("source")
+                
+                # Filter by source and state
+                if source == self.source_name and state in active_states:
+                    active.append(s)
+            return active
+        except Exception as e:
+            print(f"Warning: Failed to check for active sessions: {e}")
+            return []
+
     def learn(self, max_iterations: int = settings.MAX_ITERATIONS, wait_completion: bool = True):
+        active_tasks = self.get_active_tasks()
+        if active_tasks:
+            print("\n!!! CONFLICT WARNING !!!")
+            print(f"There are {len(active_tasks)} active Jules tasks. To avoid merge conflicts, please wait for them to finish or review them.")
+            for s in active_tasks:
+                print(f" - [{s.get('state')}] {s.get('title')} (ID: {s.get('id')})")
+            print("Aborting learning process.\n")
+            return
+
         print(f"Starting AutoExpert Learning Loop (Max Iterations: {max_iterations}, Wait: {wait_completion})")
         
         for i in range(max_iterations):

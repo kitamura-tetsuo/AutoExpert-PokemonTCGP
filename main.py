@@ -1,0 +1,46 @@
+import argparse
+import sys
+from pathlib import Path
+from autoexpert.autoexpert import AutoExpert
+from autoexpert.config import settings
+
+def main():
+    parser = argparse.ArgumentParser(description="AutoExpert-PokemonTCGP: Voyager-like LLM Agent for TCG Pocket")
+    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    
+    # Learn command
+    learn_parser = subparsers.add_parser("learn", help="Start the automatic learning process")
+    learn_parser.add_argument("--deck-a", type=str, default="venusaur-exeggutor.txt", help="Deck file for Player 0")
+    learn_parser.add_argument("--deck-b", type=str, default="weezing-arbok.txt", help="Deck file for Player 1 (opponent)")
+    learn_parser.add_argument("--max-iter", type=int, default=settings.MAX_ITERATIONS, help="Max iterations")
+    
+    # List skills command
+    subparsers.add_parser("skills", help="List all learned skills")
+    
+    args = parser.parse_args()
+    
+    if args.command == "learn":
+        deck_a = settings.DECK_DIR / args.deck_a
+        deck_b = settings.DECK_DIR / args.deck_b
+        
+        if not deck_a.exists():
+            print(f"Error: Deck file not found at {deck_a}")
+            sys.exit(1)
+        if not deck_b.exists():
+            print(f"Error: Deck file not found at {deck_b}")
+            sys.exit(1)
+            
+        expert = AutoExpert(str(deck_a), str(deck_b))
+        expert.learn(max_iterations=args.max_iter)
+        
+    elif args.command == "skills":
+        from autoexpert.skill_library import SkillLibrary
+        library = SkillLibrary()
+        print("Learned Skills Summary:")
+        print(library.get_all_skills_summary())
+        
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()

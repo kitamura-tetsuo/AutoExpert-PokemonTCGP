@@ -168,6 +168,8 @@ def decode_observation(obs, card_mapping):
 
 def main():
     args = parse_args()
+    import random
+    random.seed(args.seed)
     card_mapping = get_cards_mapping()
     
     # Find active expert skill

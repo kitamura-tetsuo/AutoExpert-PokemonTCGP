@@ -374,6 +374,7 @@ def generate_html(history, output_path):
 
 def main():
     args = parse_args()
+    random.seed(args.seed)
     
     # Initialize Skill Library
     library = SkillLibrary()

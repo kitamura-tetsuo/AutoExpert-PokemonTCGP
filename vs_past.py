@@ -234,6 +234,7 @@ def main():
     
     for i in range(args.num_matches):
         seed = args.seed + i
+        random.seed(seed)
         
         # Select decks
         if student_decks and student_weights:

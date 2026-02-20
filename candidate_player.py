@@ -75,7 +75,11 @@ def play(state, game):
                  return 90
 
             if "Articuno ex" in card_name and "Blizzard" in atk_name:
+                 # Blizzard does 10 to bench, but here we focus on active
                  return 80
+
+            if "Greninja" in card_name: # Handle Greninja if present
+                pass
 
             return base_dmg
 
@@ -97,26 +101,23 @@ def play(state, game):
                 s = str(c)
                 if "." in s: s = s.split(".")[-1]
                 if s == "Colorless":
-                    sorted_cost.append((0, s))
+                    # Colorless is handled last
+                    pass
                 else:
-                    sorted_cost.append((1, s))
+                    sorted_cost.append(s)
 
-            sorted_cost.sort(key=lambda x: x[0], reverse=True)
-
-            remaining_cost_specific = []
-
-            for priority, s in sorted_cost:
-                if s == "Colorless":
-                    colorless_cost += 1
-                    continue
-
+            for s in sorted_cost:
                 if temp_counts.get(s, 0) > 0:
                     temp_counts[s] -= 1
                 else:
-                    remaining_cost_specific.append(s)
+                    specific_needed[s] = specific_needed.get(s, 0) + 1
 
-            for s in remaining_cost_specific:
-                 specific_needed[s] = specific_needed.get(s, 0) + 1
+            # Count colorless cost
+            for c in attack_cost:
+                s = str(c)
+                if "." in s: s = s.split(".")[-1]
+                if s == "Colorless":
+                    colorless_cost += 1
 
             # Second pass: satisfy colorless with whatever is left
             remaining_energy_count = sum(temp_counts.values())
@@ -246,19 +247,7 @@ def play(state, game):
 
         # --- 3. Decision Logic ---
 
-        # A. Lethal Attacks (Priority #1)
-        if actions["attack"] and opp_active:
-            lethal = []
-            for aid, idx in actions["attack"]:
-                dmg = calculate_damage(my_active, idx, my_bench)
-                if dmg >= opp_active["hp"]:
-                    lethal.append((aid, idx, dmg))
-
-            if lethal:
-                lethal.sort(key=lambda x: x[1])
-                return lethal[0][0]
-
-        # B. Activate (Switching)
+        # 0. Forced Moves (Activate after KO)
         if actions["activate"]:
             is_ko_switch = False
             if my_active and my_active["hp"] == 0:
@@ -267,6 +256,7 @@ def play(state, game):
                 is_ko_switch = True
 
             if is_ko_switch:
+                # Prioritize high HP or powered up bench pokemon
                 best_aid = actions["activate"][0][0]
                 max_score = -float('inf')
 
@@ -280,22 +270,35 @@ def play(state, game):
                         score += len(card["energy"]) * 50
 
                         name_lower = card["name"].lower()
+                        # Prefer fast attackers or tanks
                         if "ex" in name_lower:
                             if "pikachu" in name_lower: score += 100
-                            elif "mewtwo" in name_lower: score += 90
                             elif "starmie" in name_lower: score += 90
+                            elif "mewtwo" in name_lower: score += 80 # Mewtwo is slower
                             elif "articuno" in name_lower: score += 80
                             else: score += 50
-                        elif "kangaskhan" in name_lower: score += 40
-                        elif "farfetch" in name_lower: score += 40
+                        elif "kangaskhan" in name_lower: score += 60 # Good stall/hitter
+                        elif "farfetch" in name_lower: score += 50
+                        elif "snorlax" in name_lower: score += 40 # Tank
 
-                        if "ralts" in name_lower or "kirlia" in name_lower: score -= 50
+                        # Avoid weak basics
+                        if "ralts" in name_lower: score -= 50
+                        if "magikarp" in name_lower: score -= 50
 
                         if score > max_score:
                             max_score = score
                             best_aid = aid
                 return best_aid
             else:
+                # Sabrina usage (Target Opponent Bench)
+                # Pick the weakest or the one we can kill, or just disrupt
+                # Logic: If current active is killable, don't switch unless we can't kill it.
+                # But Activate only appears if we played Sabrina or similar effect?
+                # Wait, "Activate(index)" is for switching *opponent* if we played Sabrina?
+                # The memory says: "The `Activate(index)` action is context-dependent... If they have an active Pokémon, it targets the opponent's bench (index) to force a switch."
+
+                # If we are here, it means we played Sabrina.
+                # We want to bring out something we can kill.
                 best_aid = actions["activate"][0][0]
                 max_score = -float('inf')
 
@@ -309,11 +312,18 @@ def play(state, game):
                         if not card: continue
 
                         score = 0
+                        # Can we kill it?
                         if card["hp"] <= max_dmg: score += 1000
+
+                        # Is it an EX? (Prize trade)
                         if "ex" in card["name"].lower():
                              score += 50
-                             if card["hp"] < 60: score += 500
+                             if card["hp"] < 60: score += 500 # Injured EX
+
+                        # Is it helpless? (No energy)
                         if len(card["energy"]) == 0: score += 100
+
+                        # Is it weak?
                         if card["hp"] < 60: score += 200
 
                         if score > max_score:
@@ -321,16 +331,42 @@ def play(state, game):
                             best_aid = aid
                 return best_aid
 
-        # C. Place Active
+        # A. Lethal Attacks (Priority #1)
+        # Check if we can win or take a prize
+        if actions["attack"] and opp_active:
+            lethal = []
+            for aid, idx in actions["attack"]:
+                dmg = calculate_damage(my_active, idx, my_bench)
+                if dmg >= opp_active["hp"]:
+                    lethal.append((aid, idx, dmg))
+
+            if lethal:
+                # Pick the one with lowest energy cost? Or just first one.
+                # Assuming attacks are sorted by cost implicitly or doesn't matter much.
+                # Just pick first.
+                return lethal[0][0]
+
+        # A.2 Check if Giovanni makes it lethal
+        giovanni = [a for a in actions["play_supporter"] if "Giovanni" in a[1]]
+        if giovanni and actions["attack"] and opp_active:
+             max_dmg = max(calculate_damage(my_active, idx, my_bench) for _, idx in actions["attack"])
+             if max_dmg < opp_active["hp"] and (max_dmg + 10) >= opp_active["hp"]:
+                 return giovanni[0][0]
+
+        # B. Evolution (Always good usually)
+        if actions["evolve"]:
+            return actions["evolve"][0][0]
+
+        # C. Place Active (Start of Game)
         if actions["place_active"]:
             def score_starter(name):
                 n = name.lower()
                 if "pikachu" in n and "ex" in n: return 100
-                if "kangaskhan" in n: return 90
+                if "kangaskhan" in n: return 90 # Strong early game
                 if "farfetch" in n: return 85
                 if "articuno" in n and "ex" in n: return 80
                 if "starmie" in n and "ex" in n: return 75
-                if "mewtwo" in n and "ex" in n: return 60
+                if "mewtwo" in n and "ex" in n: return 60 # Needs buildup
                 if "ex" in n: return 70
                 if "ralts" in n: return 10
                 if "magikarp" in n: return 5
@@ -339,11 +375,9 @@ def play(state, game):
             best = max(actions["place_active"], key=lambda x: score_starter(x[1]))
             return best[0]
 
-        # D. Evolution
-        if actions["evolve"]:
-            return actions["evolve"][0][0]
-
-        # E. Bench Placement
+        # D. Bench Placement
+        # Don't bench weak stuff unless we have to or it's part of strategy (e.g. Ralts to evolve)
+        # Don't bench if bench is full (obv)
         if actions["place_bench"]:
             is_pikachu_active = my_active and "Pikachu ex" in my_active["name"]
             current_bench_count = sum(1 for b in my_bench if b)
@@ -354,77 +388,112 @@ def play(state, game):
             for aid, name in actions["place_bench"]:
                 n = name.lower()
                 score = 0
-                score += 10
+                score += 10 # Default base score to encourage benching if spots open
+
                 if "ex" in n: score += 50
+
+                # Pikachu synergy
                 if is_pikachu_active:
                      if "Lightning" in get_card_type({"name": name}): score += 40
 
+                # Evolution lines
                 has_gardevoir = any("gardevoir" in getattr(h, "name", "").lower() for h in my_hand)
-                if "ralts" in n and not has_gardevoir:
-                     score -= 10
+                has_kirlia = any("kirlia" in getattr(h, "name", "").lower() for h in my_hand)
+                if "ralts" in n:
+                     if has_gardevoir or has_kirlia: score += 20
+                     else: score -= 10 # Don't bench Ralts blindly if we can't evolve it
 
                 if score > max_bench_score:
                     max_bench_score = score
                     best_bench_action = aid
 
+            # Threshold for benching
             if current_bench_count < 3 and max_bench_score > 0:
                 return best_bench_action
 
-            if is_pikachu_active and current_bench_count < 3:
-                 for aid, name in actions["place_bench"]:
-                      if "Lightning" in get_card_type({"name": name}):
-                           return aid
-
-        # F. Supporters
+        # E. Supporters
         if actions["play_supporter"]:
+            # Misty (Energy Acceleration) - High Priority
             misty = [a for a in actions["play_supporter"] if "Misty" in a[1]]
             if misty:
+                # Find best target for Misty (Water type that needs energy)
+                best_misty = None
+                max_misty_score = -float('inf')
+
                 for aid, name, target in misty:
                     card = None
                     if target == 0: card = my_active
                     elif target > 0 and (target-1) < len(my_bench): card = my_bench[target-1]
 
-                    if card and "Water" in get_card_type(card):
-                        cost = get_best_attack_cost(card, my_bench)
-                        spec, col = get_energy_deficit(card["energy"], cost)
-                        if spec or col > 0:
-                            return aid
+                    if not card: continue
+                    if "Water" not in get_card_type(card): continue # Misty only works on Water (usually? check card text. Assuming standard Misty)
 
+                    score = 0
+                    cost = get_best_attack_cost(card, my_bench)
+                    spec, col = get_energy_deficit(card["energy"], cost)
+
+                    if spec or col > 0:
+                        score += 50
+                        if "ex" in card["name"].lower(): score += 20
+                        if target == 0: score += 10 # Priority to active
+                    else:
+                        score -= 100 # Don't waste if fully charged
+
+                    if score > max_misty_score:
+                        max_misty_score = score
+                        best_misty = aid
+
+                if best_misty and max_misty_score > 0:
+                    return best_misty
+
+            # Professor's Research (Draw)
             research = [a for a in actions["play_supporter"] if "Research" in a[1]]
             if research:
-                if my_hand_size <= 5:
+                # Play if hand is small or we desperately need something
+                if my_hand_size <= 5: # Threshold from memory
                     return research[0][0]
 
+            # Sabrina (Disruption)
             sabrina = [a for a in actions["play_supporter"] if "Sabrina" in a[1]]
             if sabrina:
                 opp_bench_count = sum(1 for b in opp_bench if b)
                 if opp_bench_count > 0:
-                    return sabrina[0][0]
+                    # Use if opponent active is strong/healthy and we can't kill it
+                    opp_is_threat = opp_active and opp_active["hp"] > 60 and len(opp_active["energy"]) >= 2
 
-            others = [a for a in actions["play_supporter"] if "Misty" not in a[1] and "Research" not in a[1] and "Sabrina" not in a[1]]
-            if others:
-                giovanni = [a for a in others if "Giovanni" in a[1]]
-                if giovanni and actions["attack"] and opp_active:
-                    max_dmg = max(calculate_damage(my_active, idx, my_bench) for _, idx in actions["attack"])
-                    if max_dmg < opp_active["hp"] and (max_dmg + 10) >= opp_active["hp"]:
-                        return giovanni[0][0]
-                pass
+                    # Or if we want to snipe a weak bench (we can't choose, but we force switch)
+                    # Actually, we can't choose which one comes out, so it's risky if they have another strong one.
+                    # But if they have a weak one, it's a chance.
 
-        # G. Items
+                    if opp_is_threat:
+                        return sabrina[0][0]
+
+        # F. Items
         if actions["play_item"]:
             potions = [a for a in actions["play_item"] if "Potion" in a[1]]
             if potions and my_active and my_active["hp"] < my_active["max_hp"]:
+                # Heal if it makes a difference (e.g. moves away from KO range)
+                # Assume 20 HP heal
                 if my_active["hp"] <= (my_active["max_hp"] - 20):
                      return potions[0][0]
 
             red_cards = [a for a in actions["play_item"] if "RedCard" in a[1]]
-            if red_cards and opp_hand_size >= 4:
+            if red_cards and opp_hand_size >= 4: # Discard opponent hand
                 return red_cards[0][0]
 
-            balls = [a for a in actions["play_item"] if "Ball" in a[1]]
+            balls = [a for a in actions["play_item"] if "Ball" in a[1]] # Poke Ball
             if balls: return balls[0][0]
 
-        # H. Energy Attachment
+            xspeed = [a for a in actions["play_item"] if "X Speed" in a[1]]
+            if xspeed and my_active:
+                # Use X Speed to reduce retreat cost if we want to retreat
+                # But retreat logic is separate.
+                # Maybe use if we are stuck and have retreat action available but cost is high?
+                # For now, simplistic usage if we have high retreat cost?
+                # Hard to coordinate with Retreat action without complex planning.
+                pass
+
+        # G. Energy Attachment
         if actions["attach"]:
             best_attach = None
             max_attach_score = -float('inf')
@@ -451,6 +520,7 @@ def play(state, game):
 
                 is_useful = False
 
+                # Check if this energy type helps
                 if spec_needed.get(s_etype, 0) > 0:
                     is_useful = True
                     score += 100
@@ -458,16 +528,30 @@ def play(state, game):
                     is_useful = True
                     score += 60
 
+                # Special check: Psychic energy on Mewtwo ex
+                if "Mewtwo ex" in target_card["name"] and "Psychic" in s_etype:
+                    # Even if fully charged, Mewtwo might need more for discard attack?
+                    # Psydrive discards 2 energy. So we might need to stack more.
+                    if len(target_card["energy"]) < 4: # Cap at 4
+                        is_useful = True
+                        score += 50
+
                 if not is_useful:
                     score -= 100
 
                 if is_useful:
                     if pos == 0:
+                        # Active priority
                         score += 50
-                        if my_active["hp"] <= 30: score -= 80
+                        # But if active is dying, don't attach unless it saves it or allows lethal
+                        if my_active["hp"] <= 30:
+                            score -= 80 # Penalty
+                            # Exception: if we can attack and win? We checked lethal already.
                     else:
+                        # Bench priority
                         if "ex" in target_card["name"].lower(): score += 40
                         if "mewtwo" in target_card["name"].lower(): score += 20
+                        if "pikachu" in target_card["name"].lower(): score += 20
 
                 if score > max_attach_score:
                     max_attach_score = score
@@ -476,30 +560,44 @@ def play(state, game):
             if best_attach and max_attach_score > 0:
                 return best_attach
 
-        # I. Retreat
+        # H. Retreat
         if actions["retreat"]:
             should_retreat = False
 
             if my_active:
-                if my_active["hp"] <= 50:
+                # 1. Retreat if about to die and we have a bench replacement
+                # Opponent likely deals ~40-60 dmg
+                danger_threshold = 50
+                if opp_active:
+                     # Heuristic: estimate opp damage.
+                     # If we don't know, assume 50.
+                     pass
+
+                if my_active["hp"] <= danger_threshold:
+                     # Check if we have a replacement
                      for b in my_bench:
-                         if b and b["hp"] > 50 and len(b["energy"]) >= 1:
+                         if b and b["hp"] > danger_threshold and len(b["energy"]) >= 1:
                              should_retreat = True
                              break
 
-                if len(my_active["energy"]) == 0:
-                     for b in my_bench:
+                # 2. Retreat if we are useless (no energy, low damage) and bench is ready
+                cost = get_best_attack_cost(my_active, my_bench)
+                s, c = get_energy_deficit(my_active["energy"], cost)
+                is_stuck = (s or c > 0) # Needs energy
+
+                if is_stuck:
+                    for b in my_bench:
                          if not b: continue
-                         cost = get_best_attack_cost(b, my_bench)
-                         s, c = get_energy_deficit(b["energy"], cost)
-                         if not s and c == 0:
+                         b_cost = get_best_attack_cost(b, my_bench)
+                         bs, bc = get_energy_deficit(b["energy"], b_cost)
+                         if not bs and bc == 0: # Ready to fight
                               should_retreat = True
                               break
 
             if should_retreat:
                 return actions["retreat"][0][0]
 
-        # J. Attacks (Non-Lethal)
+        # I. Attacks (Non-Lethal)
         if actions["attack"]:
             best_atk = None
             max_score = -float('inf')
@@ -510,9 +608,13 @@ def play(state, game):
 
                 score = dmg
 
+                # Status effects are good
                 if "paralyze" in atk_name: score += 40
                 if "sleep" in atk_name: score += 30
                 if "confusion" in atk_name: score += 20
+
+                # Prefer attacks that don't discard energy if dmg is similar?
+                # Not modeled here, but could be added.
 
                 if score > max_score:
                     max_score = score
@@ -520,9 +622,12 @@ def play(state, game):
 
             return best_atk
 
-        # K. End Turn
+        # J. End Turn
         if actions["end_turn"]:
             return actions["end_turn"][0][0]
+
+        # K. Fallback: Any legal action
+        return legal_actions[0]
 
     except Exception:
         # Fallback to random legal action or just EndTurn if available

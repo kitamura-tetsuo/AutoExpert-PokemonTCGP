@@ -87,20 +87,21 @@ def play(state, game):
 
     def get_best_attack_cost(card):
         if not card or not hasattr(card, "attacks") or not card.attacks:
-            return None
+            return []
 
-        best_dmg = -1
+        # Strategy: Aim for the attack with the HIGHEST Energy Cost (assuming it's the strongest/ultimate)
+        # This avoids skipping "Circle Circuit" if it reports 0 damage currently.
+
+        max_cost_len = -1
         best_cost = []
-        found = False
 
         for atk in card.attacks:
-            dmg = getattr(atk, "fixed_damage", 0)
-            if dmg > best_dmg:
-                best_dmg = dmg
-                best_cost = getattr(atk, "cost", [])
-                found = True
+            cost = getattr(atk, "cost", [])
+            if len(cost) > max_cost_len:
+                max_cost_len = len(cost)
+                best_cost = cost
 
-        return best_cost if found else []
+        return best_cost
 
     def can_kill(damage, target_hp):
         return damage >= target_hp
@@ -148,7 +149,7 @@ def play(state, game):
             match = re.search(r"Attack\((\d+)\)", name)
             if match:
                 idx = int(match.group(1))
-                dmg = get_attack_damage(my_active, idx, my_bench)
+                dmg = get_attack_damage(my_active, idx, my_bench) # DYNAMIC DAMAGE
                 parsed_actions["attack"].append((aid, idx, dmg))
 
         elif name.startswith("Attach"):
@@ -346,7 +347,7 @@ def play(state, game):
         can_kill_active = any(d >= opp_hp for _, _, d in parsed_actions["attack"])
 
         if not can_kill_active:
-            # Check if we can kill any benched
+            # 1. Check if we can kill any benched
             can_kill_bench = False
             for b in opp_bench:
                 if b and get_hp(b) <= my_max_dmg:
@@ -356,7 +357,19 @@ def play(state, game):
             if can_kill_bench:
                 return sabrina[0][0]
 
-            # Also use if active is full HP ex (>120) and we can chip at bench
+            # 2. Check if opponent active is fully powered and we want to stall
+            opp_active_energy = count_energy(opp_active)
+            if opp_active_energy >= 3:
+                # If bench has a pokemon with 0 energy (and high retreat cost ideally, but simple check first)
+                can_stall = False
+                for b in opp_bench:
+                    if b and count_energy(b) == 0:
+                        can_stall = True
+                        break
+                if can_stall:
+                    return sabrina[0][0]
+
+            # 3. Also use if active is full HP ex (>120) and we can chip at bench
             if opp_hp >= 120:
                 return sabrina[0][0]
 

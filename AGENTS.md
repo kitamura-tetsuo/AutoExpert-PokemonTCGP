@@ -11,7 +11,7 @@ To improve the agent's performance, follow this PDCA (Plan-Do-Check-Act) cycle:
 ### 1. Plan: Identify Weaknesses
 Run a large-scale benchmark against a baseline (e.g., a past version of the repository) to find statistical weaknesses.
 ```bash
-python main.py vs-past --past-dir past_repo --matches 1000 --league-student train_data/student.csv --league-teacher train_data/teacher.csv
+python main.py vs-past --past-dir past_repo --matches 1000 --league-student train_data/teacher.csv --league-teacher train_data/teacher.csv
 ```
 *   **Action**: Look at the "Loss Analysis" output. Note the `Seed` and `Decks` of the longest and shortest losses.
 
@@ -29,9 +29,9 @@ Based on the deep dive, update the prompt engineering or the core logic.
 *   **Skill Refinement**: If a specific skill is failing, use its code as a base for the next `learn` iteration with specific feedback.
 
 ### 4. Act: Verify and Commit
-Run a learning loop or a new benchmark to verify the fix.
+Run a new benchmark to verify the fix.
 ```bash
-python main.py learn --max-iter 10
+python main.py vs-past --past-dir past_repo --matches 1000 --league-student train_data/teacher.csv --league-teacher train_data/teacher.csv
 ```
 *   **Action**: If win rates improve, save the new skills and update the `skill_library`.
 

@@ -28,6 +28,7 @@ def parse_args():
     parser.add_argument("--output", type=str, default="vs_past_battle.html", help="Path to output HTML file.")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()), help="Random seed.")
     parser.add_argument("--num_matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
+    parser.add_argument("--threshold", type=float, default=0.51, help="Win rate threshold to pass.")
     parser.add_argument("--league_decks_student", type=str, default="train_data/teacher.csv", help="CSV file for student league decks")
     parser.add_argument("--league_decks_teacher", type=str, default="train_data/teacher.csv", help="CSV file for teacher league decks")
     return parser.parse_args()
@@ -282,6 +283,9 @@ def main():
         if i == args.num_matches - 1:
             last_history = history
 
+    total_matches = sum(wins)
+    win_rate = wins[0] / total_matches if total_matches > 0 else 0
+
     print("\n--- Battle Results ---")
     print(f"Current (P0) Wins: {wins[0]}")
     print(f"Past (P1) Wins: {wins[1]}")
@@ -298,6 +302,17 @@ def main():
     # Generate HTML for the last match
     generate_html(last_history, args.output)
     print(f"\nLast match visualization saved to: {args.output}")
+
+    # CI check logic
+    if args.num_matches < 1000:
+        logging.error(f"Number of matches ({args.num_matches}) is less than 1000. Failing CI.")
+        sys.exit(1)
+    
+    if win_rate < args.threshold:
+        logging.error(f"Win rate ({win_rate:.2%}) is below threshold ({args.threshold:.2%}). Failing CI.")
+        sys.exit(1)
+    
+    logging.info("CI check passed.")
 
 if __name__ == "__main__":
     main()

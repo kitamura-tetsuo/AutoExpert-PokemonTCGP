@@ -32,6 +32,7 @@ def main():
     vs_past_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
     vs_past_parser.add_argument("--output", type=str, default="vs_past.html", help="Path to output HTML file")
     vs_past_parser.add_argument("--matches", type=int, default=1000, help="Number of matches to run")
+    vs_past_parser.add_argument("--threshold", type=float, default=0.51, help="Win rate threshold to pass")
     vs_past_parser.add_argument("--seed", type=int, default=None, help="Random seed")
     vs_past_parser.add_argument("--league-student", type=str, default=None, help="CSV file for student league decks")
     vs_past_parser.add_argument("--league-teacher", type=str, default=None, help="CSV file for teacher league decks")
@@ -75,7 +76,7 @@ def main():
         if args.seed is not None:
             cmd.extend(["--seed", str(args.seed)])
         
-        subprocess.run(cmd)
+        subprocess.run(cmd, check=True)
 
     elif args.command == "vs-past":
         import subprocess
@@ -84,7 +85,8 @@ def main():
                "--deck_a", args.deck_a,
                "--deck_b", args.deck_b,
                "--output", args.output,
-               "--num_matches", str(args.matches)]
+               "--num_matches", str(args.matches),
+               "--threshold", str(args.threshold)]
         if args.seed is not None:
             cmd.extend(["--seed", str(args.seed)])
         if args.league_student:
@@ -92,7 +94,7 @@ def main():
         if args.league_teacher:
             cmd.extend(["--league_decks_teacher", args.league_teacher])
         
-        subprocess.run(cmd)
+        subprocess.run(cmd, check=True)
 
     elif args.command == "vs-past-detail":
         import subprocess
@@ -103,7 +105,7 @@ def main():
                "--past_dir", args.past_dir,
                "--repo_url", args.repo_url]
         
-        subprocess.run(cmd)
+        subprocess.run(cmd, check=True)
         
     else:
         parser.print_help()

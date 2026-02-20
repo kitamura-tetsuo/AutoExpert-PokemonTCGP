@@ -302,9 +302,18 @@ def play(state, game):
 
     # E. Bench Placement
     if parsed_actions["place_bench"]:
-        # Generally good to fill bench, but maybe not if we have too many weak ones?
-        # For now, fill bench.
-        return parsed_actions["place_bench"][0][0]
+        # Prioritize EX > High HP
+        def score_bench(name):
+            s = 0
+            if "ex" in name.lower() or "EX" in name: s += 100
+            if "mewtwo" in name.lower(): s += 50
+            if "pikachu" in name.lower(): s += 50
+            if "articuno" in name.lower(): s += 50
+            if "starmie" in name.lower(): s += 50
+            return s
+
+        best = max(parsed_actions["place_bench"], key=lambda x: score_bench(x[1]))
+        return best[0]
 
     # F. Play Supporters (Priority Handling)
     # 1. Misty (RNG energy) - Play first to see what we get

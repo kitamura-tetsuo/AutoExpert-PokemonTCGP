@@ -1,0 +1,317 @@
+2026-02-20 11:46:10,781 - INFO - Using existing past repository at past_repo
+2026-02-20 11:46:10,800 - INFO - Using candidate_player.play for Player 0.
+2026-02-20 11:46:10,800 - INFO - Using candidate_player.play from past_repo for Player 1.
+2026-02-20 11:46:10,801 - INFO - Starting Match 1/100 (Seed: 1771587970)
+2026-02-20 11:46:10,801 - INFO - Decks: P0: b03ef3b3.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:10,810 - INFO - Match 1 Winner: Player 1 (Past) in 51 steps
+2026-02-20 11:46:10,811 - INFO - Starting Match 2/100 (Seed: 1771587971)
+2026-02-20 11:46:10,811 - INFO - Decks: P0: d9d0c06b.txt vs P1: 0636fec8.txt
+2026-02-20 11:46:10,819 - INFO - Match 2 Winner: Player 0 (Current) in 53 steps
+2026-02-20 11:46:10,819 - INFO - Starting Match 3/100 (Seed: 1771587972)
+2026-02-20 11:46:10,819 - INFO - Decks: P0: d9d0c06b.txt vs P1: d4735d04.txt
+2026-02-20 11:46:10,829 - INFO - Match 3 Winner: Player 1 (Past) in 39 steps
+2026-02-20 11:46:10,829 - INFO - Starting Match 4/100 (Seed: 1771587973)
+2026-02-20 11:46:10,829 - INFO - Decks: P0: d9d0c06b.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:10,840 - INFO - Match 4 Winner: Player 1 (Past) in 64 steps
+2026-02-20 11:46:10,840 - INFO - Starting Match 5/100 (Seed: 1771587974)
+2026-02-20 11:46:10,840 - INFO - Decks: P0: d9d0c06b.txt vs P1: cd079be3.txt
+2026-02-20 11:46:10,847 - INFO - Match 5 Winner: Player 0 (Current) in 47 steps
+2026-02-20 11:46:10,848 - INFO - Starting Match 6/100 (Seed: 1771587975)
+2026-02-20 11:46:10,848 - INFO - Decks: P0: 51cb39a2.txt vs P1: 66f94ea4.txt
+2026-02-20 11:46:10,856 - INFO - Match 6 Winner: Player 0 (Current) in 54 steps
+2026-02-20 11:46:10,856 - INFO - Starting Match 7/100 (Seed: 1771587976)
+2026-02-20 11:46:10,856 - INFO - Decks: P0: 22336bc3.txt vs P1: cd079be3.txt
+2026-02-20 11:46:10,865 - INFO - Match 7 Winner: Player 0 (Current) in 54 steps
+2026-02-20 11:46:10,865 - INFO - Starting Match 8/100 (Seed: 1771587977)
+2026-02-20 11:46:10,865 - INFO - Decks: P0: ab2bf611.txt vs P1: 28ea6099.txt
+2026-02-20 11:46:10,872 - INFO - Match 8 Winner: Player 1 (Past) in 39 steps
+2026-02-20 11:46:10,872 - INFO - Starting Match 9/100 (Seed: 1771587978)
+2026-02-20 11:46:10,872 - INFO - Decks: P0: 4f151f7b.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:10,882 - INFO - Match 9 Winner: Player 1 (Past) in 64 steps
+2026-02-20 11:46:10,882 - INFO - Starting Match 10/100 (Seed: 1771587979)
+2026-02-20 11:46:10,882 - INFO - Decks: P0: 7143b090.txt vs P1: 4655324a.txt
+2026-02-20 11:46:10,891 - INFO - Match 10 Winner: Player 0 (Current) in 55 steps
+2026-02-20 11:46:10,892 - INFO - Starting Match 11/100 (Seed: 1771587980)
+2026-02-20 11:46:10,892 - INFO - Decks: P0: ab2bf611.txt vs P1: 20d1a998.txt
+2026-02-20 11:46:10,900 - INFO - Match 11 Winner: Player 1 (Past) in 44 steps
+2026-02-20 11:46:10,900 - INFO - Starting Match 12/100 (Seed: 1771587981)
+2026-02-20 11:46:10,900 - INFO - Decks: P0: 51cb39a2.txt vs P1: d4735d04.txt
+2026-02-20 11:46:10,909 - INFO - Match 12 Winner: Player 1 (Past) in 52 steps
+2026-02-20 11:46:10,909 - INFO - Starting Match 13/100 (Seed: 1771587982)
+2026-02-20 11:46:10,909 - INFO - Decks: P0: 524258eb.txt vs P1: 7143b090.txt
+2026-02-20 11:46:10,919 - INFO - Match 13 Winner: Player 1 (Past) in 61 steps
+2026-02-20 11:46:10,919 - INFO - Starting Match 14/100 (Seed: 1771587983)
+2026-02-20 11:46:10,919 - INFO - Decks: P0: ab2bf611.txt vs P1: 524258eb.txt
+2026-02-20 11:46:10,924 - INFO - Match 14 Winner: Player 0 (Current) in 33 steps
+2026-02-20 11:46:10,924 - INFO - Starting Match 15/100 (Seed: 1771587984)
+2026-02-20 11:46:10,924 - INFO - Decks: P0: 15676ecd.txt vs P1: d9d0c06b.txt
+2026-02-20 11:46:10,930 - INFO - Match 15 Winner: Player 1 (Past) in 40 steps
+2026-02-20 11:46:10,930 - INFO - Starting Match 16/100 (Seed: 1771587985)
+2026-02-20 11:46:10,931 - INFO - Decks: P0: cd079be3.txt vs P1: 0636fec8.txt
+2026-02-20 11:46:10,951 - INFO - Match 16 Winner: Player 1 (Past) in 116 steps
+2026-02-20 11:46:10,951 - INFO - Starting Match 17/100 (Seed: 1771587986)
+2026-02-20 11:46:10,951 - INFO - Decks: P0: 4655324a.txt vs P1: ab2bf611.txt
+2026-02-20 11:46:10,956 - INFO - Match 17 ended in a draw/limit after 35 steps.
+2026-02-20 11:46:10,956 - INFO - Starting Match 18/100 (Seed: 1771587987)
+2026-02-20 11:46:10,957 - INFO - Decks: P0: 7143b090.txt vs P1: 4655324a.txt
+2026-02-20 11:46:10,965 - INFO - Match 18 Winner: Player 0 (Current) in 53 steps
+2026-02-20 11:46:10,965 - INFO - Starting Match 19/100 (Seed: 1771587988)
+2026-02-20 11:46:10,965 - INFO - Decks: P0: 524258eb.txt vs P1: 7143b090.txt
+2026-02-20 11:46:10,972 - INFO - Match 19 Winner: Player 1 (Past) in 40 steps
+2026-02-20 11:46:10,972 - INFO - Starting Match 20/100 (Seed: 1771587989)
+2026-02-20 11:46:10,972 - INFO - Decks: P0: 22336bc3.txt vs P1: 22336bc3.txt
+2026-02-20 11:46:10,979 - INFO - Match 20 Winner: Player 0 (Current) in 42 steps
+2026-02-20 11:46:10,979 - INFO - Starting Match 21/100 (Seed: 1771587990)
+2026-02-20 11:46:10,979 - INFO - Decks: P0: cd079be3.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:10,986 - INFO - Match 21 Winner: Player 1 (Past) in 46 steps
+2026-02-20 11:46:10,986 - INFO - Starting Match 22/100 (Seed: 1771587991)
+2026-02-20 11:46:10,986 - INFO - Decks: P0: 0636fec8.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:10,992 - INFO - Match 22 Winner: Player 0 (Current) in 37 steps
+2026-02-20 11:46:10,992 - INFO - Starting Match 23/100 (Seed: 1771587992)
+2026-02-20 11:46:10,992 - INFO - Decks: P0: 4f151f7b.txt vs P1: 15676ecd.txt
+2026-02-20 11:46:11,005 - INFO - Match 23 Winner: Player 0 (Current) in 80 steps
+2026-02-20 11:46:11,005 - INFO - Starting Match 24/100 (Seed: 1771587993)
+2026-02-20 11:46:11,005 - INFO - Decks: P0: 51cb39a2.txt vs P1: ab2bf611.txt
+2026-02-20 11:46:11,011 - INFO - Match 24 Winner: Player 1 (Past) in 37 steps
+2026-02-20 11:46:11,011 - INFO - Starting Match 25/100 (Seed: 1771587994)
+2026-02-20 11:46:11,011 - INFO - Decks: P0: d4735d04.txt vs P1: b03ef3b3.txt
+2026-02-20 11:46:11,018 - INFO - Match 25 Winner: Player 0 (Current) in 40 steps
+2026-02-20 11:46:11,018 - INFO - Starting Match 26/100 (Seed: 1771587995)
+2026-02-20 11:46:11,018 - INFO - Decks: P0: 4f151f7b.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:11,029 - INFO - Match 26 Winner: Player 0 (Current) in 74 steps
+2026-02-20 11:46:11,029 - INFO - Starting Match 27/100 (Seed: 1771587996)
+2026-02-20 11:46:11,029 - INFO - Decks: P0: 4f151f7b.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,032 - INFO - Match 27 Winner: Player 0 (Current) in 21 steps
+2026-02-20 11:46:11,033 - INFO - Starting Match 28/100 (Seed: 1771587997)
+2026-02-20 11:46:11,033 - INFO - Decks: P0: 22336bc3.txt vs P1: 4655324a.txt
+2026-02-20 11:46:11,037 - INFO - Match 28 Winner: Player 0 (Current) in 27 steps
+2026-02-20 11:46:11,037 - INFO - Starting Match 29/100 (Seed: 1771587998)
+2026-02-20 11:46:11,037 - INFO - Decks: P0: 524258eb.txt vs P1: 22336bc3.txt
+2026-02-20 11:46:11,051 - INFO - Match 29 Winner: Player 1 (Past) in 86 steps
+2026-02-20 11:46:11,052 - INFO - Starting Match 30/100 (Seed: 1771587999)
+2026-02-20 11:46:11,052 - INFO - Decks: P0: 51cb39a2.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,065 - INFO - Match 30 Winner: Player 1 (Past) in 81 steps
+2026-02-20 11:46:11,065 - INFO - Starting Match 31/100 (Seed: 1771588000)
+2026-02-20 11:46:11,066 - INFO - Decks: P0: 28ea6099.txt vs P1: 28ea6099.txt
+2026-02-20 11:46:11,074 - INFO - Match 31 Winner: Player 1 (Past) in 55 steps
+2026-02-20 11:46:11,074 - INFO - Starting Match 32/100 (Seed: 1771588001)
+2026-02-20 11:46:11,074 - INFO - Decks: P0: ab2bf611.txt vs P1: 4655324a.txt
+2026-02-20 11:46:11,080 - INFO - Match 32 Winner: Player 1 (Past) in 35 steps
+2026-02-20 11:46:11,080 - INFO - Starting Match 33/100 (Seed: 1771588002)
+2026-02-20 11:46:11,080 - INFO - Decks: P0: 7143b090.txt vs P1: 22336bc3.txt
+2026-02-20 11:46:11,090 - INFO - Match 33 Winner: Player 0 (Current) in 61 steps
+2026-02-20 11:46:11,090 - INFO - Starting Match 34/100 (Seed: 1771588003)
+2026-02-20 11:46:11,090 - INFO - Decks: P0: 0636fec8.txt vs P1: 51cb39a2.txt
+2026-02-20 11:46:11,094 - INFO - Match 34 Winner: Player 0 (Current) in 23 steps
+2026-02-20 11:46:11,094 - INFO - Starting Match 35/100 (Seed: 1771588004)
+2026-02-20 11:46:11,094 - INFO - Decks: P0: 0636fec8.txt vs P1: 20d1a998.txt
+2026-02-20 11:46:11,104 - INFO - Match 35 Winner: Player 1 (Past) in 53 steps
+2026-02-20 11:46:11,104 - INFO - Starting Match 36/100 (Seed: 1771588005)
+2026-02-20 11:46:11,104 - INFO - Decks: P0: 66f94ea4.txt vs P1: d9d0c06b.txt
+2026-02-20 11:46:11,114 - INFO - Match 36 Winner: Player 0 (Current) in 57 steps
+2026-02-20 11:46:11,114 - INFO - Starting Match 37/100 (Seed: 1771588006)
+2026-02-20 11:46:11,114 - INFO - Decks: P0: 524258eb.txt vs P1: 15676ecd.txt
+2026-02-20 11:46:11,121 - INFO - Match 37 Winner: Player 1 (Past) in 45 steps
+2026-02-20 11:46:11,122 - INFO - Starting Match 38/100 (Seed: 1771588007)
+2026-02-20 11:46:11,122 - INFO - Decks: P0: a16c44fe.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,131 - INFO - Match 38 Winner: Player 1 (Past) in 60 steps
+2026-02-20 11:46:11,131 - INFO - Starting Match 39/100 (Seed: 1771588008)
+2026-02-20 11:46:11,131 - INFO - Decks: P0: 15676ecd.txt vs P1: 22336bc3.txt
+2026-02-20 11:46:11,144 - INFO - Match 39 Winner: Player 1 (Past) in 91 steps
+2026-02-20 11:46:11,144 - INFO - Starting Match 40/100 (Seed: 1771588009)
+2026-02-20 11:46:11,144 - INFO - Decks: P0: 7143b090.txt vs P1: d4735d04.txt
+2026-02-20 11:46:11,155 - INFO - Match 40 Winner: Player 0 (Current) in 70 steps
+2026-02-20 11:46:11,156 - INFO - Starting Match 41/100 (Seed: 1771588010)
+2026-02-20 11:46:11,156 - INFO - Decks: P0: 0636fec8.txt vs P1: 15676ecd.txt
+2026-02-20 11:46:11,163 - INFO - Match 41 Winner: Player 1 (Past) in 49 steps
+2026-02-20 11:46:11,164 - INFO - Starting Match 42/100 (Seed: 1771588011)
+2026-02-20 11:46:11,164 - INFO - Decks: P0: 28ea6099.txt vs P1: 524258eb.txt
+2026-02-20 11:46:11,171 - INFO - Match 42 Winner: Player 1 (Past) in 49 steps
+2026-02-20 11:46:11,171 - INFO - Starting Match 43/100 (Seed: 1771588012)
+2026-02-20 11:46:11,171 - INFO - Decks: P0: 524258eb.txt vs P1: 8acd216f.txt
+2026-02-20 11:46:11,179 - INFO - Match 43 Winner: Player 0 (Current) in 54 steps
+2026-02-20 11:46:11,180 - INFO - Starting Match 44/100 (Seed: 1771588013)
+2026-02-20 11:46:11,180 - INFO - Decks: P0: 15676ecd.txt vs P1: 51cb39a2.txt
+2026-02-20 11:46:11,232 - INFO - Match 44 ended in a draw/limit after 300 steps.
+2026-02-20 11:46:11,233 - INFO - Starting Match 45/100 (Seed: 1771588014)
+2026-02-20 11:46:11,233 - INFO - Decks: P0: 66f94ea4.txt vs P1: ab2bf611.txt
+2026-02-20 11:46:11,245 - INFO - Match 45 Winner: Player 1 (Past) in 76 steps
+2026-02-20 11:46:11,246 - INFO - Starting Match 46/100 (Seed: 1771588015)
+2026-02-20 11:46:11,246 - INFO - Decks: P0: 51cb39a2.txt vs P1: 4655324a.txt
+2026-02-20 11:46:11,254 - INFO - Match 46 Winner: Player 1 (Past) in 50 steps
+2026-02-20 11:46:11,254 - INFO - Starting Match 47/100 (Seed: 1771588016)
+2026-02-20 11:46:11,254 - INFO - Decks: P0: 8699c31c.txt vs P1: 0636fec8.txt
+2026-02-20 11:46:11,267 - INFO - Match 47 Winner: Player 0 (Current) in 79 steps
+2026-02-20 11:46:11,267 - INFO - Starting Match 48/100 (Seed: 1771588017)
+2026-02-20 11:46:11,267 - INFO - Decks: P0: 20d1a998.txt vs P1: ab2bf611.txt
+2026-02-20 11:46:11,277 - INFO - Match 48 Winner: Player 0 (Current) in 60 steps
+2026-02-20 11:46:11,277 - INFO - Starting Match 49/100 (Seed: 1771588018)
+2026-02-20 11:46:11,277 - INFO - Decks: P0: cd079be3.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:11,289 - INFO - Match 49 Winner: Player 1 (Past) in 73 steps
+2026-02-20 11:46:11,290 - INFO - Starting Match 50/100 (Seed: 1771588019)
+2026-02-20 11:46:11,290 - INFO - Decks: P0: 8acd216f.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:11,300 - INFO - Match 50 Winner: Player 0 (Current) in 63 steps
+2026-02-20 11:46:11,300 - INFO - Starting Match 51/100 (Seed: 1771588020)
+2026-02-20 11:46:11,300 - INFO - Decks: P0: b03ef3b3.txt vs P1: cd079be3.txt
+2026-02-20 11:46:11,307 - INFO - Match 51 Winner: Player 0 (Current) in 50 steps
+2026-02-20 11:46:11,308 - INFO - Starting Match 52/100 (Seed: 1771588021)
+2026-02-20 11:46:11,308 - INFO - Decks: P0: 8699c31c.txt vs P1: 8acd216f.txt
+2026-02-20 11:46:11,315 - INFO - Match 52 Winner: Player 1 (Past) in 48 steps
+2026-02-20 11:46:11,315 - INFO - Starting Match 53/100 (Seed: 1771588022)
+2026-02-20 11:46:11,315 - INFO - Decks: P0: 66f94ea4.txt vs P1: 15676ecd.txt
+2026-02-20 11:46:11,322 - INFO - Match 53 Winner: Player 0 (Current) in 43 steps
+2026-02-20 11:46:11,322 - INFO - Starting Match 54/100 (Seed: 1771588023)
+2026-02-20 11:46:11,322 - INFO - Decks: P0: 20d1a998.txt vs P1: 524258eb.txt
+2026-02-20 11:46:11,329 - INFO - Match 54 Winner: Player 0 (Current) in 49 steps
+2026-02-20 11:46:11,329 - INFO - Starting Match 55/100 (Seed: 1771588024)
+2026-02-20 11:46:11,329 - INFO - Decks: P0: 4655324a.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:11,337 - INFO - Match 55 Winner: Player 0 (Current) in 48 steps
+2026-02-20 11:46:11,337 - INFO - Starting Match 56/100 (Seed: 1771588025)
+2026-02-20 11:46:11,337 - INFO - Decks: P0: 7143b090.txt vs P1: 8acd216f.txt
+2026-02-20 11:46:11,344 - INFO - Match 56 Winner: Player 0 (Current) in 45 steps
+2026-02-20 11:46:11,344 - INFO - Starting Match 57/100 (Seed: 1771588026)
+2026-02-20 11:46:11,344 - INFO - Decks: P0: a16c44fe.txt vs P1: 51cb39a2.txt
+2026-02-20 11:46:11,353 - INFO - Match 57 Winner: Player 0 (Current) in 50 steps
+2026-02-20 11:46:11,353 - INFO - Starting Match 58/100 (Seed: 1771588027)
+2026-02-20 11:46:11,353 - INFO - Decks: P0: 0636fec8.txt vs P1: 28ea6099.txt
+2026-02-20 11:46:11,361 - INFO - Match 58 Winner: Player 1 (Past) in 53 steps
+2026-02-20 11:46:11,361 - INFO - Starting Match 59/100 (Seed: 1771588028)
+2026-02-20 11:46:11,361 - INFO - Decks: P0: b03ef3b3.txt vs P1: 7143b090.txt
+2026-02-20 11:46:11,371 - INFO - Match 59 Winner: Player 1 (Past) in 63 steps
+2026-02-20 11:46:11,372 - INFO - Starting Match 60/100 (Seed: 1771588029)
+2026-02-20 11:46:11,372 - INFO - Decks: P0: 4655324a.txt vs P1: cd079be3.txt
+2026-02-20 11:46:11,382 - INFO - Match 60 Winner: Player 1 (Past) in 69 steps
+2026-02-20 11:46:11,382 - INFO - Starting Match 61/100 (Seed: 1771588030)
+2026-02-20 11:46:11,382 - INFO - Decks: P0: 524258eb.txt vs P1: 7143b090.txt
+2026-02-20 11:46:11,388 - INFO - Match 61 Winner: Player 1 (Past) in 40 steps
+2026-02-20 11:46:11,389 - INFO - Starting Match 62/100 (Seed: 1771588031)
+2026-02-20 11:46:11,389 - INFO - Decks: P0: 4655324a.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:11,398 - INFO - Match 62 Winner: Player 0 (Current) in 64 steps
+2026-02-20 11:46:11,399 - INFO - Starting Match 63/100 (Seed: 1771588032)
+2026-02-20 11:46:11,399 - INFO - Decks: P0: 66f94ea4.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:11,406 - INFO - Match 63 Winner: Player 1 (Past) in 42 steps
+2026-02-20 11:46:11,406 - INFO - Starting Match 64/100 (Seed: 1771588033)
+2026-02-20 11:46:11,406 - INFO - Decks: P0: cd079be3.txt vs P1: 8acd216f.txt
+2026-02-20 11:46:11,414 - INFO - Match 64 Winner: Player 0 (Current) in 56 steps
+2026-02-20 11:46:11,415 - INFO - Starting Match 65/100 (Seed: 1771588034)
+2026-02-20 11:46:11,415 - INFO - Decks: P0: 0636fec8.txt vs P1: 20d1a998.txt
+2026-02-20 11:46:11,427 - INFO - Match 65 Winner: Player 1 (Past) in 70 steps
+2026-02-20 11:46:11,428 - INFO - Starting Match 66/100 (Seed: 1771588035)
+2026-02-20 11:46:11,428 - INFO - Decks: P0: 4655324a.txt vs P1: 28ea6099.txt
+2026-02-20 11:46:11,436 - INFO - Match 66 Winner: Player 1 (Past) in 54 steps
+2026-02-20 11:46:11,436 - INFO - Starting Match 67/100 (Seed: 1771588036)
+2026-02-20 11:46:11,436 - INFO - Decks: P0: 28ea6099.txt vs P1: 22336bc3.txt
+2026-02-20 11:46:11,449 - INFO - Match 67 Winner: Player 0 (Current) in 79 steps
+2026-02-20 11:46:11,450 - INFO - Starting Match 68/100 (Seed: 1771588037)
+2026-02-20 11:46:11,450 - INFO - Decks: P0: d9d0c06b.txt vs P1: 15676ecd.txt
+2026-02-20 11:46:11,462 - INFO - Match 68 Winner: Player 1 (Past) in 73 steps
+2026-02-20 11:46:11,462 - INFO - Starting Match 69/100 (Seed: 1771588038)
+2026-02-20 11:46:11,462 - INFO - Decks: P0: d4735d04.txt vs P1: 28ea6099.txt
+2026-02-20 11:46:11,473 - INFO - Match 69 Winner: Player 1 (Past) in 64 steps
+2026-02-20 11:46:11,474 - INFO - Starting Match 70/100 (Seed: 1771588039)
+2026-02-20 11:46:11,474 - INFO - Decks: P0: 28ea6099.txt vs P1: 7143b090.txt
+2026-02-20 11:46:11,484 - INFO - Match 70 Winner: Player 1 (Past) in 63 steps
+2026-02-20 11:46:11,484 - INFO - Starting Match 71/100 (Seed: 1771588040)
+2026-02-20 11:46:11,484 - INFO - Decks: P0: a16c44fe.txt vs P1: d4735d04.txt
+2026-02-20 11:46:11,493 - INFO - Match 71 Winner: Player 1 (Past) in 62 steps
+2026-02-20 11:46:11,493 - INFO - Starting Match 72/100 (Seed: 1771588041)
+2026-02-20 11:46:11,493 - INFO - Decks: P0: ab2bf611.txt vs P1: 7143b090.txt
+2026-02-20 11:46:11,501 - INFO - Match 72 Winner: Player 1 (Past) in 43 steps
+2026-02-20 11:46:11,501 - INFO - Starting Match 73/100 (Seed: 1771588042)
+2026-02-20 11:46:11,501 - INFO - Decks: P0: d4735d04.txt vs P1: 524258eb.txt
+2026-02-20 11:46:11,509 - INFO - Match 73 ended in a draw/limit after 52 steps.
+2026-02-20 11:46:11,510 - INFO - Starting Match 74/100 (Seed: 1771588043)
+2026-02-20 11:46:11,510 - INFO - Decks: P0: d4735d04.txt vs P1: 4655324a.txt
+2026-02-20 11:46:11,520 - INFO - Match 74 Winner: Player 1 (Past) in 61 steps
+2026-02-20 11:46:11,520 - INFO - Starting Match 75/100 (Seed: 1771588044)
+2026-02-20 11:46:11,520 - INFO - Decks: P0: 4655324a.txt vs P1: 0636fec8.txt
+2026-02-20 11:46:11,529 - INFO - Match 75 Winner: Player 1 (Past) in 56 steps
+2026-02-20 11:46:11,529 - INFO - Starting Match 76/100 (Seed: 1771588045)
+2026-02-20 11:46:11,529 - INFO - Decks: P0: 7143b090.txt vs P1: 28ea6099.txt
+2026-02-20 11:46:11,540 - INFO - Match 76 Winner: Player 0 (Current) in 66 steps
+2026-02-20 11:46:11,540 - INFO - Starting Match 77/100 (Seed: 1771588046)
+2026-02-20 11:46:11,540 - INFO - Decks: P0: 22336bc3.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,548 - INFO - Match 77 Winner: Player 1 (Past) in 54 steps
+2026-02-20 11:46:11,548 - INFO - Starting Match 78/100 (Seed: 1771588047)
+2026-02-20 11:46:11,548 - INFO - Decks: P0: cd079be3.txt vs P1: d4735d04.txt
+2026-02-20 11:46:11,553 - INFO - Match 78 Winner: Player 1 (Past) in 31 steps
+2026-02-20 11:46:11,553 - INFO - Starting Match 79/100 (Seed: 1771588048)
+2026-02-20 11:46:11,553 - INFO - Decks: P0: d9d0c06b.txt vs P1: b03ef3b3.txt
+2026-02-20 11:46:11,563 - INFO - Match 79 Winner: Player 1 (Past) in 68 steps
+2026-02-20 11:46:11,564 - INFO - Starting Match 80/100 (Seed: 1771588049)
+2026-02-20 11:46:11,564 - INFO - Decks: P0: 0636fec8.txt vs P1: 524258eb.txt
+2026-02-20 11:46:11,570 - INFO - Match 80 Winner: Player 1 (Past) in 45 steps
+2026-02-20 11:46:11,571 - INFO - Starting Match 81/100 (Seed: 1771588050)
+2026-02-20 11:46:11,571 - INFO - Decks: P0: 8acd216f.txt vs P1: d4735d04.txt
+2026-02-20 11:46:11,575 - INFO - Match 81 Winner: Player 0 (Current) in 26 steps
+2026-02-20 11:46:11,575 - INFO - Starting Match 82/100 (Seed: 1771588051)
+2026-02-20 11:46:11,575 - INFO - Decks: P0: b03ef3b3.txt vs P1: 8acd216f.txt
+2026-02-20 11:46:11,585 - INFO - Match 82 Winner: Player 1 (Past) in 62 steps
+2026-02-20 11:46:11,585 - INFO - Starting Match 83/100 (Seed: 1771588052)
+2026-02-20 11:46:11,586 - INFO - Decks: P0: 15676ecd.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:11,594 - INFO - Match 83 Winner: Player 1 (Past) in 60 steps
+2026-02-20 11:46:11,594 - INFO - Starting Match 84/100 (Seed: 1771588053)
+2026-02-20 11:46:11,594 - INFO - Decks: P0: 22336bc3.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,602 - INFO - Match 84 Winner: Player 0 (Current) in 50 steps
+2026-02-20 11:46:11,602 - INFO - Starting Match 85/100 (Seed: 1771588054)
+2026-02-20 11:46:11,602 - INFO - Decks: P0: 8acd216f.txt vs P1: 0636fec8.txt
+2026-02-20 11:46:11,608 - INFO - Match 85 Winner: Player 1 (Past) in 36 steps
+2026-02-20 11:46:11,608 - INFO - Starting Match 86/100 (Seed: 1771588055)
+2026-02-20 11:46:11,608 - INFO - Decks: P0: a16c44fe.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:11,621 - INFO - Match 86 Winner: Player 1 (Past) in 81 steps
+2026-02-20 11:46:11,621 - INFO - Starting Match 87/100 (Seed: 1771588056)
+2026-02-20 11:46:11,621 - INFO - Decks: P0: 51cb39a2.txt vs P1: b03ef3b3.txt
+2026-02-20 11:46:11,624 - INFO - Match 87 Winner: Player 0 (Current) in 16 steps
+2026-02-20 11:46:11,624 - INFO - Starting Match 88/100 (Seed: 1771588057)
+2026-02-20 11:46:11,624 - INFO - Decks: P0: 0636fec8.txt vs P1: 7143b090.txt
+2026-02-20 11:46:11,635 - INFO - Match 88 Winner: Player 1 (Past) in 69 steps
+2026-02-20 11:46:11,636 - INFO - Starting Match 89/100 (Seed: 1771588058)
+2026-02-20 11:46:11,636 - INFO - Decks: P0: 8699c31c.txt vs P1: a16c44fe.txt
+2026-02-20 11:46:11,643 - INFO - Match 89 Winner: Player 1 (Past) in 46 steps
+2026-02-20 11:46:11,643 - INFO - Starting Match 90/100 (Seed: 1771588059)
+2026-02-20 11:46:11,643 - INFO - Decks: P0: a16c44fe.txt vs P1: 51cb39a2.txt
+2026-02-20 11:46:11,655 - INFO - Match 90 Winner: Player 0 (Current) in 72 steps
+2026-02-20 11:46:11,656 - INFO - Starting Match 91/100 (Seed: 1771588060)
+2026-02-20 11:46:11,656 - INFO - Decks: P0: cd079be3.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:11,675 - INFO - Match 91 Winner: Player 1 (Past) in 115 steps
+2026-02-20 11:46:11,676 - INFO - Starting Match 92/100 (Seed: 1771588061)
+2026-02-20 11:46:11,676 - INFO - Decks: P0: 524258eb.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,683 - INFO - Match 92 Winner: Player 1 (Past) in 47 steps
+2026-02-20 11:46:11,684 - INFO - Starting Match 93/100 (Seed: 1771588062)
+2026-02-20 11:46:11,684 - INFO - Decks: P0: 524258eb.txt vs P1: 8acd216f.txt
+2026-02-20 11:46:11,690 - INFO - Match 93 Winner: Player 1 (Past) in 44 steps
+2026-02-20 11:46:11,690 - INFO - Starting Match 94/100 (Seed: 1771588063)
+2026-02-20 11:46:11,690 - INFO - Decks: P0: 8699c31c.txt vs P1: ab2bf611.txt
+2026-02-20 11:46:11,699 - INFO - Match 94 Winner: Player 1 (Past) in 60 steps
+2026-02-20 11:46:11,699 - INFO - Starting Match 95/100 (Seed: 1771588064)
+2026-02-20 11:46:11,699 - INFO - Decks: P0: 7143b090.txt vs P1: ab2bf611.txt
+2026-02-20 11:46:11,705 - INFO - Match 95 Winner: Player 1 (Past) in 42 steps
+2026-02-20 11:46:11,706 - INFO - Starting Match 96/100 (Seed: 1771588065)
+2026-02-20 11:46:11,706 - INFO - Decks: P0: 0636fec8.txt vs P1: 8699c31c.txt
+2026-02-20 11:46:11,715 - INFO - Match 96 Winner: Player 1 (Past) in 58 steps
+2026-02-20 11:46:11,716 - INFO - Starting Match 97/100 (Seed: 1771588066)
+2026-02-20 11:46:11,716 - INFO - Decks: P0: 15676ecd.txt vs P1: 0636fec8.txt
+2026-02-20 11:46:11,722 - INFO - Match 97 Winner: Player 0 (Current) in 44 steps
+2026-02-20 11:46:11,723 - INFO - Starting Match 98/100 (Seed: 1771588067)
+2026-02-20 11:46:11,723 - INFO - Decks: P0: a16c44fe.txt vs P1: 4f151f7b.txt
+2026-02-20 11:46:11,735 - INFO - Match 98 Winner: Player 1 (Past) in 79 steps
+2026-02-20 11:46:11,735 - INFO - Starting Match 99/100 (Seed: 1771588068)
+2026-02-20 11:46:11,735 - INFO - Decks: P0: 51cb39a2.txt vs P1: d9d0c06b.txt
+2026-02-20 11:46:11,743 - INFO - Match 99 Winner: Player 1 (Past) in 52 steps
+2026-02-20 11:46:11,743 - INFO - Starting Match 100/100 (Seed: 1771588069)
+2026-02-20 11:46:11,743 - INFO - Decks: P0: d9d0c06b.txt vs P1: 20d1a998.txt
+2026-02-20 11:46:11,756 - INFO - Match 100 Winner: Player 1 (Past) in 47 steps
+2026-02-20 11:46:11,764 - INFO - HTML visualization saved to vs_past.html
+
+--- Battle Results ---
+Current (P0) Wins: 37
+Past (P1) Wins: 60
+Current Win Rate: 38.14%
+
+--- Loss Analysis (P1 Victory) ---
+Longest Loss:  116 steps (Seed: 1771587985)
+  Decks: P0: cd079be3.txt vs P1: 0636fec8.txt
+Shortest Loss: 31 steps (Seed: 1771588047)
+  Decks: P0: cd079be3.txt vs P1: d4735d04.txt
+
+Last match visualization saved to: vs_past.html

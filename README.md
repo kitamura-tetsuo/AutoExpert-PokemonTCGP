@@ -6,7 +6,7 @@ A Voyager-like expert system that automatically constructs and improves Pokemon 
 - **Curriculum Manager**: Automatically decides the next strategic goal for the agent.
 - **Code Generator**: Uses Google's Jules API to write Python strategy code based on game state observations.
 - **Skill Library**: Stores and manages successful strategies (skills) as reusable code.
-- **Automated Verification**: Runs 100+ simulations via `deckgym-core` to evaluate the performance of generated strategies.
+- **Automated Verification**: Runs 1000+ simulations via `deckgym-core` to evaluate the performance of generated strategies.
 
 ## Requirements
 - Python 3.11+

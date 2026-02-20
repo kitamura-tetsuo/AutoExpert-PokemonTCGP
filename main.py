@@ -31,7 +31,7 @@ def main():
     vs_past_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
     vs_past_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
     vs_past_parser.add_argument("--output", type=str, default="vs_past.html", help="Path to output HTML file")
-    vs_past_parser.add_argument("--matches", type=int, default=1, help="Number of matches to run")
+    vs_past_parser.add_argument("--matches", type=int, default=1000, help="Number of matches to run")
     vs_past_parser.add_argument("--seed", type=int, default=None, help="Random seed")
     vs_past_parser.add_argument("--league-student", type=str, default=None, help="CSV file for student league decks")
     vs_past_parser.add_argument("--league-teacher", type=str, default=None, help="CSV file for teacher league decks")

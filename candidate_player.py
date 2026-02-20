@@ -16,7 +16,7 @@ def play(state, game):
         return getattr(card, "total_hp", 0) if card else 0
 
     def count_energy(card):
-        return len(card.attached_energy) if (card and hasattr(card, "attached_energy")) else 0
+        return len(getattr(card, "attached_energy", [])) if card else 0
 
     def get_energy_type(card):
         if card and hasattr(card, "energy_type"):
@@ -29,8 +29,11 @@ def play(state, game):
         atk = card.attacks[attack_idx]
         base_dmg = getattr(atk, "fixed_damage", 0)
 
+        card_name = getattr(card, "name", "")
+        atk_name = getattr(atk, "name", "")
+
         # Handle Pikachu ex "Circle Circuit"
-        if "Pikachu ex" in getattr(card, "name", "") and "Circle Circuit" in getattr(atk, "name", ""):
+        if "Pikachu ex" in card_name and "Circle Circuit" in atk_name:
             lightning_count = 0
             if my_bench:
                 for b in my_bench:
@@ -38,7 +41,10 @@ def play(state, game):
                         lightning_count += 1
             return 30 * lightning_count
 
-        # Handle Mewtwo ex "Psydrive" (150 dmg, discard 2 energy)
+        # Handle Mewtwo ex "Psydrive"
+        if "Mewtwo ex" in card_name and "Psydrive" in atk_name:
+             return 150
+
         return base_dmg
 
     def get_energy_deficit(current_energy, cost):
@@ -84,6 +90,7 @@ def play(state, game):
         if not card or not hasattr(card, "attacks") or not card.attacks:
             return []
 
+        # Prefer the cost of the strongest attack, or the most expensive one
         max_cost_len = -1
         best_cost = []
         for atk in card.attacks:
@@ -114,17 +121,19 @@ def play(state, game):
     except:
         opp_hand_size = 0
 
-    my_hand_size = len(state.get_hand(current_player))
+    my_hand = state.get_hand(current_player)
+    my_hand_size = len(my_hand)
 
     # --- 3. Parse Actions ---
     parsed_actions = {
-        "attack": [], "attach": [], "evolve": [], "place_active": [], "place_bench": [],
+        "attack": [], "attach": [], "attach_tool": [], "evolve": [], "place_active": [], "place_bench": [],
         "play_item": [], "play_supporter": [], "ability": [], "retreat": [], "activate": [], "end_turn": []
     }
 
     for aid in legal_actions:
         name = game.action_name(aid)
 
+        # Helper to simplify parsing
         if name.startswith("Attack("):
             match = re.search(r"Attack\((\d+)\)", name)
             if match:
@@ -132,20 +141,33 @@ def play(state, game):
                 dmg = get_attack_damage(my_active, idx, my_bench)
                 parsed_actions["attack"].append((aid, idx, dmg))
 
+        elif name.startswith("AttachTool"):
+             match = re.search(r"AttachTool\((?:Some\()?(.*?)\)?, (\d+)\)", name)
+             if match:
+                 parsed_actions["attach_tool"].append((aid, match.group(1), int(match.group(2))))
+
         elif name.startswith("Attach"):
+            if "Tool" in name: continue
             match = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", name)
             if match:
                 etype = match.group(1).replace(")", "")
                 pos = int(match.group(2))
                 parsed_actions["attach"].append((aid, etype, pos))
             else:
-                match = re.search(r"AttachEnergy\((\d+), (.*?)\)", name)
-                if match:
-                    pos = int(match.group(1))
-                    etype = match.group(2)
-                    parsed_actions["attach"].append((aid, etype, pos))
-                else:
-                    parsed_actions["attach"].append((aid, name, -1))
+                 match = re.search(r"AttachEnergy\((\d+), (.*?)\)", name)
+                 if match:
+                     pos = int(match.group(1))
+                     etype = match.group(2)
+                     parsed_actions["attach"].append((aid, etype, pos))
+                 else:
+                     parts = name[7:-1].split(", ")
+                     if len(parts) == 2:
+                         etype = parts[0]
+                         try:
+                             pos = int(parts[1])
+                             parsed_actions["attach"].append((aid, etype, pos))
+                         except:
+                             pass
 
         elif name.startswith("Evolve("):
              parsed_actions["evolve"].append((aid, name))
@@ -157,19 +179,29 @@ def play(state, game):
                 parsed_actions["place_bench"].append((aid, name))
 
         elif name.startswith("PlayPokemon("):
-            parsed_actions["place_bench"].append((aid, name))
+             if ", 0)" in name:
+                parsed_actions["place_active"].append((aid, name))
+             else:
+                parsed_actions["place_bench"].append((aid, name))
 
         elif name.startswith("Play(") or name.startswith("UseItem") or name.startswith("UseSupporter"):
             card_name = name
-            match = re.search(r"Play\((?:Some\()?(.*?)\)?\)", name)
+            target = -1
+            # Try to parse with target
+            match = re.search(r"Play\((?:Some\()?(.*?)\)?(?:, (\d+))\)", name)
             if match:
                 card_name = match.group(1)
-
-            supporters = ["Research", "Sabrina", "Giovanni", "Erika", "Misty", "Blaine", "Koga", "Lt. Surge", "Brock", "Copycat", "Lisia", "Cyrus"]
-            if any(s in card_name for s in supporters):
-                parsed_actions["play_supporter"].append((aid, card_name))
+                target = int(match.group(2))
             else:
-                parsed_actions["play_item"].append((aid, card_name))
+                match = re.search(r"Play\((?:Some\()?(.*?)\)?\)", name)
+                if match:
+                    card_name = match.group(1)
+
+            supporters = ["Research", "Sabrina", "Giovanni", "Erika", "Misty", "Blaine", "Koga", "Lt. Surge", "Brock", "Copycat", "Lisia", "Cyrus", "Mars", "Red", "Guzma", "Judge", "Acerola", "Hau", "Bill"]
+            if any(s in card_name for s in supporters):
+                parsed_actions["play_supporter"].append((aid, card_name, target))
+            else:
+                parsed_actions["play_item"].append((aid, card_name, target))
 
         elif name.startswith("UseAbility("):
             match = re.search(r"UseAbility\((\d+)\)", name)
@@ -199,32 +231,50 @@ def play(state, game):
         for aid, idx, dmg in parsed_actions["attack"]:
             if can_kill(dmg, opp_hp):
                 lethal_attacks.append((aid, idx, dmg))
+
         if lethal_attacks:
             lethal_attacks.sort(key=lambda x: x[1])
             return lethal_attacks[0][0]
 
-    # B. Activate
+    # B. Activate (Switching Logic)
     if parsed_actions["activate"]:
+        # Case 1: My Active is KO'd (Zombie with 0 HP), need to promote from bench
         if not my_active or get_hp(my_active) == 0:
             best_aid = parsed_actions["activate"][0][0]
-            max_score = -1
+            max_score = -float('inf')
+
             for aid, idx in parsed_actions["activate"]:
                 score = 0
                 if idx < len(my_bench):
                     card = my_bench[idx]
                     if card:
+                        # Prefer powered up Pokemon
                         score += count_energy(card) * 50
-                        score += get_hp(card)
-                        if "ex" in getattr(card, "name", ""): score += 20
+
+                        # Prefer "Fast" EX
+                        name = getattr(card, "name", "").lower()
+                        if "pikachu" in name and "ex" in name: score += 40
+                        if "starmie" in name and "ex" in name: score += 40
+                        if "articuno" in name and "ex" in name: score += 30
+
+                        # Avoid promoting support/slow Pokemon if not ready
+                        if "mewtwo" in name and count_energy(card) < 2: score -= 20
+
+                        score += get_hp(card) # Prefer high HP
+
                 if score > max_score:
                     max_score = score
                     best_aid = aid
             return best_aid
+
+        # Case 2: Sabrina/Switch effect on Opponent
         else:
+            # We are forcing opponent to switch.
             max_dmg = 0
             if parsed_actions["attack"]:
                 max_dmg = max(a[2] for a in parsed_actions["attack"])
 
+            # 1. Look for killable targets
             for aid, idx in parsed_actions["activate"]:
                 if idx < len(opp_bench):
                     card = opp_bench[idx]
@@ -233,19 +283,25 @@ def play(state, game):
                         if hp <= max_dmg:
                             return aid
 
+            # 2. Look for stall targets
             best_stall_aid = None
             max_stall_score = -1
             for aid, idx in parsed_actions["activate"]:
                 if idx < len(opp_bench):
                     card = opp_bench[idx]
                     if card:
-                        if count_energy(card) == 0:
-                            score = 1000 - get_hp(card)
-                            if score > max_stall_score:
-                                max_stall_score = score
-                                best_stall_aid = aid
+                        score = 0
+                        if count_energy(card) == 0: score += 100
+                        if get_hp(card) < 60: score += 50
 
-            if best_stall_aid: return best_stall_aid
+                        if "ex" in getattr(card, "name", "").lower() and count_energy(card) >= 2:
+                            score = -100
+
+                        if score > max_stall_score:
+                            max_stall_score = score
+                            best_stall_aid = aid
+
+            if best_stall_aid and max_stall_score > 0: return best_stall_aid
             return parsed_actions["activate"][0][0]
 
     # C. Setup Active (Start of Game)
@@ -253,12 +309,15 @@ def play(state, game):
         def score_active(name):
             s = 0
             name_lower = name.lower()
-            if "ex" in name_lower: s += 100
-            if "mewtwo" in name_lower: s += 50
-            if "pikachu" in name_lower: s += 60
-            if "starmie" in name_lower: s += 60 # Added Starmie as Fast EX
-            if "articuno" in name_lower: s += 50
-            return s
+            if "pikachu" in name_lower and "ex" in name_lower: return 1000
+            if "starmie" in name_lower and "ex" in name_lower: return 900
+            if "articuno" in name_lower and "ex" in name_lower: return 850
+            if "kangaskhan" in name_lower: return 600
+            if "farfetch" in name_lower: return 500
+            if "mewtwo" in name_lower and "ex" in name_lower: return 400
+            if "ex" in name_lower: return 300
+            return 100
+
         best = max(parsed_actions["place_active"], key=lambda x: score_active(x[1]))
         return best[0]
 
@@ -275,48 +334,80 @@ def play(state, game):
             if "mewtwo" in name_lower: s += 50
             if "pikachu" in name_lower: s += 50
             if "articuno" in name_lower: s += 50
-            if "starmie" in name_lower: s += 50
             if "moltres" in name_lower: s += 50
             if "zapdos" in name_lower: s += 50
+            if "starmie" in name_lower: s += 50
+            if "ralts" in name_lower: s += 80
             return s
         best = max(parsed_actions["place_bench"], key=lambda x: score_bench(x[1]))
         return best[0]
 
     # F. Supporters
+    # 1. Misty - Acceleration (High Priority)
     misty = [a for a in parsed_actions["play_supporter"] if "Misty" in a[1]]
     if misty:
+        # Prioritize Active
+        for aid, name, target in misty:
+            if target == 0: return aid
         return misty[0][0]
 
+    # 2. Draw/Search Supporters
+    draw_supporters = []
+    for aid, name, target in parsed_actions["play_supporter"]:
+        if "Research" in name: draw_supporters.append((aid, name, 10))
+        elif "Copycat" in name: draw_supporters.append((aid, name, 9))
+        elif "Bill" in name: draw_supporters.append((aid, name, 8))
+        elif "Hau" in name: draw_supporters.append((aid, name, 8))
+        elif "Clemont" in name: draw_supporters.append((aid, name, 8))
+        elif "Mars" in name: draw_supporters.append((aid, name, 8))
+        elif "Red" in name: draw_supporters.append((aid, name, 8))
+        elif "Judge" in name: draw_supporters.append((aid, name, 8))
+        elif "Guzma" in name: draw_supporters.append((aid, name, 8))
+
+    draw_supporters.sort(key=lambda x: x[2], reverse=True)
+
+    bench_count = sum(1 for b in my_bench if b)
+
+    for aid, name, score in draw_supporters:
+        should_play = False
+
+        # Always play if bench < 3 (Need setup) or hand is small
+        if bench_count < 3 or my_hand_size < 5: should_play = True
+
+        # Specific Logic
+        if "Copycat" in name:
+            if opp_hand_size > my_hand_size: should_play = True
+        if "Clemont" in name:
+            if count_energy(my_active) < 2: should_play = True
+
+        if should_play: return aid
+
+    # 3. Giovanni (Damage) - Only if it matters
     giovanni = [a for a in parsed_actions["play_supporter"] if "Giovanni" in a[1]]
     if giovanni and parsed_actions["attack"]:
+        useful_giovanni = False
         for aid, idx, dmg in parsed_actions["attack"]:
             if not can_kill(dmg, opp_hp) and can_kill(dmg + 10, opp_hp):
-                return giovanni[0][0]
+                useful_giovanni = True
+                break
+        if useful_giovanni:
+            return giovanni[0][0]
 
-    research = [a for a in parsed_actions["play_supporter"] if "Research" in a[1]]
-    if research:
-        if my_hand_size <= 5:
-            return research[0][0]
-
+    # 4. Sabrina (Disruption)
     sabrina = [a for a in parsed_actions["play_supporter"] if "Sabrina" in a[1]]
     if sabrina:
         can_kill_active = any(can_kill(a[2], opp_hp) for a in parsed_actions["attack"])
+        should_use_sabrina = False
         if not can_kill_active:
             my_max_dmg = max([a[2] for a in parsed_actions["attack"]]) if parsed_actions["attack"] else 0
-            can_kill_bench = False
             for b in opp_bench:
                 if b and get_hp(b) <= my_max_dmg:
-                    can_kill_bench = True
+                    should_use_sabrina = True
                     break
-            if can_kill_bench:
-                return sabrina[0][0]
-
-            if count_energy(opp_active) >= 3 and opp_hp > 60:
+            if not should_use_sabrina and opp_hp > 60 and count_energy(opp_active) >= 2:
                  if any(b and count_energy(b) == 0 for b in opp_bench):
-                     return sabrina[0][0]
-
-            if opp_hp >= 120:
-                return sabrina[0][0]
+                     should_use_sabrina = True
+        if should_use_sabrina: return sabrina[0][0]
 
     # G. Abilities
     if parsed_actions["ability"]:
@@ -326,12 +417,10 @@ def play(state, game):
     if parsed_actions["play_item"]:
         potion = [a for a in parsed_actions["play_item"] if "Potion" in a[1]]
         if potion and my_active and my_hp < my_max_hp:
-             if my_hp <= 60:
-                 return potion[0][0]
+             if my_hp <= 80: return potion[0][0]
 
         red_card = [a for a in parsed_actions["play_item"] if "RedCard" in a[1]]
-        if red_card and opp_hand_size >= 4:
-            return red_card[0][0]
+        if red_card and opp_hand_size >= 4: return red_card[0][0]
 
         balls = [a for a in parsed_actions["play_item"] if "Ball" in a[1]]
         if balls: return balls[0][0]
@@ -339,76 +428,70 @@ def play(state, game):
         candy = [a for a in parsed_actions["play_item"] if "RareCandy" in a[1]]
         if candy: return candy[0][0]
 
-    # I. Energy Attachment
+    # I. Tool Attachment (New)
+    if parsed_actions["attach_tool"]:
+        # Prioritize Active
+        for aid, name, pos in parsed_actions["attach_tool"]:
+            if pos == 0: return aid
+        return parsed_actions["attach_tool"][0][0]
+
+    # J. Energy Attachment
     if parsed_actions["attach"]:
-        if my_active:
-             cost = get_best_attack_cost(my_active)
-             attached = getattr(my_active, "attached_energy", [])
-             specific_needed, colorless_needed = get_energy_deficit(attached, cost)
+        candidates = []
+        if my_active: candidates.append((0, my_active))
+        for i, b in enumerate(my_bench):
+            if b: candidates.append((i + 1, b))
 
-             if specific_needed or colorless_needed > 0:
-                 for aid, etype, pos in parsed_actions["attach"]:
-                     if pos == 0:
-                         if is_useful_energy(etype, attached, cost):
-                             return aid
+        best_attach = None
+        best_attach_score = -float('inf')
 
-        bench_candidates = []
-        for i, card in enumerate(my_bench):
-            if card:
-                score = 0
-                name = getattr(card, "name", "").lower()
-                hp = get_hp(card)
-                max_hp = get_max_hp(card)
-                if "ex" in name: score += 20
-                if "mewtwo" in name: score += 10
-                if "pikachu" in name: score += 10
-                if max_hp >= 100: score += 5
-                if hp < 40: score -= 50
-                cost = get_best_attack_cost(card)
-                attached = getattr(card, "attached_energy", [])
-                spec, col = get_energy_deficit(attached, cost)
-                if not spec and col == 0:
-                    score -= 100
-                bench_candidates.append((i, score))
-
-        bench_candidates.sort(key=lambda x: x[1], reverse=True)
-
-        for i, score in bench_candidates:
-            if score < -20: continue
-            card = my_bench[i]
-            cost = get_best_attack_cost(card)
-            attached = getattr(card, "attached_energy", [])
-            target_pos = i + 1
-            for aid, etype, pos in parsed_actions["attach"]:
-                if pos == target_pos:
-                    if is_useful_energy(etype, attached, cost):
-                        return aid
-
-        # Fallback: Prefer Active if low energy (need retreat/future attack)
-        if my_active and count_energy(my_active) < 2:
-             for aid, etype, pos in parsed_actions["attach"]:
-                 if pos == 0: return aid
-
-        # Else, prefer Bench over Active (spread risk)
         for aid, etype, pos in parsed_actions["attach"]:
-            if pos > 0: return aid
+            target_card = None
+            for p, c in candidates:
+                if p == pos: target_card = c; break
+            if not target_card: continue
 
+            score = 0
+            name = getattr(target_card, "name", "").lower()
+            cost = get_best_attack_cost(target_card)
+            attached = getattr(target_card, "attached_energy", [])
+
+            if not is_useful_energy(etype, attached, cost): score = -1000
+            else:
+                score += 10
+                if "ex" in name: score += 20
+                if "mewtwo" in name: score += 15
+                if "pikachu" in name: score += 15
+                if "starmie" in name: score += 15
+                new_attached = attached + [etype]
+                spec, col = get_energy_deficit(new_attached, cost)
+                if not spec and col == 0: score += 50
+                if pos == 0:
+                    if my_hp < 40: score -= 30
+                    if count_energy(target_card) < 2: score += 5
+                    # Bonus for enabling attack on healthy active
+                    if not spec and col == 0 and my_hp >= 60: score += 20
+                else:
+                    score += 5
+
+            if score > best_attach_score:
+                best_attach_score = score
+                best_attach = aid
+
+        if best_attach and best_attach_score > -100: return best_attach
         return parsed_actions["attach"][0][0]
 
-    # J. Retreat Logic
+    # K. Retreat Logic
     if parsed_actions["retreat"]:
         should_retreat = False
-        # 1. Survival
         if my_active and my_hp <= 50:
              has_backup = False
              for card in my_bench:
                  if card and count_energy(card) >= 2 and get_hp(card) > 50:
                      has_backup = True
                      break
-             if has_backup:
-                 should_retreat = True
+             if has_backup: should_retreat = True
 
-        # 2. Tempo/Damage (Restored)
         best_bench_idx = -1
         if not should_retreat and my_active and parsed_actions["attack"]:
              current_dmg = max([x[2] for x in parsed_actions["attack"]])
@@ -420,34 +503,39 @@ def play(state, game):
                          for idx in range(len(getattr(card, "attacks", []))):
                              d = get_attack_damage(card, idx, my_bench)
                              if d > card_dmg: card_dmg = d
-
                          if card_dmg > max_bench_dmg:
                              max_bench_dmg = card_dmg
                              best_bench_idx = i
+                 if max_bench_dmg > current_dmg + 30: should_retreat = True
 
-                 if max_bench_dmg > current_dmg + 20:
-                     should_retreat = True
+        if should_retreat: return parsed_actions["retreat"][0][0]
 
-        if should_retreat:
-            if best_bench_idx != -1:
-                for aid, idx in parsed_actions["retreat"]:
-                    if idx == best_bench_idx: return aid
-
-            for aid, idx in parsed_actions["retreat"]:
-                if idx == -1: return aid
-
-            return parsed_actions["retreat"][0][0]
-
-    # K. Attack (Non-Lethal)
+    # L. Attack (Non-Lethal)
     if parsed_actions["attack"]:
-        best_attack = max(parsed_actions["attack"], key=lambda x: x[2])
+        def score_attack(attack_tuple):
+            aid, idx, dmg = attack_tuple
+            score = dmg
+            try:
+                atk = my_active.attacks[idx]
+                name = getattr(atk, "name", "").lower()
+                if "paralyze" in name or "sleep" in name or "hypno" in name or "thunder wave" in name:
+                    score += 50
+                if "confuse" in name or "poison" in name or "burn" in name:
+                    score += 20
+            except: pass
+            return score
+
+        best_attack = max(parsed_actions["attack"], key=score_attack)
         return best_attack[0]
 
-    # L. Play remaining Supporters
+    # M. Play remaining Supporters (Safe Fallback)
     if parsed_actions["play_supporter"]:
-        return parsed_actions["play_supporter"][0][0]
+        safe_names = ["Research", "Copycat", "Bill", "Hau", "Clemont", "Misty", "Lisia", "Erika", "Blaine", "Koga", "Lt. Surge", "Brock", "Mars", "Red", "Judge", "Acerola"]
+        for aid, name, target in parsed_actions["play_supporter"]:
+            if any(s in name for s in safe_names):
+                return aid
 
-    # M. End Turn
+    # N. End Turn
     if parsed_actions["end_turn"]:
         return parsed_actions["end_turn"][0][0]
 

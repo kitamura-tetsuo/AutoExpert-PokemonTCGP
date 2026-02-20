@@ -33,7 +33,8 @@ class JulesClient:
                 }
             },
             "title": title,
-            "requirePlanApproval": False
+            "requirePlanApproval": False,
+            "automationMode": "AUTO_CREATE_PR"
         }
         response = requests.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
         response.raise_for_status()

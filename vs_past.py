@@ -248,14 +248,20 @@ def main():
         else:
             deck_b = args.deck_b
 
-        deck_a_path = str(settings.DECK_DIR / deck_a)
-        deck_b_path = str(settings.DECK_DIR / deck_b)
-        
-        # Check if decks exist in current repo (fallback to train_data if not in deckgym-core/example_decks)
-        if not Path(deck_a_path).exists():
-            deck_a_path = str(Path("train_data") / deck_a)
-        if not Path(deck_b_path).exists():
-            deck_b_path = str(Path("train_data") / deck_b)
+        deck_a_path = Path(deck_a)
+        if not deck_a_path.exists():
+            deck_a_path = settings.DECK_DIR / deck_a
+        if not deck_a_path.exists():
+            deck_a_path = Path("train_data") / deck_a
+            
+        deck_b_path = Path(deck_b)
+        if not deck_b_path.exists():
+            deck_b_path = settings.DECK_DIR / deck_b
+        if not deck_b_path.exists():
+            deck_b_path = Path("train_data") / deck_b
+
+        deck_a_path = str(deck_a_path)
+        deck_b_path = str(deck_b_path)
 
         logging.info(f"Starting Match {i+1}/{args.num_matches} (Seed: {seed})")
         logging.info(f"Decks: P0: {deck_a} vs P1: {deck_b}")

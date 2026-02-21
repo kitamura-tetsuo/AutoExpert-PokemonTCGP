@@ -48,14 +48,19 @@ def main():
     args = parser.parse_args()
     
     if args.command == "learn":
-        deck_a = settings.DECK_DIR / args.deck_a
-        deck_b = settings.DECK_DIR / args.deck_b
+        deck_a = Path(args.deck_a)
+        if not deck_a.exists():
+            deck_a = settings.DECK_DIR / args.deck_a
+            
+        deck_b = Path(args.deck_b)
+        if not deck_b.exists():
+            deck_b = settings.DECK_DIR / args.deck_b
         
         if not deck_a.exists():
-            print(f"Error: Deck file not found at {deck_a}")
+            print(f"Error: Deck file not found: {args.deck_a}")
             sys.exit(1)
         if not deck_b.exists():
-            print(f"Error: Deck file not found at {deck_b}")
+            print(f"Error: Deck file not found: {args.deck_b}")
             sys.exit(1)
             
         expert = AutoExpert(str(deck_a), str(deck_b))

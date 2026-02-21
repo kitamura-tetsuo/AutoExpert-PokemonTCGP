@@ -244,10 +244,20 @@ def main():
 
     play_funcs = [current_best_func, past_best_func]
 
-    deck_a_path = str(settings.DECK_DIR / args.deck_a)
-    if not Path(deck_a_path).exists(): deck_a_path = str(Path("train_data") / args.deck_a)
-    deck_b_path = str(settings.DECK_DIR / args.deck_b)
-    if not Path(deck_b_path).exists(): deck_b_path = str(Path("train_data") / args.deck_b)
+    deck_a_path = Path(args.deck_a)
+    if not deck_a_path.exists():
+        deck_a_path = settings.DECK_DIR / args.deck_a
+    if not deck_a_path.exists():
+        deck_a_path = Path("train_data") / args.deck_a
+        
+    deck_b_path = Path(args.deck_b)
+    if not deck_b_path.exists():
+        deck_b_path = settings.DECK_DIR / args.deck_b
+    if not deck_b_path.exists():
+        deck_b_path = Path("train_data") / args.deck_b
+        
+    deck_a_path = str(deck_a_path)
+    deck_b_path = str(deck_b_path)
 
     game = deckgym.PyGameState(deck_a_path, deck_b_path, args.seed)
     

@@ -10,145 +10,174 @@ logging.basicConfig(filename='player.log', level=logging.INFO, filemode='w', for
 # --- Card Database (Expanded & Normalized) ---
 # All keys lowercase
 CARD_DB = {
-    # Lightning
-    "pikachu ex": {"hp": 120, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Circle Circuit", "cost": ["Lightning", "Lightning"], "dmg": 30, "bench_scale": True}]},
-    "zapdos ex": {"hp": 130, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Peck", "cost": ["Lightning"], "dmg": 20}, {"name": "Thundering Hurricane", "cost": ["Lightning", "Lightning", "Lightning"], "dmg": 50, "coin_flips": 4}]},
-    "pikachu": {"hp": 60, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Gnaw", "cost": ["Lightning"], "dmg": 20}]},
-    "raichu": {"hp": 100, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Thunderbolt", "cost": ["Lightning", "Lightning", "Colorless"], "dmg": 140, "discard_all": True}]},
-    "magneton": {"hp": 80, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Volt Charge", "cost": ["Lightning", "Colorless"], "dmg": 40}]},
-    "electrode": {"hp": 90, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Electro Ball", "cost": ["Lightning", "Colorless"], "dmg": 70}]},
-    "blitzle": {"hp": 60, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Quick Attack", "cost": ["Lightning"], "dmg": 10, "coin_flip_plus": 10}]},
-    "zebstrika": {"hp": 100, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Thunder", "cost": ["Lightning", "Colorless"], "dmg": 30}]},
-    "pincurchin": {"hp": 70, "energy_type": "lightning", "retreat": 2, "attacks": [{"name": "Peck", "cost": ["Lightning"], "dmg": 10}]},
-    "electabuzz": {"hp": 70, "energy_type": "lightning", "retreat": 2, "attacks": [{"name": "Thunder Punch", "cost": ["Lightning", "Colorless"], "dmg": 30}]},
-
-    # Psychic
-    "mewtwo ex": {"hp": 150, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psychic Sphere", "cost": ["Psychic", "Colorless"], "dmg": 50}, {"name": "Psydrive", "cost": ["Psychic", "Psychic", "Colorless", "Colorless"], "dmg": 150, "discard": 2}]},
-    "gardevoir": {"hp": 110, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psyshot", "cost": ["Psychic", "Psychic", "Colorless"], "dmg": 60}], "ability": "Psy Shadow"},
-    "kirlia": {"hp": 80, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Smack", "cost": ["Psychic", "Colorless"], "dmg": 30}]},
-    "ralts": {"hp": 60, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Smack", "cost": ["Psychic"], "dmg": 10}]},
-    "gengar ex": {"hp": 170, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Spooky Shot", "cost": ["Psychic", "Psychic", "Psychic"], "dmg": 100}]},
-    "gastly": {"hp": 60, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Gas", "cost": ["Psychic"], "dmg": 10}]},
-    "haunter": {"hp": 80, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Spooky Shot", "cost": ["Psychic", "Colorless"], "dmg": 30}]},
-    "gengar": {"hp": 130, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Poltergeist", "cost": ["Psychic", "Psychic"], "dmg": 50}]},
-    "abra": {"hp": 60, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Psyshot", "cost": ["Psychic"], "dmg": 10}]},
-    "kadabra": {"hp": 80, "energy_type": "psychic", "retreat": 1, "attacks": [{"name": "Psyshot", "cost": ["Psychic", "Colorless"], "dmg": 30}]},
-    "alakazam": {"hp": 130, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psychic", "cost": ["Psychic", "Psychic", "Colorless"], "dmg": 60, "plus_opp_energy": 30}]},
-    "jynx": {"hp": 70, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psychic", "cost": ["Psychic", "Colorless"], "dmg": 30}]},
-    "mr. mime": {"hp": 80, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psychic", "cost": ["Psychic", "Colorless"], "dmg": 30}]},
-    "mew ex": {"hp": 130, "energy_type": "psychic", "retreat": 0, "attacks": [{"name": "Genome Hacking", "cost": ["Colorless", "Colorless", "Colorless"], "dmg": 0}]},
-
-    # Water
-    "starmie ex": {"hp": 130, "energy_type": "water", "retreat": 0, "attacks": [{"name": "Hydro Splash", "cost": ["Water", "Water"], "dmg": 90}]},
-    "staryu": {"hp": 50, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Water Gun", "cost": ["Water"], "dmg": 20}]},
-    "articuno ex": {"hp": 140, "energy_type": "water", "retreat": 2, "attacks": [{"name": "Ice Wing", "cost": ["Water", "Colorless"], "dmg": 40}, {"name": "Blizzard", "cost": ["Water", "Water", "Water"], "dmg": 80, "bench_dmg": 10}]},
-    "articuno": {"hp": 100, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Gust", "cost": ["Water"], "dmg": 20}, {"name": "Blizzard", "cost": ["Water", "Water", "Water"], "dmg": 80, "coin_flip_paralyze": True}]},
-    "blastoise ex": {"hp": 180, "energy_type": "water", "retreat": 3, "attacks": [{"name": "Surf", "cost": ["Water", "Colorless"], "dmg": 40}, {"name": "Hydro Bazooka", "cost": ["Water", "Water", "Colorless"], "dmg": 100, "extra_energy_dmg": 60}]},
-    "squirtle": {"hp": 60, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Bubble", "cost": ["Water"], "dmg": 10}]},
-    "wartortle": {"hp": 90, "energy_type": "water", "retreat": 2, "attacks": [{"name": "Water Gun", "cost": ["Water", "Colorless"], "dmg": 30}]},
-    "greninja": {"hp": 120, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Mist Slash", "cost": ["Water", "Colorless"], "dmg": 60}], "ability": "Water Shuriken"},
-    "frogadier": {"hp": 80, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Water Pulse", "cost": ["Water"], "dmg": 20}]},
-    "froakie": {"hp": 60, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Bubble", "cost": ["Water"], "dmg": 10}]},
-    "psyduck": {"hp": 70, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Headache", "cost": ["Water"], "dmg": 20, "disable_trainers": True}]},
-    "golduck": {"hp": 100, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Scratch", "cost": ["Water", "Colorless"], "dmg": 40}]},
-    "poliwag": {"hp": 60, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Bubble", "cost": ["Water"], "dmg": 10}]},
-    "suicune ex": {"hp": 140, "energy_type": "water", "retreat": 2, "attacks": [{"name": "Aurora Beam", "cost": ["Water", "Colorless", "Colorless"], "dmg": 100}]},
-
-    # Fire
-    "charizard ex": {"hp": 180, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Slash", "cost": ["Fire", "Colorless"], "dmg": 60}, {"name": "Crimson Storm", "cost": ["Fire", "Fire", "Colorless", "Colorless"], "dmg": 200, "discard": 2}]},
-    "charmander": {"hp": 60, "energy_type": "fire", "retreat": 1, "attacks": [{"name": "Scratch", "cost": ["Fire"], "dmg": 10}]},
-    "charmeleon": {"hp": 90, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Flame Tail", "cost": ["Fire", "Colorless"], "dmg": 30}]},
-    "moltres ex": {"hp": 140, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Inferno Dance", "cost": ["Fire"], "dmg": 0, "effect": "accelerate"}, {"name": "Heat Blast", "cost": ["Fire", "Colorless", "Colorless"], "dmg": 70}]},
-    "moltres": {"hp": 100, "energy_type": "fire", "retreat": 1, "attacks": [{"name": "Assisted Heater", "cost": ["Fire"], "dmg": 20}]},
-    "arcanine ex": {"hp": 190, "energy_type": "fire", "retreat": 3, "attacks": [{"name": "Flamethrower", "cost": ["Fire", "Fire", "Colorless"], "dmg": 120}]},
-    "growlithe": {"hp": 70, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Roar", "cost": ["Colorless"], "dmg": 0}]},
-    "ponyta": {"hp": 60, "energy_type": "fire", "retreat": 1, "attacks": [{"name": "Ember", "cost": ["Fire"], "dmg": 20}]},
-    "rapidash": {"hp": 90, "energy_type": "fire", "retreat": 0, "attacks": [{"name": "Fire Spin", "cost": ["Fire", "Colorless"], "dmg": 40}]},
-    "vulpix": {"hp": 60, "energy_type": "fire", "retreat": 1, "attacks": [{"name": "Ember", "cost": ["Fire"], "dmg": 20}]},
-    "ninetales": {"hp": 90, "energy_type": "fire", "retreat": 1, "attacks": [{"name": "Flamethrower", "cost": ["Fire", "Colorless", "Colorless"], "dmg": 90, "discard": 1}]},
-    "magmar": {"hp": 80, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Fire Punch", "cost": ["Fire", "Colorless"], "dmg": 30}]},
-
-    # Grass
-    "venusaur ex": {"hp": 190, "energy_type": "grass", "retreat": 3, "attacks": [{"name": "Razor Leaf", "cost": ["Grass", "Colorless", "Colorless"], "dmg": 60}, {"name": "Giant Bloom", "cost": ["Grass", "Grass", "Colorless", "Colorless"], "dmg": 100, "heal": 30}]},
-    "bulbasaur": {"hp": 70, "energy_type": "grass", "retreat": 2, "attacks": [{"name": "Vine Whip", "cost": ["Grass", "Colorless"], "dmg": 30}]},
-    "ivysaur": {"hp": 100, "energy_type": "grass", "retreat": 3, "attacks": [{"name": "Vine Whip", "cost": ["Grass", "Colorless", "Colorless"], "dmg": 50}]},
-    "exeggutor ex": {"hp": 160, "energy_type": "grass", "retreat": 3, "attacks": [{"name": "Tropical Swing", "cost": ["Grass", "Colorless"], "dmg": 40, "coin_flip_plus": 40}]},
-    "exeggcute": {"hp": 50, "energy_type": "grass", "retreat": 1, "attacks": [{"name": "Hypnosis", "cost": ["Grass"], "dmg": 10}]},
-    "caterpie": {"hp": 50, "energy_type": "grass", "retreat": 1, "attacks": [{"name": "Bug Bite", "cost": ["Grass"], "dmg": 10}]},
-    "metapod": {"hp": 70, "energy_type": "grass", "retreat": 2, "attacks": [{"name": "Harden", "cost": ["Grass"], "dmg": 0}]},
-    "butterfree": {"hp": 100, "energy_type": "grass", "retreat": 1, "attacks": [{"name": "Gust", "cost": ["Grass", "Colorless"], "dmg": 40}]},
-    "weedle": {"hp": 50, "energy_type": "grass", "retreat": 1, "attacks": [{"name": "Poison Sting", "cost": ["Grass"], "dmg": 10}]},
-    "kakuna": {"hp": 70, "energy_type": "grass", "retreat": 2, "attacks": [{"name": "Stiffen", "cost": ["Grass"], "dmg": 0}]},
-    "beedrill": {"hp": 100, "energy_type": "grass", "retreat": 1, "attacks": [{"name": "Pin Missile", "cost": ["Grass", "Colorless"], "dmg": 30, "coin_flips": 3}]},
-    "scyther": {"hp": 70, "energy_type": "grass", "retreat": 0, "attacks": [{"name": "Slash", "cost": ["Colorless"], "dmg": 10}]},
-    "pinsir": {"hp": 80, "energy_type": "grass", "retreat": 2, "attacks": [{"name": "Vice Grip", "cost": ["Grass", "Colorless"], "dmg": 40}]},
-
-    # Fighting
-    "machamp ex": {"hp": 180, "energy_type": "fighting", "retreat": 3, "attacks": [{"name": "Mega Punch", "cost": ["Fighting", "Fighting", "Fighting"], "dmg": 120}]},
-    "machop": {"hp": 70, "energy_type": "fighting", "retreat": 2, "attacks": [{"name": "Low Kick", "cost": ["Fighting"], "dmg": 20}]},
-    "machoke": {"hp": 100, "energy_type": "fighting", "retreat": 3, "attacks": [{"name": "Karate Chop", "cost": ["Fighting", "Fighting"], "dmg": 40}]},
-    "marowak ex": {"hp": 140, "energy_type": "fighting", "retreat": 1, "attacks": [{"name": "Bonemerang", "cost": ["Fighting", "Fighting"], "dmg": 80, "coin_flips": 2}]},
-    "cubone": {"hp": 60, "energy_type": "fighting", "retreat": 1, "attacks": [{"name": "Bone Club", "cost": ["Fighting"], "dmg": 20}]},
-    "hitmonlee": {"hp": 80, "energy_type": "fighting", "retreat": 1, "attacks": [{"name": "Rolling Kick", "cost": ["Fighting"], "dmg": 30}]},
-    "hitmonchan": {"hp": 90, "energy_type": "fighting", "retreat": 2, "attacks": [{"name": "Jab", "cost": ["Fighting"], "dmg": 20}]},
-    "kabutops": {"hp": 140, "energy_type": "fighting", "retreat": 1, "attacks": [{"name": "Slash", "cost": ["Fighting"], "dmg": 50}]},
-    "kabuto": {"hp": 80, "energy_type": "fighting", "retreat": 1, "attacks": [{"name": "Scratch", "cost": ["Fighting"], "dmg": 20}]},
-    "geodude": {"hp": 70, "energy_type": "fighting", "retreat": 2, "attacks": [{"name": "Rock Throw", "cost": ["Fighting"], "dmg": 20}]},
-    "graveler": {"hp": 100, "energy_type": "fighting", "retreat": 3, "attacks": [{"name": "Rock Slide", "cost": ["Fighting", "Fighting"], "dmg": 40}]},
-    "golem": {"hp": 160, "energy_type": "fighting", "retreat": 4, "attacks": [{"name": "Rock Blast", "cost": ["Fighting", "Fighting", "Fighting", "Colorless"], "dmg": 100}]},
-    "onix": {"hp": 110, "energy_type": "fighting", "retreat": 4, "attacks": [{"name": "Bind", "cost": ["Fighting", "Colorless"], "dmg": 30}]},
-    "rhyhorn": {"hp": 80, "energy_type": "fighting", "retreat": 3, "attacks": [{"name": "Horn Attack", "cost": ["Fighting", "Colorless"], "dmg": 30}]},
-    "rhydon": {"hp": 110, "energy_type": "fighting", "retreat": 4, "attacks": [{"name": "Horn Drill", "cost": ["Fighting", "Fighting", "Colorless"], "dmg": 60}]},
-
-    # Darkness
-    "weavile": {"hp": 90, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Slash", "cost": ["Darkness"], "dmg": 30}]},
-    "sneasel": {"hp": 60, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Scratch", "cost": ["Darkness"], "dmg": 10}]},
-    "muk": {"hp": 120, "energy_type": "darkness", "retreat": 3, "attacks": [{"name": "Sludge Bomb", "cost": ["Darkness", "Colorless", "Colorless"], "dmg": 70}]},
-    "grimer": {"hp": 70, "energy_type": "darkness", "retreat": 2, "attacks": [{"name": "Pound", "cost": ["Darkness"], "dmg": 20}]},
-    "koffing": {"hp": 60, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Smog", "cost": ["Darkness"], "dmg": 10}]},
-    "weezing": {"hp": 100, "energy_type": "darkness", "retreat": 2, "attacks": [{"name": "Sludge", "cost": ["Darkness", "Colorless"], "dmg": 30}]},
-    "arbok": {"hp": 100, "energy_type": "darkness", "retreat": 2, "attacks": [{"name": "Corner", "cost": ["Darkness", "Colorless"], "dmg": 60}]},
-    "ekans": {"hp": 60, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Spit Poison", "cost": ["Darkness"], "dmg": 10}]},
-    "nidoran": {"hp": 60, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Horn Hazard", "cost": ["Darkness"], "dmg": 20}]},
-    "nidorina": {"hp": 90, "energy_type": "darkness", "retreat": 2, "attacks": [{"name": "Bite", "cost": ["Darkness", "Colorless"], "dmg": 30}]},
-    "nidoqueen": {"hp": 150, "energy_type": "darkness", "retreat": 3, "attacks": [{"name": "Queen Press", "cost": ["Darkness", "Colorless", "Colorless"], "dmg": 90}]},
-    "nidorino": {"hp": 90, "energy_type": "darkness", "retreat": 2, "attacks": [{"name": "Horn Drill", "cost": ["Darkness", "Colorless"], "dmg": 30}]},
-    "nidoking": {"hp": 150, "energy_type": "darkness", "retreat": 3, "attacks": [{"name": "Venomous Horn", "cost": ["Darkness", "Colorless", "Colorless"], "dmg": 90}]},
-    "zubat": {"hp": 50, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Supersonic", "cost": ["Darkness"], "dmg": 10}]},
-    "golbat": {"hp": 80, "energy_type": "darkness", "retreat": 1, "attacks": [{"name": "Leech Life", "cost": ["Darkness"], "dmg": 20}]},
-
-    # Metal
-    "melmetal": {"hp": 130, "energy_type": "metal", "retreat": 3, "attacks": [{"name": "Heavy Impact", "cost": ["Metal", "Colorless", "Colorless"], "dmg": 80}]},
-    "meltan": {"hp": 60, "energy_type": "metal", "retreat": 1, "attacks": [{"name": "Headbutt", "cost": ["Metal"], "dmg": 20}]},
-    "mawile": {"hp": 70, "energy_type": "metal", "retreat": 1, "attacks": [{"name": "Crunch", "cost": ["Metal", "Colorless"], "dmg": 30}]},
-
-    # Dragon
-    "dragonite": {"hp": 160, "energy_type": "dragon", "retreat": 3, "attacks": [{"name": "Draco Meteor", "cost": ["Water", "Lightning", "Colorless", "Colorless"], "dmg": 50, "random_target": 4}]},
-    "dragonair": {"hp": 100, "energy_type": "dragon", "retreat": 2, "attacks": [{"name": "Twister", "cost": ["Water", "Lightning"], "dmg": 40}]},
-    "dratini": {"hp": 60, "energy_type": "dragon", "retreat": 1, "attacks": [{"name": "Wrap", "cost": ["Water"], "dmg": 10}]},
-
-    # Colorless
-    "wigglytuff ex": {"hp": 140, "energy_type": "colorless", "retreat": 2, "attacks": [{"name": "Sleepy Song", "cost": ["Colorless", "Colorless", "Colorless"], "dmg": 80, "status": "Sleep"}]},
-    "jigglypuff": {"hp": 60, "energy_type": "colorless", "retreat": 1, "attacks": [{"name": "Pound", "cost": ["Colorless"], "dmg": 20}]},
-    "kangaskhan": {"hp": 100, "retreat": 3, "energy_type": "colorless", "attacks": [{"name": "Comet Punch", "cost": ["Colorless"], "dmg": 20, "coin_flip_plus": 20}]},
-    "farfetch'd": {"hp": 60, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Leek Slap", "cost": ["Colorless"], "dmg": 30}]},
-    "tauros": {"hp": 100, "retreat": 2, "energy_type": "colorless", "attacks": [{"name": "Horn Attack", "cost": ["Colorless", "Colorless"], "dmg": 30}]},
-    "snorlax": {"hp": 150, "retreat": 4, "energy_type": "colorless", "attacks": [{"name": "Body Slam", "cost": ["Colorless", "Colorless", "Colorless", "Colorless"], "dmg": 80}]},
-    "eevee": {"hp": 50, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Tackle", "cost": ["Colorless"], "dmg": 10}]},
-    "pidgey": {"hp": 50, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Gust", "cost": ["Colorless"], "dmg": 10}]},
-    "pidgeotto": {"hp": 70, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Wing Attack", "cost": ["Colorless", "Colorless"], "dmg": 30}]},
-    "pidgeot": {"hp": 130, "retreat": 0, "energy_type": "colorless", "attacks": [{"name": "Hurricane", "cost": ["Colorless", "Colorless", "Colorless"], "dmg": 70}]},
-    "rattata": {"hp": 40, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Bite", "cost": ["Colorless"], "dmg": 20}]},
-    "raticate": {"hp": 80, "retreat": 0, "energy_type": "colorless", "attacks": [{"name": "Hyper Fang", "cost": ["Colorless"], "dmg": 50}]},
-    "spearow": {"hp": 50, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Peck", "cost": ["Colorless"], "dmg": 10}]},
-    "fearow": {"hp": 80, "retreat": 0, "energy_type": "colorless", "attacks": [{"name": "Drill Peck", "cost": ["Colorless", "Colorless"], "dmg": 40}]},
-    "meowth": {"hp": 60, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Pay Day", "cost": ["Colorless"], "dmg": 10}]},
-    "persian": {"hp": 80, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Slash", "cost": ["Colorless", "Colorless"], "dmg": 30}]},
-    "lickitung": {"hp": 90, "retreat": 3, "energy_type": "colorless", "attacks": [{"name": "Tongue Slap", "cost": ["Colorless", "Colorless"], "dmg": 30}]},
-    "chansey": {"hp": 120, "retreat": 2, "energy_type": "colorless", "attacks": [{"name": "Double-Edge", "cost": ["Colorless", "Colorless", "Colorless"], "dmg": 60}]},
-    "ditto": {"hp": 60, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Transform", "cost": ["Colorless"], "dmg": 0}]},
-    "porygon": {"hp": 60, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Sharpen", "cost": ["Colorless"], "dmg": 20}]},
-    "aerodactyl": {"hp": 100, "retreat": 1, "energy_type": "colorless", "attacks": [{"name": "Wing Attack", "cost": ["Colorless", "Colorless"], "dmg": 30}]},
+# --- TARGETED DB UPDATE ---
+    "absol": {'hp': 80, 'energy_type': 'Darkness', 'retreat': 1, 'attacks': [{'cost': ['Darkness', 'Colorless'], 'dmg': 20, 'text': "If your opponent's Active Pokémon is affected by a Special Condition, this attack does 60 more damage.", 'scaling': True}]},
+    "aerodactyl ex": {'hp': 140, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting', 'Colorless'], 'dmg': 80, 'text': None}]},
+    "alolan dugtrio ex": {'hp': 130, 'energy_type': 'Metal', 'retreat': 1, 'attacks': [{'cost': ['Metal', 'Colorless'], 'dmg': 60, 'text': 'Flip 3 coins. This attack does 60 damage for each heads.', 'coin_flips': 3}]},
+    "alolan exeggutor": {'hp': 150, 'energy_type': 'Grass', 'retreat': 4, 'attacks': [{'cost': ['Grass', 'Colorless', 'Colorless'], 'dmg': 150, 'text': 'Flip a coin. If tails, this attack does nothing.', 'coin_flips': 1}]},
+    "alolan muk ex": {'hp': 160, 'energy_type': 'Darkness', 'retreat': 3, 'attacks': [{'cost': ['Darkness', 'Darkness', 'Colorless'], 'dmg': 80, 'text': "1 Special Condition from among Asleep, Burned, Confused, Paralyzed, and Poisoned is chosen at random, and your opponent's Active Pokémon is now affected by that Special Condition. Any Special Conditions already affecting that Pokémon will not be chosen."}]},
+    "alolan ninetales ex": {'hp': 150, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Water'], 'dmg': 80, 'text': "During your opponent's next turn, they can't take any Energy from their Energy Zone to attach to their Active Pokémon."}]},
+    "alolan raichu ex": {'hp': 140, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 60, 'text': "This attack does 30 more damage for each Energy attached to your opponent's Active Pokémon.", 'scaling': True}]},
+    "altaria": {'hp': 120, 'energy_type': 'Dragon', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless'], 'dmg': 40, 'text': 'If this Pokémon has 2 or more different types of Energy attached, this attack does 60 more damage.', 'scaling': True}]},
+    "arcanine ex": {'hp': 150, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire', 'Colorless'], 'dmg': 120, 'text': 'This Pokémon also does 20 damage to itself.'}]},
+    "arceus ex": {'hp': 140, 'energy_type': 'Colorless', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 70, 'text': 'This attack does 20 more damage for each of your Benched Pokémon.', 'scaling': True}]},
+    "articuno ex": {'hp': 140, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Colorless'], 'dmg': 40, 'text': None}, {'cost': ['Water', 'Water', 'Water'], 'dmg': 80, 'text': "This attack also does 10 damage to each of your opponent's Benched Pokémon."}]},
+    "banette": {'hp': 90, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic'], 'dmg': 30, 'text': "During your opponent's next turn, they can't take any Energy from their Energy Zone to attach to their Active Pokémon."}]},
+    "beedrill ex": {'hp': 170, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Grass'], 'dmg': 80, 'text': "Discard a random Energy from your opponent's Active Pokémon.", 'discard': True}]},
+    "bibarel ex": {'hp': 160, 'energy_type': 'Colorless', 'retreat': 3, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless', 'Colorless'], 'dmg': 100, 'text': 'Heal 30 damage from this Pokémon.'}]},
+    "blacephalon ex": {'hp': 140, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire'], 'dmg': 0, 'text': "Your opponent's Active Pokémon is now Burned."}, {'cost': ['Fire', 'Fire', 'Fire'], 'dmg': 140, 'text': 'Discard 3 [R] Energy from this Pokémon.', 'discard': True}]},
+    "blastoise ex": {'hp': 180, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Colorless'], 'dmg': 40, 'text': None}, {'cost': ['Water', 'Water', 'Colorless'], 'dmg': 100, 'text': 'If this Pokémon has at least 2 extra [W] Energy attached, this attack does 60 more damage.', 'scaling': True}]},
+    "blissey ex": {'hp': 180, 'energy_type': 'Colorless', 'retreat': 3, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless', 'Colorless'], 'dmg': 100, 'text': 'Flip a coin. If heads, heal 60 damage from this Pokémon.', 'coin_flips': 1}]},
+    "buzzwole ex": {'hp': 140, 'energy_type': 'Grass', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless'], 'dmg': 30, 'text': None}, {'cost': ['Grass', 'Grass', 'Colorless'], 'dmg': 120, 'text': "During your next turn, this Pokémon can't use Big Beat."}]},
+    "celebi ex": {'hp': 130, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Colorless'], 'dmg': 50, 'text': 'Flip a coin for each Energy attached to this Pokémon. This attack does 50 damage for each heads.', 'coin_flips': 1}]},
+    "charizard ex": {'hp': 180, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Colorless', 'Colorless'], 'dmg': 60, 'text': None}, {'cost': ['Fire', 'Fire', 'Colorless', 'Colorless'], 'dmg': 200, 'text': 'Discard 2 [R] Energy from this Pokémon.', 'discard': True}]},
+    "chesnaught": {'hp': 160, 'energy_type': 'Grass', 'retreat': 3, 'attacks': [{'cost': ['Grass', 'Grass', 'Colorless', 'Colorless'], 'dmg': 80, 'text': "During your opponent's next turn, if this Pokémon is damaged by an attack, do 80 damage to the Attacking Pokémon."}]},
+    "cinderace": {'hp': 130, 'energy_type': 'Fire', 'retreat': 0, 'attacks': [{'cost': ['Fire', 'Fire'], 'dmg': 120, 'text': "During your next turn, this Pokémon can't attack."}]},
+    "cornerstone mask ogerpon": {'hp': 80, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting', 'Colorless'], 'dmg': 40, 'text': "Flip a coin. If heads, during your opponent's next turn, this Pokémon takes -100 damage from attacks.", 'coin_flips': 1}]},
+    "crabominable ex": {'hp': 160, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water'], 'dmg': 40, 'text': "During your next turn, this Pokémon's Insatiable Striking attack does +40 damage."}]},
+    "cresselia ex": {'hp': 140, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic', 'Psychic', 'Colorless'], 'dmg': 80, 'text': None}]},
+    "crobat ex": {'hp': 170, 'energy_type': 'Darkness', 'retreat': 1, 'attacks': [{'cost': ['Darkness'], 'dmg': 70, 'text': "Your opponent's Active Pokémon is now Poisoned."}]},
+    "darkrai": {'hp': 120, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness', 'Darkness', 'Colorless'], 'dmg': 70, 'text': "During your opponent's next turn, the Defending Pokémon can't retreat."}]},
+    "darkrai ex": {'hp': 140, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness', 'Darkness', 'Colorless'], 'dmg': 80, 'text': None}]},
+    "decidueye": {'hp': 130, 'energy_type': 'Grass', 'retreat': 2, 'attacks': [{'cost': ['Grass', 'Grass'], 'dmg': 0, 'text': "This attack does 70 damage to 1 of your opponent's Pokémon."}]},
+    "decidueye ex": {'hp': 170, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Colorless', 'Colorless'], 'dmg': 0, 'text': "This attack does 100 damage to 1 of your opponent's Pokémon that have damage on them."}, {'cost': ['Grass', 'Grass'], 'dmg': 80, 'text': None}]},
+    "dhelmise ex": {'hp': 140, 'energy_type': 'Grass', 'retreat': 2, 'attacks': [{'cost': ['Grass', 'Grass', 'Colorless'], 'dmg': 80, 'text': "During your opponent's next turn, the Defending Pokémon can't retreat."}]},
+    "dialga ex": {'hp': 150, 'energy_type': 'Metal', 'retreat': 2, 'attacks': [{'cost': ['Metal', 'Metal'], 'dmg': 30, 'text': 'Take 2 [M] Energy from your Energy Zone and attach it to 1 of your Benched Pokémon.'}, {'cost': ['Metal', 'Metal', 'Colorless', 'Colorless'], 'dmg': 100, 'text': None}]},
+    "donphan ex": {'hp': 160, 'energy_type': 'Fighting', 'retreat': 3, 'attacks': [{'cost': ['Fighting'], 'dmg': 50, 'text': 'If this Pokémon has at least 2 extra [F] Energy attached, this attack does 60 more damage.', 'scaling': True}]},
+    "dragalge ex": {'hp': 150, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness', 'Colorless'], 'dmg': 80, 'text': None}]},
+    "dragonite ex": {'hp': 180, 'energy_type': 'Dragon', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Lightning', 'Colorless'], 'dmg': 180, 'text': "During your next turn, this Pokémon can't attack."}]},
+    "eevee ex": {'hp': 90, 'energy_type': 'Colorless', 'retreat': 1, 'attacks': [{'cost': ['Colorless'], 'dmg': 30, 'text': None}]},
+    "entei": {'hp': 110, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Colorless', 'Colorless', 'Colorless'], 'dmg': 110, 'text': 'Flip a coin. If tails, discard 2 random Energy from this Pokémon.', 'coin_flips': 1, 'discard': True}]},
+    "entei ex": {'hp': 140, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire'], 'dmg': 60, 'text': 'If this Pokémon has at least 2 extra [R] Energy attached, this attack does 60 more damage.', 'scaling': True}]},
+    "espeon ex": {'hp': 140, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Psychic'], 'dmg': 80, 'text': None}]},
+    "excadrill": {'hp': 120, 'energy_type': 'Metal', 'retreat': 2, 'attacks': [{'cost': ['Metal', 'Metal', 'Colorless'], 'dmg': 80, 'text': None}]},
+    "exeggcute": {'hp': 60, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Colorless'], 'dmg': 30, 'text': None}]},
+    "exeggutor": {'hp': 130, 'energy_type': 'Grass', 'retreat': 3, 'attacks': [{'cost': ['Grass'], 'dmg': 30, 'text': 'Flip a coin. If heads, this attack does 30 more damage.', 'coin_flips': 1, 'scaling': True}]},
+    "exeggutor ex": {'hp': 160, 'energy_type': 'Grass', 'retreat': 3, 'attacks': [{'cost': ['Grass'], 'dmg': 40, 'text': 'Flip a coin. If heads, this attack does 40 more damage.', 'coin_flips': 1, 'scaling': True}]},
+    "exploud": {'hp': 150, 'energy_type': 'Colorless', 'retreat': 3, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 90, 'text': "During your opponent's next turn, they can't play any Item cards from their hand."}]},
+    "flareon ex": {'hp': 150, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire', 'Colorless'], 'dmg': 130, 'text': 'Discard 2 [R] Energy from this Pokémon.', 'discard': True}]},
+    "frosmoth": {'hp': 90, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Colorless'], 'dmg': 40, 'text': "Your opponent's Active Pokémon is now Asleep."}]},
+    "galarian linoone": {'hp': 80, 'energy_type': 'Darkness', 'retreat': 1, 'attacks': [{'cost': ['Darkness'], 'dmg': 40, 'text': None}]},
+    "galarian obstagoon": {'hp': 150, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness', 'Darkness'], 'dmg': 70, 'text': "If your opponent's Active Pokémon has damage on it, this attack does 50 more damage.", 'scaling': True}]},
+    "galarian rapidash": {'hp': 100, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic'], 'dmg': 40, 'text': 'If you have 5 or more [P] Energy in play, this attack does 60 more damage.', 'scaling': True}]},
+    "galarian zigzagoon": {'hp': 60, 'energy_type': 'Darkness', 'retreat': 1, 'attacks': [{'cost': ['Darkness'], 'dmg': 20, 'text': None}]},
+    "gallade ex": {'hp': 170, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting', 'Fighting'], 'dmg': 70, 'text': "This attack does 20 more damage for each Energy attached to your opponent's Active Pokémon.", 'scaling': True}]},
+    "garchomp ex": {'hp': 170, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting'], 'dmg': 0, 'text': "This attack does 50 damage to 1 of your opponent's Pokémon."}, {'cost': ['Fighting', 'Fighting', 'Colorless'], 'dmg': 100, 'text': None}]},
+    "gengar ex": {'hp': 170, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic', 'Psychic', 'Psychic'], 'dmg': 100, 'text': None}]},
+    "gigalith ex": {'hp': 190, 'energy_type': 'Fighting', 'retreat': 4, 'attacks': [{'cost': ['Fighting', 'Fighting', 'Fighting', 'Fighting'], 'dmg': 0, 'text': "This attack does 140 damage to 1 of your opponent's Pokémon. During your next turn, this Pokémon can't attack."}]},
+    "giratina": {'hp': 120, 'energy_type': 'Psychic', 'retreat': 3, 'attacks': [{'cost': ['Psychic', 'Psychic', 'Colorless'], 'dmg': 70, 'text': None}]},
+    "giratina ex": {'hp': 150, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic', 'Psychic', 'Psychic', 'Colorless'], 'dmg': 130, 'text': 'This Pokémon also does 20 damage to itself.'}]},
+    "glaceon ex": {'hp': 140, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Water', 'Colorless'], 'dmg': 90, 'text': None}]},
+    "gourgeist": {'hp': 110, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic'], 'dmg': 70, 'text': "Discard a card from your hand. If you can't, this attack does nothing."}]},
+    "greninja": {'hp': 120, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Colorless'], 'dmg': 60, 'text': None}]},
+    "greninja ex": {'hp': 170, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Water'], 'dmg': 100, 'text': None}]},
+    "guzzlord": {'hp': 150, 'energy_type': 'Darkness', 'retreat': 4, 'attacks': [{'cost': ['Darkness', 'Darkness', 'Darkness', 'Colorless'], 'dmg': 0, 'text': "Flip a coin. If heads, discard your opponent's Active Pokémon.", 'coin_flips': 1}]},
+    "guzzlord ex": {'hp': 170, 'energy_type': 'Darkness', 'retreat': 4, 'attacks': [{'cost': ['Colorless', 'Colorless'], 'dmg': 30, 'text': "Flip a coin until you get tails. For each heads, discard a random Energy from your opponent's Active Pokémon.", 'coin_flips': 1, 'discard': True}, {'cost': ['Darkness', 'Darkness', 'Darkness', 'Colorless'], 'dmg': 120, 'text': None}]},
+    "gyarados ex": {'hp': 180, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Water', 'Water', 'Colorless'], 'dmg': 140, 'text': "Discard a random Energy from among the Energy attached to all Pokémon (both yours and your opponent's).", 'discard': True}]},
+    "hearthflame mask ogerpon": {'hp': 80, 'energy_type': 'Fire', 'retreat': 1, 'attacks': [{'cost': ['Fire', 'Colorless'], 'dmg': 40, 'text': 'Flip a coin. If heads, take 2 [R] Energy from your Energy Zone and attach it to 1 of your Benched Pokémon.', 'coin_flips': 1}]},
+    "hitmonchan ex": {'hp': 130, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting'], 'dmg': 50, 'text': "This attack's damage isn't affected by Weakness."}]},
+    "ho-oh ex": {'hp': 150, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 80, 'text': 'Take a [R], [W], and [L] Energy from your Energy Zone and attach them to your Benched Basic Pokémon in any way you like.'}]},
+    "hydreigon": {'hp': 150, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness', 'Darkness', 'Darkness'], 'dmg': 130, 'text': 'Discard all Energy from this Pokémon.', 'discard': True}]},
+    "incineroar": {'hp': 150, 'energy_type': 'Fire', 'retreat': 3, 'attacks': [{'cost': ['Fire', 'Fire', 'Colorless'], 'dmg': 100, 'text': 'Flip 2 coins. This attack does 100 damage for each heads.', 'coin_flips': 2}]},
+    "incineroar ex": {'hp': 180, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire'], 'dmg': 30, 'text': "Your opponent's Active Pokémon is now Burned."}, {'cost': ['Fire', 'Fire', 'Colorless'], 'dmg': 80, 'text': 'If this Pokémon has damage on it, this attack does 60 more damage.', 'scaling': True}]},
+    "indeedee": {'hp': 80, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Psychic', 'Psychic'], 'dmg': 0, 'text': "This attack does 70 damage to 1 of your opponent's Benched Pokémon."}]},
+    "indeedee ex": {'hp': 130, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Psychic'], 'dmg': 30, 'text': "This attack does 30 more damage for each Energy attached to your opponent's Active Pokémon.", 'scaling': True}]},
+    "infernape ex": {'hp': 170, 'energy_type': 'Fire', 'retreat': 0, 'attacks': [{'cost': ['Fire', 'Fire'], 'dmg': 140, 'text': 'Discard all [R] Energy from this Pokémon.', 'discard': True}]},
+    "jolteon ex": {'hp': 140, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning', 'Lightning'], 'dmg': 80, 'text': None}]},
+    "jumpluff ex": {'hp': 160, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Colorless'], 'dmg': 70, 'text': 'You may switch this Pokémon with 1 of your Benched Pokémon.'}]},
+    "kingdra ex": {'hp': 170, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Water'], 'dmg': 90, 'text': "During your opponent's next turn, the Defending Pokémon can't retreat."}]},
+    "lanturn ex": {'hp': 150, 'energy_type': 'Lightning', 'retreat': 2, 'attacks': [{'cost': ['Lightning', 'Colorless', 'Colorless'], 'dmg': 80, 'text': "Flip a coin. If heads, your opponent's Active Pokémon is now Paralyzed. If tails, your opponent's Active Pokémon is now Confused.", 'coin_flips': 1}]},
+    "lapras ex": {'hp': 140, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Water', 'Colorless'], 'dmg': 80, 'text': 'Heal 20 damage from this Pokémon.'}]},
+    "larvesta": {'hp': 80, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Colorless'], 'dmg': 30, 'text': None}]},
+    "leafeon ex": {'hp': 140, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Colorless', 'Colorless'], 'dmg': 70, 'text': None}]},
+    "lickilicky ex": {'hp': 160, 'energy_type': 'Colorless', 'retreat': 4, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless', 'Colorless'], 'dmg': 100, 'text': 'Flip a coin until you get tails. This attack does 40 more damage for each heads.', 'coin_flips': 1, 'scaling': True}]},
+    "linoone": {'hp': 100, 'energy_type': 'Colorless', 'retreat': 1, 'attacks': [{'cost': ['Colorless'], 'dmg': 40, 'text': None}]},
+    "lucario ex": {'hp': 150, 'energy_type': 'Fighting', 'retreat': 2, 'attacks': [{'cost': ['Fighting', 'Fighting', 'Fighting'], 'dmg': 100, 'text': "This attack also does 30 damage to 1 of your opponent's Benched Pokémon."}]},
+    "lugia ex": {'hp': 150, 'energy_type': 'Colorless', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Water', 'Lightning'], 'dmg': 180, 'text': 'Discard a [R], [W], and [L] Energy from this Pokémon.', 'discard': True}]},
+    "lunala ex": {'hp': 180, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Colorless', 'Colorless'], 'dmg': 100, 'text': None}]},
+    "lycanroc ex": {'hp': 150, 'energy_type': 'Fighting', 'retreat': 2, 'attacks': [{'cost': ['Fighting', 'Fighting', 'Colorless'], 'dmg': 130, 'text': 'Discard a [F] Energy from this Pokémon.', 'discard': True}]},
+    "machamp ex": {'hp': 180, 'energy_type': 'Fighting', 'retreat': 3, 'attacks': [{'cost': ['Fighting', 'Fighting', 'Fighting'], 'dmg': 120, 'text': None}]},
+    "magnezone": {'hp': 150, 'energy_type': 'Lightning', 'retreat': 2, 'attacks': [{'cost': ['Lightning', 'Colorless', 'Colorless'], 'dmg': 90, 'text': "During your opponent's next turn, if the Defending Pokémon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.", 'coin_flips': 1}]},
+    "marowak ex": {'hp': 140, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting', 'Fighting'], 'dmg': 80, 'text': 'Flip 2 coins. This attack does 80 damage for each heads.', 'coin_flips': 2}]},
+    "mega absol ex": {'hp': 170, 'energy_type': 'Darkness', 'retreat': 1, 'attacks': [{'cost': ['Darkness', 'Darkness'], 'dmg': 80, 'text': 'Your opponent reveals their hand. Choose a Supporter card you find there and discard it.'}]},
+    "mega altaria ex": {'hp': 190, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Psychic'], 'dmg': 40, 'text': 'This attack does 30 more damage for each of your Benched Pokémon.', 'scaling': True}]},
+    "mega ampharos ex": {'hp': 210, 'energy_type': 'Lightning', 'retreat': 2, 'attacks': [{'cost': ['Lightning', 'Lightning', 'Colorless'], 'dmg': 100, 'text': "1 of your opponent's Benched Pokémon is chosen at random 3 times. For each time a Pokémon was chosen, also do 20 damage to it."}]},
+    "mega blastoise ex": {'hp': 230, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Water', 'Colorless'], 'dmg': 130, 'text': "If this Pokémon has at least 3 extra [W] Energy attached, this attack also does 50 damage to 2 of your opponent's Benched Pokémon."}]},
+    "mega blaziken ex": {'hp': 210, 'energy_type': 'Fire', 'retreat': 1, 'attacks': [{'cost': ['Fire', 'Fire'], 'dmg': 120, 'text': "Discard Fire[R] Energy from this Pokémon. Your opponent's Active Pokémon is now Burned.", 'discard': True}]},
+    "mega charizard y ex": {'hp': 220, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire', 'Fire', 'Colorless'], 'dmg': 250, 'text': 'This Pokémon also does 50 damage to itself.'}]},
+    "mega gardevoir ex": {'hp': 210, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Psychic'], 'dmg': 110, 'text': 'Take 3 [P] Energy from your Energy Zone and attach it to your [P] Pokémon in any way you like.'}]},
+    "mega gyarados ex": {'hp': 210, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Water', 'Water', 'Colorless'], 'dmg': 140, 'text': "Discard the top 3 cards of your opponent's deck."}]},
+    "mega kangaskhan ex": {'hp': 180, 'energy_type': 'Colorless', 'retreat': 3, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 80, 'text': "This attack is used twice in a row. The second attack does 40 damage.(If the first attack Knocks Out your opponent's Active Pokémon, the second attack is used after your opponent chooses a new Active Pokémon.)"}]},
+    "mega latios ex": {'hp': 180, 'energy_type': 'Dragon', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Water', 'Psychic'], 'dmg': 160, 'text': 'Discard all Energy from this Pokémon.', 'discard': True}]},
+    "mega lopunny ex": {'hp': 190, 'energy_type': 'Fighting', 'retreat': 1, 'attacks': [{'cost': ['Fighting', 'Fighting'], 'dmg': 90, 'text': "Flip 2 coins. This attack does 90 damage for each heads. Your opponent's Active Pokémon is now Confused.", 'coin_flips': 2}]},
+    "mega mawile ex": {'hp': 170, 'energy_type': 'Metal', 'retreat': 1, 'attacks': [{'cost': ['Metal', 'Colorless'], 'dmg': 60, 'text': "Until this Pokémon leaves the Active Spot, this Pokémon's Heat-Up Crunch attack does +30 damage. This effect stacks."}]},
+    "mega pidgeot ex": {'hp': 210, 'energy_type': 'Colorless', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 100, 'text': "Flip 3 coins. For each heads, discard a random Energy from your opponent's Active Pokémon. If all of them are tails, this attack does nothing.", 'coin_flips': 3, 'discard': True}]},
+    "mega pinsir ex": {'hp': 170, 'energy_type': 'Grass', 'retreat': 2, 'attacks': [{'cost': ['Grass', 'Grass', 'Colorless'], 'dmg': 80, 'text': 'Flip a coin. If heads, this attack does 70 more damage.', 'coin_flips': 1, 'scaling': True}]},
+    "mega steelix ex": {'hp': 220, 'energy_type': 'Metal', 'retreat': 4, 'attacks': [{'cost': ['Metal', 'Metal', 'Colorless', 'Colorless'], 'dmg': 120, 'text': "During your opponent's next turn, this Pokémon takes  damage from attacks and has no Weakness."}]},
+    "mega swampert ex": {'hp': 230, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Water', 'Water'], 'dmg': 150, 'text': "Discard 2 random Energy from among the Energy attached to all Pokémon (both yours and your opponent's).", 'discard': True}]},
+    "mega venusaur ex": {'hp': 240, 'energy_type': 'Grass', 'retreat': 4, 'attacks': [{'cost': ['Grass', 'Grass', 'Colorless', 'Colorless'], 'dmg': 120, 'text': "Your opponent's Active Pokémon is now Poisoned and Asleep."}]},
+    "melmetal ex": {'hp': 170, 'energy_type': 'Metal', 'retreat': 3, 'attacks': [{'cost': ['Metal', 'Metal', 'Colorless'], 'dmg': 80, 'text': None}, {'cost': ['Metal', 'Metal', 'Metal', 'Colorless'], 'dmg': 100, 'text': 'If this Pokémon has a Pokémon Tool attached, this attack does 50 more damage.', 'scaling': True}]},
+    "meowscarada": {'hp': 140, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Grass'], 'dmg': 60, 'text': "If your opponent's Active Pokémon is a Pokémon ex, this attack does 70 more damage.", 'scaling': True}]},
+    "mew ex": {'hp': 130, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic'], 'dmg': 20, 'text': None}, {'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 0, 'text': "Choose 1 of your opponent's Active Pokémon's attacks and use it as this attack."}]},
+    "mewtwo ex": {'hp': 150, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic', 'Colorless'], 'dmg': 50, 'text': None}, {'cost': ['Psychic', 'Psychic', 'Colorless', 'Colorless'], 'dmg': 150, 'text': 'Discard 2 [P] Energy from this Pokémon.', 'discard': True}]},
+    "mimikyu ex": {'hp': 120, 'energy_type': 'Psychic', 'retreat': 2, 'attacks': [{'cost': ['Psychic', 'Psychic'], 'dmg': 70, 'text': None}]},
+    "mismagius ex": {'hp': 140, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Psychic'], 'dmg': 70, 'text': "Your opponent's Active Pokémon is now Confused."}]},
+    "moltres ex": {'hp': 140, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire'], 'dmg': 0, 'text': 'Flip 3 coins. Take an amount of [R] Energy from your Energy Zone equal to the number of heads and attach it to your Benched [R] Pokémon in any way you like.', 'coin_flips': 3}, {'cost': ['Fire', 'Colorless', 'Colorless'], 'dmg': 70, 'text': None}]},
+    "naganadel": {'hp': 100, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness'], 'dmg': 40, 'text': "Your opponent's Active Pokémon is now Poisoned."}]},
+    "oricorio": {'hp': 70, 'energy_type': 'Fire', 'retreat': 1, 'attacks': [{'cost': ['Fire', 'Fire'], 'dmg': 40, 'text': 'Discard a random Energy from both Active Pokémon.', 'discard': True}]},
+    "origin forme dialga": {'hp': 120, 'energy_type': 'Metal', 'retreat': 2, 'attacks': [{'cost': ['Metal', 'Metal', 'Colorless'], 'dmg': 100, 'text': "Flip a coin. If tails, during your next turn, this Pokémon can't attack.", 'coin_flips': 1}]},
+    "origin forme palkia": {'hp': 120, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Water', 'Water'], 'dmg': 60, 'text': 'Flip a coin. If heads, this attack does 60 more damage.', 'coin_flips': 1, 'scaling': True}]},
+    "pachirisu ex": {'hp': 120, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning', 'Lightning'], 'dmg': 40, 'text': 'If this Pokémon has a Pokémon Tool attached, this attack does 40 more damage.', 'scaling': True}]},
+    "paldean clodsire ex": {'hp': 160, 'energy_type': 'Darkness', 'retreat': 3, 'attacks': [{'cost': ['Darkness', 'Darkness'], 'dmg': 60, 'text': "If your opponent's Active Pokémon is Poisoned, this attack does 60 more damage.", 'scaling': True}]},
+    "palkia ex": {'hp': 150, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water'], 'dmg': 30, 'text': None}, {'cost': ['Water', 'Water', 'Water', 'Colorless'], 'dmg': 150, 'text': "Discard 3 [W] Energy from this Pokémon. This attack also does 20 damage to each of your opponent's Benched Pokémon.", 'discard': True}]},
+    "passimian ex": {'hp': 130, 'energy_type': 'Fighting', 'retreat': 2, 'attacks': [{'cost': ['Fighting', 'Colorless'], 'dmg': 60, 'text': None}]},
+    "pidgeot ex": {'hp': 170, 'energy_type': 'Colorless', 'retreat': 1, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 80, 'text': "This attack does 20 more damage for each of your opponent's Benched Pokémon.", 'scaling': True}]},
+    "pikachu ex": {'hp': 120, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning', 'Lightning'], 'dmg': 30, 'text': 'This attack does 30 damage for each of your Benched [L] Pokémon.'}]},
+    "poliwrath ex": {'hp': 180, 'energy_type': 'Fighting', 'retreat': 3, 'attacks': [{'cost': ['Fighting', 'Colorless', 'Colorless'], 'dmg': 100, 'text': 'If this Pokémon has any [W] Energy attached, this attack does 40 more damage.', 'scaling': True}]},
+    "primarina": {'hp': 140, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Colorless'], 'dmg': 60, 'text': None}]},
+    "primarina ex": {'hp': 180, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water'], 'dmg': 40, 'text': 'If this Pokémon has at least 1 extra [W] Energy attached, this attack does 40 more damage.', 'scaling': True}, {'cost': ['Water', 'Water', 'Water'], 'dmg': 100, 'text': 'Heal 20 damage from this Pokémon.'}]},
+    "probopass ex": {'hp': 160, 'energy_type': 'Metal', 'retreat': 3, 'attacks': [{'cost': ['Metal', 'Metal', 'Colorless'], 'dmg': 90, 'text': "During your opponent's next turn, this Pokémon takes -20 damage from attacks."}]},
+    "raichu ex": {'hp': 140, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning', 'Lightning', 'Lightning'], 'dmg': 130, 'text': 'This Pokémon also does 30 damage to itself.'}]},
+    "raikou": {'hp': 90, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning', 'Colorless'], 'dmg': 70, 'text': 'This Pokémon also does 20 damage to itself.'}]},
+    "raikou ex": {'hp': 130, 'energy_type': 'Lightning', 'retreat': 2, 'attacks': [{'cost': ['Lightning', 'Lightning'], 'dmg': 60, 'text': "This attack also does 10 damage to 1 of your opponent's Benched Pokémon."}]},
+    "rapidash": {'hp': 100, 'energy_type': 'Fire', 'retreat': 1, 'attacks': [{'cost': ['Fire'], 'dmg': 40, 'text': None}]},
+    "rapidash ex": {'hp': 150, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire', 'Fire'], 'dmg': 110, 'text': "This attack also does 20 damage to 1 of your opponent's Benched Pokémon."}]},
+    "rayquaza ex": {'hp': 140, 'energy_type': 'Colorless', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless', 'Colorless'], 'dmg': 0, 'text': "1 of your opponent's Pokémon is chosen at random 4 times. For each time a Pokémon was chosen, do 40 damage to it."}]},
+    "reshiram": {'hp': 120, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire', 'Fire'], 'dmg': 110, 'text': 'Discard 2 [R] Energy from this Pokémon.', 'discard': True}]},
+    "rillaboom": {'hp': 150, 'energy_type': 'Grass', 'retreat': 3, 'attacks': [{'cost': ['Grass', 'Grass', 'Grass', 'Colorless'], 'dmg': 120, 'text': None}]},
+    "shuckle ex": {'hp': 120, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass'], 'dmg': 20, 'text': 'Flip 3 coins. This attack does 20 damage for each heads.', 'coin_flips': 3}]},
+    "skarmory ex": {'hp': 140, 'energy_type': 'Metal', 'retreat': 2, 'attacks': [{'cost': ['Metal', 'Metal'], 'dmg': 70, 'text': "During your opponent's next turn, this Pokémon takes -20 damage from attacks."}]},
+    "snom": {'hp': 50, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Colorless'], 'dmg': 10, 'text': None}]},
+    "snorlax ex": {'hp': 160, 'energy_type': 'Colorless', 'retreat': 4, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless', 'Colorless'], 'dmg': 130, 'text': 'This Pokémon is now Asleep.'}]},
+    "solgaleo ex": {'hp': 180, 'energy_type': 'Metal', 'retreat': 2, 'attacks': [{'cost': ['Metal', 'Metal'], 'dmg': 120, 'text': 'This Pokémon also does 10 damage to itself.'}]},
+    "starmie ex": {'hp': 130, 'energy_type': 'Water', 'retreat': 0, 'attacks': [{'cost': ['Water', 'Water'], 'dmg': 90, 'text': None}]},
+    "suicune": {'hp': 100, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Colorless', 'Colorless'], 'dmg': 70, 'text': "During your opponent's next turn, attacks used by the Defending Pokémon do -20 damage."}]},
+    "suicune ex": {'hp': 140, 'energy_type': 'Water', 'retreat': 2, 'attacks': [{'cost': ['Water', 'Water'], 'dmg': 20, 'text': "This attack does 20 damage for each Benched Pokémon (both yours and your opponent's)."}]},
+    "sylveon ex": {'hp': 140, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic', 'Colorless'], 'dmg': 70, 'text': None}]},
+    "tapu bulu": {'hp': 120, 'energy_type': 'Grass', 'retreat': 2, 'attacks': [{'cost': ['Grass', 'Grass', 'Colorless'], 'dmg': 100, 'text': 'Flip a coin. If tails, this Pokémon also does 20 damage to itself.', 'coin_flips': 1}]},
+    "tapu fini": {'hp': 100, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Water', 'Colorless'], 'dmg': 60, 'text': 'Heal 20 damage from this Pokémon.'}]},
+    "tapu koko": {'hp': 100, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning', 'Lightning', 'Lightning'], 'dmg': 70, 'text': 'Switch this Pokémon with 1 of your Benched [L] Pokémon.'}]},
+    "tapu koko ex": {'hp': 130, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning'], 'dmg': 20, 'text': 'Take a [L] Energy from your Energy Zone and attach it to this Pokémon.'}, {'cost': ['Lightning', 'Lightning', 'Colorless'], 'dmg': 90, 'text': None}]},
+    "tapu lele": {'hp': 90, 'energy_type': 'Psychic', 'retreat': 1, 'attacks': [{'cost': ['Psychic'], 'dmg': 0, 'text': "This attack does 20 damage to 1 of your opponent's Pokémon for each Energy attached to that Pokémon."}]},
+    "tauros ex": {'hp': 140, 'energy_type': 'Colorless', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless'], 'dmg': 90, 'text': 'Flip a coin. If tails, this Pokémon also does 30 damage to itself.', 'coin_flips': 1}]},
+    "teal mask ogerpon ex": {'hp': 130, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Grass'], 'dmg': 60, 'text': 'If the amount of Energy attached to both Active Pokémon is 5 or more, this attack does 60 more damage.', 'scaling': True}]},
+    "tinkaton ex": {'hp': 170, 'energy_type': 'Metal', 'retreat': 2, 'attacks': [{'cost': ['Metal', 'Metal', 'Colorless'], 'dmg': 80, 'text': 'Flip a coin. If heads, this attack does 80 more damage.', 'coin_flips': 1, 'scaling': True}]},
+    "toxapex": {'hp': 110, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness'], 'dmg': 20, 'text': 'Flip 4 coins. This attack does 20 damage for each heads.', 'coin_flips': 4}]},
+    "toxtricity ex": {'hp': 150, 'energy_type': 'Lightning', 'retreat': 2, 'attacks': [{'cost': ['Lightning', 'Lightning', 'Colorless'], 'dmg': 90, 'text': "This attack also does 30 damage to each of your opponent's Benched Pokémon that has damage on it."}]},
+    "ultra necrozma ex": {'hp': 150, 'energy_type': 'Dragon', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 60, 'text': None}, {'cost': ['Psychic', 'Psychic', 'Metal', 'Metal'], 'dmg': 120, 'text': "Discard the top 5 cards of each player's deck."}]},
+    "umbreon ex": {'hp': 140, 'energy_type': 'Darkness', 'retreat': 2, 'attacks': [{'cost': ['Darkness', 'Darkness'], 'dmg': 80, 'text': None}]},
+    "venusaur ex": {'hp': 190, 'energy_type': 'Grass', 'retreat': 3, 'attacks': [{'cost': ['Grass', 'Colorless', 'Colorless'], 'dmg': 60, 'text': None}, {'cost': ['Grass', 'Grass', 'Colorless', 'Colorless'], 'dmg': 100, 'text': 'Heal 30 damage from this Pokémon.'}]},
+    "volcarona": {'hp': 120, 'energy_type': 'Fire', 'retreat': 2, 'attacks': [{'cost': ['Fire', 'Fire', 'Colorless'], 'dmg': 0, 'text': "Discard 2 [R] Energy from this Pokémon. This attack does 80 damage to 1 of your opponent's Pokémon.", 'discard': True}]},
+    "weavile ex": {'hp': 140, 'energy_type': 'Darkness', 'retreat': 1, 'attacks': [{'cost': ['Darkness'], 'dmg': 30, 'text': "If your opponent's Active Pokémon has damage on it, this attack does 40 more damage.", 'scaling': True}]},
+    "weezing": {'hp': 110, 'energy_type': 'Darkness', 'retreat': 3, 'attacks': [{'cost': ['Darkness'], 'dmg': 30, 'text': None}]},
+    "wellspring mask ogerpon": {'hp': 80, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Colorless'], 'dmg': 40, 'text': "Flip a coin. If heads, this attack also does 40 damage to 1 of your opponent's Benched Pokémon.", 'coin_flips': 1}]},
+    "whimsicott ex": {'hp': 140, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Grass', 'Colorless'], 'dmg': 40, 'text': "This attack does 30 more damage for each Energy in your opponent's Active Pokémon's Retreat Cost.", 'scaling': True}]},
+    "wigglytuff ex": {'hp': 140, 'energy_type': 'Colorless', 'retreat': 2, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 80, 'text': "Your opponent's Active Pokémon is now Asleep."}]},
+    "wishiwashi ex": {'hp': 170, 'energy_type': 'Water', 'retreat': 3, 'attacks': [{'cost': ['Water', 'Water', 'Water'], 'dmg': 30, 'text': 'This attack does 40 more damage for each of your Benched Wishiwashi and Wishiwashi ex.', 'scaling': True}]},
+    "wugtrio ex": {'hp': 140, 'energy_type': 'Water', 'retreat': 1, 'attacks': [{'cost': ['Water', 'Water', 'Water'], 'dmg': 0, 'text': "1 of your opponent's Pokémon is chosen at random 3 times. For each time a Pokémon was chosen, do 50 damage to it."}]},
+    "yanmega ex": {'hp': 140, 'energy_type': 'Grass', 'retreat': 1, 'attacks': [{'cost': ['Colorless', 'Colorless', 'Colorless'], 'dmg': 120, 'text': 'Discard a random Energy from this Pokémon.', 'discard': True}]},
+    "zapdos ex": {'hp': 130, 'energy_type': 'Lightning', 'retreat': 1, 'attacks': [{'cost': ['Lightning'], 'dmg': 20, 'text': None}, {'cost': ['Lightning', 'Lightning', 'Lightning'], 'dmg': 50, 'text': 'Flip 4 coins. This attack does 50 damage for each heads.', 'coin_flips': 4}]},
+    "zigzagoon": {'hp': 60, 'energy_type': 'Colorless', 'retreat': 1, 'attacks': [{'cost': ['Colorless'], 'dmg': 20, 'text': None}]},
 }
 
 def play(state, game):
@@ -510,10 +539,19 @@ def play(state, game):
             potion = [a for a in acts["play_item"] if "Potion" in a[1]]
             if potion:
                  if my_active_hp > 0 and my_active_hp <= my_active_max_hp - 20: return potion[0][0]
+
+            x_speed = [a for a in acts["play_item"] if "X Speed" in a[1]]
+            if x_speed and my_active_hp <= 70:
+                # Use X Speed if we want to retreat (implied by low HP)
+                return x_speed[0][0]
+
             pokeball = [a for a in acts["play_item"] if "Ball" in a[1]]
             if pokeball and len(my_bench) < 3: return pokeball[0][0]
+
             redcard = [a for a in acts["play_item"] if "Red Card" in a[1]]
             if redcard: return redcard[0][0]
+
+            # Any other item (Pokedex, etc)
             return acts["play_item"][0][0]
 
         if acts["stadium"]: return acts["stadium"][0]
@@ -549,10 +587,21 @@ def play(state, game):
                  if can_replace: return acts["retreat"][0]
 
         if acts["attack"]:
-            best_atk = acts["attack"][0][0]; max_dmg = -1
+            best_atk = acts["attack"][0][0]
+            max_score = -1
+
             for aid, idx in acts["attack"]:
                 d = calculate_damage(my_active, idx, len(my_bench), opp_active_hp)
-                if d > max_dmg: max_dmg = d; best_atk = aid
+
+                # Check effects
+                score = d
+                if "Asleep" in str(CARD_DB.get(my_active_name.lower(), {}).get("attacks", [{}])[idx].get("text", "")): score += 10
+                if "Paralyzed" in str(CARD_DB.get(my_active_name.lower(), {}).get("attacks", [{}])[idx].get("text", "")): score += 20
+                if "Confused" in str(CARD_DB.get(my_active_name.lower(), {}).get("attacks", [{}])[idx].get("text", "")): score += 5
+
+                if score > max_score:
+                    max_score = score
+                    best_atk = aid
             return best_atk
 
         if acts["end"]: return acts["end"][0]

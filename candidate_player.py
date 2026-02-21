@@ -25,7 +25,7 @@ LOCAL_CARD_DB = {
 
 def play(state, game):
     """
-    Advanced Pokemon TCG Pocket Player (v22 - Lethal Retreat)
+    Advanced Pokemon TCG Pocket Player (v23 - Aggressive Tempo)
     """
     legal_actions = game.legal_actions()
     if not legal_actions:
@@ -200,6 +200,7 @@ def play(state, game):
         my_bench_raw = state.get_bench_pokemon(me)
         my_bench = [b for b in my_bench_raw if b is not None]
         my_hand = state.get_hand(me)
+        opp_hand = state.get_hand(opp) # Opponent hand (object ref or list, need to check length)
         opp_active = state.get_active_pokemon(opp)
         opp_bench = [b for b in state.get_bench_pokemon(opp) if b is not None]
 
@@ -379,8 +380,8 @@ def play(state, game):
         if acts["draw"]: return acts["draw"][0]
 
         research = [a for a in acts["play_supporter"] if "Research" in a[1]]
-        if research:
-            if len(my_hand) <= 5: return research[0][0]
+        # Prioritize Research unless hand is very full
+        if research and len(my_hand) < 8: return research[0][0]
 
         # 2. Setup (Place/Evolve)
         if acts["evolve"]: return acts["evolve"][0][0]
@@ -403,25 +404,41 @@ def play(state, game):
         if acts["place_basic"]:
             bench_count = len(my_bench)
             if bench_count < 3:
+                # Detect Synergies (Carry)
+                carry_type = None
+                if my_active:
+                    aname = get_card_name(my_active).lower()
+                    if "pikachu ex" in aname: carry_type = "lightning"
+                    elif "mewtwo ex" in aname: carry_type = "psychic"
+                    elif "starmie ex" in aname: carry_type = "water"
+                    elif "marowak ex" in aname: carry_type = "fighting"
+
+                # Check hand for Carry if not active
+                if not carry_type:
+                    for c in my_hand:
+                        cname = get_card_name(c).lower()
+                        if "pikachu ex" in cname: carry_type = "lightning"; break
+                        if "mewtwo ex" in cname: carry_type = "psychic"; break
+
                 best_bp = None; best_score = -9999
                 for aid, name, _ in acts["place_basic"]:
                     score = 10; n = name.lower()
+                    ctype = get_energy_type(name)
+
+                    # Synergy Boost
+                    if carry_type and ctype == carry_type: score += 100
+                    if "pikachu ex" in n: score += 200 # Always good
                     if "ex" in n: score += 50
-                    if "pikachu" in n: score += 60
+
+                    # Specifics
                     if "ralts" in n: score += 70
                     if "pidgey" in n: score += 60
                     if "articuno" in n or "moltres" in n or "zapdos" in n: score += 50
-                    if "bulbasaur" in n or "charmander" in n or "squirtle" in n: score += 40
 
                     if bench_count == 0: score += 1000
                     if score > best_score: best_score = score; best_bp = aid
 
-                if best_bp:
-                    # Reserve last bench slot for strong pokemon
-                    if bench_count < 2:
-                        return best_bp
-                    elif best_score > 40:
-                        return best_bp
+                if best_bp: return best_bp
 
         # 3. Abilities
         if acts["ability"]:
@@ -439,9 +456,8 @@ def play(state, game):
 
         # 4. Supporters
         if acts["play_supporter"]:
-            research = [a for a in acts["play_supporter"] if "Research" in a[1]]
-            # Prioritize Research if hand is very small
-            if research and len(my_hand) < 4: return research[0][0]
+            # Priority: Research
+            if research and len(my_hand) < 8: return research[0][0]
 
             misty = [a for a in acts["play_supporter"] if "Misty" in a[1]]
             if misty:
@@ -462,13 +478,36 @@ def play(state, game):
 
             sabrina = [a for a in acts["play_supporter"] if "Sabrina" in a[1]]
             if sabrina:
-                # Only use Sabrina if opp active is a threat or stalling
                 opp_energy = len(get_card_energy(opp_active))
                 if opp_energy >= 2 or opp_active_hp >= 100:
                     return sabrina[0][0]
 
+            # Giovanni for Pressure
+            if giovanni and best_attack_dmg > 0:
+                return giovanni[0][0]
+
         # 5. Items
         if acts["play_item"]:
+            # Switch Logic for Tempo (if not lethal)
+            switch_item = None
+            for aid, name, _ in acts["play_item"]:
+                if "Switch" in name or "Escape" in name:
+                    switch_item = aid
+                    break
+
+            if switch_item and best_attack_dmg < 40:
+                current_max_bench_dmg = 0
+                for b in my_bench:
+                    if b:
+                        b_attacks = get_attacks(get_card_name(b))
+                        for idx_atk, _ in enumerate(b_attacks):
+                            if has_enough_energy(b, idx_atk):
+                                d = calculate_damage(b, idx_atk, my_bench, opp_active, len(opp_bench))
+                                if d > current_max_bench_dmg: current_max_bench_dmg = d
+
+                if current_max_bench_dmg > best_attack_dmg + 20:
+                    return switch_item
+
             potion = [a for a in acts["play_item"] if "Potion" in a[1]]
             if potion:
                  if my_active_hp > 0 and my_active_hp <= my_active_max_hp - 20: return potion[0][0]
@@ -480,7 +519,11 @@ def play(state, game):
             if ball: return ball[0][0]
 
             redcard = [a for a in acts["play_item"] if "Red Card" in a[1]]
-            if redcard: return redcard[0][0]
+            if redcard:
+                # Discard opponent hand if they have many cards
+                # Note: state.get_hand(opp) returns list.
+                if len(opp_hand) >= 3:
+                    return redcard[0][0]
 
         # 6. Attach Energy
         if acts["attach_energy"]:
@@ -554,12 +597,6 @@ def play(state, game):
 
             # Better Damage Opportunity
             if best_retreat and max_r_score > 0:
-                 # Check if bench is significantly better
-                 # max_r_score includes 500 offset if charged.
-                 # If active is not charged (best_attack_dmg low), bench will be huge.
-                 pass # Logic handled by score comparison implicitly if we had active score.
-
-                 # Simpler: If active does < 40 damage, and bench does > 60 (approx score)
                  bench_dmg = (max_r_score % 500) / 2 if max_r_score > 500 else 0
                  if best_attack_dmg < 40 and bench_dmg > best_attack_dmg + 20:
                      should_retreat = True

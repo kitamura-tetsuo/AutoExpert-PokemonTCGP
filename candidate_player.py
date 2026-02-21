@@ -440,6 +440,11 @@ def play(state, game):
 
                 if best_bp: return best_bp
 
+        # 2b. Fill Bench (Aggressive)
+        if acts["place_basic"] and len(my_bench) < 3:
+             # Just play whatever is left if we haven't played best_bp yet (or if loop logic fell through)
+             return acts["place_basic"][0][0]
+
         # 3. Abilities
         if acts["ability"]:
             for aid, idx, target in acts["ability"]:
@@ -495,7 +500,8 @@ def play(state, game):
                     switch_item = aid
                     break
 
-            if switch_item and best_attack_dmg < 40:
+            if switch_item:
+                # Calculate max damage possible from bench
                 current_max_bench_dmg = 0
                 for b in my_bench:
                     if b:
@@ -505,8 +511,9 @@ def play(state, game):
                                 d = calculate_damage(b, idx_atk, my_bench, opp_active, len(opp_bench))
                                 if d > current_max_bench_dmg: current_max_bench_dmg = d
 
-                if current_max_bench_dmg > best_attack_dmg + 20:
-                    return switch_item
+                # Switch if bench is significantly better (and active is weak)
+                if current_max_bench_dmg > best_attack_dmg + 20 and best_attack_dmg < 60:
+                     return switch_item
 
             potion = [a for a in acts["play_item"] if "Potion" in a[1]]
             if potion:

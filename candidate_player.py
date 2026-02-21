@@ -7,6 +7,7 @@ def play(state, game):
     """
     Improved Pokemon TCG Pocket Player
     Strategy: Aggressive setup, smart energy management, lethal prioritization.
+    Version: 1.2 (Sacrifice Strategy + Revert Retreat)
     """
     legal_actions = game.legal_actions()
     if not legal_actions:
@@ -17,7 +18,6 @@ def play(state, game):
 
         def get_card_data(card):
             if not card: return None
-            # Handle both PyO3 objects and dicts if necessary (though state returns objects)
             return {
                 "name": getattr(card, "name", ""),
                 "hp": getattr(card, "remaining_hp", 0),
@@ -206,20 +206,33 @@ def play(state, game):
             # Context 1: My Active KO'd -> Choose New Active
             if not my_active or my_active["hp"] == 0:
                 best_cand = acts["activate"][0][0]
-                max_score = -1000
+                max_score = -2000 # Lower base
 
                 for aid, idx in acts["activate"]:
                     if idx >= len(my_bench): continue
                     c = my_bench[idx]
                     if not c: continue
 
-                    score = c["hp"] + (len(c["energy"]) * 50)
-                    if "ex" in c["name"].lower(): score += 100
-                    if "Mewtwo" in c["name"]: score += 50
-                    if "Pikachu" in c["name"]: score += 60
+                    # Logic: Prioritize POWERED UP attackers. If none, prioritize WEAKEST (sacrifice).
+                    score = 0
 
-                    # Penalty for non-attackers
-                    if "Ralts" in c["name"] or "Kirlia" in c["name"]: score -= 200
+                    is_powered = not needs_energy(c, my_bench) and len(c["energy"]) > 0
+                    is_ex = "ex" in c["name"].lower()
+
+                    if is_powered:
+                        score += 500
+                        if is_ex: score += 200
+                        score += c["hp"] # Use HP as tiebreaker for powered
+                    else:
+                        # Sacrifice strategy
+                        if is_ex: score -= 500 # Don't sacrifice EX
+                        else:
+                             score += 100 # Prefer sacrificing non-EX
+                             score -= c["hp"] # Prefer lower HP sacrifice
+
+                    # Tiebreakers
+                    if "Mewtwo" in c["name"]: score += 10
+                    if "Pikachu" in c["name"]: score += 10
 
                     if score > max_score:
                         max_score = score
@@ -372,6 +385,17 @@ def play(state, game):
                      if can_kill_bench:
                          return sabrina[0][0]
 
+            # Giovanni (if close to lethal but not handled in initial check)
+            giovanni = [a for a in acts["play_supporter"] if "Giovanni" in a[1]]
+            if giovanni and opp_active and acts["attack"]:
+                 current_max_dmg = 0
+                 for _, idx in acts["attack"]:
+                     d = calculate_potential_damage(my_active, idx, my_bench, opp_active["hp"])
+                     current_max_dmg = max(current_max_dmg, d)
+
+                 if current_max_dmg < opp_active["hp"] and (current_max_dmg + 10) >= opp_active["hp"]:
+                     return giovanni[0][0]
+
         # 5. Attach Energy
         if acts["attach_energy"]:
             best_attach = None
@@ -392,8 +416,8 @@ def play(state, game):
                     score -= 50 # Over-attaching
 
                 # Specific logic
-                if "Mewtwo ex" in target["name"] and "Psychic" in type_str: score += 10
-                if "Pikachu ex" in target["name"] and "Lightning" in type_str: score += 10
+                if "Mewtwo ex" in target["name"] and "Psychic" in type_str: score += 30 # Priority
+                if "Pikachu ex" in target["name"] and "Lightning" in type_str: score += 30
 
                 if score > max_score:
                     max_score = score
@@ -410,7 +434,7 @@ def play(state, game):
 
         # 7. Retreat
         if acts["retreat"]:
-            if my_active and my_active["hp"] <= 40:
+            if my_active and my_active["hp"] <= 40: # Reverted threshold
                 # Check if we have a replacement
                 has_ready_bench = False
                 for b in my_bench:

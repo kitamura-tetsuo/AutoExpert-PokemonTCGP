@@ -230,8 +230,10 @@ def main():
     wins = [0, 0]
     last_history = []
     
+    draws = 0
     longest_loss = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
     shortest_loss = {"steps": float('inf'), "seed": None, "deck_a": None, "deck_b": None}
+    longest_draw = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
     
     for i in range(args.num_matches):
         seed = args.seed + i
@@ -284,7 +286,10 @@ def main():
                 if steps < shortest_loss["steps"]:
                     shortest_loss = {"steps": steps, "seed": seed, "deck_a": deck_a, "deck_b": deck_b}
         else:
+            draws += 1
             logging.info(f"Match {i+1} ended in a draw/limit after {steps} steps.")
+            if steps > longest_draw["steps"]:
+                longest_draw = {"steps": steps, "seed": seed, "deck_a": deck_a, "deck_b": deck_b}
             
         if i == args.num_matches - 1:
             last_history = history
@@ -295,6 +300,7 @@ def main():
     print("\n--- Battle Results ---")
     print(f"Current (P0) Wins: {wins[0]}")
     print(f"Past (P1) Wins: {wins[1]}")
+    print(f"Draws: {draws}")
     if sum(wins) > 0:
         print(f"Current Win Rate: {wins[0] / sum(wins):.2%}")
 
@@ -304,6 +310,11 @@ def main():
         print(f"  Decks: P0: {longest_loss['deck_a']} vs P1: {longest_loss['deck_b']}")
         print(f"Shortest Loss: {shortest_loss['steps']} steps (Seed: {shortest_loss['seed']})")
         print(f"  Decks: P0: {shortest_loss['deck_a']} vs P1: {shortest_loss['deck_b']}")
+
+    if longest_draw["steps"] != -1:
+        print("\n--- Draw Analysis ---")
+        print(f"Longest Draw: {longest_draw['steps']} steps (Seed: {longest_draw['seed']})")
+        print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
     generate_html(last_history, args.output)

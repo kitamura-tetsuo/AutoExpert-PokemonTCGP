@@ -2,6 +2,7 @@
 import re
 import random
 import logging
+import math
 from db_dump import CARD_DB
 
 # Setup logging

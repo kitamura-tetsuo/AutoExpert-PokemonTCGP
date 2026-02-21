@@ -5,7 +5,10 @@ import logging
 from db_dump import CARD_DB
 
 # Setup logging
-logging.basicConfig(filename='player.log', level=logging.INFO, filemode='w', format='%(asctime)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', handlers=[
+    logging.FileHandler("player.log", mode='w'),
+    logging.StreamHandler()
+])
 
 def play(state, game):
     """
@@ -385,7 +388,7 @@ def play(state, game):
 
                 if score > best_score: best_score = score; best_bp = aid
 
-            if best_bp and (must_place or best_score > 0): return best_bp
+                if best_bp is not None: return best_bp
 
         # 3. Energy Attachment (Before Supporters/Abilities to ensure we use it)
         if acts["attach_energy"]:
@@ -399,8 +402,9 @@ def play(state, game):
                 t_type = get_energy_type(t_name)
                 type_str_lower = type_str.lower()
 
-                # Strict Type Match
-                match = (type_str_lower == t_type) or (t_type == "colorless")
+                # Loose Type Match (e.g. "fire" in "fire energy")
+                match = (t_type in type_str_lower) or (t_type == "colorless")
+
                 if not match: score -= 500
 
                 if needs_energy(target):
@@ -415,7 +419,7 @@ def play(state, game):
 
                 if score > max_score: max_score = score; best_attach = aid
 
-            if best_attach and max_score > 0: return best_attach
+            if best_attach is not None and max_score > 0: return best_attach
 
         # 4. Abilities (Free value)
         if acts["ability"]:
@@ -461,7 +465,7 @@ def play(state, game):
                         else: score = -100
 
                     if score > best_score: best_score = score; best_misty = aid
-                if best_misty and best_score > 0: return best_misty
+                if best_misty is not None and best_score > 0: return best_misty
 
             # Research (Draw)
             research = [a for a in acts["play_supporter"] if "Research" in a[1]]

@@ -294,15 +294,15 @@ def main():
         if i == args.num_matches - 1:
             last_history = history
 
-    total_matches = sum(wins)
+    total_matches = sum(wins) + draws
     win_rate = wins[0] / total_matches if total_matches > 0 else 0
 
     print("\n--- Battle Results ---")
     print(f"Current (P0) Wins: {wins[0]}")
     print(f"Past (P1) Wins: {wins[1]}")
     print(f"Draws: {draws}")
-    if sum(wins) > 0:
-        print(f"Current Win Rate: {wins[0] / sum(wins):.2%}")
+    if total_matches > 0:
+        print(f"Current Win Rate: {wins[0] / total_matches:.2%}")
 
     if wins[1] > 0:
         print("\n--- Loss Analysis (P1 Victory) ---")

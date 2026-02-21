@@ -1,13 +1,54 @@
 
 import re
+import random
 import sys
-import traceback
+import logging
+
+# Setup logging
+logging.basicConfig(filename='player.log', level=logging.INFO, filemode='w', format='%(asctime)s - %(message)s')
+
+# --- Card Database (Simplified & Normalized) ---
+# All keys lowercase
+CARD_DB = {
+    # Extracted from database.json
+    "pikachu ex": {"hp": 120, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Circle Circuit", "cost": ["Lightning", "Lightning"], "dmg": 30, "bench_scale": True}]},
+    "mewtwo ex": {"hp": 150, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psychic Sphere", "cost": ["Psychic", "Colorless"], "dmg": 50}, {"name": "Psydrive", "cost": ["Psychic", "Psychic", "Colorless", "Colorless"], "dmg": 150, "discard": 2}]},
+    "charizard ex": {"hp": 180, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Slash", "cost": ["Fire", "Colorless"], "dmg": 60}, {"name": "Crimson Storm", "cost": ["Fire", "Fire", "Colorless", "Colorless"], "dmg": 200, "discard": 2}]},
+    "starmie ex": {"hp": 130, "energy_type": "water", "retreat": 0, "attacks": [{"name": "Hydro Splash", "cost": ["Water", "Water"], "dmg": 90}]},
+    "articuno ex": {"hp": 140, "energy_type": "water", "retreat": 2, "attacks": [{"name": "Ice Wing", "cost": ["Water", "Colorless"], "dmg": 40}, {"name": "Blizzard", "cost": ["Water", "Water", "Water"], "dmg": 80, "bench_dmg": 10}]},
+    "venusaur ex": {"hp": 190, "energy_type": "grass", "retreat": 3, "attacks": [{"name": "Razor Leaf", "cost": ["Grass", "Colorless", "Colorless"], "dmg": 60}, {"name": "Giant Bloom", "cost": ["Grass", "Grass", "Colorless", "Colorless"], "dmg": 100, "heal": 30}]},
+    "blastoise ex": {"hp": 180, "energy_type": "water", "retreat": 3, "attacks": [{"name": "Surf", "cost": ["Water", "Colorless"], "dmg": 40}, {"name": "Hydro Bazooka", "cost": ["Water", "Water", "Colorless"], "dmg": 100, "extra_energy_dmg": 60}]},
+    "machamp ex": {"hp": 180, "energy_type": "fighting", "retreat": 3, "attacks": [{"name": "Mega Punch", "cost": ["Fighting", "Fighting", "Fighting"], "dmg": 120}]},
+    "zapdos ex": {"hp": 130, "energy_type": "lightning", "retreat": 1, "attacks": [{"name": "Peck", "cost": ["Lightning"], "dmg": 20}, {"name": "Thundering Hurricane", "cost": ["Lightning", "Lightning", "Lightning"], "dmg": 50, "coin_flips": 4}]},
+    "moltres ex": {"hp": 140, "energy_type": "fire", "retreat": 2, "attacks": [{"name": "Inferno Dance", "cost": ["Fire"], "dmg": 0, "effect": "accelerate"}, {"name": "Heat Blast", "cost": ["Fire", "Colorless", "Colorless"], "dmg": 70}]},
+    "marowak ex": {"hp": 140, "energy_type": "fighting", "retreat": 1, "attacks": [{"name": "Bonemerang", "cost": ["Fighting", "Fighting"], "dmg": 80, "coin_flips": 2}]},
+    "gengar ex": {"hp": 170, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Spooky Shot", "cost": ["Psychic", "Psychic", "Psychic"], "dmg": 100}]},
+    "wigglytuff ex": {"hp": 140, "energy_type": "colorless", "retreat": 2, "attacks": [{"name": "Sleepy Song", "cost": ["Colorless", "Colorless", "Colorless"], "dmg": 80, "status": "Sleep"}]},
+    "greninja": {"hp": 120, "energy_type": "water", "retreat": 1, "attacks": [{"name": "Mist Slash", "cost": ["Water", "Colorless"], "dmg": 60}]},
+    "gardevoir": {"hp": 110, "energy_type": "psychic", "retreat": 2, "attacks": [{"name": "Psyshot", "cost": ["Psychic", "Psychic", "Colorless"], "dmg": 60}]},
+    "dragonite": {"hp": 160, "energy_type": "dragon", "retreat": 3, "attacks": [{"name": "Draco Meteor", "cost": ["Water", "Lightning", "Colorless", "Colorless"], "dmg": 50, "random_target": 4}]},
+
+    "kangaskhan": {"hp": 100, "retreat": 3, "energy_type": "colorless"},
+    "farfetch'd": {"hp": 60, "retreat": 1, "energy_type": "colorless"},
+    "tauros": {"hp": 100, "retreat": 2, "energy_type": "colorless"},
+    "snorlax": {"hp": 150, "retreat": 4, "energy_type": "colorless"},
+    "mewtwo": {"hp": 120, "retreat": 2, "energy_type": "psychic"},
+    "articuno": {"hp": 100, "retreat": 1, "energy_type": "water"},
+    "zapdos": {"hp": 100, "retreat": 1, "energy_type": "lightning"},
+    "moltres": {"hp": 100, "retreat": 1, "energy_type": "fire"},
+    "ralts": {"hp": 60, "retreat": 1, "energy_type": "psychic"},
+    "gastly": {"hp": 60, "retreat": 1, "energy_type": "psychic"},
+    "abra": {"hp": 60, "retreat": 1, "energy_type": "psychic"},
+    "pikachu": {"hp": 60, "retreat": 1, "energy_type": "lightning"},
+    "staryu": {"hp": 50, "retreat": 1, "energy_type": "water"},
+    "charmander": {"hp": 60, "retreat": 1, "energy_type": "fire"},
+    "squirtle": {"hp": 60, "retreat": 1, "energy_type": "water"},
+    "bulbasaur": {"hp": 70, "retreat": 1, "energy_type": "grass"},
+}
 
 def play(state, game):
     """
-    Improved Pokemon TCG Pocket Player
-    Strategy: Aggressive setup, smart energy management, lethal prioritization.
-    Version: 1.2 (Sacrifice Strategy + Revert Retreat)
+    Advanced Pokemon TCG Pocket Player (v4 - Added Items)
     """
     legal_actions = game.legal_actions()
     if not legal_actions:
@@ -16,92 +57,106 @@ def play(state, game):
     try:
         # --- 1. Helper Functions ---
 
-        def get_card_data(card):
-            if not card: return None
-            return {
-                "name": getattr(card, "name", ""),
-                "hp": getattr(card, "remaining_hp", 0),
-                "max_hp": getattr(card, "total_hp", 0),
-                "energy": getattr(card, "attached_energy", []), # List of EnergyType objects
-                "attacks": getattr(card, "attacks", []),
-                "obj": card
-            }
+        def get_card_name(card_obj):
+            if not card_obj: return None
+            return getattr(card_obj, "name", "Unknown")
 
-        def get_pokemon_type(name):
-            n = name.lower()
-            if any(x in n for x in ["pikachu", "zapdos", "raichu", "magneton", "electrode", "electabuzz", "jolteon", "blitzle", "zebstrika", "pincurchin", "mareep", "flaaffy", "ampharos", "helioptile", "heliolisk", "tynamo", "eelektrik", "eelektross", "luxray", "zebstrika"]): return "Lightning"
-            if any(x in n for x in ["mewtwo", "ralts", "kirlia", "gardevoir", "gengar", "haunter", "gastly", "abra", "kadabra", "alakazam", "jynx", "mr. mime", "nidoran", "nidorina", "nidoqueen", "nidorino", "nidoking", "koffing", "weezing", "mew"]): return "Psychic"
-            if any(x in n for x in ["starmie", "articuno", "blastoise", "lapras", "gyarados", "vaporeon", "golduck", "psyduck", "poliwag", "poliwhirl", "poliwrath", "seadra", "horsea", "squirtle", "wartortle", "tentacool", "tentacruel", "shellder", "cloyster", "krabby", "kingler", "goldeen", "seaking", "staryu", "magikarp", "greninja", "frogadier", "froakie"]): return "Water"
-            if any(x in n for x in ["charizard", "moltres", "arcanine", "ninetales", "rapidash", "magmar", "flareon", "charmander", "charmeleon", "vulpix", "growlithe", "ponyta"]): return "Fire"
-            if any(x in n for x in ["venusaur", "exeggutor", "victreebel", "vileplume", "butterfree", "beedrill", "scyther", "pinsir", "tangela", "bulbasaur", "ivysaur", "caterpie", "metapod", "weedle", "kakuna", "oddish", "gloom", "paras", "parasect", "venonat", "venomoth", "bellsprout", "weepinbell", "exeggcute"]): return "Grass"
-            if any(x in n for x in ["machamp", "hitmonlee", "hitmonchan", "golem", "onix", "rhydon", "marowak", "dugtrio", "sandslash", "geodude", "graveler", "sandshrew", "diglett", "mankey", "primeape", "machop", "machoke", "cubone", "rhyhorn", "kabuto", "kabutops", "aerodactyl"]): return "Fighting"
-            if any(x in n for x in ["darkrai", "weavile", "arbok", "muk", "weezing", "ekans", "grimer", "sneasel", "houndoom"]): return "Darkness"
-            if any(x in n for x in ["dragonite", "dratini", "dragonair"]): return "Dragon"
-            if any(x in n for x in ["melmetal", "meltan", "magnemite", "magneton", "magnezone"]): return "Metal"
-            return "Colorless"
+        def get_card_hp(card_obj):
+            if not card_obj: return 0
+            return getattr(card_obj, "remaining_hp", 0)
 
-        def calculate_potential_damage(attacker, attack_idx, my_bench, opp_active_hp):
-            """Calculates damage, accounting for some dynamic effects."""
-            if not attacker or attack_idx >= len(attacker["attacks"]): return 0
+        def get_card_max_hp(card_obj):
+            if not card_obj: return 0
+            return getattr(card_obj, "total_hp", 0)
 
-            atk = attacker["attacks"][attack_idx]
-            base_dmg = getattr(atk, "fixed_damage", 0)
-            name = attacker["name"]
-            atk_name = getattr(atk, "name", "")
+        def get_card_energy(card_obj):
+            if not card_obj: return []
+            return [str(e) for e in getattr(card_obj, "attached_energy", [])]
 
-            # --- Dynamic Damage Logic ---
-            if "Pikachu ex" in name and "Circle Circuit" in atk_name:
-                lightning_count = 0
-                for b in my_bench:
-                    if b and "Lightning" in get_pokemon_type(b["name"]):
-                        lightning_count += 1
-                return 30 * lightning_count
+        def get_energy_type(card_name):
+            if not card_name: return "colorless"
+            n = card_name.lower()
+            if n in CARD_DB:
+                return CARD_DB[n].get("energy_type", "colorless").lower()
 
-            if "Mewtwo ex" in name and "Psydrive" in atk_name: return 150
-            if "Starmie ex" in name and "Hydro Splash" in atk_name: return 90
-            if "Articuno ex" in name and "Blizzard" in atk_name: return 80
-            if "Greninja" in name and "Mist Slash" in atk_name: return 60
-            if "Marowak ex" in name and "Bonemerang" in atk_name: return 160 # Assume double heads for potential check, or avg 80
+            if any(x in n for x in ["pikachu", "zapdos", "raichu", "magneton", "electrode"]): return "lightning"
+            if any(x in n for x in ["mewtwo", "ralts", "kirlia", "gardevoir", "gengar"]): return "psychic"
+            if any(x in n for x in ["starmie", "articuno", "blastoise", "greninja"]): return "water"
+            if any(x in n for x in ["charizard", "moltres", "arcanine"]): return "fire"
+            if any(x in n for x in ["venusaur", "exeggutor"]): return "grass"
+            if any(x in n for x in ["machamp", "marowak", "golem"]): return "fighting"
+            if any(x in n for x in ["dragonite"]): return "dragon"
+            if any(x in n for x in ["melmetal"]): return "metal"
+            if any(x in n for x in ["weavile", "muk"]): return "darkness"
+            return "colorless"
 
-            if "Blastoise ex" in name and "Hydro Bazooka" in atk_name:
-                w_count = sum(1 for e in attacker["energy"] if "Water" in str(e))
-                return 160 if w_count >= 5 else 100
+        def calculate_damage(attacker_card, attack_idx, my_bench_len, opp_active_hp):
+            name = get_card_name(attacker_card)
+            if not name: return 0
+            n_lower = name.lower()
 
-            if "Charizard ex" in name and "Crimson Storm" in atk_name: return 200
+            if n_lower in CARD_DB and "attacks" in CARD_DB[n_lower]:
+                attacks_db = CARD_DB[n_lower]["attacks"]
+                if attack_idx < len(attacks_db):
+                    atk = attacks_db[attack_idx]
+                    base = atk.get("dmg", 0)
 
-            return base_dmg
+                    if atk.get("bench_scale"):
+                        return 30 * my_bench_len
 
-        def needs_energy(card, my_bench):
-            """Returns true if the card needs more energy for its best attack."""
-            if not card: return False
-            if not card["attacks"]: return False
+                    if "coin_flips" in atk:
+                        return base * 0.5 * atk["coin_flips"]
 
-            # Find most expensive useful attack
-            max_cost_len = 0
+                    if "extra_energy_dmg" in atk:
+                        energies = get_card_energy(attacker_card)
+                        if len(energies) >= len(atk["cost"]) + 2:
+                            return base + atk["extra_energy_dmg"]
+                        return base
 
-            # Special cases
-            if "Mewtwo ex" in card["name"]: max_cost_len = 4 # Psydrive
-            elif "Starmie ex" in card["name"]: max_cost_len = 2 # Hydro Splash
-            elif "Pikachu ex" in card["name"]: max_cost_len = 2 # Circle Circuit
-            elif "Charizard ex" in card["name"]: max_cost_len = 4 # Crimson Storm
-            else:
-                 for atk in card["attacks"]:
-                     cost = getattr(atk, "cost", [])
-                     if len(cost) > max_cost_len:
-                         max_cost_len = len(cost)
+                    if base > 0:
+                        return base
 
-            return len(card["energy"]) < max_cost_len
+            attacks_obj = getattr(attacker_card, "attacks", [])
+            if attack_idx < len(attacks_obj):
+                atk_obj = attacks_obj[attack_idx]
+                fixed = getattr(atk_obj, "fixed_damage", 0)
+                if fixed > 0:
+                    return fixed
+
+            return 0
+
+        def needs_energy(card_obj):
+            name = get_card_name(card_obj)
+            if not name: return False
+            n_lower = name.lower()
+            current_energy = get_card_energy(card_obj)
+
+            if n_lower in CARD_DB and "attacks" in CARD_DB[n_lower]:
+                attacks = CARD_DB[n_lower]["attacks"]
+                max_cost = 0
+                for atk in attacks:
+                    cost = atk.get("cost", [])
+                    if len(cost) > max_cost:
+                        max_cost = len(cost)
+                return len(current_energy) < max_cost
+
+            if "ex" in n_lower: return len(current_energy) < 3
+            return len(current_energy) < 2
 
         # --- 2. Parse State ---
         me = state.current_player
         opp = 1 - me
 
-        my_active = get_card_data(state.get_active_pokemon(me))
-        my_bench = [get_card_data(c) for c in state.get_bench_pokemon(me)]
+        my_active = state.get_active_pokemon(me)
+        my_bench = [b for b in state.get_bench_pokemon(me) if b is not None]
         my_hand = state.get_hand(me)
 
-        opp_active = get_card_data(state.get_active_pokemon(opp))
-        opp_bench = [get_card_data(c) for c in state.get_bench_pokemon(opp)]
+        opp_active = state.get_active_pokemon(opp)
+        opp_bench = [b for b in state.get_bench_pokemon(opp) if b is not None]
+
+        my_active_name = get_card_name(my_active)
+        my_active_hp = get_card_hp(my_active)
+        opp_active_hp = get_card_hp(opp_active) if opp_active else 0
 
         # Categorize Actions
         acts = {
@@ -119,55 +174,39 @@ def play(state, game):
                 m = re.search(r"Attack\((\d+)\)", aname)
                 if m: acts["attack"].append((aid, int(m.group(1))))
             elif aname.startswith("AttachTool"):
-                # AttachTool(Some(Name), Pos)
                 m = re.search(r"AttachTool\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
                 if m: acts["attach_tool"].append((aid, m.group(1).replace(")", ""), int(m.group(2))))
             elif aname.startswith("Attach"):
-                # Attach(Type, Pos) - Energy
-                # Be careful not to catch AttachTool here if regex is loose, but distinct starts help
                 if "Tool" in aname: continue
-                m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname) # Standard format often Attach(Type, Pos)
-                if m:
-                    acts["attach_energy"].append((aid, m.group(1).replace(")", ""), int(m.group(2))))
+                m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+                if m: acts["attach_energy"].append((aid, m.group(1).replace(")", ""), int(m.group(2))))
                 else:
-                    # Fallback for explicit energy names if format differs
                     m = re.search(r"AttachEnergy\((\d+), (.*?)\)", aname)
                     if m: acts["attach_energy"].append((aid, m.group(2), int(m.group(1))))
             elif aname.startswith("Evolve"):
                 m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
                 if m: acts["evolve"].append((aid, m.group(1).replace(")", ""), int(m.group(2))))
             elif aname.startswith("Place") or aname.startswith("PlayPokemon"):
-                 # Place(Some(Name), Pos)
                  m = re.search(r"Place\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
                  if m:
-                     if int(m.group(2)) == 0:
-                         acts["place_active"].append((aid, m.group(1).replace(")", "")))
+                     if int(m.group(2)) == 0: acts["place_active"].append((aid, m.group(1).replace(")", "")))
                      else: acts["place_basic"].append((aid, m.group(1).replace(")", ""), int(m.group(2))))
                  elif "PlayPokemon" in aname:
-                     # PlayPokemon(HandIdx, Pos) - less common in some versions but handled
                      if ", 0)" in aname: acts["place_active"].append((aid, "Unknown"))
                      else: acts["place_basic"].append((aid, "Unknown", -1))
             elif aname.startswith("Play") or aname.startswith("UseItem") or aname.startswith("UseSupporter"):
-                # Play(Some(Name)) or Play(Some(Name), Target)
-                # Need to parse Name to distinguish Item/Supporter
                 target = -1
-                name_str = aname
                 m_t = re.search(r", (\d+)\)", aname)
                 if m_t: target = int(m_t.group(1))
-
-                # Extract inner name
                 m_n = re.search(r"Some\((.*?)\)", aname)
                 if m_n: card_name = m_n.group(1).replace(")", "")
-                else: card_name = aname # Fallback
+                else: card_name = aname
 
                 supporters = ["Research", "Sabrina", "Giovanni", "Erika", "Misty", "Blaine", "Koga", "Lt. Surge", "Brock", "Copycat", "Lisia", "Cyrus", "Mars", "Red", "Guzma", "Judge", "Acerola", "Hau", "Bill"]
-
-                is_supporter = any(s in card_name for s in supporters)
-                if is_supporter:
+                if any(s in card_name for s in supporters):
                     acts["play_supporter"].append((aid, card_name, target))
                 else:
                     acts["play_item"].append((aid, card_name, target))
-
             elif aname.startswith("UseAbility"):
                 m = re.search(r"UseAbility\((\d+)\)", aname)
                 if m: acts["ability"].append((aid, int(m.group(1))))
@@ -177,224 +216,150 @@ def play(state, game):
                 m = re.search(r"Activate\((\d+)\)", aname)
                 if m: acts["activate"].append((aid, int(m.group(1))))
 
-        # --- 3. Logic & Strategy ---
+        # --- 3. Strategy ---
+        logging.info(f"Turn: {state.turn_count}, P{me} (HP: {my_active_hp}) vs P{opp} (HP: {opp_active_hp})")
 
-        # A. Immediate Lethal Check
-        lethal_action = None
-        best_lethal_dmg = -1
-
+        # A. Win Condition (Lethal)
         if acts["attack"] and opp_active:
-             # Check Giovanni Lethal
-             giovanni = [a for a in acts["play_supporter"] if "Giovanni" in a[1]]
+            giovanni = [a for a in acts["play_supporter"] if "Giovanni" in a[1]]
 
-             for aid, idx in acts["attack"]:
-                 raw_dmg = calculate_potential_damage(my_active, idx, my_bench, opp_active["hp"])
+            for aid, idx in acts["attack"]:
+                dmg = calculate_damage(my_active, idx, len(my_bench), opp_active_hp)
 
-                 # Natural Lethal
-                 if raw_dmg >= opp_active["hp"]:
-                     if lethal_action is None or raw_dmg > best_lethal_dmg:
-                         lethal_action = aid
-                         best_lethal_dmg = raw_dmg
+                if dmg >= opp_active_hp:
+                    logging.info(f"Lethal found: Attack {idx} ({dmg} dmg) >= HP {opp_active_hp}")
+                    return aid
 
-                 # Giovanni Lethal
-                 elif giovanni and (raw_dmg + 10) >= opp_active["hp"]:
-                      # Can't return sequence here, but can prioritize Giovanni later
-                      pass
+                if giovanni and (dmg + 10) >= opp_active_hp:
+                    logging.info("Lethal with Giovanni found")
+                    return giovanni[0][0]
 
-        # B. Activate (Forced Switch / Sabrina Switch)
+        # B. Forced Switch (Activate)
         if acts["activate"]:
-            # Context 1: My Active KO'd -> Choose New Active
-            if not my_active or my_active["hp"] == 0:
+            if not my_active or my_active_hp == 0:
                 best_cand = acts["activate"][0][0]
-                max_score = -2000 # Lower base
+                max_score = -2000
 
                 for aid, idx in acts["activate"]:
                     if idx >= len(my_bench): continue
                     c = my_bench[idx]
                     if not c: continue
+                    name = get_card_name(c)
 
-                    # Logic: Prioritize POWERED UP attackers. If none, prioritize WEAKEST (sacrifice).
                     score = 0
+                    is_ex = "ex" in name.lower()
+                    energy_count = len(get_card_energy(c))
 
-                    is_powered = not needs_energy(c, my_bench) and len(c["energy"]) > 0
-                    is_ex = "ex" in c["name"].lower()
+                    if not needs_energy(c): score += 500
+                    elif energy_count > 0: score += 100 * energy_count
 
-                    if is_powered:
-                        score += 500
-                        if is_ex: score += 200
-                        score += c["hp"] # Use HP as tiebreaker for powered
-                    else:
-                        # Sacrifice strategy
-                        if is_ex: score -= 500 # Don't sacrifice EX
-                        else:
-                             score += 100 # Prefer sacrificing non-EX
-                             score -= c["hp"] # Prefer lower HP sacrifice
+                    if is_ex: score += 50
+                    else: score -= 50
 
-                    # Tiebreakers
-                    if "Mewtwo" in c["name"]: score += 10
-                    if "Pikachu" in c["name"]: score += 10
+                    if "mewtwo" in name.lower(): score += 10
+                    if "pikachu" in name.lower(): score += 10
 
                     if score > max_score:
                         max_score = score
                         best_cand = aid
                 return best_cand
-
-            # Context 2: Sabrina / Opponent Switch
             else:
-                 # Pick the weakest or most valuable target
-                 best_cand = acts["activate"][0][0]
-                 max_score = -1000
+                return acts["activate"][0][0]
 
-                 # Calculate my damage potential
-                 my_dmg = 0
-                 if acts["attack"]:
-                     for _, idx in acts["attack"]:
-                         d = calculate_potential_damage(my_active, idx, my_bench, 999)
-                         my_dmg = max(my_dmg, d)
-
-                 for aid, idx in acts["activate"]:
-                     if idx >= len(opp_bench): continue
-                     c = opp_bench[idx]
-                     if not c: continue
-
-                     score = 0
-                     # Can I kill it?
-                     if my_dmg >= c["hp"]: score += 1000
-
-                     # Is it an EX?
-                     if "ex" in c["name"].lower(): score += 500
-
-                     # Is it high energy? (Threat)
-                     score += len(c["energy"]) * 50
-
-                     if score > max_score:
-                         max_score = score
-                         best_cand = aid
-                 return best_cand
-
-        # C. Winning Move
-        if lethal_action:
-            return lethal_action
-
-        # X. Place Active (Start of Game)
+        # C. Place Active (Start of Game)
         if acts["place_active"]:
-             best_active = acts["place_active"][0][0]
-             max_score = -1000
+            best_active = acts["place_active"][0][0]
+            max_score = -1000
+            for aid, name in acts["place_active"]:
+                score = 0
+                n = name.lower()
 
-             for aid, name in acts["place_active"]:
-                 score = 0
-                 n = name.lower()
-                 if "pikachu" in n and "ex" in n: score += 100
-                 if "kangaskhan" in n: score += 90
-                 if "farfetch" in n: score += 85
-                 if "articuno" in n and "ex" in n: score += 80
-                 if "starmie" in n and "ex" in n: score += 75
-                 if "mewtwo" in n and "ex" in n: score += 60
-                 if "ex" in n: score += 70
-                 if "ralts" in n: score += 10
-                 if "magikarp" in n: score += 5
+                if n in CARD_DB:
+                    hp = CARD_DB[n].get("hp", 60)
+                    ret = CARD_DB[n].get("retreat", 1)
+                    score += hp
+                    score -= (ret * 10)
 
-                 if score > max_score:
-                     max_score = score
-                     best_active = aid
-             return best_active
+                if "ex" in n: score += 50
+                if "pikachu" in n: score += 40
+                if "articuno" in n: score += 40
+                if "kangaskhan" in n: score += 60
+
+                if score > max_score:
+                    max_score = score
+                    best_active = aid
+            return best_active
 
         # D. Setup Phase
 
-        # 1. Evolve (Always good usually)
+        # 1. Evolve
         if acts["evolve"]:
-            return acts["evolve"][0][0] # Just take first available evolution
+            return acts["evolve"][0][0]
 
-        # 2. Abilities (Draw/Energy)
+        # 2. Abilities
         if acts["ability"]:
             for aid, idx in acts["ability"]:
-                # Identify ability user
                 user = my_active if idx == 0 else (my_bench[idx-1] if idx-1 < len(my_bench) else None)
                 if user:
-                    n = user["name"].lower()
-                    # High priority abilities
-                    if "gardevoir" in n: return aid # Psychic Embrace
-                    if "greninja" in n: return aid # Water Shuriken
-                    if "pidgeot" in n: return aid # Quick Search
-                    if "draludon" in n: return aid
+                    n = get_card_name(user).lower()
+                    if "gardevoir" in n: return aid
+                    if "greninja" in n: return aid
+                    if "pidgeot" in n: return aid
+            return acts["ability"][0][0]
 
-        # 3. Play Basic Pokemon
+        # 3. Bench Placement
         if acts["place_basic"]:
-            # Only play if bench not full and pokemon is useful
-            # Priority: EX > High HP Basics > Others
-            best_bp = None
-            best_score = -1
+            if len(my_bench) < 3:
+                best_bp = None
+                best_score = -100
 
-            for aid, name, _ in acts["place_basic"]:
-                score = 0
-                n = name.lower()
-                if "ex" in n: score += 100
-                if "pikachu" in n: score += 50
-                if "mewtwo" in n: score += 50
-                if "articuno" in n: score += 50
-                if "starmie" in n: score += 50
-                if "ralts" in n:
-                     # Only if we have evos
-                     score += 20
+                for aid, name, _ in acts["place_basic"]:
+                    score = 0
+                    n = name.lower()
+                    if "ex" in n: score += 100
+                    if "pikachu" in n: score += 80
+                    if "ralts" in n: score += 60
+                    if "froakie" in n: score += 60
+                    if "articuno" in n: score += 70
 
-                # Don't clog bench with useless stuff
-                if score > best_score:
-                    best_score = score
-                    best_bp = aid
+                    if score > best_score:
+                        best_score = score
+                        best_bp = aid
 
-            if best_bp: return best_bp
+                if best_bp and best_score > 0:
+                    return best_bp
 
         # 4. Supporters
         if acts["play_supporter"]:
             # Misty
             misty = [a for a in acts["play_supporter"] if "Misty" in a[1]]
             if misty:
-                # Prioritize Active if needs energy
-                if my_active and needs_energy(my_active, my_bench) and "Water" in get_pokemon_type(my_active["name"]):
+                if my_active and "water" in get_energy_type(my_active_name) and needs_energy(my_active):
                     for aid, _, target in misty:
                         if target == 0: return aid
-
-                # Else Bench EX
                 for i, b in enumerate(my_bench):
-                    if b and needs_energy(b, my_bench) and "Water" in get_pokemon_type(b["name"]):
+                    if b and "water" in get_energy_type(get_card_name(b)) and needs_energy(b):
                          for aid, _, target in misty:
                              if target == i + 1: return aid
 
-            # Professor's Research
+            # Research
             research = [a for a in acts["play_supporter"] if "Research" in a[1]]
             if research:
-                if len(my_hand) <= 4: return research[0][0]
+                if len(my_hand) <= 5: return research[0][0]
 
             # Sabrina
             sabrina = [a for a in acts["play_supporter"] if "Sabrina" in a[1]]
             if sabrina and opp_bench:
-                 # Play if Opp Active is hard to kill but Bench is vulnerable
-                 opp_threat_hp = opp_active["hp"] if opp_active else 0
-                 my_dmg = 0
-                 if acts["attack"]:
-                      for _, idx in acts["attack"]:
-                          my_dmg = max(my_dmg, calculate_potential_damage(my_active, idx, my_bench, opp_threat_hp))
+                can_kill_active = False
+                max_dmg = 0
+                if acts["attack"]:
+                     for _, idx in acts["attack"]:
+                         d = calculate_damage(my_active, idx, len(my_bench), opp_active_hp)
+                         max_dmg = max(max_dmg, d)
+                if max_dmg >= opp_active_hp: can_kill_active = True
 
-                 if my_dmg < opp_threat_hp:
-                     # Check if we can kill something on bench
-                     can_kill_bench = False
-                     for b in opp_bench:
-                         if b and b["hp"] <= my_dmg:
-                             can_kill_bench = True
-                             break
-                     if can_kill_bench:
-                         return sabrina[0][0]
-
-            # Giovanni (if close to lethal but not handled in initial check)
-            giovanni = [a for a in acts["play_supporter"] if "Giovanni" in a[1]]
-            if giovanni and opp_active and acts["attack"]:
-                 current_max_dmg = 0
-                 for _, idx in acts["attack"]:
-                     d = calculate_potential_damage(my_active, idx, my_bench, opp_active["hp"])
-                     current_max_dmg = max(current_max_dmg, d)
-
-                 if current_max_dmg < opp_active["hp"] and (current_max_dmg + 10) >= opp_active["hp"]:
-                     return giovanni[0][0]
+                if not can_kill_active and opp_active_hp > 60:
+                    return sabrina[0][0]
 
         # 5. Attach Energy
         if acts["attach_energy"]:
@@ -406,18 +371,21 @@ def play(state, game):
                 target = my_active if pos == 0 else (my_bench[pos-1] if pos-1 < len(my_bench) else None)
                 if not target: continue
 
-                needed = needs_energy(target, my_bench)
+                t_name = get_card_name(target)
+                t_type = get_energy_type(t_name)
+                type_str_lower = type_str.lower()
 
-                if needed:
+                match = (type_str_lower == t_type) or (t_type == "colorless")
+
+                if needs_energy(target):
                     score += 100
-                    if pos == 0: score += 50 # Priority to Active
-                    if "ex" in target["name"].lower(): score += 20
+                    if pos == 0: score += 50
+                    if match: score += 20
+                    if "ex" in t_name.lower(): score += 30
+                    if "mewtwo" in t_name.lower() and "psychic" in type_str_lower: score += 40
+                    if "pikachu" in t_name.lower() and "lightning" in type_str_lower: score += 40
                 else:
-                    score -= 50 # Over-attaching
-
-                # Specific logic
-                if "Mewtwo ex" in target["name"] and "Psychic" in type_str: score += 30 # Priority
-                if "Pikachu ex" in target["name"] and "Lightning" in type_str: score += 30
+                    score -= 50
 
                 if score > max_score:
                     max_score = score
@@ -426,31 +394,46 @@ def play(state, game):
             if best_attach and max_score > 0:
                 return best_attach
 
-        # 6. Items (Potion)
+        # 6. Items (New)
         if acts["play_item"]:
+            # Potion
             potion = [a for a in acts["play_item"] if "Potion" in a[1]]
-            if potion and my_active and my_active["hp"] <= my_active["max_hp"] - 20:
+            if potion and my_active and my_active_hp > 0 and my_active_hp < get_card_max_hp(my_active):
                 return potion[0][0]
 
+            # Poke Ball
+            pokeball = [a for a in acts["play_item"] if "Ball" in a[1]]
+            if pokeball and len(my_bench) < 3:
+                return pokeball[0][0]
+
+            # Red Card
+            redcard = [a for a in acts["play_item"] if "Red Card" in a[1]]
+            if redcard:
+                # Use if we are behind or just to disrupt?
+                # Simple logic: use it
+                return redcard[0][0]
+
+            # Any other item
+            return acts["play_item"][0][0]
+
         # 7. Retreat
-        if acts["retreat"]:
-            if my_active and my_active["hp"] <= 40: # Reverted threshold
-                # Check if we have a replacement
-                has_ready_bench = False
-                for b in my_bench:
-                    if b and b["hp"] > 40 and not needs_energy(b, my_bench):
-                        has_ready_bench = True
+        if acts["retreat"] and my_active:
+            if my_active_hp <= 40 and my_bench:
+                 has_better = False
+                 for b in my_bench:
+                     if b and not needs_energy(b) and get_card_hp(b) > 50:
+                         has_better = True
+                         break
+                 if has_better:
+                     return acts["retreat"][0]
 
-                if has_ready_bench:
-                    return acts["retreat"][0]
-
-        # 8. Attack (Best Damage)
+        # 8. Attack
         if acts["attack"]:
             best_atk = acts["attack"][0][0]
             max_dmg = -1
 
             for aid, idx in acts["attack"]:
-                d = calculate_potential_damage(my_active, idx, my_bench, opp_active["hp"] if opp_active else 0)
+                d = calculate_damage(my_active, idx, len(my_bench), opp_active_hp)
                 if d > max_dmg:
                     max_dmg = d
                     best_atk = aid
@@ -463,7 +446,6 @@ def play(state, game):
 
         return legal_actions[0]
 
-    except Exception:
-        # Fallback
-        # print(traceback.format_exc(), file=sys.stderr)
+    except Exception as e:
+        logging.error(f"Error in play: {e}")
         return legal_actions[0]

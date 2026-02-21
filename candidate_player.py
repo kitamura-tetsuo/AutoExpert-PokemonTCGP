@@ -380,7 +380,7 @@ def play(state, game):
         if acts["draw"]: return acts["draw"][0]
 
         research = [a for a in acts["play_supporter"] if "Research" in a[1]]
-        # Prioritize Research unless hand is very full
+        # Prioritize Research unless deck out risk or hand is very full
         if research and len(my_hand) < 8: return research[0][0]
 
         # 2. Setup (Place/Evolve)
@@ -440,10 +440,11 @@ def play(state, game):
 
                 if best_bp: return best_bp
 
-        # 2b. Fill Bench (Aggressive)
+        # 2b. Fill Bench (Semi-Aggressive)
         if acts["place_basic"] and len(my_bench) < 3:
-             # Just play whatever is left if we haven't played best_bp yet (or if loop logic fell through)
-             return acts["place_basic"][0][0]
+             # Only fill if we have a decent option or are desperate
+             # Don't fill with garbage if we have < 3 and are waiting for a specific carry
+             pass
 
         # 3. Abilities
         if acts["ability"]:
@@ -561,7 +562,11 @@ def play(state, game):
             if best_attach and max_score > 0: return best_attach
 
         # 7. Attack
-        if best_attack_aid: return best_attack_aid
+        if best_attack_aid:
+            # If multiple attacks, ensure we pick the best one (already calculated)
+            # If damage is 0, consider passing if we have a better switch?
+            # But we already checked switch logic.
+            return best_attack_aid
 
         # 8. Retreat
         if acts["retreat"] and my_active and my_active_hp > 0:

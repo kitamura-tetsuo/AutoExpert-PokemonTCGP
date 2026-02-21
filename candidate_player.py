@@ -337,24 +337,47 @@ def play(state, game):
         if acts["attack"] and opp_active_hp > 0:
             giovanni = [a for a in acts["play_supporter"] if "Giovanni" in a[1]]
 
-            # Direct Lethals
-            direct_lethals = []
-            giovanni_lethals = []
+            # Identify guaranteed vs risky lethals
+            guaranteed_lethals = [] # (aid, damage)
+            risky_lethals = [] # (aid, potential_damage)
+            giovanni_guaranteed = []
 
             for aid, idx in acts["attack"]:
+                # Analyze attack for coin flips
+                is_risky = False
+                base_dmg = 0
+
+                # Check DB for risk
+                name = my_active_name.lower() if my_active_name else ""
+                if name in CARD_DB and "attacks" in CARD_DB[name] and idx < len(CARD_DB[name]["attacks"]):
+                    atk_info = CARD_DB[name]["attacks"][idx]
+                    if "coin_flips" in atk_info or "coin_flip_plus" in atk_info:
+                        is_risky = True
+
                 dmg = calculate_damage(my_active, idx, len(my_bench), opp_active_hp)
+
                 if dmg >= opp_active_hp:
-                    direct_lethals.append((aid, dmg))
+                    if is_risky:
+                        risky_lethals.append((aid, dmg))
+                    else:
+                        guaranteed_lethals.append((aid, dmg))
                 elif giovanni and (dmg + 10) >= opp_active_hp:
-                    giovanni_lethals.append((aid, dmg))
+                    if not is_risky:
+                        giovanni_guaranteed.append((giovanni[0][0], dmg))
 
-            if direct_lethals:
-                # Pick MAX damage to be safe against coin flips/variance
-                direct_lethals.sort(key=lambda x: x[1], reverse=True)
-                return direct_lethals[0][0]
+            # Prioritize: Guaranteed Low Cost > Guaranteed High Cost > Risky Max Damage > Giovanni
+            if guaranteed_lethals:
+                # Sort by damage ascending (lowest sufficient damage) to save resources like energy discard
+                guaranteed_lethals.sort(key=lambda x: x[1])
+                return guaranteed_lethals[0][0]
 
-            if giovanni_lethals:
-                return giovanni[0][0]
+            if risky_lethals:
+                # Sort by damage descending (max potential)
+                risky_lethals.sort(key=lambda x: x[1], reverse=True)
+                return risky_lethals[0][0]
+
+            if giovanni_guaranteed:
+                return giovanni_guaranteed[0][0]
 
         # B. Forced Switch (Activate)
         if acts["activate"]:
@@ -426,28 +449,51 @@ def play(state, game):
 
         # Attach Tool (Improved)
         if acts["attach_tool"]:
-             # Active EX/Strong
+             # Prioritize EX/Strong
+             best_tool_action = acts["attach_tool"][0][0]
+             best_tool_score = -1
+
              for aid, tool_name, pos in acts["attach_tool"]:
-                 if pos == 0:
-                     target = my_active
-                     if target and "ex" in get_card_name(target).lower(): return aid
-             # Bench EX/Strong
-             for aid, tool_name, pos in acts["attach_tool"]:
-                 if pos != 0:
-                     target = my_bench[pos-1] if pos-1 < len(my_bench) else None
-                     if target and "ex" in get_card_name(target).lower(): return aid
-             return acts["attach_tool"][0][0]
+                 target = my_active if pos == 0 else (my_bench[pos-1] if pos-1 < len(my_bench) else None)
+                 if not target: continue
+
+                 score = 0
+                 tname = get_card_name(target).lower()
+                 if "ex" in tname: score += 20
+                 if pos == 0: score += 10
+
+                 if score > best_tool_score:
+                     best_tool_score = score
+                     best_tool_action = aid
+             return best_tool_action
 
         if acts["play_supporter"]:
             misty = [a for a in acts["play_supporter"] if "Misty" in a[1]]
             if misty:
-                if "water" in get_energy_type(my_active_name) and needs_energy(my_active):
-                     for aid, _, target in misty:
-                        if target == 0: return aid
+                # Identify best water target (Active EX > Bench EX > Active > Bench)
+                best_misty = None
+                best_score = -1
+
+                # Check Active
+                if my_active and "water" in get_energy_type(my_active_name):
+                    score = 100 if "ex" in my_active_name.lower() else 50
+                    if not needs_energy(my_active): score -= 40
+                    for aid, _, target in misty:
+                        if target == 0 and score > best_score:
+                            best_score = score
+                            best_misty = aid
+
+                # Check Bench
                 for i, b in enumerate(my_bench):
-                    if b and "water" in get_energy_type(get_card_name(b)) and needs_energy(b):
-                         for aid, _, target in misty:
-                             if target == i + 1: return aid
+                    if b and "water" in get_energy_type(get_card_name(b)):
+                        score = 80 if "ex" in get_card_name(b).lower() else 40
+                        if not needs_energy(b): score -= 30
+                        for aid, _, target in misty:
+                            if target == i + 1 and score > best_score:
+                                best_score = score
+                                best_misty = aid
+
+                if best_misty: return best_misty
 
             research = [a for a in acts["play_supporter"] if "Research" in a[1]]
             if research and len(my_hand) <= 5: return research[0][0]

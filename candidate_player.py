@@ -210,7 +210,7 @@ def play(state, game):
 
         # Priority constants
         LETHAL_WIN_SCORE = 1000000
-        LETHAL_KO_SCORE = 2000 # Just enough to boost above Base Attack (5000->7000) but BELOW Setup (10000+)
+        LETHAL_KO_SCORE = 5000 # Boost above Base Attack (5000->10000) but BELOW Setup (10000+)
 
         SETUP_EVOLVE_SCORE = 16000
         SETUP_PLACE_SCORE = 14000
@@ -373,14 +373,14 @@ def play(state, game):
                     details["score"] = SETUP_SUPPORTER_SCORE
 
                     if "Research" in sname or "Professor" in sname:
-                        # Improved Logic: Use if hand size is small (< 9). No discard in this sim.
-                        if len(my_hand) < 9: details["score"] += 3500 # Strongly prioritize Draw
+                        # Improved Logic: Use if hand size is small (< 8). No discard in this sim.
+                        if len(my_hand) < 8: details["score"] += 3500 # Strongly prioritize Draw
                         else: details["score"] -= 1000 # Wasteful if hand full
                     elif "Sabrina" in sname:
                         # Good if opponent active is strong or has energy
                         if opp_active and opp_energy_count >= 2: details["score"] += 500
                         # Bad if opponent active is weak (let's finish it off)
-                        if opp_active_hp > 0 and opp_active_hp <= 60: details["score"] -= 5000
+                        if opp_active_hp > 0 and opp_active_hp <= 60: details["score"] -= 8000
                     elif "Giovanni" in sname:
                         # Will be boosted if lethal in post-process
                         pass
@@ -400,8 +400,6 @@ def play(state, game):
                     if "Potion" in aname or "Heal" in aname:
                          if my_active and get_card_hp(my_active) < get_card_max_hp(my_active):
                              details["score"] += 500
-                             # Survival Boost
-                             if get_card_hp(my_active) <= 60: details["score"] += 2000
                          else:
                              details["score"] = -500
                     elif "Red Card" in aname:

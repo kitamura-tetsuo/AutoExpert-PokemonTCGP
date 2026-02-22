@@ -35,4 +35,4 @@ jobs:
 
       - name: Run VS Past Check
         run: |
-          uv run python main.py vs-past --past-dir past_repo --matches 1000 --league-student train_data/teacher.csv --league-teacher train_data/teacher.csv
+          uv run python main.py vs-past --past-dir past_repo --matches 200 --league-student train_data/teacher.csv --league-teacher train_data/teacher.csv

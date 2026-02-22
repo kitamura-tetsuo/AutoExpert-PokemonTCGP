@@ -227,6 +227,10 @@ def main():
     student_decks, student_weights = load_league_decks(args.league_decks_student)
     teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
 
+    # Silence player logs during bulk matches to prevent CI timeout/log overflow
+    logging.getLogger("player").setLevel(logging.WARNING)
+    logging.getLogger().setLevel(logging.WARNING)
+
     wins = [0, 0]
     last_history = []
     

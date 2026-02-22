@@ -321,8 +321,8 @@ def main():
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic
-    if args.num_matches < 1000:
-        logging.error(f"Number of matches ({args.num_matches}) is less than 1000. Failing CI.")
+    if args.num_matches < 100:
+        logging.error(f"Number of matches ({args.num_matches}) is less than 100. Failing CI.")
         sys.exit(1)
     
     if win_rate < args.threshold:

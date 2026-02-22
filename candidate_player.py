@@ -354,7 +354,7 @@ def play(state, game):
                          if atype == ctype: details["score"] += 1000
 
                     # Strong Pokemon Bonus
-                    if "ex" in card_name.lower(): details["score"] += 200
+                    if "ex" in card_name.lower(): details["score"] += 500
 
                 elif action_type == "Evolve":
                     card_name = arg1

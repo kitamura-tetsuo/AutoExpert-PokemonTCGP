@@ -73,7 +73,6 @@ def play(state, game):
         my_bench_raw = state.get_bench_pokemon(me)
         my_bench = [b for b in my_bench_raw if b is not None]
         my_hand = state.get_hand(me)
-        my_points = state.points[me] if hasattr(state, 'points') else 0
 
         opp_active = state.get_active_pokemon(opp)
         opp_bench_raw = state.get_bench_pokemon(opp)
@@ -81,7 +80,6 @@ def play(state, game):
         opp_bench_count = len(opp_bench)
         opp_hand = state.get_hand(opp)
         opp_hand_count = len(opp_hand)
-        opp_points = state.points[opp] if hasattr(state, 'points') else 0
 
         opp_active_hp = get_card_hp(opp_active) if opp_active else 0
         opp_energy_count = len(get_card_energy(opp_active)) if opp_active else 0
@@ -201,7 +199,7 @@ def play(state, game):
 
         # Scoring Constants
         LETHAL_WIN_SCORE = 1000000
-        LETHAL_KO_SCORE = 40000
+        LETHAL_KO_SCORE = 8000 # v8 Value
         EMERGENCY_RETREAT_SCORE = 30000
 
         SETUP_EVOLVE_SCORE = 16000
@@ -274,8 +272,6 @@ def play(state, game):
                     if opp_active_hp > 0 and dmg >= opp_active_hp:
                         details["score"] = LETHAL_KO_SCORE
                         details["is_lethal"] = True
-                        # Check for Game Win (simplified check: if opp bench empty or we take last prize)
-                        # We don't know prizes exactly, but if bench is empty, it's a win.
                         if opp_bench_count == 0:
                             details["score"] = LETHAL_WIN_SCORE
 
@@ -340,7 +336,6 @@ def play(state, game):
                         if parts[1].strip().isdigit():
                              pos = int(parts[1].strip())
                     elif arg1 and arg1.isdigit():
-                         # PlayPokemon with only index? unlikely but possible if regex consumed it
                          pass
 
                     details["type"] = "place"
@@ -353,9 +348,13 @@ def play(state, game):
 
                     # Synergy
                     if my_active:
-                         atype = get_energy_type(my_active_name)
+                         aname = get_card_name(my_active)
+                         atype = get_energy_type(aname)
                          ctype = get_energy_type(card_name)
                          if atype == ctype: details["score"] += 1000
+
+                    # Strong Pokemon Bonus
+                    if "ex" in card_name.lower(): details["score"] += 200
 
                 elif action_type == "Evolve":
                     card_name = arg1
@@ -523,10 +522,6 @@ def play(state, game):
              pass
         elif has_lethal_attack:
              # If we can KO, suppress place/items to save deck/time, unless setup is crucial?
-             # Actually, memory says "Lethal Efficiency: skip non-essential actions".
-             # But we prioritized Setup > Lethal KO.
-             # So we WILL do setup. This contradicts the "skip non-essential" unless we treat Setup as essential.
-             # Let's stick to the priority: Setup > Lethal KO.
              pass
 
         # --- 7. Selection ---

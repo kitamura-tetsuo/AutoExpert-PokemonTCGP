@@ -78,6 +78,8 @@ def play(state, game):
         opp_bench_raw = state.get_bench_pokemon(opp)
         opp_bench = [b for b in opp_bench_raw if b is not None]
         opp_bench_count = len(opp_bench)
+        opp_hand = state.get_hand(opp)
+        opp_hand_count = len(opp_hand)
 
         opp_active_hp = get_card_hp(opp_active) if opp_active else 0
         opp_energy_count = len(get_card_energy(opp_active)) if opp_active else 0
@@ -172,7 +174,7 @@ def play(state, game):
             if "charizard ex" in name: return current_energy < 4
             if "venusaur ex" in name: return current_energy < 4
             if "blastoise ex" in name: return current_energy < 3
-            if "pikachu ex" in name: return current_energy < 3 # 2 for attack, maybe 3 for retreat safety? Or 2 is enough.
+            if "pikachu ex" in name: return current_energy < 2 # 2 for attack, 3 is overkill.
             if "starmie ex" in name: return current_energy < 2
             if "marowak ex" in name: return current_energy < 2
             if "articuno ex" in name: return current_energy < 3
@@ -188,7 +190,7 @@ def play(state, game):
                 c = len(atk.get("cost", []))
                 if c > max_cost: max_cost = c
 
-            if max_cost == 0: return current_energy < 2
+            if max_cost == 0: return False
             return current_energy < max_cost
 
         # --- 5. Action Parsing & Categorization ---
@@ -210,7 +212,7 @@ def play(state, game):
         LETHAL_WIN_SCORE = 1000000
         LETHAL_KO_SCORE = 500000
 
-        SETUP_EVOLVE_SCORE = 15000
+        SETUP_EVOLVE_SCORE = 16000
         SETUP_PLACE_SCORE = 14000
         SETUP_ATTACH_SCORE = 13000
         SETUP_SUPPORTER_SCORE = 12000
@@ -248,6 +250,16 @@ def play(state, game):
                             details["score"] += LETHAL_WIN_SCORE
                             details["is_lethal"] = True
 
+                    # Mewtwo ex Psydrive penalty if not lethal
+                    if "mewtwo ex" in my_active_name.lower() and idx == 1:
+                        if not details.get("is_lethal"):
+                             # If we have index 0 attack available and it's decent, prefer that
+                             # But simpler logic: penalize unless really needed (high damage)
+                             # 150 damage is good, but discards energy.
+                             # If opp HP is low (e.g. <= 50), this is overkill and wasteful.
+                             if opp_active_hp <= 50:
+                                 details["score"] -= 2000
+
             elif "AttachTool" in aname:
                 m = re_attach_tool.search(aname)
                 if m:
@@ -283,14 +295,19 @@ def play(state, game):
                      elif pos > 0 and pos <= len(my_bench_raw): target_card = my_bench_raw[pos-1]
 
                      if target_card:
-                         if needs_energy(target_card):
+                         # Prioritize Active if it needs energy
+                         if pos == 0 and needs_energy(target_card):
+                             details["score"] += 800
+                         elif needs_energy(target_card):
                              details["score"] += 500
-                             # Bonus for type match
-                             cname = get_card_name(target_card)
-                             ctype = get_energy_type(cname)
-                             if ctype in etype or etype in ctype:
-                                 details["score"] += 200
-                         else:
+
+                         # Bonus for type match
+                         cname = get_card_name(target_card)
+                         ctype = get_energy_type(cname)
+                         if ctype in etype or etype in ctype:
+                             details["score"] += 200
+
+                         if not needs_energy(target_card):
                              details["score"] -= 500 # Don't over-attach
                      else:
                          details["score"] -= 1000 # Invalid target?
@@ -317,7 +334,7 @@ def play(state, game):
                          aname = get_card_name(my_active)
                          atype = get_energy_type(aname)
                          ctype = get_energy_type(card_name)
-                         if atype == ctype: details["score"] += 200
+                         if atype == ctype: details["score"] += 500
                  else:
                      m2 = re_play_pokemon.search(aname)
                      if m2:
@@ -353,14 +370,24 @@ def play(state, game):
                     details["score"] = SETUP_SUPPORTER_SCORE
 
                     if "Research" in sname or "Professor" in sname:
-                        if len(my_hand) < 5: details["score"] += 500
-                        else: details["score"] -= 2000 # Don't discard good hand
+                        # Improved Logic: Use if hand size is small (< 8). No discard in this sim.
+                        if len(my_hand) < 8: details["score"] += 1000
+                        else: details["score"] -= 1000 # Wasteful if hand full
                     elif "Sabrina" in sname:
-                        # Good if opponent bench is weak
-                        pass # Hard to check opp bench state here without more logic, but general use is good
+                        # Good if opponent active is strong or has energy
+                        if opp_active and opp_energy_count >= 2: details["score"] += 500
                     elif "Giovanni" in sname:
                         # Will be boosted if lethal in post-process
                         pass
+                    elif "Misty" in sname:
+                        # Check for Water pokemon needing energy.
+                        needs_water = False
+                        if "Water" in get_energy_type(my_active_name) and needs_energy(my_active): needs_water = True
+                        for b in my_bench:
+                             if "Water" in get_energy_type(get_card_name(b)) and needs_energy(b): needs_water = True
+
+                        if needs_water: details["score"] += 800
+                        else: details["score"] -= 500
                 else:
                     details["type"] = "item"
                     details["score"] = SETUP_ITEM_SCORE
@@ -369,6 +396,10 @@ def play(state, game):
                              details["score"] += 500
                          else:
                              details["score"] = -500
+                    elif "Red Card" in aname:
+                         # Improved Logic: Only use if opponent hand >= 3
+                         if opp_hand_count >= 3: details["score"] += 500
+                         else: details["score"] -= 10000 # Save it if opp hand is low
 
             elif "Retreat" in aname:
                 details["type"] = "retreat"
@@ -450,6 +481,24 @@ def play(state, game):
                              action["score"] = LETHAL_WIN_SCORE if opp_bench_count == 0 else LETHAL_KO_SCORE
                              action["is_lethal_switch"] = True
 
+                        # B2. Retreat for Damage (Improvement)
+                        # If active does little damage (< 20) and bench does significant damage (> 40)
+                        # and bench has energy.
+                        # Approximate active damage
+                        active_dmg = 0
+                        if my_active:
+                             a_attacks = get_attacks(my_active_name)
+                             for i in range(len(a_attacks)):
+                                  # Simple energy check
+                                  if my_active_energy >= len(a_attacks[i].get("cost", [])):
+                                       d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
+                                       if d > active_dmg: active_dmg = d
+
+                        if active_dmg < 20 and max_dmg >= 40:
+                             # Boost to make it higher than Attack (5000) but lower than Ability (10000).
+                             # Base retreat is -5000. +14000 = 9000.
+                             action["score"] += 14000
+
         # B. Emergency Retreat
         if my_active and get_card_hp(my_active) <= 40 and opp_active and len(get_card_energy(opp_active)) > 0:
             for action in parsed_actions:
@@ -478,6 +527,16 @@ def play(state, game):
                         # Giovanni makes this lethal!
                         gio_action["score"] = LETHAL_KO_SCORE + 100 # Prioritize Giovanni
                         if opp_bench_count == 0: gio_action["score"] = LETHAL_WIN_SCORE + 100
+
+        # D. Mewtwo ex Psydrive check vs Standard Attack
+        # If we have both attacks available, and standard attack is lethal, prefer standard to save energy.
+        # This requires finding the actions in parsed_actions.
+        mewtwo_attacks = [a for a in parsed_actions if a["type"] == "attack" and "mewtwo ex" in my_active_name.lower()]
+        psydrive = next((a for a in mewtwo_attacks if a["idx"] == 1), None)
+        standard = next((a for a in mewtwo_attacks if a["idx"] == 0), None)
+
+        if psydrive and standard and standard.get("is_lethal"):
+             psydrive["score"] = -1000 # Penalize Psydrive if standard is lethal
 
         # --- 7. Selection ---
         best_score = -float('inf')

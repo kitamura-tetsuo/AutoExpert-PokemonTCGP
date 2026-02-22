@@ -199,7 +199,7 @@ def play(state, game):
 
         # Scoring Constants
         LETHAL_WIN_SCORE = 1000000
-        LETHAL_KO_SCORE = 8000 # v8 Value
+        LETHAL_KO_SCORE = 8000 # Lower than Setup (10000+) to prioritize building board
         EMERGENCY_RETREAT_SCORE = 30000
 
         SETUP_EVOLVE_SCORE = 16000

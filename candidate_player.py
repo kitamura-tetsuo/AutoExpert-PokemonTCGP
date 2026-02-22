@@ -210,7 +210,7 @@ def play(state, game):
 
         # Priority constants
         LETHAL_WIN_SCORE = 1000000
-        LETHAL_KO_SCORE = 500000
+        LETHAL_KO_SCORE = 2000 # Just enough to boost above Base Attack (5000->7000) but BELOW Setup (10000+)
 
         SETUP_EVOLVE_SCORE = 16000
         SETUP_PLACE_SCORE = 14000
@@ -334,7 +334,10 @@ def play(state, game):
                          aname = get_card_name(my_active)
                          atype = get_energy_type(aname)
                          ctype = get_energy_type(card_name)
-                         if atype == ctype: details["score"] += 500
+                         if atype == ctype: details["score"] += 1000
+
+                     # Strong Pokemon Bonus
+                     if "ex" in card_name.lower(): details["score"] += 200
                  else:
                      m2 = re_play_pokemon.search(aname)
                      if m2:
@@ -370,12 +373,14 @@ def play(state, game):
                     details["score"] = SETUP_SUPPORTER_SCORE
 
                     if "Research" in sname or "Professor" in sname:
-                        # Improved Logic: Use if hand size is small (< 8). No discard in this sim.
-                        if len(my_hand) < 8: details["score"] += 1000
+                        # Improved Logic: Use if hand size is small (< 9). No discard in this sim.
+                        if len(my_hand) < 9: details["score"] += 3500 # Strongly prioritize Draw
                         else: details["score"] -= 1000 # Wasteful if hand full
                     elif "Sabrina" in sname:
                         # Good if opponent active is strong or has energy
                         if opp_active and opp_energy_count >= 2: details["score"] += 500
+                        # Bad if opponent active is weak (let's finish it off)
+                        if opp_active_hp > 0 and opp_active_hp <= 60: details["score"] -= 5000
                     elif "Giovanni" in sname:
                         # Will be boosted if lethal in post-process
                         pass
@@ -386,7 +391,8 @@ def play(state, game):
                         for b in my_bench:
                              if "Water" in get_energy_type(get_card_name(b)) and needs_energy(b): needs_water = True
 
-                        if needs_water: details["score"] += 800
+                        # Prioritize BEFORE manual attach (13000)
+                        if needs_water: details["score"] += 1500 # 12000 + 1500 = 13500. Below Place (14000).
                         else: details["score"] -= 500
                 else:
                     details["type"] = "item"
@@ -394,6 +400,8 @@ def play(state, game):
                     if "Potion" in aname or "Heal" in aname:
                          if my_active and get_card_hp(my_active) < get_card_max_hp(my_active):
                              details["score"] += 500
+                             # Survival Boost
+                             if get_card_hp(my_active) <= 60: details["score"] += 2000
                          else:
                              details["score"] = -500
                     elif "Red Card" in aname:
@@ -454,6 +462,8 @@ def play(state, game):
 
         # --- 6. Post-Processing & Special Heuristics ---
 
+        has_lethal_attack = any(a.get("is_lethal") for a in parsed_actions if a["type"] == "attack")
+
         # A. Lethal Retreat Check
         # If we have a retreat option, check if the target Pokemon can kill the active
         for action in parsed_actions:
@@ -494,7 +504,7 @@ def play(state, game):
                                        d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
                                        if d > active_dmg: active_dmg = d
 
-                        if active_dmg < 20 and max_dmg >= 40:
+                        if not has_lethal_attack and active_dmg < 40 and max_dmg >= (active_dmg + 40):
                              # Boost to make it higher than Attack (5000) but lower than Ability (10000).
                              # Base retreat is -5000. +14000 = 9000.
                              action["score"] += 14000
@@ -525,7 +535,7 @@ def play(state, game):
                     dmg = a.get("damage", 0)
                     if opp_active_hp > 0 and dmg < opp_active_hp and (dmg + 10) >= opp_active_hp:
                         # Giovanni makes this lethal!
-                        gio_action["score"] = LETHAL_KO_SCORE + 100 # Prioritize Giovanni
+                        gio_action["score"] = 20000 # Prioritize Giovanni
                         if opp_bench_count == 0: gio_action["score"] = LETHAL_WIN_SCORE + 100
 
         # D. Mewtwo ex Psydrive check vs Standard Attack
@@ -536,7 +546,17 @@ def play(state, game):
         standard = next((a for a in mewtwo_attacks if a["idx"] == 0), None)
 
         if psydrive and standard and standard.get("is_lethal"):
-             psydrive["score"] = -1000 # Penalize Psydrive if standard is lethal
+             psydrive["score"] = -2000 # Penalize Psydrive if standard is lethal
+
+        # E. Lethal Efficiency (Avoid fluff to reduce Draws)
+        if has_lethal_attack:
+             for a in parsed_actions:
+                 # If we have lethal, don't waste time placing more weak mons if we have backup
+                 if a["type"] == "place" and len(my_bench) >= 1:
+                     a["score"] -= 5000
+                 # Don't play items (Potion/Red Card) if we are killing them now
+                 if a["type"] == "item":
+                     a["score"] -= 5000
 
         # --- 7. Selection ---
         best_score = -float('inf')

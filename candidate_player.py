@@ -407,7 +407,7 @@ def play(state, game):
                     details["score"] = SETUP_SUPPORTER_SCORE
 
                     if "Research" in sname or "Professor" in sname:
-                        if len(my_hand) < 8: details["score"] += 3500
+                        if len(my_hand) < 8: details["score"] += 4800 # 18800. Beats Attach (18000) and Misty (18500)
                         else: details["score"] -= 1000
                     elif "Sabrina" in sname:
                         if opp_active and opp_energy_count >= 2: details["score"] += 500

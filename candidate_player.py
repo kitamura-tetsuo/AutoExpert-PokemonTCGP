@@ -266,6 +266,7 @@ def play(state, game):
                 details["score"] = ATTACK_BASE_SCORE + (dmg * 10)
 
                 if opp_active_hp > 0 and dmg >= opp_active_hp:
+                    # Lethal Overkill Prevention
                     details["score"] = LETHAL_KO_SCORE + 5000 - dmg
                     details["can_ko"] = True
                     if opp_bench_count == 0:
@@ -381,11 +382,11 @@ def play(state, game):
         has_lethal_attack = any(a.get("is_lethal") for a in parsed_actions if a["type"] == "attack")
         has_ko_attack = any(a.get("can_ko") for a in parsed_actions if a["type"] == "attack")
 
-        # Donk Prevention
+        # Donk Prevention (Extreme Priority)
         if len(my_bench) == 0:
             for a in parsed_actions:
                 if a["type"] == "place":
-                    a["score"] = SETUP_PLACE_URGENT_SCORE
+                    a["score"] = 100000 # Almost win, critical priority
 
         # Determine lethal bencher exists for coordinated switch
         best_bench_damage = 0
@@ -454,7 +455,7 @@ def play(state, game):
             if a["type"] == "supporter":
                 sname = a.get("supporter_name", "")
                 if "Research" in sname or "Professor" in sname:
-                    if len(my_hand) < 8: a["score"] = 19000
+                    if len(my_hand) < 8: a["score"] = 18800 # Slightly below Misty
                     else: a["score"] -= 1000
                 elif "Sabrina" in sname:
                     if opp_active and opp_energy_count >= 2: a["score"] += 500

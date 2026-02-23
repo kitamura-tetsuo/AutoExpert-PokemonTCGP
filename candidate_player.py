@@ -49,7 +49,12 @@ def play(state, game):
             if key in CARD_DB:
                 return CARD_DB[key].get("name", key.title()) # Return canonical name if stored, else title case
 
-            # Fallback
+            # Additional fallback for "Ex" suffix if not in DB directly
+            if key.endswith(" ex"):
+                base_key = key[:-3] + "ex"
+                if base_key in CARD_DB:
+                     return CARD_DB[base_key].get("name", key.title())
+
             return cleaned
 
         def get_card_name(card_obj):
@@ -90,7 +95,7 @@ def play(state, game):
             if "blastoise" in n or "starmie" in n or "articuno" in n or "squirtle" in n or "wartortle" in n or "psyduck" in n or "golduck" in n or "poliwag" in n or "poliwhirl" in n or "poliwrath" in n or "tentacool" in n or "tentacruel" in n or "seel" in n or "dewgong" in n or "shellder" in n or "cloyster" in n or "krabby" in n or "kingler" in n or "horsea" in n or "seadra" in n or "goldeen" in n or "seaking" in n or "staryu" in n or "magikarp" in n or "gyarados" in n or "lapras" in n or "vaporeon" in n or "omanyte" in n or "omastar" in n or "kabuto" in n or "kabutops" in n or "totodile" in n or "croconaw" in n or "feraligatr" in n or "chinchou" in n or "lanturn" in n or "marill" in n or "azumarill" in n or "politoed" in n or "wooper" in n or "quagsire" in n or "slowking" in n or "corsola" in n or "remoraid" in n or "octillery" in n or "mantine" in n or "kingdra" in n or "suicune" in n or "mudkip" in n or "marshtomp" in n or "swampert" in n or "lotad" in n or "lombre" in n or "ludicolo" in n or "wingull" in n or "pelipper" in n or "surskit" in n or "masquerain" in n or "carvanha" in n or "sharpedo" in n or "wailmer" in n or "wailord" in n or "barboach" in n or "whiscash" in n or "corphish" in n or "crawdaunt" in n or "feebas" in n or "milotic" in n or "spheal" in n or "sealeo" in n or "walrein" in n or "clamperl" in n or "huntail" in n or "gorebyss" in n or "relicanth" in n or "luvdisc" in n or "kyogre" in n or "piplup" in n or "prinplup" in n or "empoleon" in n or "bibarel" in n or "buizel" in n or "floatzel" in n or "shellos" in n or "gastrodon" in n or "finneon" in n or "lumineon" in n or "mantyke" in n or "snover" in n or "abomasnow" in n or "phione" in n or "manaphy" in n or "oshawott" in n or "dewott" in n or "samurott" in n or "panpour" in n or "simipour" in n or "tympole" in n or "palpitoad" in n or "seismitoad" in n or "basculin" in n or "tirtouga" in n or "carracosta" in n or "ducklett" in n or "swanna" in n or "vanillite" in n or "vanillish" in n or "vanilluxe" in n or "frillish" in n or "jellicent" in n or "alomomola" in n or "cubchoo" in n or "beartic" in n or "cryogonal" in n or "keldeo" in n or "froakie" in n or "frogadier" in n or "greninja" in n or "binacle" in n or "barbaracle" in n or "clauncher" in n or "clawitzer" in n or "bergmite" in n or "avalugg" in n or "volcanion" in n or "popplio" in n or "brionne" in n or "primarina" in n or "wishiwashi" in n or "mareanie" in n or "toxapex" in n or "dewpider" in n or "araquanid" in n or "pyukumuku" in n or "bruxish" in n or "tapu fini" in n or "sobble" in n or "drizzile" in n or "inteleon" in n or "chewtle" in n or "drednaw" in n or "cramorant" in n or "arrokuda" in n or "barraskewda" in n or "snom" in n or "frosmoth" in n or "eiscue" in n or "arctovish" in n or "quaxly" in n or "quaxwell" in n or "quaquaval" in n or "wiglett" in n or "wugtrio" in n or "finizen" in n or "palafin" in n or "veluza" in n or "dondozo" in n or "tatsugiri" in n or "iron bundle" in n or "walking wake" in n or "ogrepon" in n: return "Water"
             if "venusaur" in n or "bulbasaur" in n or "ivysaur" in n or "caterpie" in n or "metapod" in n or "butterfree" in n or "weedle" in n or "kakuna" in n or "beedrill" in n or "ekans" in n or "arbok" in n or "nidoran" in n or "nidorina" in n or "nidoqueen" in n or "nidorino" in n or "nidoking" in n or "zubat" in n or "golbat" in n or "oddish" in n or "gloom" in n or "vileplume" in n or "paras" in n or "parasect" in n or "venonat" in n or "venomoth" in n or "bellsprout" in n or "weepinbell" in n or "victreebel" in n or "exeggcute" in n or "exeggutor" in n or "tangela" in n or "scyther" in n or "pinsir" in n or "chikorita" in n or "bayleef" in n or "meganium" in n or "sentret" in n or "furret" in n or "spinarak" in n or "ariados" in n or "crobat" in n or "hoppip" in n or "skiploom" in n or "jumpluff" in n or "sunkern" in n or "sunflora" in n or "yanma" in n or "pineco" in n or "forretress" in n or "shuckle" in n or "celebi" in n or "treecko" in n or "grovyle" in n or "sceptile" in n or "wurmple" in n or "silcoon" in n or "beautifly" in n or "cascoon" in n or "dustox" in n or "lotad" in n or "lombre" in n or "ludicolo" in n or "seedot" in n or "nuzleaf" in n or "shiftry" in n or "surskit" in n or "masquerain" in n or "shroomish" in n or "breloom" in n or "nincada" in n or "ninjask" in n or "shedinja" in n or "roselia" in n or "cacnea" in n or "cacturne" in n or "tropius" in n or "turtwig" in n or "grotle" in n or "torterra" in n or "kricketot" in n or "kricketune" in n or "budew" in n or "roserade" in n or "burmy" in n or "wormadam" in n or "mothim" in n or "combee" in n or "vespiquen" in n or "cherubi" in n or "cherrim" in n or "carnivine" in n or "snover" in n or "abomasnow" in n or "tangrowth" in n or "leafeon" in n or "shaymin" in n or "snivy" in n or "servine" in n or "serperior" in n or "pansage" in n or "simisage" in n or "sewaddle" in n or "swadloon" in n or "leavanny" in n or "venipede" in n or "whirlipede" in n or "scolipede" in n or "cottonee" in n or "whimsicott" in n or "petilil" in n or "lilligant" in n or "maractus" in n or "dwebble" in n or "crustle" in n or "karrablast" in n or "escavalier" in n or "foongus" in n or "amoonguss" in n or "ferroseed" in n or "ferrothorn" in n or "shelmet" in n or "accelgor" in n or "durant" in n or "virizion" in n or "chespin" in n or "quilladin" in n or "chesnaught" in n or "scatterbug" in n or "spewpa" in n or "vivillon" in n or "skiddo" in n or "gogoat" in n or "phantump" in n or "trevenant" in n or "pumpkaboo" in n or "gourgeist" in n or "rowlet" in n or "dartrix" in n or "decidueye" in n or "grubbin" in n or "charjabug" in n or "vikavolt" in n or "fomantis" in n or "lurantis" in n or "morelull" in n or "shiinotic" in n or "bounsweet" in n or "steenee" in n or "tsareena" in n or "dhelmise" in n or "tapu bulu" in n or "kartana" in n or "grookey" in n or "thwackey" in n or "rillaboom" in n or "gossifleur" in n or "eldegoss" in n or "applin" in n or "flapple" in n or "appletun" in n or "zarude" in n or "calyrex" in n or "kleavor" in n or "sprigatito" in n or "floragato" in n or "meowscarada" in n or "tarountula" in n or "spidops" in n or "nymble" in n or "lokix" in n or "smoliv" in n or "dolliv" in n or "arboliva" in n or "brambleghast" in n or "toedscool" in n or "toedscruel" in n or "capsakid" in n or "scovillain" in n or "rellor" in n or "rabsca" in n or "brute bonnet" in n or "wo-chien" in n or "hydrapple" in n: return "Grass"
             if "machamp" in n or "marowak" in n or "machop" in n or "machoke" in n or "geodude" in n or "graveler" in n or "golem" in n or "onix" in n or "cubone" in n or "hitmonlee" in n or "hitmonchan" in n or "rhyhorn" in n or "rhydon" in n or "sudowoodo" in n or "gligar" in n or "steelix" in n or "shuckle" in n or "heracross" in n or "corsola" in n or "phanpy" in n or "donphan" in n or "tyrogue" in n or "hitmontop" in n or "larvitar" in n or "pupitar" in n or "tyranitar" in n or "nosepass" in n or "meditite" in n or "medicham" in n or "lunatone" in n or "solrock" in n or "barboach" in n or "whiscash" in n or "baltoy" in n or "claydol" in n or "anorith" in n or "armaldo" in n or "regirock" in n or "groudon" in n or "cranidos" in n or "rampardos" in n or "shieldon" in n or "bastiodon" in n or "bonsly" in n or "riolu" in n or "lucario" in n or "hippopotas" in n or "hippowdon" in n or "rhyperior" in n or "gliscor" in n or "probopass" in n or "gallade" in n or "roggenrola" in n or "boldore" in n or "gigalith" in n or "drilbur" in n or "excadrill" in n or "timburr" in n or "gurdurr" in n or "conkeldurr" in n or "tympole" in n or "palpitoad" in n or "seismitoad" in n or "throh" in n or "sawk" in n or "sandile" in n or "krokorok" in n or "krookodile" in n or "dwebble" in n or "crustle" in n or "scraggy" in n or "scrafty" in n or "archen" in n or "archeops" in n or "stunfisk" in n or "mienfoo" in n or "mienshao" in n or "golett" in n or "golurk" in n or "terrakion" in n or "landorus" in n or "bunnelby" in n or "diggersby" in n or "pancham" in n or "pangoro" in n or "binacle" in n or "barbaracle" in n or "hawlucha" in n or "carbink" in n or "zygarde" in n or "rockruff" in n or "lycanroc" in n or "mudbray" in n or "mudsdale" in n or "minior" in n or "passimian" in n or "sandygast" in n or "palossand" in n or "crabrawler" in n or "crabominable" in n or "stakataka" in n or "clobbopus" in n or "grapploct" in n or "falinks" in n or "stonjourner" in n or "kubfu" in n or "urshifu" in n or "kleavor" in n or "ursaluna" in n or "sneasler" in n or "great tusk" in n or "scream tail" in n or "sandy shocks" in n or "iron hands" in n or "iron treads" in n or "iron valiant" in n or "koraidon" in n or "ting-lu" in n or "okidogi" in n: return "Fighting"
-            if "weezing" in n or "muk" in n or "grimer" in n or "koffing" in n or "ekans" in n or "arbok" in n or "nidoran" in n or "nidorina" in n or "nidoqueen" in n or "nidorino" in n or "nidoking" in n or "zubat" in n or "golbat" in n or "gastly" in n or "haunter" in n or "gengar" in n or "spinarak" in n or "ariados" in n or "crobat" in n or "umbreon" in n or "murkrow" in n or "misdreavus" in n or "sneasel" in n or "houndour" in n or "houndoom" in n or "tyranitar" in n or "poochyena" in n or "mightyena" in n or "sableye" in n or "carvanha" in n or "sharpedo" in n or "cacnea" in n or "cacturne" in n or "seviper" in n or "corphish" in n or "crawdaunt" in n or "shuppet" in n or "banette" in n or "duskull" in n or "dusclops" in n or "absol" in n or "drifloon" in n or "drifblim" in n or "mismagius" in n or "honchkrow" in n or "stunky" in n or "skuntank" in n or "spiritomb" in n or "skorupi" in n or "drapion" in n or "croagunk" in n or "toxicroak" in n or "weavile" in n or "darkrai" in n or "purrloin" in n or "liepard" in n or "venipede" in n or "whirlipede" in n or "scolipede" in n or "sandile" in n or "krokorok" in n or "krookodile" in n or "scraggy" in n or "scrafty" in n or "yamask" in n or "cofagrigus" in n or "trubbish" in n or "garbodor" in n or "zorua" in n or "zoroark" in n or "pawniard" in n or "bisharp" in n or "vullaby" in n or "mandibuzz" in n or "deino" in n or "zweilous" in n or "hydreigon" in n or "greninja" in n or "pangoro" in n or "inkay" in n or "malamar" in n or "yveltal" in n or "incineroar" in n or "grimer" in n or "muk" in n or "rattata" in n or "raticate" in n or "meowth" in n or "persian" in n or "sandshrew" in n or "sandslash" in n or "vulpix" in n or "ninetales" in n or "diglett" in n or "dugtrio" in n or "geodude" in n or "graveler" in n or "golem" in n or "marowak" in n or "raichu" in n or "exeggutor" in n or "marowak" in n or "silvally" in n or "guzzlord" in n or "poipole" in n or "naganadel" in n or "stakataka" in n or "blacephalon" in n or "nickit" in n or "thievul" in n or "impidimp" in n or "morgrem" in n or "grimmsnarl" in n or "obstagoon" in n or "perrserker" in n or "cursola" in n or "sirfetch'd" in n or "mr. rime" in n or "runerigus" in n or "morpeko" in n or "zarude" in n or "regidrago" in n or "urshifu" in n or "calyrex" in n or "wyrdeer" in n or "kleavor" in n or "ursaluna" in n or "basculegion" in n or "sneasler" in n or "overqwil" in n or "enamorus" in n or "lokix" in n or "brambleghast" in n or "toedscool" in n or "toedscruel" in n or "kingambit" in n or "brute bonnet" in n or "flutter mane" in n or "slither wing" in n or "sandy shocks" in n or "iron treads" in n or "iron bundle" in n or "iron hands" in n or "iron jugulis" in n or "iron moth" in n or "iron thorns" in n or "wo-chien" in n or "chien-pao" in n or "ting-lu" in n or "chi-yu" in n or "roaring moon" in n or "iron valiant" in n or "walking wake" in n or "iron leaves" in n or "dipplin" in n or "poltchageist" in n or "sinistcha" in n or "okidogi" in n or "munkidori" in n or "fezandipiti" in n or "ogrepon" in n: return "Darkness"
+            if "weezing" in n or "muk" in n or "grimer" in n or "koffing" in n or "ekans" in n or "arbok" in n or "nidoran" in n or "nidorina" in n or "nidoqueen" in n or "nidorino" in n or "nidoking" in n or "zubat" in n or "golbat" in n or "gastly" in n or "haunter" in n or "gengar" in n or "spinarak" in n or "ariados" in n or "crobat" in n or "umbreon" in n or "murkrow" in n or "misdreavus" in n or "sneasel" in n or "houndour" in n or "houndoom" in n or "tyranitar" in n or "poochyena" in n or "mightyena" in n or "sableye" in n or "carvanha" in n or "sharpedo" in n or "cacnea" in n or "cacturne" in n or "seviper" in n or "corphish" in n or "crawdaunt" in n or "shuppet" in n or "banette" in n or "duskull" in n or "dusclops" in n or "absol" in n or "drifloon" in n or "drifblim" in n or "mismagius" in n or "honchkrow" in n or "stunky" in n or "skuntank" in n or "spiritomb" in n or "skorupi" in n or "drapion" in n or "croagunk" in n or "toxicroak" in n or "weavile" in n or "darkrai" in n or "purrloin" in n or "liepard" in n or "venipede" in n or "whirlipede" in n or "scolipede" in n or "sandile" in n or "krokorok" in n or "krookodile" in n or "scraggy" in n or "scrafty" in n or "yamask" in n or "cofagrigus" in n or "trubbish" in n or "garbodor" in n or "zorua" in n or "zoroark" in n or "pawniard" in n or "bisharp" in n or "vullaby" in n or "mandibuzz" in n or "deino" in n or "zweilous" in n or "hydreigon" in n or "greninja" in n or "pangoro" in n or "inkay" in n or "malamar" in n or "yveltal" in n or "incineroar" in n or "grimer" in n or "muk" in n or "rattata" in n or "raticate" in n or "meowth" in n or "persian" in n or "sandshrew" in n or "sandslash" in n or "vulpix" in n or "ninetales" in n or "diglett" in n or "dugtrio" in n or "geodude" in n or "graveler" in n or "golem" in n or "marowak" in n or "raichu" in n or "exeggutor" in n or "marowak" in n or "silvally" in n or "guzzlord" in n or "poipole" in n or "naganadel" in n or "stakataka" in n or "blacephalon" in n or "nickit" in n or "thievul" in n or "impidimp" in n or "morgrem" in n or "grimmsnarl" in n or "obstagoon" in n or "perrserker" in n or "cursola" in n or "sirfetch'd" in n or "mr. rime" in n or "runerigus" in n or "morpeko" in n or "zarude" in n or "regidrago" in n or "urshifu" in n or "calyrex" in n or "wyrdeer" in n or "kleavor" in n or "ursaluna" in n or "basculegion" in n or "sneasler" in n or "overqwil" in n or "enamorus" in n or "lokix" in n or "brambleghast" in n or "toedscool" in n or "toedscruel" in n or "kingambit" in n or "brute bonnet" in n or "flutter mane" in n or "slither wing" in n or "sandy shocks" in n or "iron treads" in n or "iron bundle" in n or "iron hands" in n or "iron jugulis" in n or "iron moth" in n or "iron thorns" in n or "roaring moon" in n or "iron valiant" in n or "walking wake" in n or "iron leaves" in n or "dipplin" in n or "poltchageist" in n or "sinistcha" in n or "okidogi" in n or "munkidori" in n or "fezandipiti" in n or "ogrepon" in n: return "Darkness"
             if "melmetal" in n or "meltan" in n or "magnemite" in n or "magneton" in n or "forretress" in n or "steelix" in n or "scizor" in n or "skarmory" in n or "mawile" in n or "aron" in n or "lairon" in n or "aggron" in n or "beldum" in n or "metang" in n or "metagross" in n or "registeel" in n or "jirachi" in n or "empoleon" in n or "shieldon" in n or "bastiodon" in n or "bronzor" in n or "bronzong" in n or "lucario" in n or "magnezone" in n or "probopass" in n or "dialga" in n or "heatran" in n or "excadrill" in n or "escavalier" in n or "ferroseed" in n or "ferrothorn" in n or "klink" in n or "klang" in n or "klinklang" in n or "pawniard" in n or "bisharp" in n or "durant" in n or "cobalion" in n or "genesect" in n or "honedge" in n or "doublade" in n or "aegislash" in n or "klefki" in n or "solgaleo" in n or "celesteela" in n or "kartana" in n or "magearna" in n or "stakataka" in n or "meltan" in n or "melmetal" in n or "corviknight" in n or "perrserker" in n or "cufant" in n or "copperajah" in n or "duraludon" in n or "zacian" in n or "zamazenta" in n or "eternatus" in n or "regieleki" in n or "regidrago" in n or "glastrier" in n or "spectrier" in n or "calyrex" in n or "wyrdeer" in n or "kleavor" in n or "ursaluna" in n or "basculegion" in n or "sneasler" in n or "overqwil" in n or "enamorus" in n or "tinkatink" in n or "tinkatuff" in n or "tinkaton" in n or "varoom" in n or "revavroom" in n or "orthworm" in n or "gholdengo" in n or "kingambit" in n or "great tusk" in n or "scream tail" in n or "brute bonnet" in n or "flutter mane" in n or "slither wing" in n or "sandy shocks" in n or "iron treads" in n or "iron bundle" in n or "iron hands" in n or "iron jugulis" in n or "iron moth" in n or "iron thorns" in n or "roaring moon" in n or "iron valiant" in n or "walking wake" in n or "iron leaves" in n or "dipplin" in n or "poltchageist" in n or "sinistcha" in n or "okidogi" in n or "munkidori" in n or "fezandipiti" in n or "ogrepon" in n: return "Metal"
             return "Colorless"
 
@@ -229,29 +234,33 @@ def play(state, game):
             return current_energy < max_cost
 
         # --- 5. Action Parsing & Categorization ---
-        re_attack = re.compile(r"Attack\((\d+)\)")
-        re_attach_energy = re.compile(r"AttachEnergy\((\d+), (.*?)\)")
-        re_attach_simple = re.compile(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)")
-        re_attach_tool = re.compile(r"AttachTool\((?:Some\()?(.*?)\)?, (\d+)\)")
-        re_place = re.compile(r"Place\((?:Some\()?(.*?)\)?, (\d+)\)")
-        re_play_pokemon = re.compile(r"PlayPokemon\((\d+), (\d+)\)")
-        re_evolve = re.compile(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)")
-        re_retreat = re.compile(r"Retreat\((\d+)\)")
-        re_activate = re.compile(r"Activate\((\d+)\)")
-        re_heal = re.compile(r"Heal\((\d+)\)")
-        re_discard = re.compile(r"DiscardOwnCard\((?:Some\()?(.*?)\)?\)")
+        # Regex to parse actions like ActionName(Arg1, Arg2)
+        # Captures: ActionName, ArgsString
+        # Use specific regexes for known complex actions to be safe
 
         parsed_actions = []
 
         # STRICT PRIORITY SYSTEM
         LETHAL_WIN_SCORE = 1000000
 
+        # Priority Hierarchy
+        # 1. Lethal Win (1M)
+        # 2. Evolve (22k)
+        # 3. Place [Empty Bench] (21.5k)
+        # 4. Item (20k)
+        # 5. Ability (19k)
+        # 6. Attach Energy (18k)
+        # 7. Supporter (14k)
+        # 8. Lethal KO (10k)
+        # 9. Attack (1k)
+
         SETUP_EVOLVE_SCORE = 22000
-        SETUP_PLACE_SCORE = 21000
+        SETUP_PLACE_SCORE = 21000 # Base
+        SETUP_PLACE_URGENT_SCORE = 21500 # If bench is empty
         SETUP_ITEM_SCORE = 20000
         SETUP_ABILITY_SCORE = 19000
         SETUP_ATTACH_SCORE = 18000
-        SETUP_SUPPORTER_SCORE = 14000 # Base, can increase
+        SETUP_SUPPORTER_SCORE = 14000
 
         LETHAL_KO_SCORE = 10000 # Added to Attack Base
         ATTACK_BASE_SCORE = 1000
@@ -261,135 +270,115 @@ def play(state, game):
 
         for aid in legal_actions:
             aname = game.action_name(aid)
-            # Pre-clean action name to help parsing card names inside it if regex relies on it
-            # But regex captures group. We clean group later.
-
             details = {"id": aid, "name": aname, "type": "unknown", "score": 0}
+
+            # --- Parsing ---
+            # Attack(idx)
+            m_attack = re.match(r"Attack\((\d+)\)", aname)
+
+            # AttachEnergy(pos, type) OR Attach(EnergyCard, pos)
+            m_attach_energy = re.match(r"AttachEnergy\((\d+), (.*?)\)", aname)
+            m_attach_simple = re.match(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+
+            # AttachTool
+            m_attach_tool = re.match(r"AttachTool\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+
+            # Place / PlayPokemon
+            m_place = re.match(r"Place\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+            m_play_pokemon = re.match(r"PlayPokemon\((\d+), (\d+)\)", aname) # Usually HandIdx, Pos
+
+            # Evolve
+            m_evolve = re.match(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+
+            # Retreat
+            m_retreat = re.match(r"Retreat\((\d+)\)", aname)
+
+            # Activate/Heal/Discard
+            m_activate = re.match(r"Activate\((\d+)\)", aname)
+            m_heal = re.match(r"Heal\((\d+)\)", aname)
+            m_discard = re.match(r"DiscardOwnCard\((?:Some\()?(.*?)\)?\)", aname)
 
             if aname == "EndTurn":
                 details["type"] = "end"
                 details["score"] = END_TURN_SCORE
 
-            elif "Attack" in aname:
-                m = re_attack.search(aname)
-                if m:
-                    idx = int(m.group(1))
-                    details["type"] = "attack"
-                    details["idx"] = idx
-                    dmg = 0
-                    if my_active:
-                         dmg = calculate_damage(my_active, idx, my_bench, opp_active, opp_bench_count, opp_energy_count)
-                    details["damage"] = dmg
-                    details["score"] = ATTACK_BASE_SCORE + (dmg * 10)
+            elif m_attack:
+                idx = int(m_attack.group(1))
+                details["type"] = "attack"
+                details["idx"] = idx
+                dmg = 0
+                if my_active:
+                     dmg = calculate_damage(my_active, idx, my_bench, opp_active, opp_bench_count, opp_energy_count)
+                details["damage"] = dmg
+                details["score"] = ATTACK_BASE_SCORE + (dmg * 10)
 
-                    # Lethal Check
-                    if opp_active_hp > 0 and dmg >= opp_active_hp:
-                        details["score"] += LETHAL_KO_SCORE
-                        details["can_ko"] = True
-                        if opp_bench_count == 0:
-                            details["score"] += LETHAL_WIN_SCORE
-                            details["is_lethal"] = True
+                # Lethal Check
+                if opp_active_hp > 0 and dmg >= opp_active_hp:
+                    details["score"] += LETHAL_KO_SCORE
+                    details["can_ko"] = True
+                    if opp_bench_count == 0:
+                        details["score"] += LETHAL_WIN_SCORE
+                        details["is_lethal"] = True
+                    elif state.points[0] + 1 >= 3: # Assuming standard rules, verify points if possible
+                         # state.points is (P0, P1)
+                         pass
 
-                    # Mewtwo ex Psydrive penalty if not lethal
-                    if "mewtwo ex" in my_active_name.lower() and idx == 1:
-                        if not details.get("is_lethal"):
-                             if opp_active_hp <= 50:
-                                 details["score"] -= 2000
+                # Mewtwo ex Psydrive penalty
+                if "mewtwo ex" in my_active_name.lower() and idx == 1:
+                    if not details.get("is_lethal"):
+                         if opp_active_hp <= 50: # Don't use big attack on small HP if not winning
+                             details["score"] -= 2000
 
-            elif "AttachTool" in aname:
-                m = re_attach_tool.search(aname)
-                if m:
-                    details["type"] = "tool"
-                    details["card_name"] = clean_name(m.group(1))
-                    details["pos"] = int(m.group(2))
-                    details["score"] = SETUP_ITEM_SCORE
+            elif m_attach_tool:
+                details["type"] = "tool"
+                details["card_name"] = clean_name(m_attach_tool.group(1))
+                details["pos"] = int(m_attach_tool.group(2))
+                details["score"] = SETUP_ITEM_SCORE
 
-            elif "Attach" in aname:
-                 m = re_attach_energy.search(aname)
-                 pos = -1
-                 etype = ""
-                 if m:
-                     pos = int(m.group(1))
-                     etype = m.group(2)
-                 else:
-                     m = re_attach_simple.search(aname)
-                     if m:
-                         obj = m.group(1)
-                         pos = int(m.group(2))
-                         if "Energy" in obj or any(t in obj for t in ["Lightning", "Water", "Fire", "Grass", "Fighting", "Psychic", "Darkness", "Metal"]):
-                             etype = obj
+            elif m_attach_energy:
+                 pos = int(m_attach_energy.group(1))
+                 etype = m_attach_energy.group(2)
+                 details["type"] = "attach_energy"
+                 details["pos"] = pos
+                 details["energy_type"] = etype
+                 details["score"] = SETUP_ATTACH_SCORE
 
-                 if etype:
-                     details["type"] = "attach_energy"
-                     details["pos"] = pos
-                     details["energy_type"] = etype
-                     details["score"] = SETUP_ATTACH_SCORE
+            elif m_attach_simple and "Energy" in aname: # Fallback for some simulators
+                 obj = m_attach_simple.group(1)
+                 pos = int(m_attach_simple.group(2))
+                 # Infer type if possible or treat generic
+                 details["type"] = "attach_energy"
+                 details["pos"] = pos
+                 details["energy_type"] = clean_name(obj)
+                 details["score"] = SETUP_ATTACH_SCORE
 
-                     # Check target
-                     target_card = None
-                     if pos == 0: target_card = my_active
-                     elif pos > 0 and pos <= len(my_bench_raw): target_card = my_bench_raw[pos-1]
+            elif m_place:
+                 card_name = clean_name(m_place.group(1))
+                 pos = int(m_place.group(2))
+                 details["type"] = "place"
+                 details["card_name"] = card_name
+                 details["pos"] = pos
+                 details["score"] = SETUP_PLACE_SCORE
 
-                     if target_card:
-                         # Prioritize Active if it needs energy
-                         if pos == 0 and needs_energy(target_card):
-                             details["score"] += 800
-                         elif needs_energy(target_card):
-                             details["score"] += 500
+            elif m_play_pokemon:
+                 # Logic for PlayPokemon(HandIdx, Pos)
+                 # We don't have card name easily here without hand lookup, but let's assume valid
+                 details["type"] = "place"
+                 details["pos"] = int(m_play_pokemon.group(2))
+                 details["score"] = SETUP_PLACE_SCORE
+                 # Try to get card name from hand if possible
+                 h_idx = int(m_play_pokemon.group(1))
+                 if h_idx < len(my_hand):
+                     details["card_name"] = get_card_name(my_hand[h_idx])
 
-                         # Bonus for type match
-                         cname = get_card_name(target_card)
-                         ctype = get_energy_type(cname)
-                         if ctype in etype or etype in ctype:
-                             details["score"] += 200
-
-                         if not needs_energy(target_card):
-                             details["score"] -= 500 # Don't over-attach
-                     else:
-                         details["score"] -= 1000 # Invalid target?
-                 else:
-                     details["type"] = "tool"
-                     details["score"] = SETUP_ITEM_SCORE
-
-            elif "Place" in aname or "PlayPokemon" in aname:
-                 m = re_place.search(aname)
-                 if m:
-                     card_name = clean_name(m.group(1))
-                     pos = int(m.group(2))
-                     details["type"] = "place"
-                     details["card_name"] = card_name
-                     details["pos"] = pos
-                     details["score"] = SETUP_PLACE_SCORE
-
-                     if len(my_bench) < 2: details["score"] += 500
-                     elif len(my_bench) < 3: details["score"] += 200
-
-                     # Synergy bonus
-                     if my_active:
-                         aname = get_card_name(my_active)
-                         atype = get_energy_type(aname)
-                         ctype = get_energy_type(card_name)
-                         if atype == ctype: details["score"] += 1000
-
-                     if "ex" in card_name.lower(): details["score"] += 200
-                 else:
-                     m2 = re_play_pokemon.search(aname)
-                     if m2:
-                         details["type"] = "place"
-                         details["pos"] = int(m2.group(2))
-                         details["score"] = SETUP_PLACE_SCORE
-                         if len(my_bench) < 3: details["score"] += 200
-
-            elif "Evolve" in aname:
-                m = re_evolve.search(aname)
-                if m:
-                    card_name = clean_name(m.group(1))
-                    pos = int(m.group(2))
-                    details["type"] = "evolve"
-                    details["card_name"] = card_name
-                    details["pos"] = pos
-                    details["score"] = SETUP_EVOLVE_SCORE
-                    if pos == 0: details["score"] += 500
+            elif m_evolve:
+                card_name = clean_name(m_evolve.group(1))
+                pos = int(m_evolve.group(2))
+                details["type"] = "evolve"
+                details["card_name"] = card_name
+                details["pos"] = pos
+                details["score"] = SETUP_EVOLVE_SCORE
+                if pos == 0: details["score"] += 500
 
             elif "UseSupporter" in aname or ("Play" in aname and not "Pokemon" in aname):
                 is_supporter = False
@@ -405,59 +394,19 @@ def play(state, game):
                     details["type"] = "supporter"
                     details["supporter_name"] = sname
                     details["score"] = SETUP_SUPPORTER_SCORE
-
-                    if "Research" in sname or "Professor" in sname:
-                        if len(my_hand) < 8: details["score"] += 4800 # 18800. Beats Attach (18000) and Misty (18500)
-                        else: details["score"] -= 1000
-                    elif "Sabrina" in sname:
-                        if opp_active and opp_energy_count >= 2: details["score"] += 500
-                        if opp_active_hp > 0 and opp_active_hp <= 60: details["score"] -= 8000
-                    elif "Giovanni" in sname:
-                        pass
-                    elif "Misty" in sname:
-                        needs_water = False
-                        if "Water" in get_energy_type(my_active_name) and needs_energy(my_active): needs_water = True
-                        for b in my_bench:
-                             if "Water" in get_energy_type(get_card_name(b)) and needs_energy(b): needs_water = True
-
-                        if needs_water: details["score"] = 18500 # Prioritize over Active Attach (18000)
-                        else: details["score"] -= 500
                 else:
                     details["type"] = "item"
                     details["score"] = SETUP_ITEM_SCORE
-                    if "Potion" in aname or "Heal" in aname:
-                         if my_active and get_card_hp(my_active) < get_card_max_hp(my_active):
-                             details["score"] += 500
-                         else:
-                             details["score"] = -500
-                    elif "Red Card" in aname:
-                         if opp_hand_count >= 3: details["score"] += 500
-                         else: details["score"] -= 10000
 
-            elif "Retreat" in aname:
+            elif m_retreat:
                 details["type"] = "retreat"
-                m = re_retreat.search(aname)
-                if m:
-                    target_pos = int(m.group(1))
-                    details["target_pos"] = target_pos
+                details["target_pos"] = int(m_retreat.group(1))
                 details["score"] = RETREAT_SCORE
 
-            elif "Activate" in aname:
+            elif m_activate:
                 details["type"] = "activate"
-                m = re_activate.search(aname)
-                if m: details["target_pos"] = int(m.group(1))
-                details["score"] = LETHAL_WIN_SCORE
-
-                if my_active and get_card_hp(my_active) > 0:
-                     details["score"] = SETUP_ABILITY_SCORE
-                else:
-                     if details.get("target_pos") is not None:
-                         t_pos = details["target_pos"]
-                         if t_pos < len(my_bench_raw):
-                             b = my_bench_raw[t_pos]
-                             if b:
-                                 e_count = len(get_card_energy(b))
-                                 details["score"] += (e_count * 1000)
+                details["target_pos"] = int(m_activate.group(1))
+                details["score"] = SETUP_ABILITY_SCORE
 
             elif "ApplyDamage" in aname:
                  details["type"] = "damage_resolution"
@@ -467,26 +416,106 @@ def play(state, game):
                 details["type"] = "ability"
                 details["score"] = SETUP_ABILITY_SCORE
 
-            elif "DiscardOwnCard" in aname:
+            elif m_discard:
                 details["type"] = "discard"
-                m = re_discard.search(aname)
-                if m: details["card_name"] = clean_name(m.group(1))
+                details["card_name"] = clean_name(m_discard.group(1))
                 details["score"] = 0
-
-                cname = details.get("card_name", "Unknown").lower()
-                if "ex" in cname: details["score"] -= 1000
-                elif "research" in cname or "gio" in cname or "sabrina" in cname: details["score"] -= 500
-                elif "energy" in cname: details["score"] += 100
-                else: details["score"] += 200
 
             parsed_actions.append(details)
 
-        # --- 6. Post-Processing & Special Heuristics ---
+        # --- 6. Refined Scoring Logic ---
 
+        # Pre-calc context
         has_lethal_attack = any(a.get("is_lethal") for a in parsed_actions if a["type"] == "attack")
         has_ko_attack = any(a.get("can_ko") for a in parsed_actions if a["type"] == "attack")
 
-        # A. Lethal Retreat Check
+        # Donk Prevention: If bench is empty, prioritize placing Basic
+        if len(my_bench) == 0:
+            for a in parsed_actions:
+                if a["type"] == "place":
+                    a["score"] = SETUP_PLACE_URGENT_SCORE
+
+        for a in parsed_actions:
+            # Attach Energy Heuristics
+            if a["type"] == "attach_energy":
+                pos = a.get("pos", -1)
+                target_card = None
+                if pos == 0: target_card = my_active
+                elif pos > 0 and pos <= len(my_bench_raw): target_card = my_bench_raw[pos-1]
+
+                if target_card:
+                    cname = get_card_name(target_card)
+                    # Check type match if possible
+                    ctype = get_energy_type(cname)
+                    etype = a.get("energy_type", "")
+
+                    if needs_energy(target_card):
+                         if pos == 0: a["score"] += 800 # Prioritize Active
+                         else: a["score"] += 500
+
+                    if ctype in etype or etype in ctype:
+                         a["score"] += 200
+
+                    if not needs_energy(target_card):
+                         a["score"] -= 500 # Don't over-attach
+                else:
+                    a["score"] -= 1000
+
+            # Supporter Heuristics
+            if a["type"] == "supporter":
+                sname = a.get("supporter_name", "")
+                if "Research" in sname or "Professor" in sname:
+                    if len(my_hand) < 8: a["score"] += 4800 # Strong draw priority
+                    else: a["score"] -= 1000
+                elif "Sabrina" in sname:
+                    if opp_active and opp_energy_count >= 2: a["score"] += 500
+                    if opp_active_hp > 0 and opp_active_hp <= 60: a["score"] -= 8000
+                elif "Misty" in sname:
+                    # Misty Priority: Place > Misty > Attach
+                    # Check if we have water targets
+                    needs_water = False
+                    if "Water" in get_energy_type(my_active_name) and needs_energy(my_active): needs_water = True
+                    for b in my_bench:
+                         if "Water" in get_energy_type(get_card_name(b)) and needs_energy(b): needs_water = True
+
+                    if needs_water:
+                        a["score"] = 18500 # Higher than Manual Attach (18000)
+                    else:
+                        a["score"] -= 500
+
+            # Item Heuristics
+            if a["type"] == "item":
+                if "Potion" in a["name"] or "Heal" in a["name"]:
+                     if my_active and get_card_hp(my_active) < get_card_max_hp(my_active):
+                         a["score"] += 500
+                     else:
+                         a["score"] = -500
+                elif "Red Card" in a["name"]:
+                     if opp_hand_count >= 3: a["score"] += 500
+                     else: a["score"] -= 10000
+
+            # Discard Heuristics
+            if a["type"] == "discard":
+                cname = a.get("card_name", "Unknown").lower()
+                if "ex" in cname: a["score"] -= 1000
+                elif "research" in cname or "gio" in cname or "sabrina" in cname: a["score"] -= 500
+                elif "energy" in cname: a["score"] += 100
+                else: a["score"] += 200
+
+            # Place Heuristics
+            if a["type"] == "place":
+                card_name = a.get("card_name", "")
+                if card_name:
+                    # Synergy bonus
+                     if my_active:
+                         aname = get_card_name(my_active)
+                         atype = get_energy_type(aname)
+                         ctype = get_energy_type(card_name)
+                         if atype == ctype: a["score"] += 1000
+
+                     if "ex" in card_name.lower(): a["score"] += 200
+
+        # Lethal Retreat Check
         for action in parsed_actions:
             if action["type"] == "retreat" or (action["type"] == "activate" and my_active and get_card_hp(my_active) > 0):
                 target_pos = action.get("target_pos", -1)
@@ -508,10 +537,10 @@ def play(state, game):
                                  action["score"] = LETHAL_WIN_SCORE
                              elif not has_ko_attack:
                                  # Only switch if current active CANNOT kill
-                                 action["score"] = 14500
+                                 action["score"] = 14500 # Higher than Attack, lower than Setup
                              action["is_lethal_switch"] = True
 
-                        # B2. Retreat for Damage
+                        # Retreat for Damage (if Active is doing nothing)
                         active_dmg = 0
                         if my_active:
                              a_attacks = get_attacks(my_active_name)
@@ -521,32 +550,10 @@ def play(state, game):
                                        if d > active_dmg: active_dmg = d
 
                         if not has_lethal_attack and active_dmg < 40 and max_dmg >= (active_dmg + 40):
-                             action["score"] = 14000
+                             if action["score"] < 14000:
+                                 action["score"] = 14000
 
-        # B. Emergency Retreat
-        if my_active and get_card_hp(my_active) <= 40 and opp_active and len(get_card_energy(opp_active)) > 0:
-            for action in parsed_actions:
-                if action["type"] == "retreat":
-                    action["score"] = 30000
-
-        # C. Giovanni for Lethal
-        has_giovanni = False
-        gio_action = None
-        for a in parsed_actions:
-            if a["type"] == "supporter" and "Giovanni" in a.get("supporter_name", ""):
-                has_giovanni = True
-                gio_action = a
-                break
-
-        if has_giovanni:
-            for a in parsed_actions:
-                if a["type"] == "attack":
-                    dmg = a.get("damage", 0)
-                    if opp_active_hp > 0 and dmg < opp_active_hp and (dmg + 10) >= opp_active_hp:
-                        gio_action["score"] = 22000
-                        if opp_bench_count == 0: gio_action["score"] = LETHAL_WIN_SCORE + 100
-
-        # D. Mewtwo ex Psydrive check
+        # Mewtwo ex Psydrive check (Post-calc)
         mewtwo_attacks = [a for a in parsed_actions if a["type"] == "attack" and "mewtwo ex" in my_active_name.lower()]
         psydrive = next((a for a in mewtwo_attacks if a["idx"] == 1), None)
         standard = next((a for a in mewtwo_attacks if a["idx"] == 0), None)
@@ -554,13 +561,23 @@ def play(state, game):
         if psydrive and standard and standard.get("is_lethal"):
              psydrive["score"] = -2000
 
-        # E. Lethal Efficiency
-        if has_lethal_attack:
+        # Lethal Efficiency: If we have a lethal attack, KILL NOW. Ignore setup.
+        # Exception: If lethal score is WIN, we definitely take it.
+        # If lethal score is just KO (not win), we might still want to evolve/attach if safe?
+
+        has_win_attack = any(a.get("is_lethal") for a in parsed_actions if a["type"] == "attack")
+
+        if not has_win_attack and has_ko_attack:
+             # If we can KO, penalize non-essential setup to save steps/draws
              for a in parsed_actions:
-                 if a["type"] == "place" and len(my_bench) >= 1:
-                     a["score"] -= 5000
-                 if a["type"] == "item":
-                     a["score"] -= 5000
+                 # Reduce score of Setup actions if they are not urgent (e.g. Donk prevention)
+                 # Items (20k) and Place (21k) are main targets.
+                 # Keep Attach (18k) and Evolve (22k) high? Evolve is 22k > Place 21k.
+
+                 # If we have KO (10k+), we prefer it over Place/Item which are 20k+.
+                 if a["type"] in ["place", "item"]:
+                     if a["score"] > 10000 and a["score"] != SETUP_PLACE_URGENT_SCORE:
+                         a["score"] -= 10000
 
         # --- 7. Selection ---
         best_score = -float('inf')
@@ -581,4 +598,5 @@ def play(state, game):
 
     except Exception as e:
         logger.error(f"Error in play: {e}")
+        # traceback.print_exc()
         return legal_actions[0]

@@ -1,0 +1,6190 @@
+2026-02-23 11:43:49,159 - INFO - Using candidate_player.play for Player 0.
+2026-02-23 11:43:49,159 - INFO - Using candidate_player.play from past_repo for Player 1.
+
+--- STEP 0 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    5
+  ],
+  "my_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Swablu",
+    "Chingling",
+    "Furfrou",
+    "Copycat",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Cyrus",
+    "Mars",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {8632: 'Place(Some(B1196Swablu), 0)', 8284: 'Place(Some(B1109Chingling), 0)', 9432: 'Place(Some(B1a065Furfrou), 0)'}
+Selected Action: 8632 - Place(Some(B1196Swablu), 0)
+
+--- STEP 1 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Chingling",
+    "Furfrou",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Cyrus",
+    "Mars",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {8285: 'Place(Some(B1109Chingling), 1)', 9433: 'Place(Some(B1a065Furfrou), 1)', 0: 'EndTurn'}
+Selected Action: 8285 - Place(Some(B1109Chingling), 1)
+
+--- STEP 2 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    5
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Copycat",
+    "Furfrou"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Cyrus",
+    "Mars",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {9434: 'Place(Some(B1a065Furfrou), 2)', 0: 'EndTurn'}
+Selected Action: 9434 - Place(Some(B1a065Furfrou), 2)
+
+--- STEP 3 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    5
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Cyrus",
+    "Mars",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 4 (Player 0 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    2
+  ],
+  "my_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Swablu",
+    "Greninja",
+    "Froakie",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Froakie",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {8632: 'Place(Some(B1196Swablu), 0)', 356: 'Place(Some(A1087Froakie), 0)'}
+Selected Action: 8632 - Place(Some(B1196Swablu), 0)
+
+--- STEP 5 (Player 0 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    2
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Greninja",
+    "Froakie",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Froakie",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {357: 'Place(Some(A1087Froakie), 1)', 0: 'EndTurn'}
+Selected Action: 357 - Place(Some(A1087Froakie), 1)
+
+--- STEP 6 (Player 0 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    2
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Greninja",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Froakie",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 7 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    3
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Copycat",
+    "Rocky Helmet"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Mars",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 24340: 'Play(Some(B1225Copycat))', 22675: 'Play(Some(A2148RockyHelmet))', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 8 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    3
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Copycat",
+    "Rocky Helmet"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Mars",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 24340: 'Play(Some(B1225Copycat))', 22675: 'Play(Some(A2148RockyHelmet))', 5: 'Retreat(1)', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 24340 - Play(Some(B1225Copycat))
+
+--- STEP 9 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    3
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Pok\u00e9 Ball",
+    "Mars"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 24787: 'Play(Some(PA005PokeBall))', 5: 'Retreat(1)', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 24787 - Play(Some(PA005PokeBall))
+
+--- STEP 10 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    3
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Mars",
+    "Indeedee ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 8335: 'Place(Some(B1121IndeedeeEx), 3)', 5: 'Retreat(1)', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 8335 - Place(Some(B1121IndeedeeEx), 3)
+
+--- STEP 11 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    3
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Mars"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 12 (Player 0 Turn) ---
+{
+  "turn": 2,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    2
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Greninja",
+    "Mega Altaria ex",
+    "Froakie"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 358: 'Place(Some(A1087Froakie), 2)', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)'}
+Selected Action: 358 - Place(Some(A1087Froakie), 2)
+
+--- STEP 13 (Player 0 Turn) ---
+{
+  "turn": 2,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    2
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Greninja",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 14 (Player 0 Turn) ---
+{
+  "turn": 2,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    2
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Greninja",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 15 (Player 1 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    3
+  ],
+  "my_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [
+      "Asleep"
+    ],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Mars",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 22682: 'Play(Some(A2155Mars))', 19328: 'Evolve(Some(B1102MegaAltariaEx), 0)', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)', 24943: 'Attach(Psychic, 3)', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 19328 - Evolve(Some(B1102MegaAltariaEx), 0)
+
+--- STEP 16 (Player 1 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    3
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Mars"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 22682: 'Play(Some(A2155Mars))', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)', 24943: 'Attach(Psychic, 3)', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 17 (Player 1 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    3
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Mars"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 22682: 'Play(Some(A2155Mars))', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 22682 - Play(Some(A2155Mars))
+
+--- STEP 18 (Player 1 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Swablu",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 19 (Player 1 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Swablu"
+  ]
+}
+Legal Actions: {36037: 'Activate(1)', 36038: 'Activate(2)'}
+Selected Action: 36037 - Activate(1)
+
+--- STEP 20 (Player 1 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": true,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Lisia",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 21 (Player 0 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    1
+  ],
+  "my_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Professor's Research"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Copycat",
+    "Lisia",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24789: 'Play(Some(PA007ProfessorsResearch))', 24940: 'Attach(Psychic, 0)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 24789 - Play(Some(PA007ProfessorsResearch))
+
+--- STEP 22 (Player 0 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    1
+  ],
+  "my_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24787: 'Play(Some(PA005PokeBall))', 24940: 'Attach(Psychic, 0)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 23 (Player 0 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    1
+  ],
+  "my_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Jirachi",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24787: 'Play(Some(PA005PokeBall))', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 24787 - Play(Some(PA005PokeBall))
+
+--- STEP 24 (Player 0 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    1
+  ],
+  "my_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat",
+    "Jirachi"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 8273: 'Place(Some(B1106Jirachi), 1)', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 8273 - Place(Some(B1106Jirachi), 1)
+
+--- STEP 25 (Player 0 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    1
+  ],
+  "my_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Jirachi",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 189,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 26 (Player 1 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Jirachi",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Lisia"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24341: 'Play(Some(B1226Lisia))', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)', 24943: 'Attach(Psychic, 3)', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 24943 - Attach(Psychic, 3)
+
+--- STEP 27 (Player 1 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Jirachi",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Lisia"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24341: 'Play(Some(B1226Lisia))', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 24341 - Play(Some(B1226Lisia))
+
+--- STEP 28 (Player 1 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Froakie",
+    "hp": 60,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Jirachi",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 29 (Player 1 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Jirachi",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {36037: 'Activate(1)', 36038: 'Activate(2)'}
+Selected Action: 36037 - Activate(1)
+
+--- STEP 30 (Player 1 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": true,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 31 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat",
+    "Professor's Research"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Chingling",
+    "Swablu",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24340: 'Play(Some(B1225Copycat))', 24789: 'Play(Some(PA007ProfessorsResearch))', 24940: 'Attach(Psychic, 0)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 24789 - Play(Some(PA007ProfessorsResearch))
+
+--- STEP 32 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat",
+    "Swablu",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 8633: 'Place(Some(B1196Swablu), 1)', 8285: 'Place(Some(B1109Chingling), 1)', 24940: 'Attach(Psychic, 0)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 8633 - Place(Some(B1196Swablu), 1)
+
+--- STEP 33 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 8287: 'Place(Some(B1109Chingling), 3)', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)'}
+Selected Action: 8287 - Place(Some(B1109Chingling), 3)
+
+--- STEP 34 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)', 24943: 'Attach(Psychic, 3)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 35 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 36 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 180,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {49941: 'ApplyDamage(0)', 49942: 'ApplyDamage(1)', 49943: 'ApplyDamage(2)', 49944: 'ApplyDamage(3)'}
+Selected Action: 49941 - ApplyDamage(0)
+
+--- STEP 37 (Player 0 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Altaria ex",
+    "hp": 150,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Copycat"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Greninja",
+    "Greninja",
+    "Rocky Helmet",
+    "Rare Candy",
+    "Mega Altaria ex",
+    "Copycat",
+    "Lisia"
+  ],
+  "opp_deck_count": 8,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ],
+  "opp_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 38 (Player 1 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 150,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling",
+    "Rocky Helmet"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 7,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 22675: 'Play(Some(A2148RockyHelmet))', 24940: 'Attach(Psychic, 0)', 24941: 'Attach(Psychic, 1)', 24942: 'Attach(Psychic, 2)', 24943: 'Attach(Psychic, 3)', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 24943 - Attach(Psychic, 3)
+
+--- STEP 39 (Player 1 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 150,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling",
+    "Rocky Helmet"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 7,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 22675: 'Play(Some(A2148RockyHelmet))', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 22675 - Play(Some(A2148RockyHelmet))
+
+--- STEP 40 (Player 1 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 150,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 7,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {27040: 'AttachTool(Some(A2148RockyHelmet), 0)', 27041: 'AttachTool(Some(A2148RockyHelmet), 1)', 27042: 'AttachTool(Some(A2148RockyHelmet), 2)', 27043: 'AttachTool(Some(A2148RockyHelmet), 3)'}
+Selected Action: 27040 - AttachTool(Some(A2148RockyHelmet), 0)
+
+--- STEP 41 (Player 1 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Altaria ex",
+    "hp": 150,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Furfrou",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Psychic": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Jirachi",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Swablu",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Froakie",
+      "hp": 60,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Chingling",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Swablu",
+    "Chingling"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Guzma",
+    "Mega Altaria ex",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 7,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Lisia",
+    "Mars",
+    "Pok\u00e9 Ball",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Professor's Research",
+    "Froakie",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Swablu"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 6: 'Retreat(2)', 7: 'Retreat(3)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- GAME OVER ---
+Winner: GameOutcome::Win(1)

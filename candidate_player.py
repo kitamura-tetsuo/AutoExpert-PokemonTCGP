@@ -248,12 +248,14 @@ def play(state, game):
 
         SETUP_EVOLVE_SCORE = 22000
         SETUP_PLACE_SCORE = 21000
-        SETUP_ITEM_SCORE = 20000
-        SETUP_ABILITY_SCORE = 19000
-        SETUP_ATTACH_SCORE = 18000
+        SETUP_MISTY_SCORE = 20500
+        SETUP_ATTACH_SCORE = 20000
+        SETUP_ABILITY_SCORE = 19500
+        SETUP_ITEM_SCORE = 19000
+        SETUP_RESEARCH_SCORE = 18500
         SETUP_SUPPORTER_SCORE = 14000 # Base, can increase
 
-        LETHAL_KO_SCORE = 10000 # Added to Attack Base
+        LETHAL_KO_SCORE = 12000 # Added to Attack Base
         ATTACK_BASE_SCORE = 1000
 
         RETREAT_SCORE = -5000
@@ -353,13 +355,31 @@ def play(state, game):
 
             elif "Place" in aname or "PlayPokemon" in aname:
                  m = re_place.search(aname)
+                 card_name = ""
+                 pos = -1
+
                  if m:
                      card_name = clean_name(m.group(1))
                      pos = int(m.group(2))
+                 else:
+                     m2 = re_play_pokemon.search(aname)
+                     if m2:
+                         hand_idx = int(m2.group(1))
+                         pos = int(m2.group(2))
+                         if hand_idx < len(my_hand):
+                             card_name = get_card_name(my_hand[hand_idx])
+                         else:
+                             card_name = "Unknown"
+
+                 if pos != -1:
                      details["type"] = "place"
                      details["card_name"] = card_name
                      details["pos"] = pos
                      details["score"] = SETUP_PLACE_SCORE
+
+                     # DONK PREVENTION
+                     if len(my_bench) == 0:
+                         details["score"] += 5000 # To 26000
 
                      if len(my_bench) < 2: details["score"] += 500
                      elif len(my_bench) < 3: details["score"] += 200
@@ -371,14 +391,11 @@ def play(state, game):
                          ctype = get_energy_type(card_name)
                          if atype == ctype: details["score"] += 1000
 
+                     # Pikachu ex heuristic
+                     if "pikachu ex" in my_active_name.lower() and len(my_bench) < 5:
+                         details["score"] += 500
+
                      if "ex" in card_name.lower(): details["score"] += 200
-                 else:
-                     m2 = re_play_pokemon.search(aname)
-                     if m2:
-                         details["type"] = "place"
-                         details["pos"] = int(m2.group(2))
-                         details["score"] = SETUP_PLACE_SCORE
-                         if len(my_bench) < 3: details["score"] += 200
 
             elif "Evolve" in aname:
                 m = re_evolve.search(aname)
@@ -407,7 +424,8 @@ def play(state, game):
                     details["score"] = SETUP_SUPPORTER_SCORE
 
                     if "Research" in sname or "Professor" in sname:
-                        if len(my_hand) < 8: details["score"] += 4800 # 18800. Beats Attach (18000) and Misty (18500)
+                        details["score"] = SETUP_RESEARCH_SCORE # 18500
+                        if len(my_hand) < 8: details["score"] += 200 # slightly favor
                         else: details["score"] -= 1000
                     elif "Sabrina" in sname:
                         if opp_active and opp_energy_count >= 2: details["score"] += 500
@@ -420,7 +438,7 @@ def play(state, game):
                         for b in my_bench:
                              if "Water" in get_energy_type(get_card_name(b)) and needs_energy(b): needs_water = True
 
-                        if needs_water: details["score"] = 18500 # Prioritize over Active Attach (18000)
+                        if needs_water: details["score"] = SETUP_MISTY_SCORE # 20500
                         else: details["score"] -= 500
                 else:
                     details["type"] = "item"
@@ -558,9 +576,15 @@ def play(state, game):
         if has_lethal_attack:
              for a in parsed_actions:
                  if a["type"] == "place" and len(my_bench) >= 1:
-                     a["score"] -= 5000
+                     a["score"] -= 500000
                  if a["type"] == "item":
-                     a["score"] -= 5000
+                     a["score"] -= 500000
+                 if a["type"] == "supporter":
+                     a["score"] -= 500000
+                 if a["type"] == "evolve":
+                     a["score"] -= 500000
+                 if a["type"] == "attach_energy":
+                     a["score"] -= 500000
 
         # --- 7. Selection ---
         best_score = -float('inf')

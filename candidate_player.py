@@ -90,8 +90,7 @@ def play(state, game):
             if "blastoise" in n or "starmie" in n or "articuno" in n or "squirtle" in n or "wartortle" in n or "psyduck" in n or "golduck" in n or "poliwag" in n or "poliwhirl" in n or "poliwrath" in n or "tentacool" in n or "tentacruel" in n or "seel" in n or "dewgong" in n or "shellder" in n or "cloyster" in n or "krabby" in n or "kingler" in n or "horsea" in n or "seadra" in n or "goldeen" in n or "seaking" in n or "staryu" in n or "magikarp" in n or "gyarados" in n or "lapras" in n or "vaporeon" in n or "omanyte" in n or "omastar" in n or "kabuto" in n or "kabutops" in n or "totodile" in n or "croconaw" in n or "feraligatr" in n or "chinchou" in n or "lanturn" in n or "marill" in n or "azumarill" in n or "politoed" in n or "wooper" in n or "quagsire" in n or "slowking" in n or "corsola" in n or "remoraid" in n or "octillery" in n or "mantine" in n or "kingdra" in n or "suicune" in n or "mudkip" in n or "marshtomp" in n or "swampert" in n or "lotad" in n or "lombre" in n or "ludicolo" in n or "wingull" in n or "pelipper" in n or "surskit" in n or "masquerain" in n or "carvanha" in n or "sharpedo" in n or "wailmer" in n or "wailord" in n or "barboach" in n or "whiscash" in n or "corphish" in n or "crawdaunt" in n or "feebas" in n or "milotic" in n or "spheal" in n or "sealeo" in n or "walrein" in n or "clamperl" in n or "huntail" in n or "gorebyss" in n or "relicanth" in n or "luvdisc" in n or "kyogre" in n or "piplup" in n or "prinplup" in n or "empoleon" in n or "bibarel" in n or "buizel" in n or "floatzel" in n or "shellos" in n or "gastrodon" in n or "finneon" in n or "lumineon" in n or "mantyke" in n or "snover" in n or "abomasnow" in n or "phione" in n or "manaphy" in n or "oshawott" in n or "dewott" in n or "samurott" in n or "panpour" in n or "simipour" in n or "tympole" in n or "palpitoad" in n or "seismitoad" in n or "basculin" in n or "tirtouga" in n or "carracosta" in n or "ducklett" in n or "swanna" in n or "vanillite" in n or "vanillish" in n or "vanilluxe" in n or "frillish" in n or "jellicent" in n or "alomomola" in n or "cubchoo" in n or "beartic" in n or "cryogonal" in n or "keldeo" in n or "froakie" in n or "frogadier" in n or "greninja" in n or "binacle" in n or "barbaracle" in n or "clauncher" in n or "clawitzer" in n or "bergmite" in n or "avalugg" in n or "volcanion" in n or "popplio" in n or "brionne" in n or "primarina" in n or "wishiwashi" in n or "mareanie" in n or "toxapex" in n or "dewpider" in n or "araquanid" in n or "pyukumuku" in n or "bruxish" in n or "tapu fini" in n or "sobble" in n or "drizzile" in n or "inteleon" in n or "chewtle" in n or "drednaw" in n or "cramorant" in n or "arrokuda" in n or "barraskewda" in n or "snom" in n or "frosmoth" in n or "eiscue" in n or "arctovish" in n or "quaxly" in n or "quaxwell" in n or "quaquaval" in n or "wiglett" in n or "wugtrio" in n or "finizen" in n or "palafin" in n or "veluza" in n or "dondozo" in n or "tatsugiri" in n or "iron bundle" in n or "walking wake" in n or "ogrepon" in n: return "Water"
             if "venusaur" in n or "bulbasaur" in n or "ivysaur" in n or "caterpie" in n or "metapod" in n or "butterfree" in n or "weedle" in n or "kakuna" in n or "beedrill" in n or "ekans" in n or "arbok" in n or "nidoran" in n or "nidorina" in n or "nidoqueen" in n or "nidorino" in n or "nidoking" in n or "zubat" in n or "golbat" in n or "oddish" in n or "gloom" in n or "vileplume" in n or "paras" in n or "parasect" in n or "venonat" in n or "venomoth" in n or "bellsprout" in n or "weepinbell" in n or "victreebel" in n or "exeggcute" in n or "exeggutor" in n or "tangela" in n or "scyther" in n or "pinsir" in n or "chikorita" in n or "bayleef" in n or "meganium" in n or "sentret" in n or "furret" in n or "spinarak" in n or "ariados" in n or "crobat" in n or "hoppip" in n or "skiploom" in n or "jumpluff" in n or "sunkern" in n or "sunflora" in n or "yanma" in n or "pineco" in n or "forretress" in n or "shuckle" in n or "celebi" in n or "treecko" in n or "grovyle" in n or "sceptile" in n or "wurmple" in n or "silcoon" in n or "beautifly" in n or "cascoon" in n or "dustox" in n or "lotad" in n or "lombre" in n or "ludicolo" in n or "seedot" in n or "nuzleaf" in n or "shiftry" in n or "surskit" in n or "masquerain" in n or "shroomish" in n or "breloom" in n or "nincada" in n or "ninjask" in n or "shedinja" in n or "roselia" in n or "cacnea" in n or "cacturne" in n or "tropius" in n or "turtwig" in n or "grotle" in n or "torterra" in n or "kricketot" in n or "kricketune" in n or "budew" in n or "roserade" in n or "burmy" in n or "wormadam" in n or "mothim" in n or "combee" in n or "vespiquen" in n or "cherubi" in n or "cherrim" in n or "carnivine" in n or "snover" in n or "abomasnow" in n or "tangrowth" in n or "leafeon" in n or "shaymin" in n or "snivy" in n or "servine" in n or "serperior" in n or "pansage" in n or "simisage" in n or "sewaddle" in n or "swadloon" in n or "leavanny" in n or "venipede" in n or "whirlipede" in n or "scolipede" in n or "cottonee" in n or "whimsicott" in n or "petilil" in n or "lilligant" in n or "maractus" in n or "dwebble" in n or "crustle" in n or "karrablast" in n or "escavalier" in n or "foongus" in n or "amoonguss" in n or "ferroseed" in n or "ferrothorn" in n or "shelmet" in n or "accelgor" in n or "durant" in n or "virizion" in n or "chespin" in n or "quilladin" in n or "chesnaught" in n or "scatterbug" in n or "spewpa" in n or "vivillon" in n or "skiddo" in n or "gogoat" in n or "phantump" in n or "trevenant" in n or "pumpkaboo" in n or "gourgeist" in n or "rowlet" in n or "dartrix" in n or "decidueye" in n or "grubbin" in n or "charjabug" in n or "vikavolt" in n or "fomantis" in n or "lurantis" in n or "morelull" in n or "shiinotic" in n or "bounsweet" in n or "steenee" in n or "tsareena" in n or "dhelmise" in n or "tapu bulu" in n or "kartana" in n or "grookey" in n or "thwackey" in n or "rillaboom" in n or "gossifleur" in n or "eldegoss" in n or "applin" in n or "flapple" in n or "appletun" in n or "zarude" in n or "calyrex" in n or "kleavor" in n or "sprigatito" in n or "floragato" in n or "meowscarada" in n or "tarountula" in n or "spidops" in n or "nymble" in n or "lokix" in n or "smoliv" in n or "dolliv" in n or "arboliva" in n or "brambleghast" in n or "toedscool" in n or "toedscruel" in n or "capsakid" in n or "scovillain" in n or "rellor" in n or "rabsca" in n or "brute bonnet" in n or "wo-chien" in n or "hydrapple" in n: return "Grass"
             if "machamp" in n or "marowak" in n or "machop" in n or "machoke" in n or "geodude" in n or "graveler" in n or "golem" in n or "onix" in n or "cubone" in n or "hitmonlee" in n or "hitmonchan" in n or "rhyhorn" in n or "rhydon" in n or "sudowoodo" in n or "gligar" in n or "steelix" in n or "shuckle" in n or "heracross" in n or "corsola" in n or "phanpy" in n or "donphan" in n or "tyrogue" in n or "hitmontop" in n or "larvitar" in n or "pupitar" in n or "tyranitar" in n or "nosepass" in n or "meditite" in n or "medicham" in n or "lunatone" in n or "solrock" in n or "barboach" in n or "whiscash" in n or "baltoy" in n or "claydol" in n or "anorith" in n or "armaldo" in n or "regirock" in n or "groudon" in n or "cranidos" in n or "rampardos" in n or "shieldon" in n or "bastiodon" in n or "bonsly" in n or "riolu" in n or "lucario" in n or "hippopotas" in n or "hippowdon" in n or "rhyperior" in n or "gliscor" in n or "probopass" in n or "gallade" in n or "roggenrola" in n or "boldore" in n or "gigalith" in n or "drilbur" in n or "excadrill" in n or "timburr" in n or "gurdurr" in n or "conkeldurr" in n or "tympole" in n or "palpitoad" in n or "seismitoad" in n or "throh" in n or "sawk" in n or "sandile" in n or "krokorok" in n or "krookodile" in n or "dwebble" in n or "crustle" in n or "scraggy" in n or "scrafty" in n or "archen" in n or "archeops" in n or "stunfisk" in n or "mienfoo" in n or "mienshao" in n or "golett" in n or "golurk" in n or "terrakion" in n or "landorus" in n or "bunnelby" in n or "diggersby" in n or "pancham" in n or "pangoro" in n or "binacle" in n or "barbaracle" in n or "hawlucha" in n or "carbink" in n or "zygarde" in n or "rockruff" in n or "lycanroc" in n or "mudbray" in n or "mudsdale" in n or "minior" in n or "passimian" in n or "sandygast" in n or "palossand" in n or "crabrawler" in n or "crabominable" in n or "stakataka" in n or "clobbopus" in n or "grapploct" in n or "falinks" in n or "stonjourner" in n or "kubfu" in n or "urshifu" in n or "kleavor" in n or "ursaluna" in n or "sneasler" in n or "great tusk" in n or "scream tail" in n or "sandy shocks" in n or "iron treads" in n or "iron valiant" in n or "koraidon" in n or "ting-lu" in n or "okidogi" in n: return "Fighting"
-            if "weezing" in n or "muk" in n or "grimer" in n or "koffing" in n or "ekans" in n or "arbok" in n or "nidoran" in n or "nidorina" in n or "nidoqueen" in n or "nidorino" in n or "nidoking" in n or "zubat" in n or "golbat" in n or "gastly" in n or "haunter" in n or "gengar" in n or "spinarak" in n or "ariados" in n or "crobat" in n or "umbreon" in n or "murkrow" in n or "misdreavus" in n or "sneasel" in n or "houndour" in n or "houndoom" in n or "tyranitar" in n or "poochyena" in n or "mightyena" in n or "sableye" in n or "carvanha" in n or "sharpedo" in n or "cacnea" in n or "cacturne" in n or "seviper" in n or "corphish" in n or "crawdaunt" in n or "shuppet" in n or "banette" in n or "duskull" in n or "dusclops" in n or "absol" in n or "drifloon" in n or "drifblim" in n or "mismagius" in n or "honchkrow" in n or "stunky" in n or "skuntank" in n or "spiritomb" in n or "skorupi" in n or "drapion" in n or "croagunk" in n or "toxicroak" in n or "weavile" in n or "darkrai" in n or "purrloin" in n or "liepard" in n or "venipede" in n or "whirlipede" in n or "scolipede" in n or "sandile" in n or "krokorok" in n or "krookodile" in n or "scraggy" in n or "scrafty" in n or "yamask" in n or "cofagrigus" in n or "trubbish" in n or "garbodor" in n or "zorua" in n or "zoroark" in n or "pawniard" in n or "bisharp" in n or "vullaby" in n or "mandibuzz" in n or "deino" in n or "zweilous" in n or "hydreigon" in n or "greninja" in n or "pangoro" in n or "inkay" in n or "malamar" in n or "yveltal" in n or "incineroar" in n or "grimer" in n or "muk" in n or "rattata" in n or "raticate" in n or "meowth" in n or "persian" in n or "sandshrew" in n or "sandslash" in n or "vulpix" in n or "ninetales" in n or "diglett" in n or "dugtrio" in n or "geodude" in n or "graveler" in n or "golem" in n or "marowak" in n or "raichu" in n or "exeggutor" in n or "marowak" in n or "silvally" in n or "guzzlord" in n or "poipole" in n or "naganadel" in n or "stakataka" in n or "blacephalon" in n or "nickit" in n or "thievul" in n or "impidimp" in n or "morgrem" in n or "grimmsnarl" in n or "obstagoon" in n or "perrserker" in n or "cursola" in n or "sirfetch'd" in n or "mr. rime" in n or "runerigus" in n or "morpeko" in n or "zarude" in n or "regidrago" in n or "urshifu" in n or "calyrex" in n or "wyrdeer" in n or "kleavor" in n or "ursaluna" in n or "basculegion" in n or "sneasler" in n or "overqwil" in n or "enamorus" in n or "lokix" in n or "brambleghast" in n or "toedscool" in n or "toedscruel" in n or "kingambit" in n or "brute bonnet" in n or "flutter mane" in n or "slither wing" in n or "sandy shocks" in n or "iron treads" in n or "iron bundle" in n or "iron hands" in n or "iron jugulis" in n or "iron moth" in n or "iron thorns" in n or "wo-chien" in n or "chien-pao" in n or "ting-lu" in n or "chi-yu" in n or "roaring moon" in n or "iron valiant" in n or "walking wake" in n or "iron leaves" in n or "dipplin" in n or "poltchageist" in n or "sinistcha" in n or "okidogi" in n or "munkidori" in n or "fezandipiti" in n or "ogrepon" in n: return "Darkness"
-            if "melmetal" in n or "meltan" in n or "magnemite" in n or "magneton" in n or "forretress" in n or "steelix" in n or "scizor" in n or "skarmory" in n or "mawile" in n or "aron" in n or "lairon" in n or "aggron" in n or "beldum" in n or "metang" in n or "metagross" in n or "registeel" in n or "jirachi" in n or "empoleon" in n or "shieldon" in n or "bastiodon" in n or "bronzor" in n or "bronzong" in n or "lucario" in n or "magnezone" in n or "probopass" in n or "dialga" in n or "heatran" in n or "excadrill" in n or "escavalier" in n or "ferroseed" in n or "ferrothorn" in n or "klink" in n or "klang" in n or "klinklang" in n or "pawniard" in n or "bisharp" in n or "durant" in n or "cobalion" in n or "genesect" in n or "honedge" in n or "doublade" in n or "aegislash" in n or "klefki" in n or "solgaleo" in n or "celesteela" in n or "kartana" in n or "magearna" in n or "stakataka" in n or "meltan" in n or "melmetal" in n or "corviknight" in n or "perrserker" in n or "cufant" in n or "copperajah" in n or "duraludon" in n or "zacian" in n or "zamazenta" in n or "eternatus" in n or "regieleki" in n or "regidrago" in n or "glastrier" in n or "spectrier" in n or "calyrex" in n or "wyrdeer" in n or "kleavor" in n or "ursaluna" in n or "basculegion" in n or "sneasler" in n or "overqwil" in n or "enamorus" in n or "tinkatink" in n or "tinkatuff" in n or "tinkaton" in n or "varoom" in n or "revavroom" in n or "orthworm" in n or "gholdengo" in n or "kingambit" in n or "great tusk" in n or "scream tail" in n or "brute bonnet" in n or "flutter mane" in n or "slither wing" in n or "sandy shocks" in n or "iron treads" in n or "iron bundle" in n or "iron hands" in n or "iron jugulis" in n or "iron moth" in n or "iron thorns" in n or "roaring moon" in n or "iron valiant" in n or "walking wake" in n or "iron leaves" in n or "dipplin" in n or "poltchageist" in n or "sinistcha" in n or "okidogi" in n or "munkidori" in n or "fezandipiti" in n or "ogrepon" in n: return "Metal"
+            if "weezing" in n or "muk" in n or "grimer" in n or "koffing" in n or "ekans" in n or "arbok" in n or "nidoran" in n or "nidorina" in n or "nidoqueen" in n or "nidorino" in n or "nidoking" in n or "zubat" in n or "golbat" in n or "gastly" in n or "haunter" in n or "gengar" in n or "spinarak" in n or "ariados" in n or "crobat" in n or "umbreon" in n or "murkrow" in n or "misdreavus" in n or "sneasel" in n or "houndour" in n or "houndoom" in n or "tyranitar" in n or "poochyena" in n or "mightyena" in n or "sableye" in n or "carvanha" in n or "sharpedo" in n or "cacnea" in n or "cacturne" in n or "seviper" in n or "corphish" in n or "crawdaunt" in n or "shuppet" in n or "banette" in n or "duskull" in n or "dusclops" in n or "absol" in n or "drifloon" in n or "drifblim" in n or "mismagius" in n or "honchkrow" in n or "stunky" in n or "skuntank" in n or "spiritomb" in n or "skorupi" in n or "drapion" in n or "croagunk" in n or "toxicroak" in n or "weavile" in n or "darkrai" in n or "purrloin" in n or "liepard" in n or "venipede" in n or "whirlipede" in n or "scolipede" in n or "sandile" in n or "krokorok" in n or "krookodile" in n or "scraggy" in n or "scrafty" in n or "yamask" in n or "cofagrigus" in n or "trubbish" in n or "garbodor" in n or "zorua" in n or "zoroark" in n or "pawniard" in n or "bisharp" in n or "vullaby" in n or "mandibuzz" in n or "deino" in n or "zweilous" in n or "hydreigon" in n or "greninja" in n or "pangoro" in n or "inkay" in n or "malamar" in n or "yveltal" in n or "incineroar" in n or "grimer" in n or "muk" in n or "rattata" in n or "raticate" in n or "meowth" in n or "persian" in n or "sandshrew" in n or "sandslash" in n or "vulpix" in n or "ninetales" in n or "diglett" in n or "dugtrio" in n or "geodude" in n or "graveler" in n or "golem" in n or "marowak" in n or "raichu" in n or "exeggutor" in n or "marowak" in n or "silvally" in n or "guzzlord" in n or "poipole" in n or "naganadel" in n or "stakataka" in n or "blacephalon" in n or "nickit" in n or "thievul" in n or "impidimp" in n or "morgrem" in n or "grimmsnarl" in n or "obstagoon" in n or "perrserker" in n or "cursola" in n or "sirfetch'd" in n or "mr. rime" in n or "runerigus" in n or "morpeko" in n or "zarude" in n or "regidrago" in n or "urshifu" in n or "calyrex" in n or "wyrdeer" in n or "kleavor" in n or "ursaluna" in n or "basculegion" in n or "sneasler" in n or "overqwil" in n or "enamorus" in n or "lokix" in n or "brambleghast" in n or "toedscool" in n or "toedscruel" in n or "kingambit" in n or "brute bonnet" in n or "flutter mane" in n or "slither wing" in n or "sandy shocks" in n or "iron treads" in n or "iron bundle" in n or "iron hands" in n or "iron jugulis" in n or "iron moth" in n or "iron thorns" in n or "wo-chien" in n or "chien-pao" in n or "ting-lu" in n or "chi-yu" in n or "roaring moon" in n or "iron valiant" in n or "walking wake" in n or "iron leaves" in n or "dipplin" in n or "poltchageist" in n or "sinistcha" in n or "okidogi" in n or "munkidori" in n or "fezandipiti" in n or "ogrepon" in n: return "Metal"
             return "Colorless"
 
         def get_attacks(card_name):
@@ -275,21 +274,21 @@ def play(state, game):
         DONK_PREVENTION_SCORE = 26000 # Place if bench empty
 
         SETUP_EVOLVE_SCORE = 25000 # Boosted from 22000
+        SETUP_SABRINA_HIGH_SCORE = 25000 # Emergency Disruption (Same as Evolve)
         SETUP_MISTY_SCORE = 24000
         SETUP_SEARCH_ITEM_SCORE = 23000 # Poke Ball, etc
         SETUP_SEARCH_SUPPORTER_SCORE = 22000 # Clemont, Sony
 
-        # Sabrina Boost: If crucial disruption
-        SETUP_SABRINA_HIGH_SCORE = 21500
-
-        SETUP_PLACE_SCORE = 21000 # Standard Place
-        SETUP_ATTACH_SCORE = 20000
-        SETUP_RESEARCH_SCORE = 19000 # Research/Prof: Must be < Attach!
+        # Priority Updates
+        SETUP_HIGH_PRIORITY_ITEM_SCORE = 22000 # Switch, Healing (if critical)
+        SETUP_ATTACH_SCORE = 21600 # > Place
+        SETUP_PLACE_SCORE = 21000
         SETUP_ABILITY_SCORE = 19500
         SETUP_ITEM_SCORE = 19000
-        SETUP_SUPPORTER_SCORE = 14000 # Base generic supporter
+        SETUP_RESEARCH_SCORE = 18500
+        SETUP_SUPPORTER_SCORE = 14000
 
-        LETHAL_KO_SCORE = 12000 # Added to Attack Base
+        LETHAL_KO_SCORE = 12000
         ATTACK_BASE_SCORE = 1000
 
         RETREAT_SCORE = -5000
@@ -332,10 +331,8 @@ def play(state, game):
                                 details["is_lethal"] = True
                         elif dmg >= opp_active_hp:
                             # Probabilistic Lethal (EV)
-                            # We score this HIGH, but not Game Winning High (1M), so we prioritize setup first if available.
-                            # But higher than basic attacks.
-                            details["score"] += 15000 # 16000 total. Beats Supporters (14k) but lower than Setup (20k).
-                            details["can_ko"] = True # It MIGHT KO.
+                            details["score"] += 15000
+                            details["can_ko"] = True
 
                     # Mewtwo ex Psydrive penalty if not lethal
                     if "mewtwo ex" in my_active_name.lower() and idx == 1:
@@ -426,8 +423,7 @@ def play(state, game):
                      if len(my_bench) == 0:
                          details["score"] += 5000 # To 26000
 
-                     if len(my_bench) < 2: details["score"] += 500
-                     elif len(my_bench) < 3: details["score"] += 200
+                     if len(my_bench) < 3: details["score"] += 500 # Boosted fill
 
                      # Synergy bonus
                      if my_active:
@@ -470,17 +466,21 @@ def play(state, game):
 
                     # Categorize Supporters
                     if "Research" in sname or "Professor" in sname:
-                        details["score"] = SETUP_RESEARCH_SCORE # 19000 (below Attach)
+                        details["score"] = SETUP_RESEARCH_SCORE # 18500 (below Attach)
                         if len(my_hand) < 8: details["score"] += 200
                         else: details["score"] -= 1000
                     elif "Clemont" in sname or "Sony" in sname:
                         details["score"] = SETUP_SEARCH_SUPPORTER_SCORE # 22000 (above Attach/Place)
                     elif "Sabrina" in sname:
-                        # Aggressive Sabrina if Opponent is Threat
-                        if opp_active and opp_energy_count >= 3:
-                            details["score"] = SETUP_SABRINA_HIGH_SCORE # 21500
-                        elif opp_active and opp_energy_count >= 2:
-                            details["score"] += 2000 # 16000
+                        # Aggressive Sabrina if Opponent is Threat AND we have hand to followup
+                        if len(my_hand) >= 3:
+                            if opp_active and opp_energy_count >= 3:
+                                details["score"] = SETUP_SABRINA_HIGH_SCORE # 25000 (Emergency)
+                            elif opp_active and opp_energy_count >= 2:
+                                details["score"] = 17000 # Mid-tier threat (below Attach/Research)
+                        else:
+                            # Starving: Don't disrupt, try to draw
+                            details["score"] -= 2000
 
                         if opp_active_hp > 0 and opp_active_hp <= 60: details["score"] -= 8000
                     elif "Giovanni" in sname:
@@ -499,10 +499,24 @@ def play(state, game):
                     if "Ball" in aname: # Poke Ball
                         details["score"] = SETUP_SEARCH_ITEM_SCORE # 23000
                     elif "Potion" in aname or "Heal" in aname:
-                         if my_active and get_card_hp(my_active) < get_card_max_hp(my_active):
+                         if my_active and get_card_hp(my_active) <= (get_card_max_hp(my_active) - 20):
+                             details["score"] = SETUP_HIGH_PRIORITY_ITEM_SCORE # 22000 (Heal if hurt)
+                         elif my_active and get_card_hp(my_active) < get_card_max_hp(my_active):
                              details["score"] += 500
                          else:
                              details["score"] = -500
+                    elif "Switch" in aname or "Speed" in aname: # X Speed / Switch
+                         # If active is weak (dmg < 40) switch out
+                         active_dmg = 0
+                         if my_active:
+                             a_attacks = get_attacks(my_active_name)
+                             for i in range(len(a_attacks)):
+                                  if my_active_energy >= len(a_attacks[i].get("cost", [])):
+                                       d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
+                                       if d > active_dmg: active_dmg = d
+                         if active_dmg < 40:
+                             details["score"] = SETUP_HIGH_PRIORITY_ITEM_SCORE # 22000
+
                     elif "Red Card" in aname:
                          if opp_hand_count >= 3: details["score"] += 500
                          else: details["score"] -= 10000

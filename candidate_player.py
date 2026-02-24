@@ -405,7 +405,14 @@ def play(state, game):
                 action["energy_type"] = m.group(2)
                 action["score"] = ATTACH_ENERGY_SCORE
 
-        elif "Attach" in aname and "Tool" not in aname:
+        elif "AttachTool" in aname:
+             m = re.search(r"AttachTool\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+             if m:
+                 action["type"] = "attach_tool"
+                 action["score"] = ITEM_SCORE
+                 action["pos"] = int(m.group(2))
+
+        elif "Attach" in aname:
              m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
              if m:
                  obj = m.group(1)
@@ -432,7 +439,7 @@ def play(state, game):
             action["type"] = "evolve"
             action["score"] = EVOLVE_SCORE
 
-        elif "UseSupporter" in aname or "Play" in aname:
+        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             risk_of_donk = (len(gs.my_bench) == 0)
 
             if "research" in aname_lower or "professor" in aname_lower:
@@ -447,7 +454,7 @@ def play(state, game):
             elif "misty" in aname_lower:
                 action["type"] = "misty"
                 action["score"] = MISTY_SCORE
-            elif "sabrina" in aname_lower or "boss" in aname_lower:
+            elif "sabrina" in aname_lower or "boss" in aname_lower or "catcher" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
             elif "giovanni" in aname_lower:
@@ -467,7 +474,7 @@ def play(state, game):
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
                 action["score"] = ITEM_SCORE
-            elif "potion" in aname_lower or "heal" in aname_lower:
+            elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower or "icepop" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
             elif "brock" in aname_lower:
@@ -522,21 +529,6 @@ def play(state, game):
                             action["score"] += 1000
                         if target.hp < 60:
                              action["score"] -= 500
-
-        elif "UseItem" in aname:
-             risk_of_donk = (len(gs.my_bench) == 0)
-             action["type"] = "item"
-             action["score"] = ITEM_SCORE
-             if "ball" in aname_lower or "search" in aname_lower:
-                 action["score"] = SEARCH_SCORE
-                 if risk_of_donk or len(gs.my_bench) == 0:
-                     action["score"] = DONK_SEARCH_SCORE
-             elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower:
-                 action["type"] = "potion"
-                 action["score"] = ITEM_SCORE
-             elif "red card" in aname_lower:
-                 action["type"] = "red_card"
-                 action["score"] = RED_CARD_SCORE
 
         elif "UseAbility" in aname:
             action["type"] = "ability"

@@ -266,15 +266,15 @@ def play(state, game):
 
         SETUP_EVOLVE_SCORE = 26000
         STRATEGIC_SWITCH_SCORE = 24500 # Just below Evolve
-        MISTY_PREP_PLACE_SCORE = 24200 # If Misty in hand (and Water type)
-        SETUP_MISTY_SCORE = 24000
+        MISTY_PREP_PLACE_SCORE = 24700 # If Misty in hand (and Water type)
+        SETUP_MISTY_SCORE = 24600
 
         SETUP_SEARCH_ITEM_SCORE = 23000
         SETUP_SEARCH_SUPPORTER_SCORE = 22000
         SETUP_HIGH_PRIORITY_ITEM_SCORE = 22000
         SETUP_ATTACH_SCORE = 21500
 
-        SETUP_PLACE_SCORE = 21000
+        SETUP_PLACE_SCORE = 22000
         # In deckgym, Professor's Research draws 2 cards WITHOUT discarding hand.
         # Prioritizing it allows finding better options before committing resources.
         SETUP_RESEARCH_SCORE = 22500

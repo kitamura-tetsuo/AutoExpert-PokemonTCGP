@@ -11,20 +11,20 @@ if not logger.handlers:
     logger.addHandler(fh)
     logger.setLevel(logging.DEBUG)
 
-# --- Constants (Baseline Priorities) ---
+# --- Constants ---
 LETHAL_WIN_SCORE = 1000000
 LETHAL_KO_SCORE = 30000
 DONK_PREVENTION_SCORE = 30000
 EVOLVE_SCORE = 26000
-MISTY_PREP_SCORE = 24200 # Kept this
-MISTY_SCORE = 24600      # Baseline
-STRATEGIC_SWITCH_SCORE = 24500 # Baseline
-SEARCH_ITEM_SCORE = 23000 # Baseline
-RESEARCH_SCORE = 22500    # Baseline
-ATTACH_ENERGY_SCORE = 21500 # Baseline
-PLACE_BASIC_SCORE = 21000 # Baseline
+MISTY_PREP_SCORE = 24200
+MISTY_SCORE = 24000
+STRATEGIC_SWITCH_SCORE = 24500
+SEARCH_ITEM_SCORE = 23000
+RESEARCH_SCORE = 22500
+ATTACH_ENERGY_SCORE = 21500
+PLACE_BASIC_SCORE = 21000
 ABILITY_SCORE = 19500
-RED_CARD_SCORE = 19500
+RED_CARD_SCORE = 19000
 ITEM_SCORE = 19000
 ATTACK_BASE_SCORE = 1000
 RETREAT_SCORE = -5000
@@ -155,9 +155,11 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    damage = atk.get("dmg", 0)
+    base_damage = atk.get("dmg", 0)
+    damage = base_damage
     text = (atk.get("text") or "").lower()
 
+    # 1. Coin Flips (EV)
     if "flip" in text and "coin" in text:
         num_coins = atk.get("coin_flips", 0)
         if num_coins == 0:
@@ -169,29 +171,39 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         m_dmg = re.search(r"(\d+) damage for each heads", text)
         if m_dmg:
             dmg_per_head = int(m_dmg.group(1))
-            damage += (num_coins * 0.5 * dmg_per_head)
+            # If "damage for each heads", usually replaces base damage (e.g. 50x)
+            if "more damage" not in text:
+                damage = (num_coins * 0.5 * dmg_per_head)
+            else:
+                damage += (num_coins * 0.5 * dmg_per_head)
         else:
             m_more = re.search(r"heads, this attack does (\d+) more damage", text)
             if m_more:
                  damage += (num_coins * 0.5 * int(m_more.group(1)))
 
+    # 2. Scaling (Bench, Energy)
     if "damage for each" in text:
         multiplier = 0
         m = re.search(r"(\d+) damage for each", text)
         if m: multiplier = int(m.group(1))
         else: multiplier = 20
 
+        count = 0
         if "benched" in text:
-            if "opponent" in text:
-                damage += (multiplier * len(state.opp_bench))
-            else:
-                damage += (multiplier * len(state.my_bench))
+            if "opponent" in text: count = len(state.opp_bench)
+            else: count = len(state.my_bench)
         elif "energy" in text:
             if "opponent" in text:
-                if state.opp_active: damage += (multiplier * state.opp_active.energy_count)
+                if state.opp_active: count = state.opp_active.energy_count
             else:
-                damage += (multiplier * attacker.energy_count)
+                count = attacker.energy_count
 
+        if "more damage" not in text:
+            damage = multiplier * count
+        else:
+            damage += multiplier * count
+
+    # 3. Special Overrides
     if "pikachu ex" in attacker.name.lower() and attack_idx == 0:
          count = 0
          for b in state.my_bench:
@@ -234,7 +246,7 @@ def play(state, game):
                     idx = int(m.group(1))
                     action["type"] = "attack"
                     action["idx"] = idx
-                    action["damage"] = calculate_damage(gs.my_active, idx, gs)
+                    action["damage"] = calculate_damage(gs.my_active, idx, gs, extra_damage)
                     action["score"] = ATTACK_BASE_SCORE + action["damage"]
 
                     if gs.opp_active:
@@ -377,7 +389,7 @@ def play(state, game):
 
         for a in actions:
             if a["type"] == "research":
-                if len(gs.my_hand) >= 5:
+                if len(gs.my_hand) >= 7:
                     a["score"] -= 5000
             elif a["type"] == "misty":
                 needs_water = False
@@ -411,8 +423,13 @@ def play(state, game):
                 if gs.opp_active and best_atk_dmg < gs.opp_active.hp and (best_atk_dmg + 10) >= gs.opp_active.hp:
                     a["score"] = LETHAL_KO_SCORE + 500
 
+        # Strategic Switch Logic
         active_hp = gs.my_active.hp if gs.my_active else 0
-        retreat_score_max = RETREAT_SCORE
+        active_dmg = 0
+        if gs.my_active:
+             for i in range(len(gs.my_active.attacks)):
+                 d = calculate_damage(gs.my_active, i, gs)
+                 if d > active_dmg: active_dmg = d
 
         for a in actions:
             if a["type"] == "retreat":
@@ -425,18 +442,32 @@ def play(state, game):
                 if active_hp <= 40 and active_hp > 0:
                      should_retreat = True
 
-                if should_retreat:
-                    if target.energy_count >= 1:
-                        a["score"] = STRATEGIC_SWITCH_SCORE
-                    else:
-                        a["score"] = RETREAT_SCORE + 1000
+                if active_dmg < 40:
+                     target_dmg = 0
+                     if target.attacks:
+                         target_dmg = calculate_damage(target, 0, gs)
 
-                if a["score"] > retreat_score_max: retreat_score_max = a["score"]
+                     if target_dmg >= 60 and not target.needs_energy():
+                         should_retreat = True
+                         a["score"] = STRATEGIC_SWITCH_SCORE + 500
+
+                if should_retreat:
+                    if not target.needs_energy():
+                        if a["score"] < STRATEGIC_SWITCH_SCORE:
+                             a["score"] = STRATEGIC_SWITCH_SCORE
+                    else:
+                        if a["score"] < RETREAT_SCORE + 1000:
+                             a["score"] = RETREAT_SCORE + 1000
 
         for a in actions:
             if a["type"] == "x_speed":
-                if retreat_score_max > 0:
-                     a["score"] = retreat_score_max + 100
+                best_retreat = -100000
+                for r in actions:
+                    if r["type"] == "retreat" and r["score"] > best_retreat:
+                        best_retreat = r["score"]
+
+                if best_retreat > 0:
+                     a["score"] = best_retreat + 100
                      a["score"] += 2000
 
         mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]

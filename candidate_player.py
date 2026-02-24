@@ -101,12 +101,22 @@ class Card:
     def needs_energy(self):
         if self.db_entry:
             max_cost = 0
-            for atk in self.attacks:
+            attacks = self.attacks
+            if not attacks:
+                return False
+
+            for atk in attacks:
                 cost = len(atk.get("cost", []))
                 if cost > max_cost: max_cost = cost
+
             # If max_cost is 0 (e.g. Chingling), it doesn't need energy.
             if max_cost == 0:
                 return False
+
+            # Pikachu ex optimization: cap desire at 2 unless specified otherwise
+            if "pikachu ex" in self.name.lower():
+                max_cost = 2
+
             return self.energy_count < max_cost
 
         # Fallback for cards NOT in DB
@@ -183,6 +193,8 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if num_coins > 0:
         m_dmg_each = re.search(r"(\d+) damage for each heads", text)
         if m_dmg_each:
+            # EV calculation: num_coins * 0.5 probability * damage_per_head
+            # Replace base damage with EV because "damage for each heads" usually implies 0 base or base is irrelevant
             dmg_per_head = int(m_dmg_each.group(1))
             damage = num_coins * 0.5 * dmg_per_head
         else:
@@ -309,11 +321,16 @@ def play(state, game):
                  m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
                  if m:
                      obj = m.group(1)
+                     # Explicitly check for energy types to distinguish from Tools if regex failed
                      if "Energy" in obj or any(t in obj for t in ["Lightning", "Water", "Fire", "Grass", "Fighting", "Psychic", "Darkness", "Metal"]):
                          action["type"] = "attach_energy"
                          action["pos"] = int(m.group(2))
                          action["energy_type"] = obj
                          action["score"] = ATTACH_ENERGY_SCORE
+                     else:
+                         # Likely a Tool
+                         action["type"] = "attach_tool"
+                         action["score"] = ITEM_SCORE
 
             elif "Place" in aname or "PlayPokemon" in aname:
                 m = re.search(r"(?:Place|PlayPokemon)\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
@@ -368,8 +385,15 @@ def play(state, game):
                 m = re.search(r"Retreat\((\d+)\)", aname)
                 if m:
                     action["type"] = "retreat"
-                    action["target_idx"] = int(m.group(1)) - 1
+                    # Retreat(X) uses 1-based indexing for Bench, so X=1 is bench[0]
+                    bench_idx = int(m.group(1)) - 1
+                    action["target_idx"] = bench_idx
                     action["score"] = RETREAT_SCORE
+
+                    # Validate target bench position is occupied
+                    target = gs.get_bench_card(bench_idx)
+                    if not target or target.name == "Unknown":
+                        action["score"] = -100000
 
             elif "Activate" in aname:
                 m = re.search(r"Activate\((\d+)\)", aname)
@@ -400,7 +424,7 @@ def play(state, game):
                  action["score"] = ITEM_SCORE
                  if "ball" in aname_lower or "search" in aname_lower:
                      action["score"] = SEARCH_ITEM_SCORE
-                 elif "potion" in aname_lower or "heal" in aname_lower:
+                 elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower:
                      action["type"] = "potion"
                      action["score"] = ITEM_SCORE
                  elif "red card" in aname_lower:
@@ -412,6 +436,16 @@ def play(state, game):
                 action["score"] = ABILITY_SCORE
                 if "greninja" in aname_lower:
                     action["score"] += 1000
+                    # Dynamic scoring for Greninja if lethal
+                    if gs.opp_bench:
+                        # Find lowest HP bench pokemon
+                        min_hp = 1000
+                        for b in gs.opp_bench:
+                            if b.hp < min_hp and b.hp > 0:
+                                min_hp = b.hp
+                        # Water Shuriken does 20 damage
+                        if min_hp <= 20:
+                             action["score"] = LETHAL_KO_SCORE
 
             actions.append(action)
 
@@ -529,8 +563,8 @@ def play(state, game):
                     a["score"] = -100000
                     continue
 
-                target = gs.get_bench_card(a["target_idx"])
-                if not target:
+                target = gs.get_bench_card(a.get("target_idx", -1))
+                if not target or target.name == "Unknown":
                     a["score"] = -100000
                     continue
 
@@ -544,9 +578,13 @@ def play(state, game):
                          d = calculate_damage(target, i, gs)
                          if d > target_dmg: target_dmg = d
 
-                     if target_dmg > active_dmg + 20:
+                     # Strategic Switch logic
+                     if target_dmg > active_dmg + 20 and active_hp < 50:
                          should_retreat = True
                          a["score"] = STRATEGIC_SWITCH_SCORE + 500
+                     elif target_dmg > active_dmg + 20: # Just better attacker
+                         # Less aggressive switch if not in danger
+                         a["score"] += 500
 
                 if should_retreat:
                     if not target.needs_energy():
@@ -571,14 +609,25 @@ def play(state, game):
         if len(mewtwo_attacks) > 1:
             lethal_attacks = [a for a in mewtwo_attacks if a.get("is_ko")]
             if len(lethal_attacks) > 1:
-                 lethal_attacks.sort(key=lambda x: x["damage"])
-                 best_lethal = lethal_attacks[0]
+                 # Prefer standard attack (idx 0 usually) over Psydrive (idx 1)
+                 # Psydrive usually discards energy, so avoid it if standard kills
+                 standard_lethal = None
+                 psydrive_lethal = None
 
-                 for a in mewtwo_attacks:
-                     if a["id"] == best_lethal["id"]:
-                         a["score"] += 500
-                     elif a.get("is_ko"):
-                         a["score"] -= 2000
+                 for atk in lethal_attacks:
+                     if atk["damage"] == 50: standard_lethal = atk
+                     elif atk["damage"] == 150: psydrive_lethal = atk
+
+                 if standard_lethal and psydrive_lethal:
+                     # Penalize Psydrive significantly
+                     for a in mewtwo_attacks:
+                         if a["id"] == psydrive_lethal["id"]:
+                             a["score"] -= 2000
+                         elif a["id"] == standard_lethal["id"]:
+                             a["score"] += 500
+            elif len(lethal_attacks) == 1:
+                # If only one is lethal, boost it (already done by LETHAL_KO_SCORE)
+                pass
 
         if actions:
             actions.sort(key=lambda x: x["score"], reverse=True)

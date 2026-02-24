@@ -13,20 +13,20 @@ if not logger.handlers:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-LETHAL_KO_SCORE = 30000
+LETHAL_KO_SCORE = 19500 # Increased slightly above generic Items
 DONK_PREVENTION_SCORE = 30000
 EVOLVE_SCORE = 26000
+STRATEGIC_SWITCH_SCORE = 25000
+RESEARCH_SCORE = 24500
 MISTY_PREP_SCORE = 24200
 MISTY_SCORE = 24000
-STRATEGIC_SWITCH_SCORE = 24500
-SEARCH_ITEM_SCORE = 23000
-RESEARCH_SCORE = 22500
-ATTACH_ENERGY_SCORE = 21500
+SEARCH_ITEM_SCORE = 23500
+ATTACH_ENERGY_SCORE = 23000
 PLACE_BASIC_SCORE = 21000
 ABILITY_SCORE = 19500
 RED_CARD_SCORE = 19000
 ITEM_SCORE = 19000
-ATTACK_BASE_SCORE = 1000
+ATTACK_BASE_SCORE = 2000
 RETREAT_SCORE = -5000
 END_TURN_SCORE = -10000
 
@@ -155,11 +155,9 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    base_damage = atk.get("dmg", 0)
-    damage = base_damage
+    damage = atk.get("dmg", 0)
     text = (atk.get("text") or "").lower()
 
-    # 1. Coin Flips (EV)
     if "flip" in text and "coin" in text:
         num_coins = atk.get("coin_flips", 0)
         if num_coins == 0:
@@ -171,39 +169,29 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         m_dmg = re.search(r"(\d+) damage for each heads", text)
         if m_dmg:
             dmg_per_head = int(m_dmg.group(1))
-            # If "damage for each heads", usually replaces base damage (e.g. 50x)
-            if "more damage" not in text:
-                damage = (num_coins * 0.5 * dmg_per_head)
-            else:
-                damage += (num_coins * 0.5 * dmg_per_head)
+            damage += (num_coins * 0.5 * dmg_per_head)
         else:
             m_more = re.search(r"heads, this attack does (\d+) more damage", text)
             if m_more:
                  damage += (num_coins * 0.5 * int(m_more.group(1)))
 
-    # 2. Scaling (Bench, Energy)
     if "damage for each" in text:
         multiplier = 0
         m = re.search(r"(\d+) damage for each", text)
         if m: multiplier = int(m.group(1))
         else: multiplier = 20
 
-        count = 0
         if "benched" in text:
-            if "opponent" in text: count = len(state.opp_bench)
-            else: count = len(state.my_bench)
+            if "opponent" in text:
+                damage += (multiplier * len(state.opp_bench))
+            else:
+                damage += (multiplier * len(state.my_bench))
         elif "energy" in text:
             if "opponent" in text:
-                if state.opp_active: count = state.opp_active.energy_count
+                if state.opp_active: damage += (multiplier * state.opp_active.energy_count)
             else:
-                count = attacker.energy_count
+                damage += (multiplier * attacker.energy_count)
 
-        if "more damage" not in text:
-            damage = multiplier * count
-        else:
-            damage += multiplier * count
-
-    # 3. Special Overrides
     if "pikachu ex" in attacker.name.lower() and attack_idx == 0:
          count = 0
          for b in state.my_bench:
@@ -231,6 +219,15 @@ def play(state, game):
         extra_damage = 10 if has_giovanni else 0
         has_misty = any("misty" in c.name.lower() for c in gs.my_hand)
 
+        # Calculate Potential Lethal Status First
+        has_lethal_on_board = False
+        if gs.my_active and gs.opp_active:
+             for idx in range(len(gs.my_active.attacks)):
+                 dmg = calculate_damage(gs.my_active, idx, gs, extra_damage)
+                 if dmg >= gs.opp_active.hp:
+                     has_lethal_on_board = True
+                     break
+
         for aid in legal_actions:
             aname = game.action_name(aid)
             action = {"id": aid, "name": aname, "score": 0, "type": "unknown"}
@@ -246,7 +243,7 @@ def play(state, game):
                     idx = int(m.group(1))
                     action["type"] = "attack"
                     action["idx"] = idx
-                    action["damage"] = calculate_damage(gs.my_active, idx, gs, extra_damage)
+                    action["damage"] = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
                     action["score"] = ATTACK_BASE_SCORE + action["damage"]
 
                     if gs.opp_active:
@@ -289,9 +286,14 @@ def play(state, game):
                     action["pos"] = pos
                     action["score"] = PLACE_BASIC_SCORE
 
+                    # Boost for main attackers
+                    clean_name = Card._clean_name(card_name_raw)
+                    n_lower = clean_name.lower()
+                    if "ex" in n_lower or "mewtwo" in n_lower or "pikachu" in n_lower:
+                        action["score"] += 1000 # Boosted boost
+
                     if has_misty:
-                        clean_name = Card._clean_name(card_name_raw)
-                        key = clean_name.lower()
+                        key = n_lower
                         etype = "Colorless"
                         if key in CARD_DB: etype = CARD_DB[key].get("energy_type", "Colorless")
                         elif "starmie" in key or "greninja" in key or "lapras" in key or "blastoise" in key or "articuno" in key:
@@ -410,7 +412,9 @@ def play(state, game):
                 else:
                     a["score"] -= 2000
             elif a["type"] == "gust":
-                if gs.opp_active and gs.opp_active.hp > 80:
+                if has_lethal_on_board:
+                    a["score"] -= 50000
+                elif gs.opp_active and gs.opp_active.hp > 80:
                     a["score"] += 2000
                 else:
                     a["score"] -= 5000
@@ -434,6 +438,11 @@ def play(state, game):
         for a in actions:
             if a["type"] == "retreat":
                 should_retreat = False
+
+                if has_lethal_on_board:
+                    a["score"] = -100000
+                    continue
+
                 target = gs.get_bench_card(a["target_idx"])
                 if not target:
                     a["score"] = -100000
@@ -442,12 +451,13 @@ def play(state, game):
                 if active_hp <= 40 and active_hp > 0:
                      should_retreat = True
 
-                if active_dmg < 40:
+                # Modified Switch Logic: If bench is strictly better
+                if not target.needs_energy(): # Bench is ready
                      target_dmg = 0
                      if target.attacks:
                          target_dmg = calculate_damage(target, 0, gs)
 
-                     if target_dmg >= 60 and not target.needs_energy():
+                     if target_dmg > active_dmg + 20: # Strictly better damage
                          should_retreat = True
                          a["score"] = STRATEGIC_SWITCH_SCORE + 500
 

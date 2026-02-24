@@ -458,16 +458,39 @@ def play(state, game):
                         else: details["score"] -= 2000 # Penalize heavily if hand is full to prioritize playing cards first
                     elif "Clemont" in sname or "Sony" in sname:
                         details["score"] = SETUP_SEARCH_SUPPORTER_SCORE
-                    elif "Sabrina" in sname:
-                        if len(my_hand) >= 3:
-                            if opp_active and opp_energy_count >= 3:
-                                details["score"] = SETUP_EVOLVE_SCORE # Emergency
-                            elif opp_active and opp_energy_count >= 2:
-                                details["score"] = 17000
-                        else:
-                            details["score"] -= 2000
+                    elif "Sabrina" in sname or "Cyrus" in sname or "Boss" in sname or "Guzma" in sname or "Lysandre" in sname or "Counter Catcher" in sname:
+                        # Gust Logic
+                        score = 17000
 
-                        if opp_active_hp > 0 and opp_active_hp <= 60: details["score"] -= 8000
+                        # Penalty if Opp Active is Weak (HP <= 60 or Lethal)
+                        if opp_active_hp > 0:
+                            if opp_active_hp <= 60: score -= 8000
+                            # Check if current active can already KO opponent active
+                            my_active_dmg = 0
+                            if my_active:
+                                attacks = get_attacks(my_active_name)
+                                for i in range(len(attacks)):
+                                    atk = attacks[i]
+                                    cost = len(atk.get("cost", []))
+                                    if my_active_energy >= cost:
+                                        d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
+                                        if d > my_active_dmg: my_active_dmg = d
+
+                            if my_active_dmg >= opp_active_hp:
+                                score -= 10000 # Don't switch if we can already KO!
+
+                        # Bonus if Opponent has valuable bench targets (e.g. low HP or high energy/retreat cost)
+                        # We don't have perfect info on bench targets here easily without re-parsing,
+                        # but we can assume if Opp Active is strong (HP > 100), switching is good.
+                        if opp_active_hp > 100:
+                            score += 2000
+
+                        if "Sabrina" in sname:
+                            # Sabrina specific condition (Hand size >= 3)
+                            if len(my_hand) < 3: score -= 2000
+
+                        details["score"] = score
+
                     elif "Misty" in sname:
                         needs_water = False
                         if "Water" in get_energy_type(my_active_name) and needs_energy(my_active): needs_water = True
@@ -476,12 +499,17 @@ def play(state, game):
 
                         if needs_water: details["score"] = SETUP_MISTY_SCORE
                         else: details["score"] -= 500
+
+                    elif "Copycat" in sname:
+                        # Draw same as opponent
+                        if opp_hand_count > len(my_hand): details["score"] += 1000
+                        elif opp_hand_count < len(my_hand): details["score"] -= 2000
                 else:
                     details["type"] = "item"
                     details["score"] = SETUP_ITEM_SCORE
                     if "Ball" in aname:
                         details["score"] = SETUP_SEARCH_ITEM_SCORE
-                    elif "Potion" in aname or "Heal" in aname:
+                    elif "Potion" in aname or "Heal" in aname or "Ice Pop" in aname:
                          if my_active and get_card_hp(my_active) <= (get_card_max_hp(my_active) - 20):
                              details["score"] = SETUP_HIGH_PRIORITY_ITEM_SCORE
                          elif my_active and get_card_hp(my_active) < get_card_max_hp(my_active):

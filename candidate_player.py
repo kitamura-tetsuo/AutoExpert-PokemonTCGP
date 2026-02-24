@@ -29,11 +29,13 @@ SEARCH_SCORE = 74500 # NEW: Prioritize Search to find basics/evolutions
 EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
+GIOVANNI_SCORE = 60000
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
+DONK_SEARCH_SCORE = 400000
 
 ABILITY_SCORE = 50000
-POTION_CRITICAL_SCORE = 67000
+POTION_CRITICAL_SCORE = 80000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
@@ -135,7 +137,12 @@ class Card:
                 if cost > max_cost: max_cost = cost
 
             if max_cost == 0:
-                return False
+                n_lower = self.name.lower()
+                # Only attach to important basics that evolve into strong Pokemon
+                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "staryu", "magikarp", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup"]:
+                    max_cost = 2
+                else:
+                    return False
 
             if "pikachu ex" in self.name.lower():
                 max_cost = 2
@@ -396,9 +403,14 @@ def play(state, game):
             action["score"] = EVOLVE_SCORE
 
         elif "UseSupporter" in aname or "Play" in aname:
+            risk_of_donk = (len(gs.my_bench) == 0)
+
             if "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
+                if risk_of_donk:
+                    action["score"] = DONK_SEARCH_SCORE
+
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
                 action["score"] = RESEARCH_SCORE
@@ -410,13 +422,16 @@ def play(state, game):
                 action["score"] = ITEM_SCORE # Default
             elif "giovanni" in aname_lower:
                 action["type"] = "giovanni"
-                action["score"] = ITEM_SCORE
+                action["score"] = GIOVANNI_SCORE
             elif "red card" in aname_lower:
                 action["type"] = "red_card"
                 action["score"] = RED_CARD_SCORE
             elif "ball" in aname_lower or "search" in aname_lower:
                 action["type"] = "search_item"
                 action["score"] = SEARCH_SCORE # BOOSTED
+                if risk_of_donk:
+                    action["score"] = DONK_SEARCH_SCORE
+
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
                 action["score"] = ITEM_SCORE
@@ -477,10 +492,13 @@ def play(state, game):
                              action["score"] -= 500
 
         elif "UseItem" in aname:
+             risk_of_donk = (len(gs.my_bench) == 0)
              action["type"] = "item"
              action["score"] = ITEM_SCORE
              if "ball" in aname_lower or "search" in aname_lower:
                  action["score"] = SEARCH_SCORE # BOOSTED
+                 if risk_of_donk:
+                     action["score"] = DONK_SEARCH_SCORE
              elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower:
                  action["type"] = "potion"
                  action["score"] = ITEM_SCORE
@@ -670,12 +688,21 @@ def play(state, game):
                 a["score"] -= 5000
         elif a["type"] == "giovanni":
             needed = False
+            gives_win = False
             for atk in actions:
                 if atk["type"] == "attack" and atk.get("can_be_lethal_with_giovanni"):
                     needed = True
+                    if gs.opp_active:
+                         points_needed = 3 - gs.my_points
+                         is_ex = "ex" in gs.opp_active.name.lower()
+                         points_gained = 2 if is_ex else 1
+                         if points_gained >= points_needed or len(gs.opp_bench) == 0:
+                             gives_win = True
                     break
 
-            if needed:
+            if gives_win:
+                a["score"] = LETHAL_WIN_SCORE
+            elif needed:
                 a["score"] = LETHAL_KO_SCORE + 500
             else:
                 is_attacking = any(x["type"] == "attack" for x in actions)

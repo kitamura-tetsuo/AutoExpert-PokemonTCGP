@@ -29,11 +29,14 @@ SEARCH_SCORE = 74500 # NEW: Prioritize Search to find basics/evolutions
 EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
+GIOVANNI_SCORE = 60000
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
+DONK_SEARCH_SCORE = 500000
+DONK_AVOIDANCE_SCORE = 450000
 
 ABILITY_SCORE = 50000
-POTION_CRITICAL_SCORE = 67000
+POTION_CRITICAL_SCORE = 85000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
@@ -135,7 +138,12 @@ class Card:
                 if cost > max_cost: max_cost = cost
 
             if max_cost == 0:
-                return False
+                n_lower = self.name.lower()
+                # Only attach to important basics that evolve into strong Pokemon
+                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup", "deino", "zorua"]:
+                    max_cost = 2
+                else:
+                    return False
 
             if "pikachu ex" in self.name.lower():
                 max_cost = 2
@@ -236,7 +244,12 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             elif "tails, this attack does nothing" in text:
                  damage *= 0.5
 
-    # 2. Scaling Damage
+    # 2. Fixed Damage in Text
+    m_fixed = re.search(r"this attack does (\d+) damage", text)
+    if m_fixed:
+        damage = int(m_fixed.group(1))
+
+    # 3. Scaling Damage
     if "damage for each" in text and "heads" not in text:
         multiplier = 20
         m_mult = re.search(r"(\d+) damage for each", text)
@@ -259,7 +272,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         else:
              damage += (count * multiplier)
 
-    # 3. Specific Card Overrides
+    # 4. Specific Card Overrides
     if "pikachu ex" in name_lower and attack_idx == 0:
          count = 0
          for b in state.my_bench:
@@ -334,6 +347,8 @@ def play(state, game):
         if aname == "EndTurn":
             action["type"] = "end_turn"
             action["score"] = END_TURN_SCORE
+            if len(gs.my_bench) == 0 and gs.my_active and gs.my_active.hp <= 60:
+                 action["score"] -= 100000 # Heavily penalize ending turn if vulnerable
 
         elif "Attack" in aname:
             m = re.search(r"Attack\((\d+)\)", aname)
@@ -359,6 +374,12 @@ def play(state, game):
 
                     elif has_giovanni and (action["damage"] + 10) >= gs.opp_active.hp:
                          action["can_be_lethal_with_giovanni"] = True
+
+                # Donk Avoidance for Attack
+                if len(gs.my_bench) == 0 and not action.get("is_lethal"):
+                     # If we attack, turn ends. If not lethal, we are vulnerable.
+                     # Prioritize search over non-lethal attack if vulnerable
+                     action["score"] = 5000 # Lower than search/setup
 
         elif "AttachEnergy" in aname:
             m = re.search(r"AttachEnergy\((\d+), (.*?)\)", aname)
@@ -396,9 +417,14 @@ def play(state, game):
             action["score"] = EVOLVE_SCORE
 
         elif "UseSupporter" in aname or "Play" in aname:
+            risk_of_donk = (len(gs.my_bench) == 0)
+
             if "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
+                if risk_of_donk:
+                    action["score"] = DONK_SEARCH_SCORE
+
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
                 action["score"] = RESEARCH_SCORE
@@ -410,13 +436,19 @@ def play(state, game):
                 action["score"] = ITEM_SCORE # Default
             elif "giovanni" in aname_lower:
                 action["type"] = "giovanni"
-                action["score"] = ITEM_SCORE
+                action["score"] = GIOVANNI_SCORE
             elif "red card" in aname_lower:
                 action["type"] = "red_card"
                 action["score"] = RED_CARD_SCORE
             elif "ball" in aname_lower or "search" in aname_lower:
                 action["type"] = "search_item"
                 action["score"] = SEARCH_SCORE # BOOSTED
+                if risk_of_donk:
+                    action["score"] = DONK_SEARCH_SCORE
+                # Prioritize Poke Ball if we have no bench
+                if len(gs.my_bench) == 0:
+                     action["score"] = DONK_SEARCH_SCORE
+
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
                 action["score"] = ITEM_SCORE
@@ -477,10 +509,13 @@ def play(state, game):
                              action["score"] -= 500
 
         elif "UseItem" in aname:
+             risk_of_donk = (len(gs.my_bench) == 0)
              action["type"] = "item"
              action["score"] = ITEM_SCORE
              if "ball" in aname_lower or "search" in aname_lower:
                  action["score"] = SEARCH_SCORE # BOOSTED
+                 if risk_of_donk or len(gs.my_bench) == 0:
+                     action["score"] = DONK_SEARCH_SCORE
              elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower:
                  action["type"] = "potion"
                  action["score"] = ITEM_SCORE
@@ -610,6 +645,14 @@ def play(state, game):
                  if is_water:
                      a["score"] = MISTY_PREP_SCORE
 
+            # Pikachu ex Logic: Fill bench to boost damage
+            if gs.my_active and "pikachu ex" in gs.my_active.name.lower():
+                 a["score"] += 5000
+                 current_damage = calculate_damage(gs.my_active, 0, gs)
+                 if gs.opp_active:
+                     if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
+                         a["score"] = LETHAL_WIN_SCORE # Boost to lethal priority
+
     for a in actions:
         if a["type"] == "research":
             # NEW LOGIC: Don't discard energy
@@ -670,12 +713,21 @@ def play(state, game):
                 a["score"] -= 5000
         elif a["type"] == "giovanni":
             needed = False
+            gives_win = False
             for atk in actions:
                 if atk["type"] == "attack" and atk.get("can_be_lethal_with_giovanni"):
                     needed = True
+                    if gs.opp_active:
+                         points_needed = 3 - gs.my_points
+                         is_ex = "ex" in gs.opp_active.name.lower()
+                         points_gained = 2 if is_ex else 1
+                         if points_gained >= points_needed or len(gs.opp_bench) == 0:
+                             gives_win = True
                     break
 
-            if needed:
+            if gives_win:
+                a["score"] = LETHAL_WIN_SCORE
+            elif needed:
                 a["score"] = LETHAL_KO_SCORE + 500
             else:
                 is_attacking = any(x["type"] == "attack" for x in actions)

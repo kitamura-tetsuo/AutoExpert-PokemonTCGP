@@ -99,21 +99,27 @@ class Card:
         return []
 
     def needs_energy(self):
-        max_cost = 0
-        for atk in self.attacks:
-            cost = len(atk.get("cost", []))
-            if cost > max_cost: max_cost = cost
+        if self.db_entry:
+            max_cost = 0
+            for atk in self.attacks:
+                cost = len(atk.get("cost", []))
+                if cost > max_cost: max_cost = cost
+            # If max_cost is 0 (e.g. Chingling), it doesn't need energy.
+            if max_cost == 0:
+                return False
+            return self.energy_count < max_cost
 
-        if max_cost == 0:
-            n = self.name.lower()
-            if "pikachu ex" in n: max_cost = 2
-            elif "mewtwo ex" in n: max_cost = 4
-            elif "charizard ex" in n: max_cost = 4
-            elif "starmie ex" in n: max_cost = 2
-            elif "greninja" in n: max_cost = 2
-            elif "venusaur" in n: max_cost = 4
-            elif "ex" in n: max_cost = 3
-            else: max_cost = 2
+        # Fallback for cards NOT in DB
+        max_cost = 0
+        n = self.name.lower()
+        if "pikachu ex" in n: max_cost = 2
+        elif "mewtwo ex" in n: max_cost = 4
+        elif "charizard ex" in n: max_cost = 4
+        elif "starmie ex" in n: max_cost = 2
+        elif "greninja" in n: max_cost = 2
+        elif "venusaur" in n: max_cost = 4
+        elif "ex" in n: max_cost = 3
+        else: max_cost = 2
 
         return self.energy_count < max_cost
 
@@ -327,6 +333,9 @@ def play(state, game):
                 if "research" in aname_lower or "professor" in aname_lower:
                     action["type"] = "research"
                     action["score"] = RESEARCH_SCORE
+                elif "copycat" in aname_lower:
+                    action["type"] = "copycat"
+                    action["score"] = RESEARCH_SCORE
                 elif "misty" in aname_lower:
                     action["type"] = "misty"
                     action["score"] = MISTY_SCORE
@@ -436,6 +445,11 @@ def play(state, game):
             if a["type"] == "research":
                 if len(gs.my_hand) >= 5:
                     a["score"] -= 5000
+            elif a["type"] == "copycat":
+                if gs.opp_hand_count > len(gs.my_hand):
+                     a["score"] += 1000
+                elif gs.opp_hand_count <= len(gs.my_hand):
+                     a["score"] -= 5000
             elif a["type"] == "misty":
                 needs_water = False
                 if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): needs_water = True

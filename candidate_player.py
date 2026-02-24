@@ -185,6 +185,26 @@ class GameStateWrapper:
             return self.my_bench[idx]
         return None
 
+def can_use_attack(cost, energy_provided):
+    available = list(energy_provided)
+    # First pass: specific types
+    remaining_cost = []
+    for c in cost:
+        if c != "Colorless":
+            # Simple check: exact match
+            # Also handle Rainbow/Multi if implemented, but simplistic for now
+            if c in available:
+                available.remove(c)
+            else:
+                return False
+        else:
+            remaining_cost.append(c)
+
+    # Second pass: colorless
+    if len(available) >= len(remaining_cost):
+        return True
+    return False
+
 def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0):
     if not attacker: return 0
     attacks = attacker.attacks
@@ -450,19 +470,45 @@ def play(state, game):
 
             elif "UseAbility" in aname:
                 action["type"] = "ability"
-                action["score"] = ABILITY_SCORE
-                if "greninja" in aname_lower:
-                    action["score"] += 1000
-                    # Dynamic scoring for Greninja if lethal
-                    if gs.opp_bench:
-                        # Find lowest HP bench pokemon
-                        min_hp = 1000
-                        for b in gs.opp_bench:
-                            if b.hp < min_hp and b.hp > 0:
-                                min_hp = b.hp
-                        # Water Shuriken does 20 damage
-                        if min_hp <= 20:
-                             action["score"] = LETHAL_KO_SCORE
+                action["score"] = ABILITY_SCORE + 2000 # Boost generic ability score
+                m = re.search(r"UseAbility\((\d+)\)", aname)
+                if m:
+                    idx = int(m.group(1))
+                    target = None
+                    if idx == 0:
+                        target = gs.my_active
+                    else:
+                        target = gs.get_bench_card(idx - 1)
+
+                    if target:
+                        n_lower = target.name.lower()
+                        if "gardevoir" in n_lower:
+                            # Psy Shadow: Attach energy to Active Psychic
+                            # If Active needs energy, boost significantly
+                            if gs.my_active and "Psychic" in gs.my_active.energy_type:
+                                action["score"] += 4000 # 24000+
+                                if gs.my_active.needs_energy():
+                                    action["score"] += 2000 # Prioritize over manual attach if possible
+
+                        elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower:
+                            # Draw cards (Refinement / Make Do / Trade)
+                            action["score"] += 3000
+
+                        elif "greninja" in n_lower:
+                            action["score"] += 1000
+                            # Dynamic scoring for Greninja if lethal
+                            if gs.opp_bench:
+                                # Find lowest HP bench pokemon
+                                min_hp = 1000
+                                for b in gs.opp_bench:
+                                    if b.hp < min_hp and b.hp > 0:
+                                        min_hp = b.hp
+                                # Water Shuriken does 20 damage
+                                if min_hp <= 20:
+                                     action["score"] = LETHAL_KO_SCORE
+
+                        elif "pidgeot" in n_lower: # Gust
+                            action["score"] += 2000
 
             actions.append(action)
 
@@ -505,6 +551,35 @@ def play(state, game):
                         # but more if it attacks NOW.
                         if a["pos"] == 0:
                              a["score"] += 1000
+
+                             # LOOKAHEAD: Check if this attachment enables a stronger attack
+                             if target and target.db_entry:
+                                 current_max_dmg = 0
+                                 potential_max_dmg = 0
+                                 new_energy = target.energy + [a["energy_type"]]
+
+                                 for i, atk in enumerate(target.attacks):
+                                     # Check current
+                                     if can_use_attack(atk.get("cost", []), target.energy):
+                                         d = calculate_damage(target, i, gs, extra_damage)
+                                         if d > current_max_dmg: current_max_dmg = d
+
+                                     # Check potential
+                                     if can_use_attack(atk.get("cost", []), new_energy):
+                                         d = calculate_damage(target, i, gs, extra_damage)
+                                         if d > potential_max_dmg: potential_max_dmg = d
+
+                                 diff = potential_max_dmg - current_max_dmg
+                                 if diff >= 40:
+                                     a["score"] += 5000
+                                 elif diff > 0:
+                                     a["score"] += 2000
+
+                                 # Check Lethal
+                                 if gs.opp_active:
+                                     if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
+                                         a["score"] += 10000
+
                         else:
                              # Setup bench carry
                              n_lower = target.name.lower()
@@ -542,7 +617,7 @@ def play(state, game):
                         a["score"] -= 5000
                     else:
                         a["score"] += 1000
-                elif len(gs.my_hand) < 3:
+                elif len(gs.my_hand) < 5: # Relaxed constraint
                     a["score"] += 5000
             elif a["type"] == "copycat":
                 if gs.opp_hand_count > len(gs.my_hand):
@@ -550,6 +625,9 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
             elif a["type"] == "misty":
+                # Misty score boost (Generic)
+                a["score"] = 29000
+
                 needs_water = False
                 targets = []
                 if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): targets.append(gs.my_active)

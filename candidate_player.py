@@ -1,7 +1,7 @@
 import re
 import random
 import logging
-from db_dump import CARD_DB
+from typing import List, Dict, Optional, Tuple, Any
 
 # Setup logging
 logger = logging.getLogger("player")
@@ -10,6 +10,12 @@ if not logger.handlers:
     fh.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
     logger.addHandler(fh)
     logger.setLevel(logging.DEBUG)
+
+try:
+    from db_dump import CARD_DB
+except ImportError:
+    logger.warning("Could not import CARD_DB from db_dump. Using empty DB.")
+    CARD_DB = {}
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
@@ -20,8 +26,8 @@ STRATEGIC_SWITCH_SCORE = 25000
 RESEARCH_SCORE = 24500
 MISTY_PREP_SCORE = 24200
 MISTY_SCORE = 24000
-SEARCH_ITEM_SCORE = 24000   # Keep High
-PLACE_BASIC_SCORE = 23500   # Boosted Global Priority above Attach
+SEARCH_ITEM_SCORE = 24000
+PLACE_BASIC_SCORE = 23500
 ATTACH_ENERGY_SCORE = 23000
 ABILITY_SCORE = 19500
 RED_CARD_SCORE = 19000
@@ -56,12 +62,14 @@ class Card:
             name_part = raw_name
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", name_part)
+
+        if cleaned.endswith(" Ex"):
+            cleaned = cleaned[:-3] + " ex"
+
         key = cleaned.lower()
         if key in CARD_DB:
             return CARD_DB[key].get("name", cleaned)
 
-        if cleaned.endswith(" Ex"):
-            cleaned = cleaned[:-3] + " ex"
         return cleaned
 
     def _get_db_entry(self):
@@ -97,13 +105,15 @@ class Card:
             if cost > max_cost: max_cost = cost
 
         if max_cost == 0:
-            if "pikachu ex" in self.name.lower(): max_cost = 2
-            elif "mewtwo ex" in self.name.lower(): max_cost = 4
-            elif "charizard ex" in self.name.lower(): max_cost = 4
-            elif "starmie ex" in self.name.lower(): max_cost = 2
-            elif "greninja" in self.name.lower(): max_cost = 2
-            elif "venusaur" in self.name.lower(): max_cost = 4
-            else: max_cost = 3
+            n = self.name.lower()
+            if "pikachu ex" in n: max_cost = 2
+            elif "mewtwo ex" in n: max_cost = 4
+            elif "charizard ex" in n: max_cost = 4
+            elif "starmie ex" in n: max_cost = 2
+            elif "greninja" in n: max_cost = 2
+            elif "venusaur" in n: max_cost = 4
+            elif "ex" in n: max_cost = 3
+            else: max_cost = 2
 
         return self.energy_count < max_cost
 
@@ -155,25 +165,27 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    damage = atk.get("dmg", 0)
+    damage = float(atk.get("dmg", 0))
     text = (atk.get("text") or "").lower()
 
-    if "flip" in text and "coin" in text:
-        num_coins = atk.get("coin_flips", 0)
-        if num_coins == 0:
-            m = re.search(r"flip (\d+) coin", text)
-            if m: num_coins = int(m.group(1))
-            else: num_coins = 1
+    num_coins = atk.get("coin_flips", 0)
+    if num_coins == 0 and "flip" in text and "coin" in text:
+         m = re.search(r"flip (\d+) coin", text)
+         if m: num_coins = int(m.group(1))
+         else: num_coins = 1
 
-        dmg_per_head = 0
-        m_dmg = re.search(r"(\d+) damage for each heads", text)
-        if m_dmg:
-            dmg_per_head = int(m_dmg.group(1))
-            damage += (num_coins * 0.5 * dmg_per_head)
+    if num_coins > 0:
+        m_dmg_each = re.search(r"(\d+) damage for each heads", text)
+        if m_dmg_each:
+            dmg_per_head = int(m_dmg_each.group(1))
+            damage = num_coins * 0.5 * dmg_per_head
         else:
             m_more = re.search(r"heads, this attack does (\d+) more damage", text)
             if m_more:
-                 damage += (num_coins * 0.5 * int(m_more.group(1)))
+                bonus = int(m_more.group(1))
+                damage += (num_coins * 0.5 * bonus)
+            elif "tails, this attack does nothing" in text:
+                 damage *= 0.5
 
     if "damage for each" in text:
         multiplier = 0
@@ -192,19 +204,37 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             else:
                 damage += (multiplier * attacker.energy_count)
 
-    if "pikachu ex" in attacker.name.lower() and attack_idx == 0:
+    name_lower = attacker.name.lower()
+
+    if "pikachu ex" in name_lower and "circle circuit" in text:
+         count = 0
+         for b in state.my_bench:
+             if "lightning" in b.energy_type.lower(): count += 1
+         damage = 30 * count
+    elif "pikachu ex" in name_lower and damage == 30 and attack_idx == 1:
          count = 0
          for b in state.my_bench:
              if "lightning" in b.energy_type.lower(): count += 1
          damage = 30 * count
 
-    if "mewtwo ex" in attacker.name.lower():
-        if attack_idx == 1: damage = 150
+    if "mewtwo ex" in name_lower and attack_idx == 1:
+        damage = 150
 
-    if "starmie ex" in attacker.name.lower() and attack_idx == 0:
+    if "starmie ex" in name_lower and attack_idx == 0:
         damage = 90
 
-    return int(damage) + extra_damage
+    if "greninja" in name_lower and not "ex" in name_lower and attack_idx == 0:
+        damage = 60
+
+    if "marowak ex" in name_lower and attack_idx == 0:
+         damage = 80
+
+    if "charizard ex" in name_lower and attack_idx == 1:
+        damage = 200
+
+    damage += extra_damage
+
+    return int(damage)
 
 def play(state, game):
     legal_actions = game.legal_actions()
@@ -219,7 +249,6 @@ def play(state, game):
         extra_damage = 10 if has_giovanni else 0
         has_misty = any("misty" in c.name.lower() for c in gs.my_hand)
 
-        # Calculate Potential Lethal Status First
         has_lethal_on_board = False
         if gs.my_active and gs.opp_active:
              for idx in range(len(gs.my_active.attacks)):
@@ -259,6 +288,9 @@ def play(state, game):
                                 action["score"] = LETHAL_WIN_SCORE
                                 action["is_lethal"] = True
 
+                        elif has_giovanni and (action["damage"] + 10) >= gs.opp_active.hp:
+                             action["can_be_lethal_with_giovanni"] = True
+
             elif "AttachEnergy" in aname:
                 m = re.search(r"AttachEnergy\((\d+), (.*?)\)", aname)
                 if m:
@@ -285,22 +317,7 @@ def play(state, game):
                     action["type"] = "place"
                     action["pos"] = pos
                     action["score"] = PLACE_BASIC_SCORE
-
-                    # Boost for main attackers
-                    clean_name = Card._clean_name(card_name_raw)
-                    n_lower = clean_name.lower()
-                    if "ex" in n_lower or "mewtwo" in n_lower or "pikachu" in n_lower:
-                        action["score"] += 1000
-
-                    if has_misty:
-                        key = n_lower
-                        etype = "Colorless"
-                        if key in CARD_DB: etype = CARD_DB[key].get("energy_type", "Colorless")
-                        elif "starmie" in key or "greninja" in key or "lapras" in key or "blastoise" in key or "articuno" in key:
-                            etype = "Water"
-
-                        if "Water" in etype:
-                            action["score"] = MISTY_PREP_SCORE
+                    action["card_name"] = Card._clean_name(card_name_raw)
 
             elif "Evolve" in aname:
                 action["type"] = "evolve"
@@ -331,6 +348,9 @@ def play(state, game):
                 elif "potion" in aname_lower or "heal" in aname_lower:
                     action["type"] = "potion"
                     action["score"] = ITEM_SCORE
+                elif "brock" in aname_lower:
+                    action["type"] = "energy_retrieval"
+                    action["score"] = ITEM_SCORE
                 else:
                     action["type"] = "item"
                     action["score"] = ITEM_SCORE
@@ -354,14 +374,17 @@ def play(state, game):
                  elif "potion" in aname_lower or "heal" in aname_lower:
                      action["type"] = "potion"
                      action["score"] = ITEM_SCORE
+                 elif "red card" in aname_lower:
+                     action["type"] = "red_card"
+                     action["score"] = RED_CARD_SCORE
 
             elif "UseAbility" in aname:
                 action["type"] = "ability"
                 action["score"] = ABILITY_SCORE
+                if "greninja" in aname_lower:
+                    action["score"] += 1000
 
             actions.append(action)
-
-        # --- Heuristics Application ---
 
         if not gs.my_bench:
             for a in actions:
@@ -374,8 +397,7 @@ def play(state, game):
                 if a["pos"] == 0: target = gs.my_active
                 elif a["pos"] > 0:
                     bench_idx = a["pos"] - 1
-                    if 0 <= bench_idx < len(gs.my_bench):
-                         target = gs.my_bench[bench_idx]
+                    target = gs.get_bench_card(bench_idx)
 
                 if target:
                     if target.needs_energy():
@@ -384,14 +406,35 @@ def play(state, game):
                             a["score"] += 1000
                         elif "Colorless" in target.energy_type:
                              a["score"] += 500
+
+                        n_lower = target.name.lower()
+                        if "mewtwo" in n_lower or "pikachu" in n_lower or "charizard" in n_lower:
+                             a["score"] += 1500
                     else:
                         a["score"] -= 5000
                 else:
                     a["score"] -= 10000
 
         for a in actions:
+            if a["type"] == "place":
+                n_lower = a.get("card_name", "").lower()
+                if "ex" in n_lower or "mewtwo" in n_lower or "pikachu" in n_lower:
+                    a["score"] += 1000
+
+                if has_misty:
+                     is_water = False
+                     key = n_lower
+                     if key in CARD_DB:
+                         if "Water" in CARD_DB[key].get("energy_type", "Colorless"): is_water = True
+                     elif any(x in n_lower for x in ["starmie", "greninja", "lapras", "blastoise", "articuno", "squirtle", "psyduck"]):
+                         is_water = True
+
+                     if is_water:
+                         a["score"] = MISTY_PREP_SCORE
+
+        for a in actions:
             if a["type"] == "research":
-                if len(gs.my_hand) >= 7:
+                if len(gs.my_hand) >= 5:
                     a["score"] -= 5000
             elif a["type"] == "misty":
                 needs_water = False
@@ -402,15 +445,20 @@ def play(state, game):
                 if needs_water: a["score"] += 1000
                 else: a["score"] -= 2000
             elif a["type"] == "red_card":
-                if gs.opp_hand_count >= 3:
+                if gs.opp_hand_count >= 4:
                     a["score"] += 2000
                 else:
                     a["score"] -= 2000
             elif a["type"] == "potion":
-                if gs.my_active and gs.my_active.hp < gs.my_active.max_hp:
+                damaged_mons = 0
+                if gs.my_active and gs.my_active.hp < gs.my_active.max_hp: damaged_mons += 1
+                for b in gs.my_bench:
+                     if b.hp < b.max_hp: damaged_mons += 1
+
+                if damaged_mons > 0:
                     a["score"] += 2000
                 else:
-                    a["score"] -= 2000
+                    a["score"] -= 5000
             elif a["type"] == "gust":
                 if has_lethal_on_board:
                     a["score"] -= 50000
@@ -419,15 +467,19 @@ def play(state, game):
                 else:
                     a["score"] -= 5000
             elif a["type"] == "giovanni":
-                best_atk_dmg = 0
+                needed = False
                 for atk in actions:
-                    if atk["type"] == "attack":
-                        if atk["damage"] > best_atk_dmg: best_atk_dmg = atk["damage"]
+                    if atk["type"] == "attack" and atk.get("can_be_lethal_with_giovanni"):
+                        needed = True
+                        break
 
-                if gs.opp_active and best_atk_dmg < gs.opp_active.hp and (best_atk_dmg + 10) >= gs.opp_active.hp:
+                if needed:
                     a["score"] = LETHAL_KO_SCORE + 500
+                else:
+                    is_attacking = any(x["type"] == "attack" for x in actions)
+                    if is_attacking: a["score"] += 500
+                    else: a["score"] -= 1000
 
-        # Strategic Switch Logic
         active_hp = gs.my_active.hp if gs.my_active else 0
         active_dmg = 0
         if gs.my_active:
@@ -450,12 +502,13 @@ def play(state, game):
 
                 if active_hp <= 40 and active_hp > 0:
                      should_retreat = True
+                     a["score"] += 1000
 
-                # Aggressive Switch: If bench is strictly better
                 if not target.needs_energy():
                      target_dmg = 0
-                     if target.attacks:
-                         target_dmg = calculate_damage(target, 0, gs)
+                     for i in range(len(target.attacks)):
+                         d = calculate_damage(target, i, gs)
+                         if d > target_dmg: target_dmg = d
 
                      if target_dmg > active_dmg + 20:
                          should_retreat = True
@@ -463,7 +516,7 @@ def play(state, game):
 
                 if should_retreat:
                     if not target.needs_energy():
-                        if a["score"] < STRATEGIC_SWITCH_SCORE:
+                         if a["score"] < STRATEGIC_SWITCH_SCORE:
                              a["score"] = STRATEGIC_SWITCH_SCORE
                     else:
                         if a["score"] < RETREAT_SCORE + 1000:
@@ -491,7 +544,7 @@ def play(state, game):
                      if a["id"] == best_lethal["id"]:
                          a["score"] += 500
                      elif a.get("is_ko"):
-                         a["score"] -= 500
+                         a["score"] -= 2000
 
         if actions:
             actions.sort(key=lambda x: x["score"], reverse=True)
@@ -499,7 +552,7 @@ def play(state, game):
 
             logger.debug(f"Turn: Hand={len(gs.my_hand)}, Bench={len(gs.my_bench)}")
             for a in actions[:5]:
-                 logger.debug(f"Action: {a['name']} Type: {a['type']} Score: {a['score']}")
+                 logger.debug(f"Action: {a['name']} Type: {a['type']} Score: {a['score']} Dmg: {a.get('damage', 0)}")
 
             return best_action["id"]
 

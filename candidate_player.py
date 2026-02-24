@@ -13,16 +13,16 @@ if not logger.handlers:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-LETHAL_KO_SCORE = 19500 # Increased slightly above generic Items
+LETHAL_KO_SCORE = 19500
 DONK_PREVENTION_SCORE = 30000
 EVOLVE_SCORE = 26000
 STRATEGIC_SWITCH_SCORE = 25000
 RESEARCH_SCORE = 24500
 MISTY_PREP_SCORE = 24200
 MISTY_SCORE = 24000
-SEARCH_ITEM_SCORE = 23500
+SEARCH_ITEM_SCORE = 24000   # Keep High
+PLACE_BASIC_SCORE = 23500   # Boosted Global Priority above Attach
 ATTACH_ENERGY_SCORE = 23000
-PLACE_BASIC_SCORE = 21000
 ABILITY_SCORE = 19500
 RED_CARD_SCORE = 19000
 ITEM_SCORE = 19000
@@ -290,7 +290,7 @@ def play(state, game):
                     clean_name = Card._clean_name(card_name_raw)
                     n_lower = clean_name.lower()
                     if "ex" in n_lower or "mewtwo" in n_lower or "pikachu" in n_lower:
-                        action["score"] += 1000 # Boosted boost
+                        action["score"] += 1000
 
                     if has_misty:
                         key = n_lower
@@ -451,13 +451,13 @@ def play(state, game):
                 if active_hp <= 40 and active_hp > 0:
                      should_retreat = True
 
-                # Modified Switch Logic: If bench is strictly better
-                if not target.needs_energy(): # Bench is ready
+                # Aggressive Switch: If bench is strictly better
+                if not target.needs_energy():
                      target_dmg = 0
                      if target.attacks:
                          target_dmg = calculate_damage(target, 0, gs)
 
-                     if target_dmg > active_dmg + 20: # Strictly better damage
+                     if target_dmg > active_dmg + 20:
                          should_retreat = True
                          a["score"] = STRATEGIC_SWITCH_SCORE + 500
 

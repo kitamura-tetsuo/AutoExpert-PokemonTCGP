@@ -33,6 +33,7 @@ GIOVANNI_SCORE = 60000
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
 DONK_SEARCH_SCORE = 500000
+DONK_AVOIDANCE_SCORE = 450000
 
 ABILITY_SCORE = 50000
 POTION_CRITICAL_SCORE = 85000
@@ -346,6 +347,8 @@ def play(state, game):
         if aname == "EndTurn":
             action["type"] = "end_turn"
             action["score"] = END_TURN_SCORE
+            if len(gs.my_bench) == 0 and gs.my_active and gs.my_active.hp <= 60:
+                 action["score"] -= 100000 # Heavily penalize ending turn if vulnerable
 
         elif "Attack" in aname:
             m = re.search(r"Attack\((\d+)\)", aname)
@@ -371,6 +374,12 @@ def play(state, game):
 
                     elif has_giovanni and (action["damage"] + 10) >= gs.opp_active.hp:
                          action["can_be_lethal_with_giovanni"] = True
+
+                # Donk Avoidance for Attack
+                if len(gs.my_bench) == 0 and not action.get("is_lethal"):
+                     # If we attack, turn ends. If not lethal, we are vulnerable.
+                     # Prioritize search over non-lethal attack if vulnerable
+                     action["score"] = 5000 # Lower than search/setup
 
         elif "AttachEnergy" in aname:
             m = re.search(r"AttachEnergy\((\d+), (.*?)\)", aname)
@@ -436,6 +445,9 @@ def play(state, game):
                 action["score"] = SEARCH_SCORE # BOOSTED
                 if risk_of_donk:
                     action["score"] = DONK_SEARCH_SCORE
+                # Prioritize Poke Ball if we have no bench
+                if len(gs.my_bench) == 0:
+                     action["score"] = DONK_SEARCH_SCORE
 
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
@@ -502,7 +514,7 @@ def play(state, game):
              action["score"] = ITEM_SCORE
              if "ball" in aname_lower or "search" in aname_lower:
                  action["score"] = SEARCH_SCORE # BOOSTED
-                 if risk_of_donk:
+                 if risk_of_donk or len(gs.my_bench) == 0:
                      action["score"] = DONK_SEARCH_SCORE
              elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower:
                  action["type"] = "potion"

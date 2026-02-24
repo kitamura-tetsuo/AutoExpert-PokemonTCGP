@@ -9,7 +9,7 @@ if not logger.handlers:
     fh = logging.FileHandler('player.log', mode='w')
     fh.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
     logger.addHandler(fh)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
 def play(state, game):
     """
@@ -26,6 +26,7 @@ def play(state, game):
             if raw_name.startswith("Some(") and raw_name.endswith(")"):
                 raw_name = raw_name[5:-1]
 
+            # Handle CamelCase (e.g. IndeedeeEx -> Indeedee Ex)
             m = re.match(r"^[A-Z0-9]+([A-Z].*)", raw_name)
             if m:
                 name_part = m.group(1)
@@ -69,7 +70,7 @@ def play(state, game):
             db_card = get_db_card(card_name)
             if db_card:
                 return db_card.get("energy_type", "Colorless")
-            # Fallback
+            # Fallback based on name substrings
             n = card_name.lower()
             if "pikachu" in n or "zapdos" in n or "magneton" in n or "magnezone" in n or "oricorio" in n or "ampharos" in n or "raichu" in n or "luxray" in n or "electabuzz" in n or "electrode" in n or "jolteon" in n or "zebstrika" in n or "galvantula" in n or "heliolisk" in n or "vikavolt" in n or "pincurchin" in n or "pawmot" in n or "bellibolt" in n: return "Lightning"
             if "mewtwo" in n or "gardevoir" in n or "ralts" in n or "gengar" in n or "alakazam" in n or "hypno" in n or "jynx" in n or "mew" in n or "espeon" in n or "wobbuffet" in n or "banette" in n or "drifblim" in n or "mismagius" in n or "gallade" in n or "uxie" in n or "mesprit" in n or "azelf" in n or "cresselia" in n or "sigilyph" in n or "gothitelle" in n or "reuniclus" in n or "malamar" in n or "naganadel" in n or "gourgeist" in n or "indeedee" in n: return "Psychic"
@@ -92,14 +93,8 @@ def play(state, game):
         me = state.current_player
         opp = 1 - me
 
-        # Points Logic
         my_points = state.points[me] if hasattr(state, 'points') else 0
         opp_points = state.points[opp] if hasattr(state, 'points') else 0
-
-        # Desperation Mode: If Opp needs 1 more point to win (assuming 3 points to win)
-        is_desperate = False
-        if opp_points >= 2:
-            is_desperate = True
 
         my_active = state.get_active_pokemon(me)
         my_bench_raw = state.get_bench_pokemon(me)
@@ -108,8 +103,7 @@ def play(state, game):
 
         opp_active = state.get_active_pokemon(opp)
         opp_bench_raw = state.get_bench_pokemon(opp)
-        opp_bench = [b for b in opp_bench_raw if b is not None]
-        opp_bench_count = len(opp_bench)
+        opp_bench_count = len([b for b in opp_bench_raw if b is not None])
         opp_hand = state.get_hand(opp)
         opp_hand_count = len(opp_hand)
 
@@ -117,7 +111,7 @@ def play(state, game):
         opp_energy_count = len(get_card_energy(opp_active)) if opp_active else 0
 
         my_active_name = get_card_name(my_active)
-        my_active_energy = len(get_card_energy(my_active))
+        my_active_energy_count = len(get_card_energy(my_active))
 
         # Check if Misty is in hand
         has_misty_in_hand = any("misty" in get_card_name(c).lower() for c in my_hand)
@@ -128,7 +122,7 @@ def play(state, game):
             n_lower = name.lower()
             my_bench_len = len([b for b in my_bench_list if b])
 
-            # Special Hardcoded Logic for scaling attacks
+            # Special Hardcoded Logic for scaling attacks and meta cards
             if "pikachu ex" in n_lower and attack_idx == 0: # Circle Circuit
                 lightning_bench = 0
                 for b in my_bench_list:
@@ -147,11 +141,11 @@ def play(state, game):
                 if attack_idx == 0: return 40
                 if attack_idx == 1: return 80
 
-            if "moltres ex" in n_lower and attack_idx == 1: return 70
+            if "moltres ex" in n_lower and attack_idx == 1: return 70 # Guaranteed 70, ignoring coins for base calc
 
-            if "zapdos ex" in n_lower and attack_idx == 1: return 100 # EV
+            if "zapdos ex" in n_lower and attack_idx == 1: return 100 # EV based on 4 flips (50 * 2 avg)
 
-            if "marowak ex" in n_lower and attack_idx == 0: return 80 # EV
+            if "marowak ex" in n_lower and attack_idx == 0: return 80 # EV based on 2 flips (80 * 1 avg)
 
             if "greninja" in n_lower and "ex" not in n_lower and attack_idx == 0: return 60
 
@@ -260,13 +254,13 @@ def play(state, game):
 
         parsed_actions = []
 
-        # STRICT PRIORITY SYSTEM
+        # PRIORITY SYSTEM CONSTANTS
         LETHAL_WIN_SCORE = 1000000
         DONK_PREVENTION_SCORE = 30000
 
         SETUP_EVOLVE_SCORE = 26000
-        STRATEGIC_SWITCH_SCORE = 24500 # Just below Evolve
-        MISTY_PREP_PLACE_SCORE = 24700 # If Misty in hand (and Water type)
+        STRATEGIC_SWITCH_SCORE = 24500
+        MISTY_PREP_PLACE_SCORE = 24700
         SETUP_MISTY_SCORE = 24600
 
         SETUP_SEARCH_ITEM_SCORE = 23000
@@ -274,14 +268,12 @@ def play(state, game):
         SETUP_HIGH_PRIORITY_ITEM_SCORE = 22000
         SETUP_ATTACH_SCORE = 21500
 
-        SETUP_PLACE_SCORE = 22000
-        # In deckgym, Professor's Research draws 2 cards WITHOUT discarding hand.
-        # Prioritizing it allows finding better options before committing resources.
+        SETUP_PLACE_SCORE = 21000
         SETUP_RESEARCH_SCORE = 22500
 
         SETUP_ABILITY_SCORE = 19500
         SETUP_ITEM_SCORE = 19000
-        SETUP_SUPPORTER_SCORE = 14000 # Generic
+        SETUP_SUPPORTER_SCORE = 14000
 
         LETHAL_KO_SCORE = 15000
         ATTACK_BASE_SCORE = 1000
@@ -321,7 +313,7 @@ def play(state, game):
                                 details["score"] += LETHAL_WIN_SCORE
                                 details["is_lethal"] = True
                         elif dmg >= opp_active_hp:
-                            details["score"] += 15000 # Probabilistic
+                            details["score"] += 10000 # Probabilistic
                             details["can_ko"] = True
 
                     # Mewtwo ex Psydrive penalty
@@ -375,7 +367,7 @@ def play(state, game):
                              details["score"] += 200
 
                          if not needs_energy(target_card):
-                             details["score"] -= 500
+                             details["score"] -= 1000 # Do not attach if energy not needed
                      else:
                          details["score"] -= 1000
                  else:
@@ -455,7 +447,7 @@ def play(state, game):
                     if "Research" in sname or "Professor" in sname:
                         details["score"] = SETUP_RESEARCH_SCORE
                         if len(my_hand) < 8: details["score"] += 200
-                        else: details["score"] -= 2000 # Penalize heavily if hand is full to prioritize playing cards first
+                        else: details["score"] -= 2000 # Penalize heavily if hand is full
                     elif "Clemont" in sname or "Sony" in sname:
                         details["score"] = SETUP_SEARCH_SUPPORTER_SCORE
                     elif "Sabrina" in sname or "Cyrus" in sname or "Boss" in sname or "Guzma" in sname or "Lysandre" in sname or "Counter Catcher" in sname:
@@ -472,7 +464,7 @@ def play(state, game):
                                 for i in range(len(attacks)):
                                     atk = attacks[i]
                                     cost = len(atk.get("cost", []))
-                                    if my_active_energy >= cost:
+                                    if my_active_energy_count >= cost:
                                         d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
                                         if d > my_active_dmg: my_active_dmg = d
 
@@ -480,8 +472,6 @@ def play(state, game):
                                 score -= 10000 # Don't switch if we can already KO!
 
                         # Bonus if Opponent has valuable bench targets (e.g. low HP or high energy/retreat cost)
-                        # We don't have perfect info on bench targets here easily without re-parsing,
-                        # but we can assume if Opp Active is strong (HP > 90), switching is good.
                         if opp_active_hp > 90:
                             score += 2000
 
@@ -521,7 +511,7 @@ def play(state, game):
                          if my_active:
                              a_attacks = get_attacks(my_active_name)
                              for i in range(len(a_attacks)):
-                                  if my_active_energy >= len(a_attacks[i].get("cost", [])):
+                                  if my_active_energy_count >= len(a_attacks[i].get("cost", [])):
                                        d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
                                        if d > active_dmg: active_dmg = d
                          if active_dmg < 40:
@@ -589,7 +579,7 @@ def play(state, game):
                 target_pos = action.get("target_pos", -1)
 
                 target_mon = None
-                # Fix: Simulator uses 1-based indexing for bench targets in actions
+                # Simulator uses 1-based indexing for bench targets in actions
                 if action["type"] == "activate" and target_pos == 0:
                      target_mon = my_active
                 elif target_pos > 0 and target_pos <= len(my_bench_raw):
@@ -610,7 +600,8 @@ def play(state, game):
                             if opp_bench_count == 0:
                                 action["score"] = LETHAL_WIN_SCORE
                             elif not has_ko_attack:
-                                action["score"] = 14500
+                                # Boost switching if it leads to a KO that Active cannot achieve
+                                action["score"] = 21000 # Higher than Generic Item (19k) but lower than Research (22.5k)
                             action["is_lethal_switch"] = True
 
                     # Strategic Switch / Retreat for Damage
@@ -618,7 +609,7 @@ def play(state, game):
                     if my_active:
                             a_attacks = get_attacks(my_active_name)
                             for i in range(len(a_attacks)):
-                                if my_active_energy >= len(a_attacks[i].get("cost", [])):
+                                if my_active_energy_count >= len(a_attacks[i].get("cost", [])):
                                     d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
                                     if d > active_dmg: active_dmg = d
 
@@ -629,11 +620,12 @@ def play(state, game):
                             action["score"] = STRATEGIC_SWITCH_SCORE
 
         # B. Emergency Retreat
+        # Lowered priority below Evolution (26000) so we try to evolve first (might gain HP)
         if my_active and get_card_hp(my_active) <= 40 and opp_active and len(get_card_energy(opp_active)) > 0:
             for action in parsed_actions:
                 if action["type"] == "retreat":
                     # Score retreat targets based on readiness
-                    base_score = 30000
+                    base_score = 25000 # Lower than Evolve (26000) but higher than Switch (24500)
                     target_pos = action.get("target_pos", -1)
                     if target_pos > 0 and target_pos <= len(my_bench_raw):
                          target_mon = my_bench_raw[target_pos-1]
@@ -669,13 +661,6 @@ def play(state, game):
             # If standard is enough to KO or is lethal, penalize Psydrive to save energy
             if standard.get("is_lethal") or standard.get("can_ko"):
                 psydrive["score"] -= 2000
-
-        # E. Desperation Mode
-        if is_desperate:
-             # Boost KO actions if not already lethal
-             for a in parsed_actions:
-                 if a["type"] == "attack" and a.get("can_ko"):
-                     a["score"] += 5000 # Prioritize KO at all costs
 
         # --- 7. Selection ---
         best_score = -float('inf')

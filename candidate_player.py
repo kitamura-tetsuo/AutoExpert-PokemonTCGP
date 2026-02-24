@@ -140,19 +140,32 @@ class Card:
 
             if max_cost == 0:
                 n_lower = self.name.lower()
-                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup", "deino", "zorua"]:
+                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup", "deino", "zorua", "froakie"]:
                     max_cost = 2
-        else:
+
+        # Override for evolving basics regardless of DB presence
+        n_lower = self.name.lower()
+        if n_lower == "froakie": max_cost = 2
+        elif n_lower == "ralts": max_cost = 3 # For Gardevoir
+        elif n_lower == "gastly": max_cost = 3 # For Gengar
+        elif n_lower == "dratini": max_cost = 4 # Dragonite
+        elif n_lower == "charmander": max_cost = 4 # Charizard ex
+        elif n_lower == "squirtle": max_cost = 3 # Blastoise ex
+        elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
+        elif n_lower == "abra": max_cost = 3 # Alakazam
+        elif n_lower == "machop": max_cost = 3 # Machamp
+
+        if not self.db_entry:
+            # Fallback if DB missing
             max_cost = 2
-            n = self.name.lower()
-            if "pikachu ex" in n: max_cost = 2
-            elif "mewtwo ex" in n: max_cost = 4
-            elif "charizard ex" in n: max_cost = 4
-            elif "starmie ex" in n: max_cost = 2
-            elif "greninja" in n: max_cost = 2
-            elif "venusaur" in n: max_cost = 4
-            elif "mega" in n and "ex" in n: max_cost = 4
-            elif "ex" in n: max_cost = 3
+            if "pikachu ex" in n_lower: max_cost = 2
+            elif "mewtwo ex" in n_lower: max_cost = 4
+            elif "charizard ex" in n_lower: max_cost = 4
+            elif "starmie ex" in n_lower: max_cost = 2
+            elif "greninja" in n_lower: max_cost = 2
+            elif "venusaur" in n_lower: max_cost = 4
+            elif "mega" in n_lower and "ex" in n_lower: max_cost = 4
+            elif "ex" in n_lower: max_cost = 3
 
         if "pikachu ex" in self.name.lower():
             max_cost = 2
@@ -562,6 +575,45 @@ def play(state, game):
                                     min_hp = b.hp
                             if min_hp <= 20:
                                  action["score"] = LETHAL_KO_SCORE
+
+        elif "ApplyDamage" in aname:
+             # ApplyDamage(idx) usually from Greninja (20 dmg)
+             m = re.search(r"ApplyDamage\((\d+)\)", aname)
+             if m:
+                 idx = int(m.group(1))
+                 action["type"] = "apply_damage"
+                 action["score"] = 50000 # High baseline
+
+                 target = None
+                 if idx == 0:
+                     target = gs.opp_active
+                 elif idx > 0:
+                     bench_idx = idx - 1
+                     if bench_idx < len(gs.opp_bench):
+                         target = gs.opp_bench[bench_idx]
+
+                 if target:
+                     if target.hp <= 20:
+                         action["score"] = LETHAL_KO_SCORE + 10000
+                         is_ex = "ex" in target.name.lower()
+                         if is_ex: action["score"] += 5000
+                         points_gained = 2 if is_ex else 1
+                         if points_gained >= points_needed_to_win:
+                             action["score"] = LETHAL_WIN_SCORE
+                     else:
+                         # Prioritize EX or active if it helps KO
+                         if "ex" in target.name.lower():
+                             action["score"] += 2000
+
+                         if idx == 0 and gs.my_active: # Hitting active
+                             # Check if this puts it in KO range for my active
+                             current_dmg = 0
+                             for i in range(len(gs.my_active.attacks)):
+                                 d = calculate_damage(gs.my_active, i, gs)
+                                 if d > current_dmg: current_dmg = d
+
+                             if current_dmg < target.hp and current_dmg >= (target.hp - 20):
+                                  action["score"] += 5000
 
         actions.append(action)
 

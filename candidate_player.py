@@ -71,13 +71,15 @@ def play(state, game):
                 return db_card.get("energy_type", "Colorless")
             # Fallback
             n = card_name.lower()
-            if "pikachu" in n or "zapdos" in n or "magneton" in n: return "Lightning"
-            if "mewtwo" in n or "gardevoir" in n or "ralts" in n: return "Psychic"
-            if "charizard" in n or "moltres" in n or "magmar" in n: return "Fire"
-            if "blastoise" in n or "starmie" in n or "articuno" in n or "greninja" in n: return "Water"
-            if "venusaur" in n or "bulbasaur" in n: return "Grass"
-            if "machamp" in n or "hitmonchan" in n or "marowak" in n: return "Fighting"
-            if "weezing" in n or "muk" in n or "arbok" in n: return "Darkness" # Or Metal depending on generation
+            if "pikachu" in n or "zapdos" in n or "magneton" in n or "magnezone" in n or "oricorio" in n or "ampharos" in n or "raichu" in n or "luxray" in n or "electabuzz" in n or "electrode" in n or "jolteon" in n or "zebstrika" in n or "galvantula" in n or "heliolisk" in n or "vikavolt" in n or "pincurchin" in n or "pawmot" in n or "bellibolt" in n: return "Lightning"
+            if "mewtwo" in n or "gardevoir" in n or "ralts" in n or "gengar" in n or "alakazam" in n or "hypno" in n or "jynx" in n or "mew" in n or "espeon" in n or "wobbuffet" in n or "banette" in n or "drifblim" in n or "mismagius" in n or "gallade" in n or "uxie" in n or "mesprit" in n or "azelf" in n or "cresselia" in n or "sigilyph" in n or "gothitelle" in n or "reuniclus" in n or "malamar" in n or "naganadel" in n or "gourgeist" in n or "indeedee" in n: return "Psychic"
+            if "charizard" in n or "moltres" in n or "magmar" in n or "arcanine" in n or "ninetales" in n or "rapidash" in n or "flareon" in n or "typhlosion" in n or "magcargo" in n or "houndoom" in n or "entei" in n or "blaziken" in n or "camerupt" in n or "torkoal" in n or "infernape" in n or "heatran" in n or "victini" in n or "chandelure" in n or "volcarona" in n or "reshiram" in n or "delphox" in n or "pyroar" in n or "talonflame" in n or "salazzle" in n or "turtonator" in n or "blacephalon" in n or "cinderace" in n or "centiskorch" in n: return "Fire"
+            if "blastoise" in n or "starmie" in n or "articuno" in n or "greninja" in n or "suicune" in n or "gyarados" in n or "lapras" in n or "vaporeon" in n or "feraligatr" in n or "politoed" in n or "kingdra" in n or "swampert" in n or "wailord" in n or "milotic" in n or "kyogre" in n or "empoleon" in n or "floatzel" in n or "lumineon" in n or "samurott" in n or "keldeo" in n or "primarina" in n or "wishiwashi" in n or "tapu fini" in n or "inteleon" in n or "drednaw" in n or "frosmoth" in n: return "Water"
+            if "venusaur" in n or "bulbasaur" in n or "exeggutor" in n or "vileplume" in n or "victreebel" in n or "tangela" in n or "scyther" in n or "pinsir" in n or "meganium" in n or "bellossom" in n or "jumpluff" in n or "celebi" in n or "sceptile" in n or "shiftry" in n or "cacturne" in n or "tropius" in n or "torterra" in n or "roserade" in n or "leafeon" in n or "shaymin" in n or "serperior" in n or "virizion" in n or "chesnaught" in n or "decidueye" in n or "lurantis" in n or "tapu bulu" in n or "rillaboom" in n or "eldegoss" in n or "meowscarada" in n: return "Grass"
+            if "machamp" in n or "hitmonchan" in n or "marowak" in n or "hitmonlee" in n or "kabutops" in n or "aerodactyl" in n or "sudowoodo" in n or "donphan" in n or "tyranitar" in n or "lucario" in n or "rampardos" in n or "rhyperior" in n or "gallade" in n or "terrakion" in n or "landorus" in n or "zygarde" in n or "lycanroc" in n or "buzzwole" in n or "stonjourner" in n or "coalossal" in n or "grapploct" in n or "falinks" in n or "koraidon" in n: return "Fighting"
+            if "weezing" in n or "muk" in n or "arbok" in n or "gengar" in n or "umbreon" in n or "tyranitar" in n or "absol" in n or "spiritomb" in n or "darkrai" in n or "drapion" in n or "weavile" in n or "darkrai" in n or "zoroark" in n or "hydreigon" in n or "krookodile" in n or "scrafty" in n or "mandibuzz" in n or "greninja" in n or "pangoro" in n or "yveltal" in n or "incineroar" in n or "guzzlord" in n or "grimmsnarl" in n or "obstagoon" in n or "morpeko" in n: return "Darkness"
+            if "dragonite" in n or "altaria" in n or "salamence" in n or "latias" in n or "latios" in n or "rayquaza" in n or "garchomp" in n or "haxorus" in n or "druddigon" in n or "hydreigon" in n or "goodra" in n or "noivern" in n or "kommo-o" in n or "drampa" in n or "naganadel" in n or "regidrago" in n or "cyclizar" in n or "tatsugiri" in n: return "Dragon"
+            if "steelix" in n or "scizor" in n or "skarmory" in n or "aggron" in n or "metagross" in n or "jirachi" in n or "bronzong" in n or "lucario" in n or "magnezone" in n or "probopass" in n or "dialga" in n or "excadrill" in n or "ferrothorn" in n or "klinklang" in n or "cobalion" in n or "aegislash" in n or "klefki" in n or "solgaleo" in n or "celesteela" in n or "kartana" in n or "meltan" in n or "melmetal" in n or "corviknight" in n or "copperajah" in n: return "Metal"
             return "Colorless"
 
         def get_attacks(card_name):
@@ -237,7 +239,10 @@ def play(state, game):
                 c = len(atk.get("cost", []))
                 if c > max_cost: max_cost = c
 
-            if max_cost == 0: return False
+            if max_cost == 0:
+                # Unknown card or no attacks found. Assume it needs at least 1-2 energy.
+                return current_energy < 2
+
             return current_energy < max_cost
 
         # --- 5. Action Parsing & Categorization ---
@@ -270,7 +275,9 @@ def play(state, game):
         SETUP_ATTACH_SCORE = 21500
 
         SETUP_PLACE_SCORE = 21000
-        SETUP_RESEARCH_SCORE = 20500 # Boosted
+        # In deckgym, Professor's Research draws 2 cards WITHOUT discarding hand.
+        # Prioritizing it allows finding better options before committing resources.
+        SETUP_RESEARCH_SCORE = 22500
 
         SETUP_ABILITY_SCORE = 19500
         SETUP_ITEM_SCORE = 19000
@@ -448,7 +455,7 @@ def play(state, game):
                     if "Research" in sname or "Professor" in sname:
                         details["score"] = SETUP_RESEARCH_SCORE
                         if len(my_hand) < 8: details["score"] += 200
-                        else: details["score"] -= 1000
+                        else: details["score"] -= 2000 # Penalize heavily if hand is full to prioritize playing cards first
                     elif "Clemont" in sname or "Sony" in sname:
                         details["score"] = SETUP_SEARCH_SUPPORTER_SCORE
                     elif "Sabrina" in sname:
@@ -589,7 +596,8 @@ def play(state, game):
 
                     # Only apply Strategic Switch if the target deals significantly more damage (60+ diff)
                     # and the Active is dealing weak damage (<30).
-                    if not has_lethal_attack and active_dmg < 30 and max_dmg >= (active_dmg + 60):
+                    # STRICT THRESHOLD: Active < 30 AND Bench >= 60
+                    if not has_lethal_attack and active_dmg < 30 and max_dmg >= 60:
                             action["score"] = STRATEGIC_SWITCH_SCORE
 
         # B. Emergency Retreat
@@ -629,8 +637,10 @@ def play(state, game):
         psydrive = next((a for a in mewtwo_attacks if a["idx"] == 1), None)
         standard = next((a for a in mewtwo_attacks if a["idx"] == 0), None)
 
-        if psydrive and standard and standard.get("is_lethal"):
-             psydrive["score"] = -2000
+        if psydrive and standard:
+            # If standard is enough to KO or is lethal, penalize Psydrive to save energy
+            if standard.get("is_lethal") or standard.get("can_ko"):
+                psydrive["score"] -= 2000
 
         # E. Desperation Mode
         if is_desperate:

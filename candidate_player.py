@@ -18,17 +18,6 @@ except ImportError:
     CARD_DB = {}
 
 # --- Constants ---
-# Priority Hierarchy:
-# 1. Win Game (1M)
-# 2. Prevent Loss (Donk) (500k)
-# 3. Secure Prize (Gust Lethal) (80k)
-# 4. Resource Free Setup (Misty) (78k)
-# 5. Resource Commitment (Attach) (75k)
-# 6. Board Development (Evolve, Place) (74k, 73k)
-# 7. Item Usage (Before Discard) (72k)
-# 8. Draw/Refresh (Research) (70k)
-# 9. Attacks (Lethal KO > Base) (40k > 10k)
-
 LETHAL_WIN_SCORE = 1000000
 DONK_PREVENTION_SCORE = 500000
 
@@ -36,6 +25,7 @@ GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
 ATTACH_ENERGY_SCORE = 75000
+SEARCH_SCORE = 74500 # NEW: Prioritize Search to find basics/evolutions
 EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
@@ -45,9 +35,8 @@ RESEARCH_SCORE = 70000
 ABILITY_SCORE = 50000
 POTION_CRITICAL_SCORE = 67000
 
-# Sub-priorities within categories
 CARRY_BONUS = 2000
-ACTIVE_WEAK_ATTACH_BONUS = 5000 # Boost attach if active needs retreat
+ACTIVE_WEAK_ATTACH_BONUS = 5000
 LETHAL_KO_SCORE = 40000
 STRATEGIC_SWITCH_SCORE = 30000
 ATTACK_BASE_SCORE = 10000
@@ -81,7 +70,6 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        # Remove prefix like PA007 or B1121
         m = re.match(r"^([A-Z0-9]+)?([A-Z][a-z].*)", raw_name)
         if m and m.group(1):
              prefix = m.group(1)
@@ -89,7 +77,6 @@ class Card:
              if len(prefix) <= 6:
                  raw_name = name_part
 
-        # Split CamelCase
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
         if cleaned.endswith(" Ex"):
@@ -99,7 +86,6 @@ class Card:
         if key in CARD_DB:
             return CARD_DB[key].get("name", cleaned)
 
-        # Fallback check
         for k in CARD_DB:
             if k in key: return CARD_DB[k].get("name", k.title())
 
@@ -156,7 +142,6 @@ class Card:
 
             return self.energy_count < max_cost
 
-        # Fallback for cards NOT in DB
         max_cost = 2
         n = self.name.lower()
         if "pikachu ex" in n: max_cost = 2
@@ -200,13 +185,6 @@ class GameStateWrapper:
             return self.my_hand[idx]
         return None
 
-    def find_hand_card_by_name(self, target_raw_name):
-        target_clean = Card._clean_name(target_raw_name)
-        for c in self.my_hand:
-            if c.name == target_clean:
-                return c
-        return None
-
     def get_bench_card(self, idx):
         if 0 <= idx < len(self.my_bench):
             return self.my_bench[idx]
@@ -238,7 +216,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
-    # 1. Coin Flips EV
+    # 1. Coin Flips EV (NEW LOGIC)
     num_coins = atk.get("coin_flips", 0)
     if num_coins == 0:
         m = re.search(r"flip (\d+) coin", text)
@@ -298,11 +276,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         damage = 200
 
     if "marowak ex" in name_lower and attack_idx == 0:
-         damage = 80
+         damage = 80 # EV is 80
 
     damage += extra_damage
 
-    # Check for opponent abilities that prevent damage
     if state.opp_active and state.opp_active.db_entry:
         ability = state.opp_active.db_entry.get("ability")
         if ability:
@@ -323,7 +300,6 @@ def play(state, game):
 
     has_giovanni = any("giovanni" in c.name.lower() for c in gs.my_hand)
     extra_damage = 10 if has_giovanni else 0
-    has_misty = any("misty" in c.name.lower() for c in gs.my_hand)
 
     has_lethal_on_board = False
     if gs.my_active and gs.opp_active:
@@ -396,7 +372,6 @@ def play(state, game):
              m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
              if m:
                  obj = m.group(1)
-                 # Explicitly check for energy types to distinguish from Tools
                  if "Energy" in obj or any(t in obj for t in ["Lightning", "Water", "Fire", "Grass", "Fighting", "Psychic", "Darkness", "Metal"]):
                      action["type"] = "attach_energy"
                      action["pos"] = int(m.group(2))
@@ -432,7 +407,7 @@ def play(state, game):
                 action["score"] = MISTY_SCORE
             elif "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
-                action["score"] = ITEM_SCORE # Default, adjusted later
+                action["score"] = ITEM_SCORE # Default
             elif "giovanni" in aname_lower:
                 action["type"] = "giovanni"
                 action["score"] = ITEM_SCORE
@@ -441,7 +416,7 @@ def play(state, game):
                 action["score"] = RED_CARD_SCORE
             elif "ball" in aname_lower or "search" in aname_lower:
                 action["type"] = "search_item"
-                action["score"] = ITEM_SCORE # Boosted later
+                action["score"] = SEARCH_SCORE # BOOSTED
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
                 action["score"] = ITEM_SCORE
@@ -472,8 +447,6 @@ def play(state, game):
             if m:
                 action["type"] = "activate"
                 target_idx = int(m.group(1)) - 1
-
-                # Check if we are activating for opponent (My active is alive)
                 activating_for_opp = False
                 if gs.my_active and gs.my_active.hp > 0:
                     activating_for_opp = True
@@ -481,36 +454,18 @@ def play(state, game):
                 action["score"] = LETHAL_WIN_SCORE
 
                 if activating_for_opp:
-                    # We are choosing for OPPONENT. Pick the weakest/least dangerous.
-                    # Assuming target_idx maps to gs.opp_bench list order
                     target = None
                     if target_idx < len(gs.opp_bench):
                         target = gs.opp_bench[target_idx]
-
                     if target:
-                        # Penalize HP (we want low HP)
                         action["score"] -= target.hp * 10
-
-                        # Penalize Energy (we want no energy)
                         action["score"] -= target.energy_count * 5000
-
-                        # Penalize Ready (we want unready)
                         if not target.needs_energy():
                             action["score"] -= 20000
-
-                        # Bonus for Retreat Cost (trap them)
                         action["score"] += target.retreat_cost * 1000
-
-                        # Bonus if we can KO them easily
                         if target.hp <= 50:
                             action["score"] += 10000
-
-                        # Avoid bringing out their carry unless we can kill it
-                        if target.name.lower() in CARRY_LIST and target.hp > 100:
-                             action["score"] -= 5000
-
                 else:
-                    # Activating for SELF
                     target = gs.get_bench_card(target_idx)
                     if target:
                         action["score"] += target.hp
@@ -525,7 +480,7 @@ def play(state, game):
              action["type"] = "item"
              action["score"] = ITEM_SCORE
              if "ball" in aname_lower or "search" in aname_lower:
-                 action["score"] = ITEM_SCORE # Boosted later
+                 action["score"] = SEARCH_SCORE # BOOSTED
              elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower:
                  action["type"] = "potion"
                  action["score"] = ITEM_SCORE
@@ -566,9 +521,6 @@ def play(state, game):
                             if min_hp <= 20:
                                  action["score"] = LETHAL_KO_SCORE
 
-                    elif "pidgeot" in n_lower:
-                        action["score"] += 2000
-
         actions.append(action)
 
     if not gs.my_bench:
@@ -608,46 +560,14 @@ def play(state, game):
 
                     if a["pos"] == 0:
                          a["score"] += 1000
-
+                         # Original Weak Attach Bonus
                          retreat_cost = target.retreat_cost
                          if target.energy_count < retreat_cost:
                              active_weak = target.hp < 60
-                             active_threatened = False
-                             if gs.opp_active:
-                                 opp_dmg = 0
-                                 if gs.opp_active.db_entry:
-                                     for idx in range(len(gs.opp_active.attacks)):
-                                         d = calculate_damage(gs.opp_active, idx, gs)
-                                         if d > opp_dmg: opp_dmg = d
-                                 else:
-                                     if "ex" in gs.opp_active.name.lower(): opp_dmg = 60
-                                     else: opp_dmg = 30
+                             if active_weak: a["score"] += ACTIVE_WEAK_ATTACH_BONUS
 
-                                 if opp_dmg >= target.hp:
-                                     active_threatened = True
-
-                             bench_strong = False
-                             for b in gs.my_bench:
-                                 if not b.needs_energy():
-                                     dmg = 0
-                                     if b.db_entry:
-                                         dmg = calculate_damage(b, 0, gs)
-                                     elif "ex" in b.name.lower():
-                                         dmg = 90
-                                     else:
-                                         dmg = 40
-
-                                     active_dmg = 0
-                                     if target.db_entry:
-                                          active_dmg = calculate_damage(target, 0, gs)
-
-                                     if dmg > active_dmg + 20:
-                                         bench_strong = True
-                                         break
-
-                             if (active_weak or active_threatened) and bench_strong:
-                                  a["score"] += ACTIVE_WEAK_ATTACH_BONUS
-
+                         # Lethal Lookahead (Keep this from my new code?)
+                         # Old code had a version of this.
                          if target and target.db_entry:
                              current_max_dmg = 0
                              potential_max_dmg = 0
@@ -662,12 +582,6 @@ def play(state, game):
                                      d = calculate_damage(target, i, gs, extra_damage)
                                      if d > potential_max_dmg: potential_max_dmg = d
 
-                             diff = potential_max_dmg - current_max_dmg
-                             if diff >= 40:
-                                 a["score"] += 5000
-                             elif diff > 0:
-                                 a["score"] += 2000
-
                              if gs.opp_active:
                                  if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
                                      a["score"] += 10000
@@ -679,16 +593,13 @@ def play(state, game):
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()
-
-            # Penalize placing weak Pokemon if bench is getting full (unless needed)
             if len(gs.my_bench) >= 2:
                 if n_lower not in CARRY_LIST and "ex" not in n_lower:
                     a["score"] -= 1000
-
             if "ex" in n_lower or n_lower in CARRY_LIST:
                 a["score"] += CARRY_BONUS
 
-            if has_misty:
+            if any("misty" in c.name.lower() for c in gs.my_hand):
                  is_water = False
                  key = n_lower
                  if key in CARD_DB:
@@ -701,15 +612,14 @@ def play(state, game):
 
     for a in actions:
         if a["type"] == "research":
-            if len(gs.my_hand) >= 5:
-                has_energy = any("Energy" in c.name for c in gs.my_hand)
-                has_basic = any(c.name != "Unknown" for c in gs.my_hand if "ex" in c.name.lower() or "Basic" in str(c.db_entry))
-                if has_energy and has_basic:
-                    a["score"] -= 5000
-                else:
-                    a["score"] += 1000
+            # NEW LOGIC: Don't discard energy
+            has_energy = any("Energy" in c.name for c in gs.my_hand)
+            if has_energy:
+                 a["score"] -= 10000
+            elif len(gs.my_hand) >= 5:
+                 a["score"] += 1000
             elif len(gs.my_hand) < 5:
-                a["score"] += 5000 # Boost if hand low
+                a["score"] += 5000
         elif a["type"] == "copycat":
             if gs.opp_hand_count > len(gs.my_hand):
                  a["score"] += 1000
@@ -717,7 +627,6 @@ def play(state, game):
                  a["score"] -= 5000
         elif a["type"] == "misty":
             a["score"] = MISTY_SCORE
-            needs_water = False
             targets = []
             if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): targets.append(gs.my_active)
             for b in gs.my_bench:
@@ -785,15 +694,8 @@ def play(state, game):
             should_retreat = False
 
             if has_lethal_on_board:
-                is_game_win = False
-                for action in actions:
-                     if action.get("is_lethal"):
-                         is_game_win = True
-                         break
-
-                if is_game_win:
-                    a["score"] = -100000
-                    continue
+                a["score"] = -100000
+                continue
 
             target = gs.get_bench_card(a.get("target_idx", -1))
             if not target or target.name == "Unknown":

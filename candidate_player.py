@@ -372,8 +372,28 @@ def play(state, game):
                     action["score"] = RETREAT_SCORE
 
             elif "Activate" in aname:
-                action["type"] = "activate"
-                action["score"] = LETHAL_WIN_SCORE
+                m = re.search(r"Activate\((\d+)\)", aname)
+                if m:
+                    action["type"] = "activate"
+                    target_idx = int(m.group(1)) - 1
+                    target = gs.get_bench_card(target_idx)
+                    action["score"] = LETHAL_WIN_SCORE # Base score to ensure selection when forced
+
+                    if target:
+                        # Prioritize higher HP
+                        action["score"] += target.hp
+
+                        # Prioritize ready to attack
+                        if not target.needs_energy():
+                             action["score"] += 500
+
+                        # Prioritize ex (generally stronger)
+                        if "ex" in target.name.lower():
+                            action["score"] += 200
+
+                        # Avoid feeding easy prizes (low HP)
+                        if target.hp < 60:
+                             action["score"] -= 500
 
             elif "UseItem" in aname:
                  action["type"] = "item"

@@ -19,8 +19,8 @@ except ImportError:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-LETHAL_KO_SCORE = 19500
-DONK_PREVENTION_SCORE = 30000
+LETHAL_KO_SCORE = 35000
+DONK_PREVENTION_SCORE = 40000
 EVOLVE_SCORE = 26000
 STRATEGIC_SWITCH_SCORE = 25000
 RESEARCH_SCORE = 24500
@@ -426,7 +426,7 @@ def play(state, game):
 
                         # Prioritize ready to attack
                         if not target.needs_energy():
-                             action["score"] += 500
+                             action["score"] += 2000
 
                         # Prioritize ex (generally stronger)
                         if "ex" in target.name.lower():
@@ -504,12 +504,12 @@ def play(state, game):
                         # Prioritize Active slightly less than Bench for setup decks,
                         # but more if it attacks NOW.
                         if a["pos"] == 0:
-                             a["score"] += 500
+                             a["score"] += 1000
                         else:
                              # Setup bench carry
                              n_lower = target.name.lower()
-                             if any(x in n_lower for x in ["mewtwo", "pikachu", "charizard", "starmie", "venusaur", "blastoise"]):
-                                 a["score"] += 1500
+                             if any(x in n_lower for x in ["mewtwo", "pikachu", "charizard", "starmie", "venusaur", "blastoise", "dragonite", "gardevoir", "darkrai", "marowak", "weezing", "arbok"]):
+                                 a["score"] += 2000
                     else:
                          a["score"] -= 1000
                 else:
@@ -629,7 +629,7 @@ def play(state, game):
                          if d > target_dmg: target_dmg = d
 
                      # Strategic Switch logic
-                     if target_dmg > active_dmg + 20 and active_hp < 50:
+                     if target_dmg > active_dmg + 10 and active_hp < 60:
                          should_retreat = True
                          a["score"] = STRATEGIC_SWITCH_SCORE + 500
                      elif target_dmg > active_dmg + 20: # Just better attacker

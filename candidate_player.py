@@ -55,13 +55,16 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^[A-Z0-9]+([A-Z].*)", raw_name)
-        if m:
-            name_part = m.group(1)
-        else:
-            name_part = raw_name
+        # Remove prefix like PA007 or B1121
+        m = re.match(r"^([A-Z0-9]+)?([A-Z][a-z].*)", raw_name)
+        if m and m.group(1):
+             prefix = m.group(1)
+             name_part = m.group(2)
+             if len(prefix) <= 6:
+                 raw_name = name_part
 
-        cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", name_part)
+        # Split CamelCase
+        cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
         if cleaned.endswith(" Ex"):
             cleaned = cleaned[:-3] + " ex"
@@ -70,13 +73,17 @@ class Card:
         if key in CARD_DB:
             return CARD_DB[key].get("name", cleaned)
 
+        # Fallback check
+        for k in CARD_DB:
+            if k in key: return CARD_DB[k].get("name", k.title())
+
         return cleaned
 
     def _get_db_entry(self):
         key = self.name.lower()
         if key in CARD_DB: return CARD_DB[key]
         for k in CARD_DB:
-            if k in key: return CARD_DB[k]
+             if k == key: return CARD_DB[k]
         return None
 
     @property
@@ -84,12 +91,12 @@ class Card:
         if self.db_entry:
             return self.db_entry.get("energy_type", "Colorless")
         n = self.name.lower()
-        if "pikachu" in n or "zapdos" in n: return "Lightning"
-        if "mewtwo" in n or "gardevoir" in n: return "Psychic"
-        if "charizard" in n or "moltres" in n: return "Fire"
-        if "blastoise" in n or "starmie" in n or "greninja" in n: return "Water"
-        if "venusaur" in n: return "Grass"
-        if "machamp" in n: return "Fighting"
+        if "pikachu" in n or "zapdos" in n or "magneton" in n: return "Lightning"
+        if "mewtwo" in n or "gardevoir" in n or "gengar" in n: return "Psychic"
+        if "charizard" in n or "moltres" in n or "arcanine" in n: return "Fire"
+        if "blastoise" in n or "starmie" in n or "greninja" in n or "articuno" in n: return "Water"
+        if "venusaur" in n or "pinsir" in n: return "Grass"
+        if "machamp" in n or "hitmonchan" in n: return "Fighting"
         return "Colorless"
 
     @property
@@ -97,6 +104,12 @@ class Card:
         if self.db_entry:
             return self.db_entry.get("attacks", [])
         return []
+
+    @property
+    def retreat_cost(self):
+        if self.db_entry:
+            return self.db_entry.get("retreat", 1)
+        return 1
 
     def needs_energy(self):
         if self.db_entry:
@@ -109,18 +122,16 @@ class Card:
                 cost = len(atk.get("cost", []))
                 if cost > max_cost: max_cost = cost
 
-            # If max_cost is 0 (e.g. Chingling), it doesn't need energy.
             if max_cost == 0:
                 return False
 
-            # Pikachu ex optimization: cap desire at 2 unless specified otherwise
             if "pikachu ex" in self.name.lower():
                 max_cost = 2
 
             return self.energy_count < max_cost
 
         # Fallback for cards NOT in DB
-        max_cost = 0
+        max_cost = 2
         n = self.name.lower()
         if "pikachu ex" in n: max_cost = 2
         elif "mewtwo ex" in n: max_cost = 4
@@ -129,7 +140,6 @@ class Card:
         elif "greninja" in n: max_cost = 2
         elif "venusaur" in n: max_cost = 4
         elif "ex" in n: max_cost = 3
-        else: max_cost = 2
 
         return self.energy_count < max_cost
 
@@ -183,21 +193,24 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     atk = attacks[attack_idx]
     damage = float(atk.get("dmg", 0))
     text = (atk.get("text") or "").lower()
+    name_lower = attacker.name.lower()
 
+    # 1. Coin Flips EV
     num_coins = atk.get("coin_flips", 0)
-    if num_coins == 0 and "flip" in text and "coin" in text:
-         m = re.search(r"flip (\d+) coin", text)
-         if m: num_coins = int(m.group(1))
-         else: num_coins = 1
+    # Check text if coins not in DB
+    if num_coins == 0:
+        m = re.search(r"flip (\d+) coin", text)
+        if m: num_coins = int(m.group(1))
+        elif "flip a coin" in text: num_coins = 1
 
     if num_coins > 0:
-        m_dmg_each = re.search(r"(\d+) damage for each heads", text)
-        if m_dmg_each:
-            # EV calculation: num_coins * 0.5 probability * damage_per_head
-            # Replace base damage with EV because "damage for each heads" usually implies 0 base or base is irrelevant
-            dmg_per_head = int(m_dmg_each.group(1))
+        # Case A: "x damage for each heads"
+        m_each = re.search(r"(\d+) damage for each heads", text)
+        if m_each:
+            dmg_per_head = int(m_each.group(1))
             damage = num_coins * 0.5 * dmg_per_head
         else:
+            # Case B: "If heads, this attack does X more damage"
             m_more = re.search(r"heads, this attack does (\d+) more damage", text)
             if m_more:
                 bonus = int(m_more.group(1))
@@ -205,11 +218,11 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             elif "tails, this attack does nothing" in text:
                  damage *= 0.5
 
-    if "damage for each" in text:
-        multiplier = 0
-        m = re.search(r"(\d+) damage for each", text)
-        if m: multiplier = int(m.group(1))
-        else: multiplier = 20
+    # 2. Scaling Damage ("damage for each...")
+    if "damage for each" in text and "heads" not in text:
+        multiplier = 20 # Default
+        m_mult = re.search(r"(\d+) damage for each", text)
+        if m_mult: multiplier = int(m_mult.group(1))
 
         if "benched" in text:
             if "opponent" in text:
@@ -222,14 +235,8 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             else:
                 damage += (multiplier * attacker.energy_count)
 
-    name_lower = attacker.name.lower()
-
-    if "pikachu ex" in name_lower and "circle circuit" in text:
-         count = 0
-         for b in state.my_bench:
-             if "lightning" in b.energy_type.lower(): count += 1
-         damage = 30 * count
-    elif "pikachu ex" in name_lower and damage == 30 and attack_idx == 1:
+    # 3. Specific Card Overrides
+    if "pikachu ex" in name_lower and attack_idx == 0:
          count = 0
          for b in state.my_bench:
              if "lightning" in b.energy_type.lower(): count += 1
@@ -241,14 +248,11 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "starmie ex" in name_lower and attack_idx == 0:
         damage = 90
 
-    if "greninja" in name_lower and not "ex" in name_lower and attack_idx == 0:
-        damage = 60
-
-    if "marowak ex" in name_lower and attack_idx == 0:
-         damage = 80
-
     if "charizard ex" in name_lower and attack_idx == 1:
         damage = 200
+
+    if "marowak ex" in name_lower and attack_idx == 0:
+         damage = 80 # 2 flips of 80 each heads = 80 EV
 
     damage += extra_damage
 
@@ -274,6 +278,19 @@ def play(state, game):
                  if dmg >= gs.opp_active.hp:
                      has_lethal_on_board = True
                      break
+
+        can_win_on_bench = False
+        if not has_lethal_on_board and gs.my_active:
+             points_needed = 3 - gs.my_points
+             for b in gs.opp_bench:
+                 is_ex = "ex" in b.name.lower()
+                 points_gained = 2 if is_ex else 1
+                 if points_gained >= points_needed:
+                     for idx in range(len(gs.my_active.attacks)):
+                         dmg = calculate_damage(gs.my_active, idx, gs, extra_damage)
+                         if dmg >= b.hp:
+                             can_win_on_bench = True
+                             break
 
         for aid in legal_actions:
             aname = game.action_name(aid)
@@ -462,21 +479,41 @@ def play(state, game):
                     bench_idx = a["pos"] - 1
                     target = gs.get_bench_card(bench_idx)
 
-                if target:
-                    if target.needs_energy():
-                        a["score"] += 2000
-                        if target.energy_type in a["energy_type"] or a["energy_type"] in target.energy_type:
-                            a["score"] += 1000
-                        elif "Colorless" in target.energy_type:
-                             a["score"] += 500
-
-                        n_lower = target.name.lower()
-                        if "mewtwo" in n_lower or "pikachu" in n_lower or "charizard" in n_lower:
-                             a["score"] += 1500
-                    else:
-                        a["score"] -= 5000
-                else:
+                if not target:
                     a["score"] -= 10000
+                    continue
+
+                if target.needs_energy():
+                    # Check compatibility
+                    is_compatible = False
+                    if target.energy_type == "Colorless": is_compatible = True
+                    elif a["energy_type"] == target.energy_type: is_compatible = True
+
+                    # Check attack costs specifically
+                    if not is_compatible and target.db_entry:
+                        for atk in target.attacks:
+                            if a["energy_type"] in atk.get("cost", []):
+                                is_compatible = True
+                                break
+
+                    if is_compatible:
+                        a["score"] += 2000
+                        if "ex" in target.name.lower():
+                            a["score"] += 1000
+
+                        # Prioritize Active slightly less than Bench for setup decks,
+                        # but more if it attacks NOW.
+                        if a["pos"] == 0:
+                             a["score"] += 500
+                        else:
+                             # Setup bench carry
+                             n_lower = target.name.lower()
+                             if any(x in n_lower for x in ["mewtwo", "pikachu", "charizard", "starmie", "venusaur", "blastoise"]):
+                                 a["score"] += 1500
+                    else:
+                         a["score"] -= 1000
+                else:
+                    a["score"] -= 5000
 
         for a in actions:
             if a["type"] == "place":
@@ -498,7 +535,15 @@ def play(state, game):
         for a in actions:
             if a["type"] == "research":
                 if len(gs.my_hand) >= 5:
-                    a["score"] -= 5000
+                    # Check quality
+                    has_energy = any("Energy" in c.name for c in gs.my_hand)
+                    has_basic = any(c.name != "Unknown" for c in gs.my_hand if "ex" in c.name.lower() or "Basic" in str(c.db_entry))
+                    if has_energy and has_basic:
+                        a["score"] -= 5000
+                    else:
+                        a["score"] += 1000
+                elif len(gs.my_hand) < 3:
+                    a["score"] += 5000
             elif a["type"] == "copycat":
                 if gs.opp_hand_count > len(gs.my_hand):
                      a["score"] += 1000
@@ -506,12 +551,15 @@ def play(state, game):
                      a["score"] -= 5000
             elif a["type"] == "misty":
                 needs_water = False
-                if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): needs_water = True
+                targets = []
+                if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): targets.append(gs.my_active)
                 for b in gs.my_bench:
-                    if "Water" in b.energy_type and b.needs_energy(): needs_water = True
+                    if "Water" in b.energy_type and b.needs_energy(): targets.append(b)
 
-                if needs_water: a["score"] += 1000
-                else: a["score"] -= 2000
+                if targets:
+                     a["score"] += 2000
+                else:
+                     a["score"] -= 5000
             elif a["type"] == "red_card":
                 if gs.opp_hand_count >= 4:
                     a["score"] += 2000
@@ -530,6 +578,8 @@ def play(state, game):
             elif a["type"] == "gust":
                 if has_lethal_on_board:
                     a["score"] -= 50000
+                elif can_win_on_bench:
+                    a["score"] = LETHAL_WIN_SCORE
                 elif gs.opp_active and gs.opp_active.hp > 80:
                     a["score"] += 2000
                 else:
@@ -585,6 +635,10 @@ def play(state, game):
                      elif target_dmg > active_dmg + 20: # Just better attacker
                          # Less aggressive switch if not in danger
                          a["score"] += 500
+
+                # Penalize retreat cost
+                if gs.my_active:
+                    a["score"] -= (gs.my_active.retreat_cost * 1000)
 
                 if should_retreat:
                     if not target.needs_energy():

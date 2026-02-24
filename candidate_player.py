@@ -19,7 +19,7 @@ except ImportError:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-LETHAL_KO_SCORE = 35000
+LETHAL_KO_SCORE = 39000
 DONK_PREVENTION_SCORE = 40000
 EVOLVE_SCORE = 26000
 STRATEGIC_SWITCH_SCORE = 25000
@@ -139,6 +139,7 @@ class Card:
         elif "starmie ex" in n: max_cost = 2
         elif "greninja" in n: max_cost = 2
         elif "venusaur" in n: max_cost = 4
+        elif "mega" in n and "ex" in n: max_cost = 4
         elif "ex" in n: max_cost = 3
 
         return self.energy_count < max_cost
@@ -552,6 +553,51 @@ def play(state, game):
                         if a["pos"] == 0:
                              a["score"] += 1000
 
+                             # RETREAT ENABLER: Check if we need energy to retreat to a better Pokemon
+                             retreat_cost = target.retreat_cost
+                             if target.energy_count < retreat_cost:
+                                 # Check if we WANT to retreat
+                                 active_weak = target.hp < 60
+                                 active_threatened = False
+                                 if gs.opp_active:
+                                     opp_dmg = 0
+                                     # Estimate opp damage (max of known attacks)
+                                     if gs.opp_active.db_entry:
+                                         for idx in range(len(gs.opp_active.attacks)):
+                                             d = calculate_damage(gs.opp_active, idx, gs)
+                                             if d > opp_dmg: opp_dmg = d
+                                     else:
+                                         # Fallback estimate
+                                         if "ex" in gs.opp_active.name.lower(): opp_dmg = 60
+                                         else: opp_dmg = 30
+
+                                     if opp_dmg >= target.hp:
+                                         active_threatened = True
+
+                                 bench_strong = False
+                                 for b in gs.my_bench:
+                                     if not b.needs_energy():
+                                         # Simplified damage check (use first attack)
+                                         dmg = 0
+                                         if b.db_entry:
+                                             dmg = calculate_damage(b, 0, gs)
+                                         elif "ex" in b.name.lower():
+                                             dmg = 90 # Assumption for strong ex
+                                         else:
+                                             dmg = 40
+
+                                         active_dmg = 0
+                                         if target.db_entry:
+                                              active_dmg = calculate_damage(target, 0, gs)
+
+                                         if dmg > active_dmg + 20:
+                                             bench_strong = True
+                                             break
+
+                                 if (active_weak or active_threatened) and bench_strong:
+                                      a["score"] += 15000
+                                      # logger.debug(f"Boosting AttachEnergy to Active to enable retreat: {a['score']}")
+
                              # LOOKAHEAD: Check if this attachment enables a stronger attack
                              if target and target.db_entry:
                                  current_max_dmg = 0
@@ -645,11 +691,18 @@ def play(state, game):
                     a["score"] -= 2000
             elif a["type"] == "potion":
                 damaged_mons = 0
-                if gs.my_active and gs.my_active.hp < gs.my_active.max_hp: damaged_mons += 1
+                active_critical = False
+                if gs.my_active and gs.my_active.hp < gs.my_active.max_hp:
+                    damaged_mons += 1
+                    if gs.my_active.hp <= 60:
+                        active_critical = True
+
                 for b in gs.my_bench:
                      if b.hp < b.max_hp: damaged_mons += 1
 
-                if damaged_mons > 0:
+                if active_critical:
+                    a["score"] += 5000 # Boost if active needs saving
+                elif damaged_mons > 0:
                     a["score"] += 2000
                 else:
                     a["score"] -= 5000

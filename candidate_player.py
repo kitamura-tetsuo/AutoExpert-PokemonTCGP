@@ -36,6 +36,14 @@ ATTACK_BASE_SCORE = 2000
 RETREAT_SCORE = -5000
 END_TURN_SCORE = -10000
 
+CARRY_LIST = [
+    "mewtwo ex", "pikachu ex", "charizard ex", "starmie ex", "venusaur ex",
+    "blastoise ex", "dragonite", "gardevoir", "darkrai", "marowak ex",
+    "weezing", "arbok", "zapdos ex", "articuno ex", "moltres ex",
+    "machamp ex", "gengar ex", "wigglytuff ex", "nidoqueen", "nidoking",
+    "mega altaria ex"
+]
+
 class Card:
     def __init__(self, debug_label, obj=None):
         self.debug_label = debug_label
@@ -193,7 +201,6 @@ def can_use_attack(cost, energy_provided):
     for c in cost:
         if c != "Colorless":
             # Simple check: exact match
-            # Also handle Rainbow/Multi if implemented, but simplistic for now
             if c in available:
                 available.remove(c)
             else:
@@ -245,16 +252,22 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         m_mult = re.search(r"(\d+) damage for each", text)
         if m_mult: multiplier = int(m_mult.group(1))
 
+        count = 0
         if "benched" in text:
             if "opponent" in text:
-                damage += (multiplier * len(state.opp_bench))
+                count = len(state.opp_bench)
             else:
-                damage += (multiplier * len(state.my_bench))
+                count = len(state.my_bench)
         elif "energy" in text:
             if "opponent" in text:
-                if state.opp_active: damage += (multiplier * state.opp_active.energy_count)
+                if state.opp_active: count = state.opp_active.energy_count
             else:
-                damage += (multiplier * attacker.energy_count)
+                count = attacker.energy_count
+
+        if damage <= 10:
+             damage = count * multiplier
+        else:
+             damage += (count * multiplier)
 
     # 3. Specific Card Overrides
     if "pikachu ex" in name_lower and attack_idx == 0:
@@ -359,7 +372,7 @@ def play(state, game):
                  m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
                  if m:
                      obj = m.group(1)
-                     # Explicitly check for energy types to distinguish from Tools if regex failed
+                     # Explicitly check for energy types to distinguish from Tools
                      if "Energy" in obj or any(t in obj for t in ["Lightning", "Water", "Fire", "Grass", "Fighting", "Psychic", "Darkness", "Metal"]):
                          action["type"] = "attach_energy"
                          action["pos"] = int(m.group(2))
@@ -423,12 +436,10 @@ def play(state, game):
                 m = re.search(r"Retreat\((\d+)\)", aname)
                 if m:
                     action["type"] = "retreat"
-                    # Retreat(X) uses 1-based indexing for Bench, so X=1 is bench[0]
                     bench_idx = int(m.group(1)) - 1
                     action["target_idx"] = bench_idx
                     action["score"] = RETREAT_SCORE
 
-                    # Validate target bench position is occupied
                     target = gs.get_bench_card(bench_idx)
                     if not target or target.name == "Unknown":
                         action["score"] = -100000
@@ -439,21 +450,14 @@ def play(state, game):
                     action["type"] = "activate"
                     target_idx = int(m.group(1)) - 1
                     target = gs.get_bench_card(target_idx)
-                    action["score"] = LETHAL_WIN_SCORE # Base score to ensure selection when forced
+                    action["score"] = LETHAL_WIN_SCORE
 
                     if target:
-                        # Prioritize higher HP
                         action["score"] += target.hp
-
-                        # Prioritize ready to attack
                         if not target.needs_energy():
                              action["score"] += 2000
-
-                        # Prioritize ex (generally stronger)
                         if "ex" in target.name.lower():
                             action["score"] += 200
-
-                        # Avoid feeding easy prizes (low HP)
                         if target.hp < 60:
                              action["score"] -= 500
 
@@ -471,7 +475,7 @@ def play(state, game):
 
             elif "UseAbility" in aname:
                 action["type"] = "ability"
-                action["score"] = ABILITY_SCORE + 2000 # Boost generic ability score
+                action["score"] = ABILITY_SCORE + 2000
                 m = re.search(r"UseAbility\((\d+)\)", aname)
                 if m:
                     idx = int(m.group(1))
@@ -484,31 +488,25 @@ def play(state, game):
                     if target:
                         n_lower = target.name.lower()
                         if "gardevoir" in n_lower:
-                            # Psy Shadow: Attach energy to Active Psychic
-                            # If Active needs energy, boost significantly
                             if gs.my_active and "Psychic" in gs.my_active.energy_type:
-                                action["score"] += 4000 # 24000+
+                                action["score"] += 4000
                                 if gs.my_active.needs_energy():
-                                    action["score"] += 2000 # Prioritize over manual attach if possible
+                                    action["score"] += 2000
 
                         elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower:
-                            # Draw cards (Refinement / Make Do / Trade)
                             action["score"] += 3000
 
                         elif "greninja" in n_lower:
                             action["score"] += 1000
-                            # Dynamic scoring for Greninja if lethal
                             if gs.opp_bench:
-                                # Find lowest HP bench pokemon
                                 min_hp = 1000
                                 for b in gs.opp_bench:
                                     if b.hp < min_hp and b.hp > 0:
                                         min_hp = b.hp
-                                # Water Shuriken does 20 damage
                                 if min_hp <= 20:
                                      action["score"] = LETHAL_KO_SCORE
 
-                        elif "pidgeot" in n_lower: # Gust
+                        elif "pidgeot" in n_lower:
                             action["score"] += 2000
 
             actions.append(action)
@@ -531,12 +529,10 @@ def play(state, game):
                     continue
 
                 if target.needs_energy():
-                    # Check compatibility
                     is_compatible = False
                     if target.energy_type == "Colorless": is_compatible = True
                     elif a["energy_type"] == target.energy_type: is_compatible = True
 
-                    # Check attack costs specifically
                     if not is_compatible and target.db_entry:
                         for atk in target.attacks:
                             if a["energy_type"] in atk.get("cost", []):
@@ -547,27 +543,23 @@ def play(state, game):
                         a["score"] += 2000
                         if "ex" in target.name.lower():
                             a["score"] += 1000
+                        if target.name.lower() in CARRY_LIST:
+                            a["score"] += 2000 # Boost Carry
 
-                        # Prioritize Active slightly less than Bench for setup decks,
-                        # but more if it attacks NOW.
                         if a["pos"] == 0:
                              a["score"] += 1000
 
-                             # RETREAT ENABLER: Check if we need energy to retreat to a better Pokemon
                              retreat_cost = target.retreat_cost
                              if target.energy_count < retreat_cost:
-                                 # Check if we WANT to retreat
                                  active_weak = target.hp < 60
                                  active_threatened = False
                                  if gs.opp_active:
                                      opp_dmg = 0
-                                     # Estimate opp damage (max of known attacks)
                                      if gs.opp_active.db_entry:
                                          for idx in range(len(gs.opp_active.attacks)):
                                              d = calculate_damage(gs.opp_active, idx, gs)
                                              if d > opp_dmg: opp_dmg = d
                                      else:
-                                         # Fallback estimate
                                          if "ex" in gs.opp_active.name.lower(): opp_dmg = 60
                                          else: opp_dmg = 30
 
@@ -577,12 +569,11 @@ def play(state, game):
                                  bench_strong = False
                                  for b in gs.my_bench:
                                      if not b.needs_energy():
-                                         # Simplified damage check (use first attack)
                                          dmg = 0
                                          if b.db_entry:
                                              dmg = calculate_damage(b, 0, gs)
                                          elif "ex" in b.name.lower():
-                                             dmg = 90 # Assumption for strong ex
+                                             dmg = 90
                                          else:
                                              dmg = 40
 
@@ -596,21 +587,17 @@ def play(state, game):
 
                                  if (active_weak or active_threatened) and bench_strong:
                                       a["score"] += 15000
-                                      # logger.debug(f"Boosting AttachEnergy to Active to enable retreat: {a['score']}")
 
-                             # LOOKAHEAD: Check if this attachment enables a stronger attack
                              if target and target.db_entry:
                                  current_max_dmg = 0
                                  potential_max_dmg = 0
                                  new_energy = target.energy + [a["energy_type"]]
 
                                  for i, atk in enumerate(target.attacks):
-                                     # Check current
                                      if can_use_attack(atk.get("cost", []), target.energy):
                                          d = calculate_damage(target, i, gs, extra_damage)
                                          if d > current_max_dmg: current_max_dmg = d
 
-                                     # Check potential
                                      if can_use_attack(atk.get("cost", []), new_energy):
                                          d = calculate_damage(target, i, gs, extra_damage)
                                          if d > potential_max_dmg: potential_max_dmg = d
@@ -621,16 +608,9 @@ def play(state, game):
                                  elif diff > 0:
                                      a["score"] += 2000
 
-                                 # Check Lethal
                                  if gs.opp_active:
                                      if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
                                          a["score"] += 10000
-
-                        else:
-                             # Setup bench carry
-                             n_lower = target.name.lower()
-                             if any(x in n_lower for x in ["mewtwo", "pikachu", "charizard", "starmie", "venusaur", "blastoise", "dragonite", "gardevoir", "darkrai", "marowak", "weezing", "arbok"]):
-                                 a["score"] += 2000
                     else:
                          a["score"] -= 1000
                 else:
@@ -639,7 +619,13 @@ def play(state, game):
         for a in actions:
             if a["type"] == "place":
                 n_lower = a.get("card_name", "").lower()
-                if "ex" in n_lower or "mewtwo" in n_lower or "pikachu" in n_lower:
+
+                # Penalize placing weak Pokemon if bench is getting full (unless needed)
+                if len(gs.my_bench) >= 2:
+                    if n_lower not in CARRY_LIST and "ex" not in n_lower:
+                        a["score"] -= 1000
+
+                if "ex" in n_lower or n_lower in CARRY_LIST:
                     a["score"] += 1000
 
                 if has_misty:
@@ -656,14 +642,13 @@ def play(state, game):
         for a in actions:
             if a["type"] == "research":
                 if len(gs.my_hand) >= 5:
-                    # Check quality
                     has_energy = any("Energy" in c.name for c in gs.my_hand)
                     has_basic = any(c.name != "Unknown" for c in gs.my_hand if "ex" in c.name.lower() or "Basic" in str(c.db_entry))
                     if has_energy and has_basic:
                         a["score"] -= 5000
                     else:
                         a["score"] += 1000
-                elif len(gs.my_hand) < 5: # Relaxed constraint
+                elif len(gs.my_hand) < 5:
                     a["score"] += 5000
             elif a["type"] == "copycat":
                 if gs.opp_hand_count > len(gs.my_hand):
@@ -671,15 +656,12 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
             elif a["type"] == "misty":
-                # Misty score boost (Generic)
                 a["score"] = 29000
-
                 needs_water = False
                 targets = []
                 if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): targets.append(gs.my_active)
                 for b in gs.my_bench:
                     if "Water" in b.energy_type and b.needs_energy(): targets.append(b)
-
                 if targets:
                      a["score"] += 2000
                 else:
@@ -701,7 +683,7 @@ def play(state, game):
                      if b.hp < b.max_hp: damaged_mons += 1
 
                 if active_critical:
-                    a["score"] += 5000 # Boost if active needs saving
+                    a["score"] += 5000
                 elif damaged_mons > 0:
                     a["score"] += 2000
                 else:
@@ -759,15 +741,12 @@ def play(state, game):
                          d = calculate_damage(target, i, gs)
                          if d > target_dmg: target_dmg = d
 
-                     # Strategic Switch logic
                      if target_dmg > active_dmg + 10 and active_hp < 60:
                          should_retreat = True
                          a["score"] = STRATEGIC_SWITCH_SCORE + 500
-                     elif target_dmg > active_dmg + 20: # Just better attacker
-                         # Less aggressive switch if not in danger
+                     elif target_dmg > active_dmg + 20:
                          a["score"] += 500
 
-                # Penalize retreat cost
                 if gs.my_active:
                     a["score"] -= (gs.my_active.retreat_cost * 1000)
 
@@ -794,8 +773,6 @@ def play(state, game):
         if len(mewtwo_attacks) > 1:
             lethal_attacks = [a for a in mewtwo_attacks if a.get("is_ko")]
             if len(lethal_attacks) > 1:
-                 # Prefer standard attack (idx 0 usually) over Psydrive (idx 1)
-                 # Psydrive usually discards energy, so avoid it if standard kills
                  standard_lethal = None
                  psydrive_lethal = None
 
@@ -804,20 +781,17 @@ def play(state, game):
                      elif atk["damage"] == 150: psydrive_lethal = atk
 
                  if standard_lethal and psydrive_lethal:
-                     # Penalize Psydrive significantly
                      for a in mewtwo_attacks:
                          if a["id"] == psydrive_lethal["id"]:
                              a["score"] -= 2000
                          elif a["id"] == standard_lethal["id"]:
                              a["score"] += 500
-            elif len(lethal_attacks) == 1:
-                # If only one is lethal, boost it (already done by LETHAL_KO_SCORE)
-                pass
 
         if actions:
             actions.sort(key=lambda x: x["score"], reverse=True)
             best_action = actions[0]
 
+            # Simple deduplication of logs
             logger.debug(f"Turn: Hand={len(gs.my_hand)}, Bench={len(gs.my_bench)}")
             for a in actions[:5]:
                  logger.debug(f"Action: {a['name']} Type: {a['type']} Score: {a['score']} Dmg: {a.get('damage', 0)}")

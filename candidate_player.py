@@ -552,45 +552,60 @@ def play(state, game):
         for action in parsed_actions:
             if action["type"] == "retreat" or (action["type"] == "activate" and my_active and get_card_hp(my_active) > 0):
                 target_pos = action.get("target_pos", -1)
-                if target_pos >= 0 and target_pos < len(my_bench_raw):
-                    target_mon = my_bench_raw[target_pos]
-                    if target_mon:
-                        t_name = get_card_name(target_mon)
-                        t_attacks = get_attacks(t_name)
-                        t_energy = len(get_card_energy(target_mon))
-                        max_dmg = 0
-                        for i in range(len(t_attacks)):
-                            cost = len(t_attacks[i].get("cost", []))
-                            if t_energy >= cost:
-                                d = calculate_damage(target_mon, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
-                                if d > max_dmg: max_dmg = d
 
-                        if opp_active_hp > 0 and max_dmg >= opp_active_hp:
-                             if opp_bench_count == 0:
-                                 action["score"] = LETHAL_WIN_SCORE
-                             elif not has_ko_attack:
-                                 action["score"] = 14500
-                             action["is_lethal_switch"] = True
+                target_mon = None
+                # Fix: Simulator uses 1-based indexing for bench targets in actions
+                if action["type"] == "activate" and target_pos == 0:
+                     target_mon = my_active
+                elif target_pos > 0 and target_pos <= len(my_bench_raw):
+                     target_mon = my_bench_raw[target_pos-1]
 
-                        # Strategic Switch / Retreat for Damage
-                        active_dmg = 0
-                        if my_active:
-                             a_attacks = get_attacks(my_active_name)
-                             for i in range(len(a_attacks)):
-                                  if my_active_energy >= len(a_attacks[i].get("cost", [])):
-                                       d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
-                                       if d > active_dmg: active_dmg = d
+                if target_mon:
+                    t_name = get_card_name(target_mon)
+                    t_attacks = get_attacks(t_name)
+                    t_energy = len(get_card_energy(target_mon))
+                    max_dmg = 0
+                    for i in range(len(t_attacks)):
+                        cost = len(t_attacks[i].get("cost", []))
+                        if t_energy >= cost:
+                            d = calculate_damage(target_mon, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
+                            if d > max_dmg: max_dmg = d
 
-                        # Only apply Strategic Switch if the target deals significantly more damage (60+ diff)
-                        # and the Active is dealing weak damage (<30).
-                        if not has_lethal_attack and active_dmg < 30 and max_dmg >= (active_dmg + 60):
-                             action["score"] = STRATEGIC_SWITCH_SCORE
+                    if opp_active_hp > 0 and max_dmg >= opp_active_hp:
+                            if opp_bench_count == 0:
+                                action["score"] = LETHAL_WIN_SCORE
+                            elif not has_ko_attack:
+                                action["score"] = 14500
+                            action["is_lethal_switch"] = True
+
+                    # Strategic Switch / Retreat for Damage
+                    active_dmg = 0
+                    if my_active:
+                            a_attacks = get_attacks(my_active_name)
+                            for i in range(len(a_attacks)):
+                                if my_active_energy >= len(a_attacks[i].get("cost", [])):
+                                    d = calculate_damage(my_active, i, my_bench, opp_active, opp_bench_count, opp_energy_count)
+                                    if d > active_dmg: active_dmg = d
+
+                    # Only apply Strategic Switch if the target deals significantly more damage (60+ diff)
+                    # and the Active is dealing weak damage (<30).
+                    if not has_lethal_attack and active_dmg < 30 and max_dmg >= (active_dmg + 60):
+                            action["score"] = STRATEGIC_SWITCH_SCORE
 
         # B. Emergency Retreat
         if my_active and get_card_hp(my_active) <= 40 and opp_active and len(get_card_energy(opp_active)) > 0:
             for action in parsed_actions:
                 if action["type"] == "retreat":
-                    action["score"] = 30000
+                    # Score retreat targets based on readiness
+                    base_score = 30000
+                    target_pos = action.get("target_pos", -1)
+                    if target_pos > 0 and target_pos <= len(my_bench_raw):
+                         target_mon = my_bench_raw[target_pos-1]
+                         if target_mon:
+                             base_score += get_card_hp(target_mon)
+                             base_score += len(get_card_energy(target_mon)) * 100
+
+                    action["score"] = base_score
 
         # C. Giovanni for Lethal
         has_giovanni = False

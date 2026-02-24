@@ -32,10 +32,10 @@ ITEM_SCORE = 72000
 GIOVANNI_SCORE = 60000
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
-DONK_SEARCH_SCORE = 400000
+DONK_SEARCH_SCORE = 500000
 
 ABILITY_SCORE = 50000
-POTION_CRITICAL_SCORE = 80000
+POTION_CRITICAL_SCORE = 85000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
@@ -139,7 +139,7 @@ class Card:
             if max_cost == 0:
                 n_lower = self.name.lower()
                 # Only attach to important basics that evolve into strong Pokemon
-                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "staryu", "magikarp", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup"]:
+                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup", "deino", "zorua"]:
                     max_cost = 2
                 else:
                     return False
@@ -627,6 +627,14 @@ def play(state, game):
 
                  if is_water:
                      a["score"] = MISTY_PREP_SCORE
+
+            # Pikachu ex Logic: Fill bench to boost damage
+            if gs.my_active and "pikachu ex" in gs.my_active.name.lower():
+                 a["score"] += 5000
+                 current_damage = calculate_damage(gs.my_active, 0, gs)
+                 if gs.opp_active:
+                     if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
+                         a["score"] = LETHAL_WIN_SCORE # Boost to lethal priority
 
     for a in actions:
         if a["type"] == "research":

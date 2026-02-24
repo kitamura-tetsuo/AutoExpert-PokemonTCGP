@@ -264,7 +264,7 @@ def play(state, game):
         LETHAL_WIN_SCORE = 1000000
         DONK_PREVENTION_SCORE = 30000
 
-        SETUP_EVOLVE_SCORE = 25000
+        SETUP_EVOLVE_SCORE = 26000
         STRATEGIC_SWITCH_SCORE = 24500 # Just below Evolve
         MISTY_PREP_PLACE_SCORE = 24200 # If Misty in hand (and Water type)
         SETUP_MISTY_SCORE = 24000
@@ -481,8 +481,8 @@ def play(state, game):
 
                         # Bonus if Opponent has valuable bench targets (e.g. low HP or high energy/retreat cost)
                         # We don't have perfect info on bench targets here easily without re-parsing,
-                        # but we can assume if Opp Active is strong (HP > 100), switching is good.
-                        if opp_active_hp > 100:
+                        # but we can assume if Opp Active is strong (HP > 90), switching is good.
+                        if opp_active_hp > 90:
                             score += 2000
 
                         if "Sabrina" in sname:

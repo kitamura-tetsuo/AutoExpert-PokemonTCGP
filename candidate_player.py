@@ -34,10 +34,12 @@ DONK_PREVENTION_SCORE = 500000
 
 GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
+MISTY_PREP_SCORE = 77000
 ATTACH_ENERGY_SCORE = 75000
 EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
+RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
 
 ABILITY_SCORE = 50000
@@ -470,17 +472,54 @@ def play(state, game):
             if m:
                 action["type"] = "activate"
                 target_idx = int(m.group(1)) - 1
-                target = gs.get_bench_card(target_idx)
+
+                # Check if we are activating for opponent (My active is alive)
+                activating_for_opp = False
+                if gs.my_active and gs.my_active.hp > 0:
+                    activating_for_opp = True
+
                 action["score"] = LETHAL_WIN_SCORE
 
-                if target:
-                    action["score"] += target.hp
-                    if not target.needs_energy():
-                         action["score"] += 2000
-                    if "ex" in target.name.lower():
-                        action["score"] += 200
-                    if target.hp < 60:
-                         action["score"] -= 500
+                if activating_for_opp:
+                    # We are choosing for OPPONENT. Pick the weakest/least dangerous.
+                    # Assuming target_idx maps to gs.opp_bench list order
+                    target = None
+                    if target_idx < len(gs.opp_bench):
+                        target = gs.opp_bench[target_idx]
+
+                    if target:
+                        # Penalize HP (we want low HP)
+                        action["score"] -= target.hp * 10
+
+                        # Penalize Energy (we want no energy)
+                        action["score"] -= target.energy_count * 5000
+
+                        # Penalize Ready (we want unready)
+                        if not target.needs_energy():
+                            action["score"] -= 20000
+
+                        # Bonus for Retreat Cost (trap them)
+                        action["score"] += target.retreat_cost * 1000
+
+                        # Bonus if we can KO them easily
+                        if target.hp <= 50:
+                            action["score"] += 10000
+
+                        # Avoid bringing out their carry unless we can kill it
+                        if target.name.lower() in CARRY_LIST and target.hp > 100:
+                             action["score"] -= 5000
+
+                else:
+                    # Activating for SELF
+                    target = gs.get_bench_card(target_idx)
+                    if target:
+                        action["score"] += target.hp
+                        if not target.needs_energy():
+                             action["score"] += 5000
+                        if "ex" in target.name.lower():
+                            action["score"] += 1000
+                        if target.hp < 60:
+                             action["score"] -= 500
 
         elif "UseItem" in aname:
              action["type"] = "item"

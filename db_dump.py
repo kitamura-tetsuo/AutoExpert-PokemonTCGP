@@ -11,7 +11,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Vine Whip"
             }
         ],
@@ -19,17 +19,19 @@ CARD_DB = {
     },
     "ivysaur": {
         "name": "Ivysaur",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Grass",
-        "retreat": 3,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Grass",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Take 2 [G] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
-                "name": "Synthesis"
+                "dmg": 60,
+                "text": None,
+                "name": "Razor Leaf"
             }
         ],
         "ability": None
@@ -67,7 +69,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Razor Leaf"
             },
             {
@@ -113,7 +115,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Bug Bite"
             }
         ],
@@ -132,7 +134,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Gust"
             }
         ],
@@ -151,9 +153,9 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 0,
-                "text": "Put 1 random Weedle from your deck onto your Bench.",
-                "name": "Multiply"
+                "dmg": 20,
+                "text": None,
+                "name": "Sting"
             }
         ],
         "ability": None
@@ -168,9 +170,9 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 20,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
-                "name": "String Shot"
+                "dmg": 30,
+                "text": None,
+                "name": "Bug Bite"
             }
         ],
         "ability": None
@@ -186,7 +188,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Sharp Sting"
             }
         ],
@@ -194,7 +196,7 @@ CARD_DB = {
     },
     "oddish": {
         "name": "Oddish",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
@@ -202,9 +204,9 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 10,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-                "name": "Poison Powder"
+                "dmg": 20,
+                "text": None,
+                "name": "Ram"
             }
         ],
         "ability": None
@@ -213,16 +215,16 @@ CARD_DB = {
         "name": "Gloom",
         "hp": 80,
         "energy_type": "Grass",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Grass",
-                    "Grass"
+                    "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
-                "name": "Leaf Step"
+                "text": None,
+                "name": "Drool"
             }
         ],
         "ability": None
@@ -258,7 +260,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Scratch"
             }
         ],
@@ -277,7 +279,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             }
         ],
@@ -294,7 +296,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -328,7 +330,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Vine Whip"
             }
         ],
@@ -346,7 +348,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Razor Leaf"
             }
         ],
@@ -364,7 +366,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Vine Whip"
             }
         ],
@@ -381,11 +383,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Grass"
                 ],
-                "dmg": 0,
-                "text": "Take a [G] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
-                "name": "Growth Spurt"
+                "dmg": 20,
+                "text": None,
+                "name": "Seed Bomb"
             }
         ],
         "ability": None
@@ -398,14 +400,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Grass",
-                    "Colorless",
-                    "Colorless",
-                    "Colorless"
+                    "Grass"
                 ],
-                "dmg": 80,
-                "text": "This attack does 20 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
-                "name": "Psychic"
+                "dmg": 30,
+                "text": "Flip a coin. If heads, this attack does 30 more damage.",
+                "name": "Stomp"
             }
         ],
         "ability": None
@@ -438,9 +437,9 @@ CARD_DB = {
                     "Grass",
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
-                "name": "Sleep Powder"
+                "dmg": 40,
+                "text": "Heal 10 damage from this Pok\u00e9mon.",
+                "name": "Absorb"
             }
         ],
         "ability": None
@@ -453,11 +452,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Grass"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Slash"
+                "dmg": 30,
+                "text": None,
+                "name": "Sharp Scythe"
             }
         ],
         "ability": None
@@ -471,12 +470,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Grass",
-                    "Grass",
-                    "Colorless"
+                    "Grass"
                 ],
                 "dmg": 50,
-                "text": "Flip a coin. If heads, this attack does 50 more damage.",
-                "name": "X-Scissor"
+                "text": "Flip 2 coins. This attack does 50 damage for each heads.",
+                "name": "Double Horn"
             }
         ],
         "ability": None
@@ -489,11 +487,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Razor Leaf"
+                "dmg": 10,
+                "text": None,
+                "name": "Attach"
             }
         ],
         "ability": None
@@ -509,7 +507,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Rolling Tackle"
             }
         ],
@@ -517,7 +515,7 @@ CARD_DB = {
     },
     "petilil": {
         "name": "Petilil",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
@@ -525,48 +523,44 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 30,
-                "text": "Flip a coin. If tails, this attack does nothing.",
-                "name": "Surprise Attack"
+                "dmg": 10,
+                "text": "Heal 10 damage from this Pok\u00e9mon.",
+                "name": "Blot"
             }
         ],
         "ability": None
     },
     "lilligant": {
         "name": "Lilligant",
-        "hp": 80,
+        "hp": 100,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Grass",
-                    "Colorless"
+                    "Grass"
                 ],
                 "dmg": 50,
-                "text": "",
-                "name": "Smack"
+                "text": "Take a [G] Energy from your Energy Zone and attach it to 1 of your Benched [G] Pok\u00e9mon.",
+                "name": "Leaf Supply"
             }
         ],
-        "ability": {
-            "title": "Toughness Aroma",
-            "effect": "Each of your [G] Pok\u00e9mon gets +20 HP."
-        }
+        "ability": None
     },
     "skiddo": {
         "name": "Skiddo",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Grass",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Grass",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Razor Leaf"
+                "dmg": 40,
+                "text": "Flip a coin. If tails, this attack does nothing.",
+                "name": "Surprise Attack"
             }
         ],
         "ability": None
@@ -580,12 +574,12 @@ CARD_DB = {
             {
                 "cost": [
                     "Grass",
-                    "Grass",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 100,
-                "text": "This Pok\u00e9mon also does 20 damage to itself.",
-                "name": "Double-Edge"
+                "dmg": 70,
+                "text": None,
+                "name": "Razor Leaf"
             }
         ],
         "ability": None
@@ -609,7 +603,26 @@ CARD_DB = {
     },
     "charmeleon": {
         "name": "Charmeleon",
-        "hp": 80,
+        "hp": 90,
+        "energy_type": "Fire",
+        "retreat": 2,
+        "attacks": [
+            {
+                "cost": [
+                    "Fire",
+                    "Colorless",
+                    "Colorless"
+                ],
+                "dmg": 60,
+                "text": None,
+                "name": "Fire Claws"
+            }
+        ],
+        "ability": None
+    },
+    "charizard": {
+        "name": "Charizard",
+        "hp": 150,
         "energy_type": "Fire",
         "retreat": 2,
         "attacks": [
@@ -617,34 +630,12 @@ CARD_DB = {
                 "cost": [
                     "Fire",
                     "Fire",
-                    "Colorless"
-                ],
-                "dmg": 50,
-                "text": "",
-                "name": "Steady Firebreathing"
-            }
-        ],
-        "ability": {
-            "title": "Ignition",
-            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may take a [R] Energy from your Energy Zone and attach it to your Active [R] Pok\u00e9mon."
-        }
-    },
-    "charizard": {
-        "name": "Charizard",
-        "hp": 150,
-        "energy_type": "Fire",
-        "retreat": 3,
-        "attacks": [
-            {
-                "cost": [
-                    "Fire",
-                    "Fire",
-                    "Fire",
+                    "Colorless",
                     "Colorless"
                 ],
                 "dmg": 150,
-                "text": "This Pok\u00e9mon also does 30 damage to itself.",
-                "name": "Inferno Onrush"
+                "text": "Discard 2 [R] Energy from this Pok\u00e9mon.",
+                "name": "Fire Spin"
             }
         ],
         "ability": None
@@ -662,7 +653,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             },
             {
@@ -681,37 +672,35 @@ CARD_DB = {
     },
     "vulpix": {
         "name": "Vulpix",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Fire",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fire",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Live Coal"
+                "dmg": 0,
+                "text": "Flip a coin. If heads, the Defending Pok\u00e9mon can't attack during your opponent's next turn.",
+                "name": "Tail Whip"
             }
         ],
         "ability": None
     },
     "ninetales": {
         "name": "Ninetales",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Fire",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Fire",
-                    "Fire",
-                    "Colorless"
+                    "Fire"
                 ],
-                "dmg": 120,
-                "text": "During your next turn, this Pok\u00e9mon can't attack.",
-                "name": "Scorching Breath"
+                "dmg": 90,
+                "text": "Discard a [R] Energy from this Pok\u00e9mon.",
+                "name": "Flamethrower"
             }
         ],
         "ability": None
@@ -720,33 +709,35 @@ CARD_DB = {
         "name": "Growlithe",
         "hp": 70,
         "energy_type": "Fire",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fire"
+                    "Colorless",
+                    "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Dig Claws"
+                "text": None,
+                "name": "Bite"
             }
         ],
         "ability": None
     },
     "arcanine": {
         "name": "Arcanine",
-        "hp": 120,
+        "hp": 130,
         "energy_type": "Fire",
-        "retreat": 3,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Fire",
-                    "Fire"
+                    "Fire",
+                    "Colorless"
                 ],
-                "dmg": 50,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Burned.",
-                "name": "Fire Fang"
+                "dmg": 100,
+                "text": "This Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Heat Tackle"
             }
         ],
         "ability": None
@@ -778,12 +769,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Fire",
                     "Fire"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Combustion"
+                "dmg": 20,
+                "text": None,
+                "name": "Flare"
             }
         ],
         "ability": None
@@ -796,12 +786,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Fire",
-                    "Colorless"
+                    "Fire"
                 ],
                 "dmg": 40,
-                "text": "Flip a coin. If heads, this attack does 60 more damage.",
-                "name": "Rising Lunge"
+                "text": None,
+                "name": "Fire Mane"
             }
         ],
         "ability": None
@@ -814,29 +803,31 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
+                    "Fire",
                     "Fire"
                 ],
-                "dmg": 0,
-                "text": "Take a [R] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
-                "name": "Stoke"
+                "dmg": 50,
+                "text": None,
+                "name": "Magma Punch"
             }
         ],
         "ability": None
     },
     "flareon": {
         "name": "Flareon",
-        "hp": 110,
+        "hp": 120,
         "energy_type": "Fire",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Fire",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Take a [R] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon.",
-                "name": "Assisting Heater"
+                "dmg": 110,
+                "text": "Discard a [R] Energy from this Pok\u00e9mon.",
+                "name": "Flamethrower"
             }
         ],
         "ability": None
@@ -881,7 +872,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Heat Blast"
             }
         ],
@@ -897,9 +888,9 @@ CARD_DB = {
                 "cost": [
                     "Fire"
                 ],
-                "dmg": 0,
-                "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Tongue Whip"
+                "dmg": 30,
+                "text": None,
+                "name": "Combustion"
             }
         ],
         "ability": None
@@ -914,9 +905,9 @@ CARD_DB = {
                 "cost": [
                     "Fire"
                 ],
-                "dmg": 30,
-                "text": "Discard a [R] Energy from this Pok\u00e9mon.",
-                "name": "Ember"
+                "dmg": 20,
+                "text": None,
+                "name": "Scratch"
             }
         ],
         "ability": None
@@ -925,15 +916,16 @@ CARD_DB = {
         "name": "Salazzle",
         "hp": 90,
         "energy_type": "Fire",
-        "retreat": 0,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fire"
+                    "Fire",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Combustion"
+                "dmg": 60,
+                "text": None,
+                "name": "Fire Claws"
             }
         ],
         "ability": None
@@ -949,7 +941,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Gnaw"
             }
         ],
@@ -986,7 +978,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Water Gun"
             }
         ],
@@ -994,25 +986,21 @@ CARD_DB = {
     },
     "wartortle": {
         "name": "Wartortle",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Water",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Water",
-                    "Water",
                     "Colorless"
                 ],
-                "dmg": 60,
-                "text": "",
-                "name": "Waterfall"
+                "dmg": 40,
+                "text": None,
+                "name": "Wave Splash"
             }
         ],
-        "ability": {
-            "title": "Shell Shield",
-            "effect": "As long as this Pok\u00e9mon is on your Bench, prevent all damage done to this Pok\u00e9mon by attacks."
-        }
+        "ability": None
     },
     "blastoise": {
         "name": "Blastoise",
@@ -1045,7 +1033,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             },
             {
@@ -1069,11 +1057,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Rain Splash"
+                "dmg": 10,
+                "text": "Your opponent can't use any Supporter cards from their hand during their next turn.",
+                "name": "Headache"
             }
         ],
         "ability": None
@@ -1086,11 +1074,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
+                    "Water",
                     "Water"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Wave Splash"
+                "dmg": 70,
+                "text": None,
+                "name": "Aqua Edge"
             }
         ],
         "ability": None
@@ -1105,9 +1094,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Flip a coin. If tails, this attack does nothing.",
-                "name": "Surprise Attack"
+                "dmg": 10,
+                "text": None,
+                "name": "Razor Fin"
             }
         ],
         "ability": None
@@ -1124,7 +1113,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Knuckle Punch"
             }
         ],
@@ -1143,7 +1132,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Mega Punch"
             }
         ],
@@ -1160,12 +1149,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water",
-                    "Colorless"
+                    "Water"
                 ],
                 "dmg": 20,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-                "name": "Poison Sting"
+                "text": None,
+                "name": "Gentle Slap"
             }
         ],
         "ability": None
@@ -1179,12 +1167,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Water",
-                    "Water",
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Poisoned and Paralyzed.",
-                "name": "Stun Poison"
+                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
+                "name": "Poison Tentacles"
             }
         ],
         "ability": None
@@ -1201,7 +1188,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -1220,7 +1207,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             }
         ],
@@ -1228,7 +1215,7 @@ CARD_DB = {
     },
     "shellder": {
         "name": "Shellder",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
@@ -1236,30 +1223,34 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tackle"
+                "dmg": 20,
+                "text": None,
+                "name": "Tongue Slap"
             }
         ],
         "ability": None
     },
     "cloyster": {
         "name": "Cloyster",
-        "hp": 110,
+        "hp": 120,
         "energy_type": "Water",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
                     "Water",
-                    "Water"
+                    "Water",
+                    "Colorless"
                 ],
-                "dmg": 50,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
-                "name": "Guard Press"
+                "dmg": 70,
+                "text": None,
+                "name": "Surf"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Shell Armor",
+            "effect": "This Pok\u00e9mon takes -10 damage from attacks."
+        }
     },
     "krabby": {
         "name": "Krabby",
@@ -1273,7 +1264,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Vise Grip"
             }
         ],
@@ -1308,27 +1299,28 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 0,
-                "text": "This attack does 10 damage to 1 of your opponent's Pok\u00e9mon.",
-                "name": "Water Arrow"
+                "dmg": 20,
+                "text": None,
+                "name": "Water Gun"
             }
         ],
         "ability": None
     },
     "seadra": {
         "name": "Seadra",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Water",
+                    "Water",
                     "Water"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Razor Fin"
+                "dmg": 0,
+                "text": "This attack does 50 damage to 1 of your opponent's Pok\u00e9mon.",
+                "name": "Water Arrow"
             }
         ],
         "ability": None
@@ -1344,7 +1336,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Flop"
             }
         ],
@@ -1378,7 +1370,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Smack"
             }
         ],
@@ -1395,7 +1387,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Wave Splash"
             }
         ],
@@ -1413,7 +1405,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Hydro Splash"
             }
         ],
@@ -1427,31 +1419,31 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Colorless"
                 ],
                 "dmg": 10,
-                "text": "Flip 2 coins. If both of them are heads, this attack does 20 more damage.",
-                "name": "Expert Splasher"
+                "text": None,
+                "name": "Splash"
             }
         ],
         "ability": None
     },
     "gyarados": {
         "name": "Gyarados",
-        "hp": 140,
+        "hp": 150,
         "energy_type": "Water",
-        "retreat": 3,
+        "retreat": 4,
         "attacks": [
             {
                 "cost": [
                     "Water",
                     "Water",
                     "Water",
-                    "Colorless"
+                    "Water"
                 ],
                 "dmg": 100,
-                "text": "Discard the top card of your opponent's deck.",
-                "name": "Hammering Tail"
+                "text": "Discard a random Energy from your opponent's Active Pok\u00e9mon.",
+                "name": "Hyper Beam"
             }
         ],
         "ability": None
@@ -1475,7 +1467,7 @@ CARD_DB = {
     },
     "vaporeon": {
         "name": "Vaporeon",
-        "hp": 120,
+        "hp": 130,
         "energy_type": "Water",
         "retreat": 2,
         "attacks": [
@@ -1486,14 +1478,11 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
-                "name": "Wave Splash"
+                "text": "Heal 30 damage from this Pok\u00e9mon.",
+                "name": "Bubble Drain"
             }
         ],
-        "ability": {
-            "title": "Wash Out",
-            "effect": "As often as you like during your turn, you may move a [W] Energy from 1 of your Benched [W] Pok\u00e9mon to your Active [W] Pok\u00e9mon."
-        }
+        "ability": None
     },
     "omanyte": {
         "name": "Omanyte",
@@ -1506,7 +1495,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Water Gun"
             }
         ],
@@ -1562,7 +1551,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Ice Wing"
             },
             {
@@ -1580,35 +1569,37 @@ CARD_DB = {
     },
     "ducklett": {
         "name": "Ducklett",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Water",
         "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 10,
-                "text": "",
-                "name": "Rain Splash"
-            }
-        ],
-        "ability": None
-    },
-    "swanna": {
-        "name": "Swanna",
-        "hp": 80,
-        "energy_type": "Water",
-        "retreat": 0,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 60,
-                "text": "Move all Energy from this Pok\u00e9mon to 1 of your Benched Pok\u00e9mon.",
-                "name": "Feathery Cyclone"
+                "dmg": 30,
+                "text": None,
+                "name": "Flap"
+            }
+        ],
+        "ability": None
+    },
+    "swanna": {
+        "name": "Swanna",
+        "hp": 90,
+        "energy_type": "Water",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Colorless",
+                    "Colorless",
+                    "Colorless"
+                ],
+                "dmg": 70,
+                "text": None,
+                "name": "Wing Attack"
             }
         ],
         "ability": None
@@ -1621,12 +1612,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water",
-                    "Water"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
-                "name": "Bubble"
+                "dmg": 10,
+                "text": None,
+                "name": "Flop"
             }
         ],
         "ability": None
@@ -1639,12 +1629,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water",
-                    "Water"
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
-                "name": "Bounce"
+                "dmg": 30,
+                "text": None,
+                "name": "Water Drip"
             }
         ],
         "ability": None
@@ -1661,7 +1650,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Mist Slash"
             }
         ],
@@ -1672,7 +1661,7 @@ CARD_DB = {
     },
     "pyukumuku": {
         "name": "Pyukumuku",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
@@ -1680,19 +1669,16 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Sprinkle Water"
+                "dmg": 30,
+                "text": None,
+                "name": "Rain Splash"
             }
         ],
-        "ability": {
-            "title": "Innards Out",
-            "effect": "If this Pok\u00e9mon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pok\u00e9mon, do 50 damage to the Attacking Pok\u00e9mon."
-        }
+        "ability": None
     },
     "bruxish": {
         "name": "Bruxish",
-        "hp": 80,
+        "hp": 90,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
@@ -1701,9 +1687,9 @@ CARD_DB = {
                     "Water",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Wave Splash"
+                "dmg": 10,
+                "text": "If your opponent's Active Pok\u00e9mon has damage on it, this attack does 60 more damage.",
+                "name": "Second Strike"
             }
         ],
         "ability": None
@@ -1719,7 +1705,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -1753,33 +1739,31 @@ CARD_DB = {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 10,
-                "text": "This attack also does 10 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Spark"
+                "dmg": 20,
+                "text": None,
+                "name": "Gnaw"
             }
         ],
         "ability": None
     },
     "raichu": {
         "name": "Raichu",
-        "hp": 90,
+        "hp": 100,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Lightning",
+                    "Lightning",
                     "Lightning"
                 ],
-                "dmg": 40,
-                "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Spark"
+                "dmg": 140,
+                "text": "Discard all Energy from this Pok\u00e9mon.",
+                "name": "Thunderbolt"
             }
         ],
-        "ability": {
-            "title": "Resilience Link",
-            "effect": "If you have Arceus or Arceus ex in play, this Pok\u00e9mon takes -30 damage from attacks."
-        }
+        "ability": None
     },
     "pikachu ex": {
         "name": "Pikachu ex",
@@ -1790,12 +1774,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Lightning",
-                    "Lightning",
                     "Lightning"
                 ],
-                "dmg": 150,
-                "text": "Discard all Energy from this Pok\u00e9mon.",
-                "name": "Thunderbolt"
+                "dmg": 30,
+                "text": "This attack does 30 damage for each of your Benched [L] Pok\u00e9mon.",
+                "name": "Circle Circuit"
             }
         ],
         "ability": None
@@ -1811,7 +1794,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Lightning Ball"
             }
         ],
@@ -1825,14 +1808,20 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Lightning"
+                    "Lightning",
+                    "Colorless",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Spark"
+                "dmg": 60,
+                "text": None,
+                "name": "Spinning Attack"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Volt Charge",
+            "effect": "Once during your turn, you may take a [L] Energy from your Energy Zone and attach it to this Pok\u00e9mon."
+        }
     },
     "voltorb": {
         "name": "Voltorb",
@@ -1844,9 +1833,9 @@ CARD_DB = {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 30,
-                "text": "This Pok\u00e9mon also does 10 damage to itself.",
-                "name": "Big Explosion"
+                "dmg": 20,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
@@ -1855,32 +1844,34 @@ CARD_DB = {
         "name": "Electrode",
         "hp": 80,
         "energy_type": "Lightning",
-        "retreat": 1,
+        "retreat": 0,
         "attacks": [
             {
                 "cost": [
+                    "Lightning",
                     "Lightning"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Rolling Attack"
+                "dmg": 70,
+                "text": None,
+                "name": "Electro Ball"
             }
         ],
         "ability": None
     },
     "electabuzz": {
         "name": "Electabuzz",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Lightning",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Lightning",
                     "Lightning"
                 ],
-                "dmg": 0,
-                "text": "Take a [L] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
-                "name": "Charge"
+                "dmg": 40,
+                "text": "Flip a coin. If heads, this attack does 40 more damage. If tails, this Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Thunder Punch"
             }
         ],
         "ability": None
@@ -1893,11 +1884,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Lightning"
+                    "Lightning",
+                    "Colorless"
                 ],
                 "dmg": 40,
-                "text": "If this Pok\u00e9mon evolved during this turn, this attack does 20 more damage.",
-                "name": "Beginning Bolt"
+                "text": "Flip 4 coins. This attack does 40 damage for each heads.",
+                "name": "Pin Missile"
             }
         ],
         "ability": None
@@ -1912,11 +1904,11 @@ CARD_DB = {
                 "cost": [
                     "Lightning",
                     "Lightning",
-                    "Lightning"
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "1 other Pok\u00e9mon (either yours or your opponent's) is chosen at random 1 time. Do 100 damage to the chosen Pok\u00e9mon.",
-                "name": "Heavy Thunder"
+                "dmg": 100,
+                "text": "This attack also does 30 damage to 1 of your Benched Pok\u00e9mon.",
+                "name": "Raging Thunder"
             }
         ],
         "ability": None
@@ -1932,7 +1924,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Peck"
             },
             {
@@ -1950,7 +1942,7 @@ CARD_DB = {
     },
     "blitzle": {
         "name": "Blitzle",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
@@ -1958,70 +1950,67 @@ CARD_DB = {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tiny Charge"
+                "dmg": 20,
+                "text": None,
+                "name": "Zap Kick"
             }
         ],
         "ability": None
     },
     "zebstrika": {
         "name": "Zebstrika",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Lightning",
-                    "Lightning",
                     "Lightning"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Electric Ball"
+                "dmg": 0,
+                "text": "This attack does 30 damage to 1 of your opponent's Pok\u00e9mon.",
+                "name": "Thunder Spear"
             }
         ],
         "ability": None
     },
     "tynamo": {
         "name": "Tynamo",
-        "hp": 40,
+        "hp": 30,
         "energy_type": "Lightning",
-        "retreat": 0,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tiny Bolt"
+                "dmg": 30,
+                "text": None,
+                "name": "Tiny Charge"
             }
         ],
         "ability": None
     },
     "eelektrik": {
         "name": "Eelektrik",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Lightning",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Lightning",
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Electro Ball"
+                "dmg": 40,
+                "text": None,
+                "name": "Head Bolt"
             }
         ],
         "ability": None
     },
     "eelektross": {
         "name": "Eelektross",
-        "hp": 150,
+        "hp": 140,
         "energy_type": "Lightning",
         "retreat": 3,
         "attacks": [
@@ -2031,9 +2020,9 @@ CARD_DB = {
                     "Lightning",
                     "Colorless"
                 ],
-                "dmg": 120,
-                "text": "This Pok\u00e9mon also does 20 damage to itself.",
-                "name": "Wild Charge"
+                "dmg": 80,
+                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+                "name": "Thunder Fang"
             }
         ],
         "ability": None
@@ -2048,27 +2037,27 @@ CARD_DB = {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 10,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
-                "name": "Thunder Shock"
+                "dmg": 20,
+                "text": None,
+                "name": "Tail Whap"
             }
         ],
         "ability": None
     },
     "heliolisk": {
         "name": "Heliolisk",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Lightning",
-                    "Lightning"
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 120,
-                "text": "Discard all Energy from this Pok\u00e9mon.",
-                "name": "Thunderbolt"
+                "dmg": 40,
+                "text": "Flip a coin. If heads, this attack does 40 more damage.",
+                "name": "Quick Attack"
             }
         ],
         "ability": None
@@ -2102,7 +2091,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Slap"
             }
         ],
@@ -2119,7 +2108,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Magical Shot"
             }
         ],
@@ -2133,11 +2122,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Psyshot"
+                "dmg": 0,
+                "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
+                "name": "Teleport"
             }
         ],
         "ability": None
@@ -2150,11 +2139,13 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Psychic",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Psyshot"
+                "dmg": 60,
+                "text": None,
+                "name": "Super Psy Bolt"
             }
         ],
         "ability": None
@@ -2163,33 +2154,35 @@ CARD_DB = {
         "name": "Alakazam",
         "hp": 130,
         "energy_type": "Psychic",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
-                    "Psychic"
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 80,
-                "text": "This attack also does 20 damage to each of your opponent's Benched Pok\u00e9mon that has any Energy attached.",
-                "name": "Psychic Suppression"
+                "dmg": 60,
+                "text": "This attack does 30 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
+                "name": "Psychic"
             }
         ],
         "ability": None
     },
     "slowpoke": {
         "name": "Slowpoke",
-        "hp": 60,
-        "energy_type": "Water",
-        "retreat": 1,
+        "hp": 70,
+        "energy_type": "Psychic",
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Psychic",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Water Gun"
+                "dmg": 30,
+                "text": None,
+                "name": "Tail Whap"
             }
         ],
         "ability": None
@@ -2207,7 +2200,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Super Psy Bolt"
             }
         ],
@@ -2224,7 +2217,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Suffocating Gas"
             }
         ],
@@ -2232,7 +2225,7 @@ CARD_DB = {
     },
     "haunter": {
         "name": "Haunter",
-        "hp": 70,
+        "hp": 80,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
@@ -2240,9 +2233,9 @@ CARD_DB = {
                 "cost": [
                     "Psychic"
                 ],
-                "dmg": 50,
-                "text": "Flip a coin. If tails, this attack does nothing.",
-                "name": "Surprise Attack"
+                "dmg": 30,
+                "text": None,
+                "name": "Will-O-Wisp"
             }
         ],
         "ability": None
@@ -2277,7 +2270,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Spooky Shot"
             }
         ],
@@ -2298,7 +2291,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Mumble"
             }
         ],
@@ -2317,7 +2310,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Psypunch"
             }
         ],
@@ -2338,8 +2331,8 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
-                "name": "Barrier Shove"
+                "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
+                "name": "Barrier Attack"
             }
         ],
         "ability": None
@@ -2394,7 +2387,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Psychic Sphere"
             },
             {
@@ -2419,11 +2412,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-                "name": "Confuse Ray"
+                "dmg": 10,
+                "text": None,
+                "name": "Ram"
             }
         ],
         "ability": None
@@ -2436,32 +2429,37 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Psychic",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-                "name": "Psybeam"
+                "dmg": 30,
+                "text": None,
+                "name": "Smack"
             }
         ],
         "ability": None
     },
     "gardevoir": {
         "name": "Gardevoir",
-        "hp": 130,
+        "hp": 110,
         "energy_type": "Psychic",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
-                    "Psychic"
+                    "Psychic",
+                    "Colorless"
                 ],
                 "dmg": 60,
-                "text": "Take 2 [P] Energy from your Energy Zone and attach it to 1 of your Benched [P] Pok\u00e9mon.",
-                "name": "Psy Turbo"
+                "text": None,
+                "name": "Psyshot"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Psy Shadow",
+            "effect": "Once during your turn, you may take a [P] Energy from your Energy Zone and attach it to the [P] Pok\u00e9mon in the Active Spot."
+        }
     },
     "woobat": {
         "name": "Woobat",
@@ -2471,70 +2469,75 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Gust"
+                "dmg": 10,
+                "text": None,
+                "name": "Gnaw"
             }
         ],
         "ability": None
     },
     "swoobat": {
         "name": "Swoobat",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Psychic",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Psyshot"
+                "dmg": 60,
+                "text": None,
+                "name": "Heart Stamp"
             }
         ],
         "ability": None
     },
     "golett": {
         "name": "Golett",
-        "hp": 80,
-        "energy_type": "Fighting",
+        "hp": 90,
+        "energy_type": "Psychic",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fighting"
+                    "Psychic",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Stampede"
+                "dmg": 50,
+                "text": None,
+                "name": "Mega Punch"
             }
         ],
         "ability": None
     },
     "golurk": {
         "name": "Golurk",
-        "hp": 130,
-        "energy_type": "Fighting",
-        "retreat": 3,
+        "hp": 140,
+        "energy_type": "Psychic",
+        "retreat": 4,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Fighting"
+                    "Psychic",
+                    "Psychic",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 60,
-                "text": "Reveal the top 3 cards of your deck. This attack does 60 damage for each Pok\u00e9mon with a Retreat Cost of 3 or more you find there. Shuffle the revealed cards back into your deck.",
-                "name": "Heavy Rocket"
+                "dmg": 100,
+                "text": "Flip 2 coins. This attack does 100 damage for each heads.",
+                "name": "Double Lariat"
             }
         ],
         "ability": None
     },
     "sandshrew": {
         "name": "Sandshrew",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Fighting",
         "retreat": 1,
         "attacks": [
@@ -2542,66 +2545,33 @@ CARD_DB = {
                 "cost": [
                     "Fighting"
                 ],
-                "dmg": 20,
-                "text": "Flip 2 coins. This attack does 20 damage for each heads.",
-                "name": "Double Scratch"
+                "dmg": 10,
+                "text": None,
+                "name": "Scratch"
             }
         ],
         "ability": None
     },
     "sandslash": {
         "name": "Sandslash",
-        "hp": 90,
+        "hp": 100,
         "energy_type": "Fighting",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
+                    "Fighting",
                     "Fighting"
                 ],
-                "dmg": 30,
-                "text": "Flip 3 coins. This attack does 30 damage for each heads.",
-                "name": "Fury Swipes"
+                "dmg": 70,
+                "text": None,
+                "name": "Slash"
             }
         ],
         "ability": None
     },
     "diglett": {
         "name": "Diglett",
-        "hp": 60,
-        "energy_type": "Fighting",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 10,
-                "text": "",
-                "name": "Headbutt"
-            }
-        ],
-        "ability": None
-    },
-    "dugtrio": {
-        "name": "Dugtrio",
-        "hp": 90,
-        "energy_type": "Fighting",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Fighting"
-                ],
-                "dmg": 40,
-                "text": "Discard the top card of your deck. If that card is a [F] Pok\u00e9mon, this attack does 60 more damage.",
-                "name": "Cliff Crumbler"
-            }
-        ],
-        "ability": None
-    },
-    "mankey": {
-        "name": "Mankey",
         "hp": 50,
         "energy_type": "Fighting",
         "retreat": 1,
@@ -2610,9 +2580,43 @@ CARD_DB = {
                 "cost": [
                     "Fighting"
                 ],
-                "dmg": 30,
-                "text": "This Pok\u00e9mon also does 10 damage to itself.",
-                "name": "Reckless Charge"
+                "dmg": 20,
+                "text": None,
+                "name": "Mud-Slap"
+            }
+        ],
+        "ability": None
+    },
+    "dugtrio": {
+        "name": "Dugtrio",
+        "hp": 70,
+        "energy_type": "Fighting",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Fighting"
+                ],
+                "dmg": 40,
+                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
+                "name": "Dig"
+            }
+        ],
+        "ability": None
+    },
+    "mankey": {
+        "name": "Mankey",
+        "hp": 60,
+        "energy_type": "Fighting",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Fighting"
+                ],
+                "dmg": 20,
+                "text": None,
+                "name": "Low Kick"
             }
         ],
         "ability": None
@@ -2639,32 +2643,33 @@ CARD_DB = {
         "name": "Machop",
         "hp": 70,
         "energy_type": "Fighting",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 10,
-                "text": "Discard a Stadium in play.",
-                "name": "Shatter"
-            }
-        ],
-        "ability": None
-    },
-    "machoke": {
-        "name": "Machoke",
-        "hp": 90,
-        "energy_type": "Fighting",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Fighting"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Chop"
+                "dmg": 20,
+                "text": None,
+                "name": "Knuckle Punch"
+            }
+        ],
+        "ability": None
+    },
+    "machoke": {
+        "name": "Machoke",
+        "hp": 100,
+        "energy_type": "Fighting",
+        "retreat": 2,
+        "attacks": [
+            {
+                "cost": [
+                    "Fighting",
+                    "Fighting"
+                ],
+                "dmg": 50,
+                "text": None,
+                "name": "Strength"
             }
         ],
         "ability": None
@@ -2673,7 +2678,7 @@ CARD_DB = {
         "name": "Machamp",
         "hp": 150,
         "energy_type": "Fighting",
-        "retreat": 2,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
@@ -2681,9 +2686,9 @@ CARD_DB = {
                     "Fighting",
                     "Fighting"
                 ],
-                "dmg": 50,
-                "text": "Flip 4 coins. This attack does 50 damage for each heads.",
-                "name": "Hurricane Punch"
+                "dmg": 100,
+                "text": None,
+                "name": "Seismic Toss"
             }
         ],
         "ability": None
@@ -2701,7 +2706,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 120,
-                "text": "",
+                "text": None,
                 "name": "Mega Punch"
             }
         ],
@@ -2718,7 +2723,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -2733,11 +2738,12 @@ CARD_DB = {
             {
                 "cost": [
                     "Fighting",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Lunge Out"
+                "dmg": 70,
+                "text": None,
+                "name": "Rollout"
             }
         ],
         "ability": None
@@ -2746,44 +2752,44 @@ CARD_DB = {
         "name": "Golem",
         "hp": 160,
         "energy_type": "Fighting",
-        "retreat": 3,
+        "retreat": 4,
         "attacks": [
             {
                 "cost": [
                     "Fighting",
-                    "Fighting",
-                    "Fighting",
+                    "Colorless",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 120,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -30 damage from attacks.",
-                "name": "Guard Press"
+                "dmg": 150,
+                "text": "This Pok\u00e9mon also does 50 damage to itself.",
+                "name": "Double-Edge"
             }
         ],
         "ability": None
     },
     "onix": {
         "name": "Onix",
-        "hp": 100,
+        "hp": 110,
         "energy_type": "Fighting",
-        "retreat": 3,
+        "retreat": 4,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless",
-                    "Colorless"
+                    "Fighting",
+                    "Fighting",
+                    "Fighting"
                 ],
-                "dmg": 90,
-                "text": "Flip a coin. If tails, this attack does nothing.",
-                "name": "Tail Smash"
+                "dmg": 70,
+                "text": None,
+                "name": "Land Crush"
             }
         ],
         "ability": None
     },
     "cubone": {
         "name": "Cubone",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Fighting",
         "retreat": 1,
         "attacks": [
@@ -2791,9 +2797,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Headbutt"
+                "dmg": 0,
+                "text": "During your opponent's next turn, attacks used by the Defending Pok\u00e9mon do -20 damage.",
+                "name": "Growl"
             }
         ],
         "ability": None
@@ -2809,7 +2815,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Bone Beatdown"
             }
         ],
@@ -2861,7 +2867,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Jab"
             }
         ],
@@ -2876,30 +2882,32 @@ CARD_DB = {
             {
                 "cost": [
                     "Fighting",
+                    "Fighting",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Horn Attack"
+                "dmg": 60,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
     },
     "rhydon": {
         "name": "Rhydon",
-        "hp": 110,
+        "hp": 120,
         "energy_type": "Fighting",
-        "retreat": 3,
+        "retreat": 4,
         "attacks": [
             {
                 "cost": [
                     "Fighting",
                     "Fighting",
+                    "Fighting",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "",
-                "name": "Wrack Down"
+                "dmg": 100,
+                "text": None,
+                "name": "Horn Drill"
             }
         ],
         "ability": None
@@ -2915,7 +2923,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Shell Attack"
             }
         ],
@@ -2940,34 +2948,34 @@ CARD_DB = {
     },
     "mienfoo": {
         "name": "Mienfoo",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Fighting",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fighting"
+                    "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Chop"
+                "dmg": 20,
+                "text": None,
+                "name": "Pound"
             }
         ],
         "ability": None
     },
     "mienshao": {
         "name": "Mienshao",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Fighting",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fighting"
+                    "Colorless"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Low Sweep"
+                "dmg": 40,
+                "text": None,
+                "name": "Spiral Kick"
             }
         ],
         "ability": None
@@ -2984,7 +2992,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Knuckle Punch"
             }
         ],
@@ -3019,9 +3027,9 @@ CARD_DB = {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-                "name": "Poison Sting"
+                "dmg": 20,
+                "text": None,
+                "name": "Bite"
             }
         ],
         "ability": None
@@ -3072,7 +3080,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -3108,7 +3116,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Peck"
             }
         ],
@@ -3126,7 +3134,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Horn Attack"
             }
         ],
@@ -3159,46 +3167,45 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Darkness"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Bite"
+                "dmg": 10,
+                "text": None,
+                "name": "Glide"
             }
         ],
         "ability": None
     },
     "golbat": {
         "name": "Golbat",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Darkness"
+                    "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Bite"
+                "dmg": 40,
+                "text": None,
+                "name": "Wing Attack"
             }
         ],
         "ability": None
     },
     "grimer": {
         "name": "Grimer",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Darkness",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
                     "Darkness"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Sludge Bomb"
+                "dmg": 10,
+                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
+                "name": "Poison Gas"
             }
         ],
         "ability": None
@@ -3213,11 +3220,11 @@ CARD_DB = {
                 "cost": [
                     "Darkness",
                     "Darkness",
-                    "Darkness"
+                    "Colorless"
                 ],
                 "dmg": 70,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-                "name": "Gunk Shot"
+                "text": "If your opponent's Active Pok\u00e9mon is Poisoned, this attack does 50 more damage.",
+                "name": "Venoshock"
             }
         ],
         "ability": None
@@ -3226,15 +3233,15 @@ CARD_DB = {
         "name": "Koffing",
         "hp": 70,
         "energy_type": "Darkness",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 0,
-                "text": "Put 1 random Koffing from your deck onto your Bench.",
-                "name": "Division"
+                "dmg": 20,
+                "text": None,
+                "name": "Suffocating Gas"
             }
         ],
         "ability": None
@@ -3247,30 +3254,31 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
                     "Darkness"
                 ],
-                "dmg": 50,
-                "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
-                "name": "Smokescreen"
+                "dmg": 30,
+                "text": None,
+                "name": "Tackle"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Gas Leak",
+            "effect": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may make your opponent's Active Pok\u00e9mon Poisoned."
+        }
     },
     "mawile": {
         "name": "Mawile",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Metal",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Metal",
-                    "Colorless"
+                    "Metal"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Cavernous Chomp"
+                "dmg": 20,
+                "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
+                "name": "Crunch"
             }
         ],
         "ability": None
@@ -3286,7 +3294,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Pierce"
             }
         ],
@@ -3304,7 +3312,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Metal Claw"
             }
         ],
@@ -3312,53 +3320,58 @@ CARD_DB = {
     },
     "meltan": {
         "name": "Meltan",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Metal",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Metal"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Beam"
+                "dmg": 0,
+                "text": "Take a [M] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
+                "name": "Amass"
             }
         ],
         "ability": None
     },
     "melmetal": {
         "name": "Melmetal",
-        "hp": 140,
+        "hp": 130,
         "energy_type": "Metal",
-        "retreat": 4,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
                     "Metal",
                     "Metal",
-                    "Metal"
+                    "Metal",
+                    "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Mega Punch"
+                "dmg": 120,
+                "text": None,
+                "name": "Heavy Impact"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Hard Coat",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
+        }
     },
     "dratini": {
         "name": "Dratini",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Dragon",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Water",
+                    "Lightning"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Beat"
+                "dmg": 40,
+                "text": None,
+                "name": "Ram"
             }
         ],
         "ability": None
@@ -3367,15 +3380,17 @@ CARD_DB = {
         "name": "Dragonair",
         "hp": 100,
         "energy_type": "Dragon",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Water",
+                    "Lightning",
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Heal 30 damage from this Pok\u00e9mon.",
-                "name": "Shed Skin"
+                "dmg": 80,
+                "text": None,
+                "name": "Tail Smack"
             }
         ],
         "ability": None
@@ -3408,55 +3423,56 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Peck"
+                "dmg": 10,
+                "text": None,
+                "name": "Gust"
             }
         ],
         "ability": None
     },
     "pidgeotto": {
         "name": "Pidgeotto",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Speed Wing"
+                "dmg": 30,
+                "text": None,
+                "name": "Gust"
             }
         ],
         "ability": None
     },
     "pidgeot": {
         "name": "Pidgeot",
-        "hp": 150,
+        "hp": 130,
         "energy_type": "Colorless",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "Flip 2 coins. For each heads, discard a random Energy from your opponent's Active Pok\u00e9mon. If both of them are tails, this attack does nothing.",
-                "name": "Twister"
+                "dmg": 70,
+                "text": None,
+                "name": "Wing Attack"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Drive Off",
+            "effect": "Once during your turn, you may switch out your opponent's Active Pok\u00e9mon to the Bench.\u00a0(Your opponent chooses the new Active Pok\u00e9mon.)"
+        }
     },
     "rattata": {
         "name": "Rattata",
-        "hp": 50,
+        "hp": 40,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -3464,16 +3480,50 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tackle"
+                "dmg": 20,
+                "text": None,
+                "name": "Gnaw"
             }
         ],
         "ability": None
     },
     "raticate": {
         "name": "Raticate",
-        "hp": 90,
+        "hp": 80,
+        "energy_type": "Colorless",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Colorless"
+                ],
+                "dmg": 40,
+                "text": None,
+                "name": "Bite"
+            }
+        ],
+        "ability": None
+    },
+    "spearow": {
+        "name": "Spearow",
+        "hp": 60,
+        "energy_type": "Colorless",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Colorless"
+                ],
+                "dmg": 20,
+                "text": None,
+                "name": "Peck"
+            }
+        ],
+        "ability": None
+    },
+    "fearow": {
+        "name": "Fearow",
+        "hp": 100,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -3483,59 +3533,26 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
-                "name": "Tackle"
-            }
-        ],
-        "ability": None
-    },
-    "spearow": {
-        "name": "Spearow",
-        "hp": 70,
-        "energy_type": "Colorless",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 10,
-                "text": "",
-                "name": "Glide"
-            }
-        ],
-        "ability": None
-    },
-    "fearow": {
-        "name": "Fearow",
-        "hp": 90,
-        "energy_type": "Colorless",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 30,
-                "text": "If your opponent's Active Pok\u00e9mon is a [G] Pok\u00e9mon, this attack does 40 more damage.",
-                "name": "Peck Bugs"
+                "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
+                "name": "Drill Run"
             }
         ],
         "ability": None
     },
     "jigglypuff": {
         "name": "Jigglypuff",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
-                "name": "Sing"
+                "dmg": 30,
+                "text": None,
+                "name": "Pound"
             }
         ],
         "ability": None
@@ -3551,15 +3568,12 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Gentle Slap"
+                "dmg": 60,
+                "text": None,
+                "name": "Hyper Voice"
             }
         ],
-        "ability": {
-            "title": "Comforting Song",
-            "effect": "Once during your turn, you may heal 20 damage from your Active Pok\u00e9mon."
-        }
+        "ability": None
     },
     "wigglytuff ex": {
         "name": "Wigglytuff ex",
@@ -3599,7 +3613,7 @@ CARD_DB = {
     },
     "persian": {
         "name": "Persian",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -3608,9 +3622,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 60,
-                "text": "",
-                "name": "Slash"
+                "dmg": 40,
+                "text": "Flip a coin. If heads, discard a random card from your opponent's hand.",
+                "name": "Shadow Claw"
             }
         ],
         "ability": None
@@ -3626,7 +3640,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Leek Slap"
             }
         ],
@@ -3643,7 +3657,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Peck"
             }
         ],
@@ -3660,7 +3674,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Drill Peck"
             }
         ],
@@ -3668,9 +3682,9 @@ CARD_DB = {
     },
     "lickitung": {
         "name": "Lickitung",
-        "hp": 80,
+        "hp": 90,
         "energy_type": "Colorless",
-        "retreat": 2,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
@@ -3678,9 +3692,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Tongue Slap"
+                "dmg": 60,
+                "text": "Flip a coin until you get tails. This attack does 60 damage for each heads.",
+                "name": "Continuous Lick"
             }
         ],
         "ability": None
@@ -3698,7 +3712,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Gentle Slap"
             }
         ],
@@ -3714,9 +3728,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "If your opponent's Active Pok\u00e9mon is an Evolution Pok\u00e9mon, this attack does 40 more damage.",
-                "name": "Cross-Cut"
+                "dmg": 30,
+                "text": "Flip 2 coins. This attack does 30 damage for each heads.",
+                "name": "Dizzy Punch"
             }
         ],
         "ability": None
@@ -3730,19 +3744,18 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "If your opponent's Active Pok\u00e9mon is a Pok\u00e9mon ex, this attack does 80 more damage.",
-                "name": "Fighting Tackle"
+                "dmg": 50,
+                "text": None,
+                "name": "Horn Attack"
             }
         ],
         "ability": None
     },
     "ditto": {
         "name": "Ditto",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -3751,14 +3764,31 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 0,
-                "text": "Choose 1 of your Benched Pok\u00e9mon's attacks, except any Pok\u00e9mon ex, and use it as this attack. If this Pok\u00e9mon doesn't have the necessary Energy to use that attack, this attack does nothing.",
-                "name": "Copy a Friend"
+                "text": "Choose 1 of your opponent's Pok\u00e9mon's attacks and use it as this attack. If this Pok\u00e9mon doesn't have the necessary Energy to use that attack, this attack does nothing.",
+                "name": "Copy Anything"
             }
         ],
         "ability": None
     },
     "eevee": {
         "name": "Eevee",
+        "hp": 60,
+        "energy_type": "Colorless",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Colorless"
+                ],
+                "dmg": 20,
+                "text": None,
+                "name": "Tackle"
+            }
+        ],
+        "ability": None
+    },
+    "porygon": {
+        "name": "Porygon",
         "hp": 50,
         "energy_type": "Colorless",
         "retreat": 1,
@@ -3767,32 +3797,15 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Stampede"
+                "dmg": 20,
+                "text": None,
+                "name": "Sharpen"
             }
         ],
         "ability": {
-            "title": "Boosted Evolution",
-            "effect": "As long as this Pok\u00e9mon is in the Active Spot, it can evolve during your first turn or the turn you play it."
+            "title": "Data Scan",
+            "effect": "Once during your turn, you may look at the top card of your deck."
         }
-    },
-    "porygon": {
-        "name": "Porygon",
-        "hp": 60,
-        "energy_type": "Colorless",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 0,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
-                "name": "Stiffen"
-            }
-        ],
-        "ability": None
     },
     "aerodactyl": {
         "name": "Aerodactyl",
@@ -3814,7 +3827,7 @@ CARD_DB = {
     },
     "snorlax": {
         "name": "Snorlax",
-        "hp": 140,
+        "hp": 150,
         "energy_type": "Colorless",
         "retreat": 4,
         "attacks": [
@@ -3825,16 +3838,16 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 100,
-                "text": "This Pok\u00e9mon is now Asleep.",
-                "name": "Collapse"
+                "dmg": 70,
+                "text": None,
+                "name": "Rollout"
             }
         ],
         "ability": None
     },
     "minccino": {
         "name": "Minccino",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -3842,9 +3855,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Pound"
+                "dmg": 20,
+                "text": None,
+                "name": "Tail Smack"
             }
         ],
         "ability": None
@@ -3872,23 +3885,23 @@ CARD_DB = {
         "name": "Wooloo",
         "hp": 70,
         "energy_type": "Colorless",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Flip a coin until you get tails. This attack does 40 damage for each heads.",
-                "name": "Continuous Tumble"
+                "dmg": 30,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
     },
     "dubwool": {
         "name": "Dubwool",
-        "hp": 130,
+        "hp": 120,
         "energy_type": "Colorless",
         "retreat": 2,
         "attacks": [
@@ -3898,9 +3911,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 100,
-                "text": "During your next turn, this Pok\u00e9mon can't attack.",
-                "name": "Boundless Power"
+                "dmg": 80,
+                "text": None,
+                "name": "Rolling Tackle"
             }
         ],
         "ability": None
@@ -3942,17 +3955,18 @@ CARD_DB = {
     },
     "snivy": {
         "name": "Snivy",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Grass",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Tackle"
+                "dmg": 40,
+                "text": None,
+                "name": "Vine Whip"
             }
         ],
         "ability": None
@@ -3969,7 +3983,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Vine Whip"
             }
         ],
@@ -3989,7 +4003,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Solar Beam"
             }
         ],
@@ -4000,17 +4014,17 @@ CARD_DB = {
     },
     "morelull": {
         "name": "Morelull",
-        "hp": 50,
-        "energy_type": "Psychic",
+        "hp": 60,
+        "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Hook"
+                "text": None,
+                "name": "Ram"
             }
         ],
         "ability": None
@@ -4018,23 +4032,20 @@ CARD_DB = {
     "shiinotic": {
         "name": "Shiinotic",
         "hp": 90,
-        "energy_type": "Psychic",
+        "energy_type": "Grass",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Grass",
+                    "Grass"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Gentle Slap"
+                "dmg": 50,
+                "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
+                "name": "Flickering Spores"
             }
         ],
-        "ability": {
-            "title": "Illuminate",
-            "effect": "Once during your turn, you may put a random Pok\u00e9mon from your deck into your hand."
-        }
+        "ability": None
     },
     "dhelmise": {
         "name": "Dhelmise",
@@ -4065,7 +4076,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Combustion"
             }
         ],
@@ -4112,7 +4123,7 @@ CARD_DB = {
     },
     "finneon": {
         "name": "Finneon",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
@@ -4120,26 +4131,27 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 10,
-                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
-                "name": "Elegant Swim"
+                "dmg": 20,
+                "text": None,
+                "name": "Water Gun"
             }
         ],
         "ability": None
     },
     "lumineon": {
         "name": "Lumineon",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Water",
-        "retreat": 1,
+        "retreat": 0,
         "attacks": [
             {
                 "cost": [
+                    "Water",
                     "Water"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Waterfall"
+                "dmg": 0,
+                "text": "This attack does 50 damage to 1 of your opponent's Benched Pok\u00e9mon.",
+                "name": "Aqua Liner"
             }
         ],
         "ability": None
@@ -4152,13 +4164,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless",
+                    "Water",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Headbutt"
+                "dmg": 30,
+                "text": None,
+                "name": "Bite"
             }
         ],
         "ability": None
@@ -4173,12 +4184,11 @@ CARD_DB = {
                 "cost": [
                     "Water",
                     "Water",
-                    "Water",
-                    "Colorless"
+                    "Water"
                 ],
-                "dmg": 120,
-                "text": "",
-                "name": "Heavy Impact"
+                "dmg": 70,
+                "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
+                "name": "Crunch"
             }
         ],
         "ability": None
@@ -4191,28 +4201,30 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Water",
+                    "Water",
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Spit-Out Shot"
+                "dmg": 60,
+                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
+                "name": "Dive"
             }
         ],
         "ability": None
     },
     "joltik": {
         "name": "Joltik",
-        "hp": 30,
+        "hp": 40,
         "energy_type": "Lightning",
-        "retreat": 0,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Attach"
+                "dmg": 30,
+                "text": None,
+                "name": "Bug Bite"
             }
         ],
         "ability": None
@@ -4221,32 +4233,33 @@ CARD_DB = {
         "name": "Galvantula",
         "hp": 80,
         "energy_type": "Lightning",
-        "retreat": 0,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Lightning",
                     "Lightning"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Electro Ball"
+                "dmg": 70,
+                "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
+                "name": "Electroweb"
             }
         ],
         "ability": None
     },
     "dedenne": {
         "name": "Dedenne",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 20,
-                "text": "Discard a [L] Energy from your opponent's Active Pok\u00e9mon.",
-                "name": "Electric Nibbling"
+                "dmg": 10,
+                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+                "name": "Thunder Shock"
             }
         ],
         "ability": None
@@ -4262,7 +4275,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Psyshot"
             },
             {
@@ -4306,7 +4319,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -4391,27 +4404,27 @@ CARD_DB = {
                 "cost": [
                     "Psychic"
                 ],
-                "dmg": 10,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
-                "name": "Cotton Guard"
+                "dmg": 20,
+                "text": None,
+                "name": "Fairy Wind"
             }
         ],
         "ability": None
     },
     "slurpuff": {
         "name": "Slurpuff",
-        "hp": 110,
+        "hp": 100,
         "energy_type": "Psychic",
-        "retreat": 3,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "Heal 30 damage from this Pok\u00e9mon.",
-                "name": "Draining Kiss"
+                "dmg": 60,
+                "text": None,
+                "name": "Magical Shot"
             }
         ],
         "ability": None
@@ -4428,7 +4441,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Land Crush"
             }
         ],
@@ -4468,7 +4481,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Mega Kick"
             }
         ],
@@ -4484,9 +4497,9 @@ CARD_DB = {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 0,
-                "text": "Flip a coin. If heads, look at a random card from your opponent's hand and shuffle it into their deck.",
-                "name": "Whiny Voice"
+                "dmg": 20,
+                "text": None,
+                "name": "Scratch"
             }
         ],
         "ability": None
@@ -4501,9 +4514,9 @@ CARD_DB = {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 30,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Fasten Claws"
+                "dmg": 40,
+                "text": None,
+                "name": "Slash"
             }
         ],
         "ability": None
@@ -4519,7 +4532,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -4562,7 +4575,7 @@ CARD_DB = {
     },
     "druddigon": {
         "name": "Druddigon",
-        "hp": 110,
+        "hp": 100,
         "energy_type": "Dragon",
         "retreat": 2,
         "attacks": [
@@ -4570,15 +4583,17 @@ CARD_DB = {
                 "cost": [
                     "Fire",
                     "Water",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 120,
-                "text": "Flip 2 coins. If both of them are tails, this attack does nothing.",
-                "name": "Giga Claw"
+                "dmg": 90,
+                "text": None,
+                "name": "Dragon Claw"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Rough Skin",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, do 20 damage to the Attacking Pok\u00e9mon."
+        }
     },
     "pidgeot ex": {
         "name": "Pidgeot ex",
@@ -4601,18 +4616,17 @@ CARD_DB = {
     },
     "chatot": {
         "name": "Chatot",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
-                "name": "Sleepy Song"
+                "dmg": 0,
+                "text": "Shuffle your hand into your deck. Draw a card for each card in your opponent's hand.",
+                "name": "Mimic"
             }
         ],
         "ability": None
@@ -4628,9 +4642,9 @@ CARD_DB = {
                     "Grass",
                     "Grass"
                 ],
-                "dmg": 60,
-                "text": "Flip 3 coins. This attack does 60 damage for each heads. This Pok\u00e9mon is now Confused.",
-                "name": "Petal Dance"
+                "dmg": 80,
+                "text": None,
+                "name": "Leaf Step"
             }
         ],
         "ability": None
@@ -4639,17 +4653,18 @@ CARD_DB = {
         "name": "Tangrowth",
         "hp": 130,
         "energy_type": "Grass",
-        "retreat": 4,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
                     "Grass",
                     "Grass",
+                    "Grass",
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "This attack does 40 more damage for each Energy in your opponent's Active Pok\u00e9mon's Retreat Cost.",
-                "name": "Grass Knot"
+                "dmg": 90,
+                "text": "Heal 30 damage from this Pok\u00e9mon.",
+                "name": "Mega Drain"
             }
         ],
         "ability": None
@@ -4665,7 +4680,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Flap"
             }
         ],
@@ -4692,7 +4707,7 @@ CARD_DB = {
     },
     "roselia": {
         "name": "Roselia",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
@@ -4700,27 +4715,27 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 10,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Trip Over"
+                "dmg": 20,
+                "text": None,
+                "name": "Sting"
             }
         ],
         "ability": None
     },
     "roserade": {
         "name": "Roserade",
-        "hp": 90,
+        "hp": 100,
         "energy_type": "Grass",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Grass",
-                    "Grass"
+                    "Colorless"
                 ],
                 "dmg": 50,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned. During your opponent's next turn, that Pok\u00e9mon can't retreat.",
-                "name": "Poison Ring"
+                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
+                "name": "Poisonous Whip"
             }
         ],
         "ability": None
@@ -4737,7 +4752,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -4756,7 +4771,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Razor Leaf"
             }
         ],
@@ -4793,7 +4808,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bug Bite"
             }
         ],
@@ -4825,30 +4840,30 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Hang Down"
+                "dmg": 10,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
     },
     "wormadam": {
         "name": "Wormadam",
-        "hp": 110,
-        "energy_type": "Metal",
-        "retreat": 1,
+        "hp": 120,
+        "energy_type": "Grass",
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Metal",
-                    "Metal"
+                    "Grass",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 50,
-                "text": "Flip a coin until you get tails. This attack does 30 more damage for each heads.",
-                "name": "Iron Head"
+                "dmg": 60,
+                "text": "Flip a coin. If heads, this attack does 30 more damage.",
+                "name": "Leaf Cutter"
             }
         ],
         "ability": None
@@ -4861,11 +4876,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Bug Bite"
+                "dmg": 0,
+                "text": "Put 1 random Basic Pok\u00e9mon from your deck onto your Bench.",
+                "name": "Call for Family"
             }
         ],
         "ability": None
@@ -4879,35 +4894,33 @@ CARD_DB = {
             {
                 "cost": [
                     "Grass",
-                    "Grass",
                     "Grass"
                 ],
-                "dmg": 120,
-                "text": "This Pok\u00e9mon also does 30 damage to itself.",
-                "name": "Reckless Charge"
+                "dmg": 70,
+                "text": None,
+                "name": "Pierce"
             }
         ],
         "ability": None
     },
     "carnivine": {
         "name": "Carnivine",
-        "hp": 80,
+        "hp": 90,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Grass",
+                    "Grass",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Vine Whip"
+                "dmg": 40,
+                "text": "Flip a coin. If heads, this attack does 50 more damage.",
+                "name": "Flog"
             }
         ],
-        "ability": {
-            "title": "Power Link",
-            "effect": "If you have Arceus or Arceus ex in play, attacks used by this Pok\u00e9mon do +30 damage to your opponent's Active Pok\u00e9mon."
-        }
+        "ability": None
     },
     "leafeon": {
         "name": "Leafeon",
@@ -4917,11 +4930,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
+                    "Grass",
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "This attack does 20 more damage for each [G] Energy attached to this Pok\u00e9mon.",
-                "name": "Leaf Blast"
+                "dmg": 90,
+                "text": "During your next turn, this Pok\u00e9mon can't attack.",
+                "name": "Leafy Cyclone"
             }
         ],
         "ability": None
@@ -4956,7 +4970,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Flop"
             }
         ],
@@ -4967,7 +4981,7 @@ CARD_DB = {
     },
     "magmortar": {
         "name": "Magmortar",
-        "hp": 120,
+        "hp": 130,
         "energy_type": "Fire",
         "retreat": 3,
         "attacks": [
@@ -4975,29 +4989,29 @@ CARD_DB = {
                 "cost": [
                     "Fire",
                     "Fire",
-                    "Colorless"
+                    "Fire",
+                    "Fire"
                 ],
-                "dmg": 70,
-                "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
-                "name": "Smoke Bomb"
+                "dmg": 100,
+                "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
+                "name": "Bursting Inferno"
             }
         ],
         "ability": None
     },
     "slugma": {
         "name": "Slugma",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Fire",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fire",
                     "Fire"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Combustion"
+                "dmg": 20,
+                "text": None,
+                "name": "Flare"
             }
         ],
         "ability": None
@@ -5011,12 +5025,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Fire",
-                    "Fire",
-                    "Fire"
+                    "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Heat Blast"
+                "dmg": 30,
+                "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
+                "name": "Searing Flame"
             }
         ],
         "ability": None
@@ -5032,7 +5045,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Scratch"
             }
         ],
@@ -5049,7 +5062,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Fiery Punch"
             }
         ],
@@ -5093,60 +5106,66 @@ CARD_DB = {
     },
     "swinub": {
         "name": "Swinub",
-        "hp": 70,
-        "energy_type": "Fighting",
+        "hp": 60,
+        "energy_type": "Water",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
+                    "Water",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Mud-Slap"
+                "dmg": 40,
+                "text": None,
+                "name": "Headbutt"
             }
         ],
         "ability": None
     },
     "piloswine": {
         "name": "Piloswine",
-        "hp": 100,
-        "energy_type": "Fighting",
+        "hp": 110,
+        "energy_type": "Water",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Fighting",
+                    "Water",
+                    "Water",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "",
-                "name": "Headbutt Bounce"
+                "dmg": 60,
+                "text": None,
+                "name": "Hammer In"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Thick Fat",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks from [R] or [W] Pok\u00e9mon."
+        }
     },
     "mamoswine": {
         "name": "Mamoswine",
         "hp": 160,
-        "energy_type": "Fighting",
+        "energy_type": "Water",
         "retreat": 4,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Fighting",
-                    "Fighting",
+                    "Water",
+                    "Water",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 160,
-                "text": "This attack also does 20 damage to each of your Benched Pok\u00e9mon.",
-                "name": "Earthquake"
+                "dmg": 120,
+                "text": None,
+                "name": "Frosty Flattening"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Thick Fat",
+            "effect": "This Pok\u00e9mon takes -30 damage from attacks from [R] or [W] Pok\u00e9mon."
+        }
     },
     "regice": {
         "name": "Regice",
@@ -5160,7 +5179,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Frost Smash"
             }
         ],
@@ -5198,7 +5217,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             }
         ],
@@ -5225,7 +5244,7 @@ CARD_DB = {
     },
     "buizel": {
         "name": "Buizel",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
@@ -5233,8 +5252,8 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 10,
-                "text": "",
+                "dmg": 20,
+                "text": None,
                 "name": "Water Gun"
             }
         ],
@@ -5242,7 +5261,7 @@ CARD_DB = {
     },
     "floatzel": {
         "name": "Floatzel",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
@@ -5250,9 +5269,9 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 10,
-                "text": "If your opponent's Active Pok\u00e9mon has damage on it, this attack does 60 more damage.",
-                "name": "Attack the Wound"
+                "dmg": 30,
+                "text": "Flip a coin. If heads, this attack does 30 more damage.",
+                "name": "Jet Screw"
             }
         ],
         "ability": None
@@ -5269,7 +5288,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Mud-Slap"
             }
         ],
@@ -5302,52 +5321,49 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Water",
-                    "Colorless"
+                    "Water"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Corkscrew Punch"
+                "dmg": 10,
+                "text": "If your opponent's Active Pok\u00e9mon is a [F] Pok\u00e9mon, this attack does 30 more damage.",
+                "name": "Ice Shard"
             }
         ],
         "ability": None
     },
     "abomasnow": {
         "name": "Abomasnow",
-        "hp": 120,
+        "hp": 140,
         "energy_type": "Water",
-        "retreat": 3,
+        "retreat": 4,
         "attacks": [
             {
                 "cost": [
                     "Water",
                     "Water",
+                    "Water",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "",
-                "name": "Mega Punch"
+                "dmg": 120,
+                "text": None,
+                "name": "Frost Breath"
             }
         ],
-        "ability": {
-            "title": "Vigor Link",
-            "effect": "If you have Arceus or Arceus ex in play, attacks used by this Pok\u00e9mon cost 1 less [C] Energy."
-        }
+        "ability": None
     },
     "glaceon": {
         "name": "Glaceon",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Water",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Water",
                     "Water"
                 ],
-                "dmg": 0,
-                "text": "This attack does 50 damage to 1 of your opponent's Pok\u00e9mon.",
-                "name": "Ice Blade"
+                "dmg": 60,
+                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
+                "name": "Ice Beam"
             }
         ],
         "ability": None
@@ -5363,7 +5379,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Wave Splash"
             }
         ],
@@ -5398,7 +5414,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             },
             {
@@ -5434,7 +5450,7 @@ CARD_DB = {
     },
     "magnezone": {
         "name": "Magnezone",
-        "hp": 150,
+        "hp": 140,
         "energy_type": "Lightning",
         "retreat": 2,
         "attacks": [
@@ -5444,9 +5460,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 90,
-                "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
-                "name": "Mirror Shot"
+                "dmg": 110,
+                "text": "Discard a [L] Energy from this Pok\u00e9mon.",
+                "name": "Thunder Blast"
             }
         ],
         "ability": None
@@ -5477,11 +5493,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Flop"
+                "dmg": 0,
+                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
+                "name": "Hide"
             }
         ],
         "ability": None
@@ -5494,11 +5510,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Lightning"
+                    "Lightning",
+                    "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Bite"
+                "dmg": 40,
+                "text": None,
+                "name": "Electric Claws"
             }
         ],
         "ability": None
@@ -5512,11 +5529,12 @@ CARD_DB = {
             {
                 "cost": [
                     "Lightning",
-                    "Colorless"
+                    "Lightning",
+                    "Lightning"
                 ],
-                "dmg": 110,
-                "text": "This attack also does 20 damage to 1 of your Benched Pok\u00e9mon.",
-                "name": "Flash Impact"
+                "dmg": 0,
+                "text": "Discard all [L] Energy from this Pok\u00e9mon. This attack does 120 damage to 1 of your opponent's Pok\u00e9mon.",
+                "name": "Volt Bolt"
             }
         ],
         "ability": None
@@ -5542,22 +5560,19 @@ CARD_DB = {
     "rotom": {
         "name": "Rotom",
         "hp": 70,
-        "energy_type": "Psychic",
+        "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "This attack does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Dash Attack"
+                "dmg": 20,
+                "text": "If your opponent's Active Pok\u00e9mon has a Pok\u00e9mon Tool attached, this attack does 30 more damage.",
+                "name": "Assault Laser"
             }
         ],
-        "ability": {
-            "title": "Speed Link",
-            "effect": "If you have Arceus or Arceus ex in play, this Pok\u00e9mon has no Retreat Cost."
-        }
+        "ability": None
     },
     "togepi": {
         "name": "Togepi",
@@ -5570,7 +5585,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Pound"
             }
         ],
@@ -5578,18 +5593,17 @@ CARD_DB = {
     },
     "togetic": {
         "name": "Togetic",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Speed Dive"
+                "dmg": 40,
+                "text": None,
+                "name": "Fairy Wind"
             }
         ],
         "ability": None
@@ -5603,18 +5617,14 @@ CARD_DB = {
             {
                 "cost": [
                     "Psychic",
-                    "Colorless",
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 70,
-                "text": "",
-                "name": "Magical Shot"
+                "dmg": 60,
+                "text": "During your next turn, this Pok\u00e9mon's Overdrive Smash attack does +60 damage.",
+                "name": "Overdrive Smash"
             }
         ],
-        "ability": {
-            "title": "Celestial Blessing",
-            "effect": "If any damage is done to this Pok\u00e9mon by attacks, flip a coin. If heads, prevent that damage."
-        }
+        "ability": None
     },
     "misdreavus": {
         "name": "Misdreavus",
@@ -5626,9 +5636,9 @@ CARD_DB = {
                 "cost": [
                     "Psychic"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-                "name": "Confuse Ray"
+                "dmg": 20,
+                "text": None,
+                "name": "Mumble"
             }
         ],
         "ability": None
@@ -5653,7 +5663,7 @@ CARD_DB = {
     },
     "duskull": {
         "name": "Duskull",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
@@ -5661,9 +5671,9 @@ CARD_DB = {
                 "cost": [
                     "Psychic"
                 ],
-                "dmg": 10,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Ambush"
+                "dmg": 20,
+                "text": None,
+                "name": "Will-O-Wisp"
             }
         ],
         "ability": None
@@ -5676,39 +5686,42 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Psychic",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Will-O-Wisp"
+                "dmg": 50,
+                "text": None,
+                "name": "Psypunch"
             }
         ],
         "ability": None
     },
     "dusknoir": {
         "name": "Dusknoir",
-        "hp": 150,
+        "hp": 130,
         "energy_type": "Psychic",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "",
-                "name": "Hammer In"
+                "dmg": 70,
+                "text": None,
+                "name": "Devour Soul"
             }
         ],
         "ability": {
-            "title": "Fade into Darkness",
-            "effect": "When this Pok\u00e9mon is Knocked Out, flip a coin. If heads, your opponent can't get any points for it."
+            "title": "Shadow Void",
+            "effect": "As often as you like during your turn, you may choose 1 of your Pok\u00e9mon that has damage on it, and move all of its damage to this Pok\u00e9mon."
         }
     },
     "drifloon": {
         "name": "Drifloon",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
@@ -5716,9 +5729,9 @@ CARD_DB = {
                 "cost": [
                     "Psychic"
                 ],
-                "dmg": 0,
-                "text": "This attack does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Wind Blast"
+                "dmg": 10,
+                "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
+                "name": "Expand"
             }
         ],
         "ability": None
@@ -5727,16 +5740,16 @@ CARD_DB = {
         "name": "Drifblim",
         "hp": 100,
         "energy_type": "Psychic",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 20,
-                "text": "This attack does 20 more damage for each Energy attached to this Pok\u00e9mon.",
-                "name": "Balloon Barrage"
+                "dmg": 60,
+                "text": None,
+                "name": "Balloon Strike"
             }
         ],
         "ability": None
@@ -5807,7 +5820,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Spooky Shot"
             }
         ],
@@ -5862,11 +5875,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Fighting"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Glide"
+                "dmg": 20,
+                "text": None,
+                "name": "Pierce"
             }
         ],
         "ability": None
@@ -5875,16 +5888,15 @@ CARD_DB = {
         "name": "Gliscor",
         "hp": 100,
         "energy_type": "Fighting",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Fighting"
                 ],
-                "dmg": 60,
-                "text": "",
-                "name": "Sharp Fang"
+                "dmg": 20,
+                "text": "Flip 2 coins. This attack does 20 more damage for each heads.",
+                "name": "Acrobatics"
             }
         ],
         "ability": None
@@ -5893,33 +5905,34 @@ CARD_DB = {
         "name": "Hitmontop",
         "hp": 80,
         "energy_type": "Fighting",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Fighting",
                     "Fighting"
                 ],
-                "dmg": 20,
-                "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Piercing Spin"
+                "dmg": 50,
+                "text": None,
+                "name": "Spinning Attack"
             }
         ],
         "ability": None
     },
     "nosepass": {
         "name": "Nosepass",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Fighting",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks.",
-                "name": "Iron Defense"
+                "dmg": 30,
+                "text": None,
+                "name": "Ram"
             }
         ],
         "ability": None
@@ -5938,7 +5951,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Boulder Crush"
             }
         ],
@@ -5958,7 +5971,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -5983,18 +5996,17 @@ CARD_DB = {
     },
     "riolu": {
         "name": "Riolu",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Fighting",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
                     "Fighting"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Punch"
+                "dmg": 20,
+                "text": None,
+                "name": "Jab"
             }
         ],
         "ability": None
@@ -6011,7 +6023,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Submarine Blow"
             }
         ],
@@ -6029,18 +6041,19 @@ CARD_DB = {
             {
                 "cost": [
                     "Fighting",
+                    "Fighting",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Mud Shot"
+                "dmg": 60,
+                "text": None,
+                "name": "Rolling Tackle"
             }
         ],
         "ability": None
     },
     "hippowdon": {
         "name": "Hippowdon",
-        "hp": 130,
+        "hp": 140,
         "energy_type": "Fighting",
         "retreat": 4,
         "attacks": [
@@ -6048,11 +6061,12 @@ CARD_DB = {
                 "cost": [
                     "Fighting",
                     "Fighting",
+                    "Fighting",
                     "Colorless"
                 ],
-                "dmg": 100,
-                "text": "Flip a coin. If tails, during your next turn, this Pok\u00e9mon can't attack.",
-                "name": "Crashing Fangs"
+                "dmg": 120,
+                "text": None,
+                "name": "Earthen Press"
             }
         ],
         "ability": None
@@ -6077,18 +6091,17 @@ CARD_DB = {
     },
     "murkrow": {
         "name": "Murkrow",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Glide"
+                "text": None,
+                "name": "Peck"
             }
         ],
         "ability": None
@@ -6101,12 +6114,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Darkness",
+                    "Darkness"
                 ],
-                "dmg": 40,
-                "text": "This attack does 40 more damage for each of your opponent's Pok\u00e9mon in play that has an Ability.",
-                "name": "Evil Admonition"
+                "dmg": 0,
+                "text": "This attack does 50 damage to 1 of your opponent's Pok\u00e9mon.",
+                "name": "Skill Dive"
             }
         ],
         "ability": None
@@ -6156,7 +6169,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -6174,7 +6187,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Darkness Fang"
             }
         ],
@@ -6184,80 +6197,75 @@ CARD_DB = {
         "name": "Stunky",
         "hp": 70,
         "energy_type": "Darkness",
-        "retreat": 2,
-        "attacks": [
-            {
-                "cost": [
-                    "Darkness",
-                    "Colorless"
-                ],
-                "dmg": 30,
-                "text": "",
-                "name": "Spray Fluid"
-            }
-        ],
-        "ability": None
-    },
-    "skuntank": {
-        "name": "Skuntank",
-        "hp": 110,
-        "energy_type": "Darkness",
-        "retreat": 2,
-        "attacks": [
-            {
-                "cost": [
-                    "Darkness",
-                    "Darkness",
-                    "Colorless"
-                ],
-                "dmg": 70,
-                "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
-                "name": "Smokescreen Shot"
-            }
-        ],
-        "ability": None
-    },
-    "spiritomb": {
-        "name": "Spiritomb",
-        "hp": 70,
-        "energy_type": "Darkness",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless",
-                    "Colorless"
-                ],
-                "dmg": 30,
-                "text": "",
-                "name": "Spooky Shot"
-            }
-        ],
-        "ability": {
-            "title": "Final Scream",
-            "effect": "If this Pok\u00e9mon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pok\u00e9mon, do 10 damage to each of your opponent's Pok\u00e9mon."
-        }
-    },
-    "skorupi": {
-        "name": "Skorupi",
-        "hp": 60,
-        "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Bug Bite"
+                "dmg": 10,
+                "text": None,
+                "name": "Scratch"
+            }
+        ],
+        "ability": None
+    },
+    "skuntank": {
+        "name": "Skuntank",
+        "hp": 100,
+        "energy_type": "Darkness",
+        "retreat": 2,
+        "attacks": [
+            {
+                "cost": [
+                    "Darkness",
+                    "Colorless"
+                ],
+                "dmg": 50,
+                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
+                "name": "Poison Gas"
+            }
+        ],
+        "ability": None
+    },
+    "spiritomb": {
+        "name": "Spiritomb",
+        "hp": 80,
+        "energy_type": "Darkness",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Colorless"
+                ],
+                "dmg": 0,
+                "text": "This attack does 10 damage to each of your opponent's Pok\u00e9mon.",
+                "name": "Swirling Disaster"
+            }
+        ],
+        "ability": None
+    },
+    "skorupi": {
+        "name": "Skorupi",
+        "hp": 70,
+        "energy_type": "Darkness",
+        "retreat": 2,
+        "attacks": [
+            {
+                "cost": [
+                    "Darkness",
+                    "Colorless"
+                ],
+                "dmg": 30,
+                "text": None,
+                "name": "Pierce"
             }
         ],
         "ability": None
     },
     "drapion": {
         "name": "Drapion",
-        "hp": 130,
+        "hp": 120,
         "energy_type": "Darkness",
         "retreat": 3,
         "attacks": [
@@ -6265,11 +6273,11 @@ CARD_DB = {
                 "cost": [
                     "Darkness",
                     "Darkness",
-                    "Colorless"
+                    "Darkness"
                 ],
-                "dmg": 50,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Poisoned and Paralyzed.",
-                "name": "Stun Poison"
+                "dmg": 40,
+                "text": "Flip 4 coins. This attack does 40 damage for each heads. If at least 2 of them are heads, your opponent's Active Pok\u00e9mon is now Poisoned.",
+                "name": "Cross Poison"
             }
         ],
         "ability": None
@@ -6282,35 +6290,37 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
+                    "Darkness",
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Beat"
+                "text": "Flip a coin for each Pok\u00e9mon you have in play. This attack does 20 damage for each heads.",
+                "name": "Group Beatdown"
             }
         ],
         "ability": None
     },
     "toxicroak": {
         "name": "Toxicroak",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Darkness",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
+                    "Darkness",
                     "Darkness"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned. Do 20 damage to this Pok\u00e9mon instead of the usual amount for this Special Condition.",
-                "name": "Toxic"
+                "dmg": 40,
+                "text": "Flip a coin for each Pok\u00e9mon you have in play. This attack does 40 damage for each heads.",
+                "name": "Group Beatdown"
             }
         ],
         "ability": None
     },
     "darkrai": {
         "name": "Darkrai",
-        "hp": 120,
+        "hp": 110,
         "energy_type": "Darkness",
         "retreat": 2,
         "attacks": [
@@ -6320,9 +6330,9 @@ CARD_DB = {
                     "Darkness",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
-                "name": "Shadow Cage"
+                "dmg": 60,
+                "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
+                "name": "Dark Void"
             }
         ],
         "ability": None
@@ -6340,7 +6350,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Dark Prism"
             }
         ],
@@ -6379,7 +6389,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Metal Claw"
             }
         ],
@@ -6397,7 +6407,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -6416,7 +6426,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Headbang"
             }
         ],
@@ -6433,11 +6443,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
+                    "Metal",
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Ram"
+                "dmg": 30,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
@@ -6450,13 +6461,13 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless",
+                    "Metal",
+                    "Metal",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "This attack does 20 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
-                "name": "Psychic"
+                "dmg": 60,
+                "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
+                "name": "Guard Press"
             }
         ],
         "ability": None
@@ -6470,11 +6481,13 @@ CARD_DB = {
             {
                 "cost": [
                     "Metal",
-                    "Metal"
+                    "Metal",
+                    "Metal",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Take 2 [M] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon.",
-                "name": "Metallic Turbo"
+                "dmg": 30,
+                "text": "Flip 3 coins. This attack does 50 more damage for each heads.",
+                "name": "Triple Nose"
             }
         ],
         "ability": None
@@ -6502,7 +6515,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Heavy Impact"
             }
         ],
@@ -6510,55 +6523,54 @@ CARD_DB = {
     },
     "heatran": {
         "name": "Heatran",
-        "hp": 110,
-        "energy_type": "Fire",
+        "hp": 120,
+        "energy_type": "Metal",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fire",
-                    "Fire"
+                    "Metal",
+                    "Metal",
+                    "Metal"
                 ],
-                "dmg": 40,
-                "text": "If this Pok\u00e9mon has damage on it, this attack does 40 more damage.",
-                "name": "Ragin' Mad Strike"
+                "dmg": 110,
+                "text": "This Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Steel Tackle"
             }
         ],
-        "ability": {
-            "title": "Speed Link",
-            "effect": "If you have Arceus or Arceus ex in play, this Pok\u00e9mon has no Retreat Cost."
-        }
+        "ability": None
     },
     "gible": {
         "name": "Gible",
         "hp": 60,
-        "energy_type": "Fighting",
+        "energy_type": "Dragon",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fighting"
+                    "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Tackle"
+                "text": None,
+                "name": "Gnaw"
             }
         ],
         "ability": None
     },
     "gabite": {
         "name": "Gabite",
-        "hp": 80,
-        "energy_type": "Fighting",
+        "hp": 90,
+        "energy_type": "Dragon",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Water",
                     "Fighting"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Sharp Scythe"
+                "dmg": 60,
+                "text": None,
+                "name": "Slash"
             }
         ],
         "ability": None
@@ -6575,7 +6587,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Dragon Claw"
             }
         ],
@@ -6606,18 +6618,17 @@ CARD_DB = {
     },
     "porygon2": {
         "name": "Porygon2",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Colorless",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Speed Attack"
+                "dmg": 30,
+                "text": None,
+                "name": "Sharpen"
             }
         ],
         "ability": None
@@ -6634,9 +6645,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "This attack does 20 more damage for each Trainer card in your opponent's deck.",
-                "name": "Cyberjack"
+                "dmg": 80,
+                "text": "Change the type of the next Energy that will be generated for your opponent to 1 of the following at random: [G], [R], [W], [L], [P], [F], [D], or [M].",
+                "name": "Buggy Beam"
             }
         ],
         "ability": None
@@ -6651,16 +6662,16 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Flip a coin. If tails, this attack does nothing.",
-                "name": "Tail Smash"
+                "dmg": 20,
+                "text": None,
+                "name": "Tail Jab"
             }
         ],
         "ability": None
     },
     "ambipom": {
         "name": "Ambipom",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -6668,16 +6679,16 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "Flip 2 coins. This attack does 30 damage for each heads. If this Pok\u00e9mon has Lucky Mittens attached, flip 4 coins instead.",
-                "name": "Excited Tail"
+                "dmg": 40,
+                "text": "Flip 2 coins. This attack does 40 damage for each heads.",
+                "name": "Double Hit"
             }
         ],
         "ability": None
     },
     "starly": {
         "name": "Starly",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -6685,9 +6696,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Put 1 random Starly from your deck onto your Bench.",
-                "name": "Call for Family"
+                "dmg": 20,
+                "text": "Before doing damage, discard all Pok\u00e9mon Tools from your opponent's Active Pok\u00e9mon.",
+                "name": "Pluck"
             }
         ],
         "ability": None
@@ -6703,9 +6714,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Quick Attack"
+                "dmg": 40,
+                "text": None,
+                "name": "Wing Attack"
             }
         ],
         "ability": None
@@ -6722,19 +6733,16 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Wing Attack"
+                "dmg": 80,
+                "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
+                "name": "Clutch"
             }
         ],
-        "ability": {
-            "title": "Defensive Whirlwind",
-            "effect": "This Pok\u00e9mon takes -30 damage from attacks from [F] Pok\u00e9mon."
-        }
+        "ability": None
     },
     "bidoof": {
         "name": "Bidoof",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Colorless",
         "retreat": 2,
         "attacks": [
@@ -6743,9 +6751,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Headbutt"
+                "dmg": 0,
+                "text": "Halve your opponent's Active Pok\u00e9mon's remaining HP, rounded down.",
+                "name": "Super Fang"
             }
         ],
         "ability": None
@@ -6762,7 +6770,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Rolling Tackle"
             }
         ],
@@ -6778,9 +6786,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "Flip 2 coins. This attack does 20 damage for each heads.",
-                "name": "Double Kick"
+                "dmg": 10,
+                "text": None,
+                "name": "Splash"
             }
         ],
         "ability": None
@@ -6793,12 +6801,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 50,
-                "text": "Flip 2 coins. This attack does 50 damage for each heads.",
-                "name": "Double Kick"
+                "dmg": 20,
+                "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
+                "name": "Jump Kick"
             }
         ],
         "ability": None
@@ -6879,37 +6886,37 @@ CARD_DB = {
     },
     "heracross": {
         "name": "Heracross",
-        "hp": 90,
+        "hp": 100,
         "energy_type": "Grass",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Grass",
-                    "Grass"
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "If this Pok\u00e9mon has no damage on it, this attack does 40 more damage.",
-                "name": "Single Lunge"
+                "dmg": 50,
+                "text": "Flip 2 coins. If both of them are heads, this attack does 70 more damage.",
+                "name": "Single-Horn Throw"
             }
         ],
         "ability": None
     },
     "mothim": {
         "name": "Mothim",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Grass",
-        "retreat": 1,
+        "retreat": 0,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "",
-                "name": "Cutting Wind"
+                "dmg": 50,
+                "text": None,
+                "name": "Gust"
             }
         ],
         "ability": None
@@ -6924,15 +6931,12 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 10,
-                "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 20 more damage.",
-                "name": "Sweets Relay"
+                "dmg": 20,
+                "text": None,
+                "name": "Leafage"
             }
         ],
-        "ability": {
-            "title": "En-fruits-iastic",
-            "effect": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, attacks used by this Pok\u00e9mon cost 1 less [G] Energy."
-        }
+        "ability": None
     },
     "cherrim": {
         "name": "Cherrim",
@@ -6942,12 +6946,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Grass",
                     "Grass"
                 ],
-                "dmg": 60,
-                "text": "Heal 20 damage from this Pok\u00e9mon.",
-                "name": "Leech Seed"
+                "dmg": 40,
+                "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+                "name": "Worry Seed"
             }
         ],
         "ability": None
@@ -6965,7 +6968,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Solar Beam"
             }
         ],
@@ -6982,30 +6985,29 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Fire"
                 ],
-                "dmg": 0,
-                "text": "Switch out your opponent's Active Pok\u00e9mon to the Bench. (Your opponent chooses the new Active Pok\u00e9mon.)",
-                "name": "Roar"
+                "dmg": 20,
+                "text": None,
+                "name": "Flare"
             }
         ],
         "ability": None
     },
     "houndoom": {
         "name": "Houndoom",
-        "hp": 110,
-        "energy_type": "Darkness",
+        "hp": 100,
+        "energy_type": "Fire",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
-                    "Darkness",
-                    "Darkness"
+                    "Fire",
+                    "Colorless"
                 ],
-                "dmg": 70,
-                "text": "Discard a random card from your opponent's hand.",
-                "name": "Diving Swipe"
+                "dmg": 60,
+                "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
+                "name": "Corner"
             }
         ],
         "ability": None
@@ -7018,71 +7020,67 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Water"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tackle"
+                "dmg": 20,
+                "text": None,
+                "name": "Water Gun"
             }
         ],
         "ability": None
     },
     "azumarill": {
         "name": "Azumarill",
-        "hp": 110,
+        "hp": 100,
         "energy_type": "Water",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Water",
-                    "Colorless",
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
-                "name": "Tail Smack"
+                "text": None,
+                "name": "Waterfall"
             }
         ],
-        "ability": {
-            "title": "Thick Fat",
-            "effect": "This Pok\u00e9mon takes -30 damage from attacks from [R] or [W] Pok\u00e9mon."
-        }
+        "ability": None
     },
     "barboach": {
         "name": "Barboach",
-        "hp": 70,
-        "energy_type": "Fighting",
-        "retreat": 2,
+        "hp": 60,
+        "energy_type": "Water",
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
+                    "Water",
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
-                "name": "Mud Shot"
+                "text": None,
+                "name": "Mud-Slap"
             }
         ],
         "ability": None
     },
     "whiscash": {
         "name": "Whiscash",
-        "hp": 130,
-        "energy_type": "Fighting",
+        "hp": 120,
+        "energy_type": "Water",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Colorless",
+                    "Water",
+                    "Water",
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 130,
-                "text": "This attack also does 10 damage to each of your Benched Pok\u00e9mon.",
-                "name": "Earthquake"
+                "dmg": 80,
+                "text": "Flip a coin. If heads, this attack does 60 more damage. If tails, this Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Thrash"
             }
         ],
         "ability": None
@@ -7098,7 +7096,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Icicle"
             }
         ],
@@ -7135,7 +7133,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Freezing Wind"
             }
         ],
@@ -7192,7 +7190,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Zap Kick"
             }
         ],
@@ -7226,36 +7224,35 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Hidden Power"
             }
         ],
         "ability": {
-            "title": "POWER",
-            "effect": "This Ability works if you have any Unown in play with an Ability other than POWER. Attacks used by your Pok\u00e9mon do +10 damage to your opponent's Active Pok\u00e9mon."
+            "title": "CHECK",
+            "effect": "Once during your turn, you may choose either player. Look at the top card of that player's deck."
         }
     },
     "sudowoodo": {
         "name": "Sudowoodo",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Fighting",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
                     "Fighting"
                 ],
-                "dmg": 30,
-                "text": "If this Pok\u00e9mon has damage on it, this attack does 50 more damage.",
-                "name": "Fight Back"
+                "dmg": 20,
+                "text": "If your opponent's Active Pok\u00e9mon is a Pok\u00e9mon ex, this attack does 30 more damage.",
+                "name": "Fighting Headbutt"
             }
         ],
         "ability": None
     },
     "phanpy": {
         "name": "Phanpy",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Fighting",
         "retreat": 2,
         "attacks": [
@@ -7263,9 +7260,9 @@ CARD_DB = {
                 "cost": [
                     "Fighting"
                 ],
-                "dmg": 0,
-                "text": "This attack does damage to your opponent's Active Pok\u00e9mon equal to the damage this Pok\u00e9mon has on it.",
-                "name": "Flail"
+                "dmg": 20,
+                "text": None,
+                "name": "Rollout"
             }
         ],
         "ability": None
@@ -7274,23 +7271,20 @@ CARD_DB = {
         "name": "Donphan",
         "hp": 120,
         "energy_type": "Fighting",
-        "retreat": 4,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
                     "Fighting",
                     "Fighting",
-                    "Colorless"
+                    "Fighting"
                 ],
-                "dmg": 80,
-                "text": "",
-                "name": "Land Crush"
+                "dmg": 60,
+                "text": "During your next turn, this Pok\u00e9mon's Rolling Spin attack does +60 damage.",
+                "name": "Rolling Spin"
             }
         ],
-        "ability": {
-            "title": "Exoskeleton",
-            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
-        }
+        "ability": None
     },
     "larvitar": {
         "name": "Larvitar",
@@ -7300,11 +7294,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
+                    "Fighting",
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tackle"
+                "dmg": 30,
+                "text": None,
+                "name": "Corkscrew Punch"
             }
         ],
         "ability": None
@@ -7313,16 +7308,17 @@ CARD_DB = {
         "name": "Pupitar",
         "hp": 80,
         "energy_type": "Fighting",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Fighting",
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -30 damage from attacks.",
-                "name": "Guard Press"
+                "dmg": 50,
+                "text": None,
+                "name": "Speed Attack"
             }
         ],
         "ability": None
@@ -7330,24 +7326,24 @@ CARD_DB = {
     "tyranitar": {
         "name": "Tyranitar",
         "hp": 160,
-        "energy_type": "Darkness",
+        "energy_type": "Fighting",
         "retreat": 4,
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
-                    "Darkness",
-                    "Darkness",
+                    "Fighting",
+                    "Fighting",
+                    "Fighting",
                     "Colorless"
                 ],
                 "dmg": 130,
-                "text": "",
-                "name": "Buster Tail"
+                "text": None,
+                "name": "Land Crush"
             }
         ],
         "ability": {
-            "title": "Energy Plunder",
-            "effect": "Once during your turn, you may move all [D] Energy from each of your Pok\u00e9mon to this Pok\u00e9mon."
+            "title": "Power Link",
+            "effect": "If you have Arceus or Arceus ex in play, attacks used by this Pok\u00e9mon do +30 damage to your opponent's Active Pok\u00e9mon."
         }
     },
     "meditite": {
@@ -7358,11 +7354,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Fighting"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Smack"
+                "dmg": 20,
+                "text": None,
+                "name": "Kick"
             }
         ],
         "ability": None
@@ -7375,12 +7371,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Colorless"
+                    "Fighting"
                 ],
-                "dmg": 50,
-                "text": "If this Pok\u00e9mon has any [P] Energy attached, this attack does 50 more damage.",
-                "name": "Psykick"
+                "dmg": 80,
+                "text": "Flip a coin. If tails, this attack does nothing.",
+                "name": "Kick Shot"
             }
         ],
         "ability": None
@@ -7406,7 +7401,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Dragon Claw"
             }
         ],
@@ -7423,7 +7418,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Darkness Fang"
             }
         ],
@@ -7472,24 +7467,20 @@ CARD_DB = {
     },
     "hoothoot": {
         "name": "Hoothoot",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Wing Attack"
+                "dmg": 20,
+                "text": None,
+                "name": "Peck"
             }
         ],
-        "ability": {
-            "title": "Insomnia",
-            "effect": "This Pok\u00e9mon can't be Asleep."
-        }
+        "ability": None
     },
     "noctowl": {
         "name": "Noctowl",
@@ -7500,12 +7491,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 90,
-                "text": "Flip a coin. If tails, this attack does nothing. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
-                "name": "Fly"
+                "dmg": 50,
+                "text": "Your opponent reveals their hand.",
+                "name": "Silent Wing"
             }
         ],
         "ability": None
@@ -7599,7 +7589,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             }
         ],
@@ -7709,7 +7699,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Rain Splash"
             }
         ],
@@ -7746,7 +7736,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Punch"
             }
         ],
@@ -7764,7 +7754,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Punch"
             }
         ],
@@ -7782,7 +7772,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Electric Punch"
             }
         ],
@@ -7914,7 +7904,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Gnaw"
             }
         ],
@@ -7932,7 +7922,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -7952,7 +7942,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Corkscrew Punch"
             }
         ],
@@ -8006,7 +7996,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -8062,9 +8052,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "This attack does 60 damage to 1 of your opponent's Pok\u00e9mon.",
-                "name": "Stretch Tongue"
+                "dmg": 70,
+                "text": None,
+                "name": "Rollout"
             }
         ],
         "ability": None
@@ -8153,7 +8143,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Bug Buzz"
             }
         ],
@@ -8161,7 +8151,7 @@ CARD_DB = {
     },
     "maractus": {
         "name": "Maractus",
-        "hp": 80,
+        "hp": 90,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
@@ -8171,8 +8161,8 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
-                "name": "Dazzle Dance"
+                "text": None,
+                "name": "Sting"
             }
         ],
         "ability": None
@@ -8188,7 +8178,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -8202,30 +8192,30 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Grass",
                     "Grass"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Branch Poke"
+                "dmg": 20,
+                "text": None,
+                "name": "Hook"
             }
         ],
         "ability": None
     },
     "trevenant": {
         "name": "Trevenant",
-        "hp": 110,
+        "hp": 130,
         "energy_type": "Grass",
-        "retreat": 2,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
                     "Grass",
-                    "Grass"
+                    "Grass",
+                    "Colorless"
                 ],
-                "dmg": 60,
-                "text": "Heal 20 damage from this Pok\u00e9mon.",
-                "name": "Horn Leech"
+                "dmg": 80,
+                "text": None,
+                "name": "Claw Slash"
             }
         ],
         "ability": None
@@ -8240,9 +8230,9 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 0,
-                "text": "This attack does 10 damage to 1 of your opponent's Pok\u00e9mon.",
-                "name": "Skill Dive"
+                "dmg": 20,
+                "text": None,
+                "name": "Leafage"
             }
         ],
         "ability": None
@@ -8257,9 +8247,9 @@ CARD_DB = {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 0,
-                "text": "This attack does 20 damage to 1 of your opponent's Pok\u00e9mon.",
-                "name": "Skill Dive"
+                "dmg": 30,
+                "text": None,
+                "name": "Razor Wing"
             }
         ],
         "ability": None
@@ -8285,7 +8275,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Razor Leaf"
             }
         ],
@@ -8302,7 +8292,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Gnaw"
             }
         ],
@@ -8319,7 +8309,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Leafage"
             }
         ],
@@ -8344,17 +8334,17 @@ CARD_DB = {
     },
     "bounsweet": {
         "name": "Bounsweet",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Grass"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Flop"
+                "dmg": 20,
+                "text": None,
+                "name": "Stampede"
             }
         ],
         "ability": None
@@ -8363,22 +8353,22 @@ CARD_DB = {
         "name": "Steenee",
         "hp": 80,
         "energy_type": "Grass",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Grass"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Leaf Step"
+                "dmg": 30,
+                "text": "Flip 2 coins. This attack does 30 damage for each heads.",
+                "name": "Double Spin"
             }
         ],
         "ability": None
     },
     "tsareena": {
         "name": "Tsareena",
-        "hp": 140,
+        "hp": 130,
         "energy_type": "Grass",
         "retreat": 2,
         "attacks": [
@@ -8387,8 +8377,8 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 50,
-                "text": "Your opponent reveals a random card from their hand and shuffles it into their deck.",
-                "name": "Kick Down"
+                "text": "Flip 3 coins. This attack does 50 damage for each heads.",
+                "name": "Three Kick Combo"
             }
         ],
         "ability": None
@@ -8406,7 +8396,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Gnaw"
             }
         ],
@@ -8474,25 +8464,26 @@ CARD_DB = {
     },
     "alolan marowak": {
         "name": "Alolan Marowak",
-        "hp": 100,
+        "hp": 110,
         "energy_type": "Fire",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Fire",
-                    "Fire"
+                    "Fire",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
-                "name": "Fiery Bone"
+                "dmg": 70,
+                "text": "Flip 2 coins. This attack does 70 damage for each heads. If at least 1 of them is heads, your opponent's Active Pok\u00e9mon is now Burned.",
+                "name": "Burning Bonemerang"
             }
         ],
         "ability": None
     },
     "fletchinder": {
         "name": "Fletchinder",
-        "hp": 70,
+        "hp": 80,
         "energy_type": "Fire",
         "retreat": 1,
         "attacks": [
@@ -8500,26 +8491,27 @@ CARD_DB = {
                 "cost": [
                     "Fire"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Fire Wing"
+                "dmg": 30,
+                "text": None,
+                "name": "Steady Firebreathing"
             }
         ],
         "ability": None
     },
     "talonflame": {
         "name": "Talonflame",
-        "hp": 130,
+        "hp": 120,
         "energy_type": "Fire",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Fire",
                     "Fire"
                 ],
-                "dmg": 50,
-                "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
-                "name": "Searing Flame"
+                "dmg": 90,
+                "text": None,
+                "name": "Fire Wing"
             }
         ],
         "ability": None
@@ -8588,29 +8580,8 @@ CARD_DB = {
     "oricorio": {
         "name": "Oricorio",
         "hp": 70,
-        "energy_type": "Lightning",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Lightning",
-                    "Colorless"
-                ],
-                "dmg": 50,
-                "text": "",
-                "name": "Zzzap"
-            }
-        ],
-        "ability": {
-            "title": "Safeguard",
-            "effect": "Prevent all damage done to this Pok\u00e9mon by attacks from your opponent's Pok\u00e9mon ex."
-        }
-    },
-    "turtonator": {
-        "name": "Turtonator",
-        "hp": 110,
         "energy_type": "Fire",
-        "retreat": 3,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
@@ -8618,8 +8589,27 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 40,
-                "text": "During your opponent's next turn, if this Pok\u00e9mon is damaged by an attack, do 20 damage to the Attacking Pok\u00e9mon.",
-                "name": "Shell Trap"
+                "text": "Discard a random Energy from both Active Pok\u00e9mon.",
+                "name": "Kindle"
+            }
+        ],
+        "ability": None
+    },
+    "turtonator": {
+        "name": "Turtonator",
+        "hp": 120,
+        "energy_type": "Fire",
+        "retreat": 4,
+        "attacks": [
+            {
+                "cost": [
+                    "Fire",
+                    "Fire",
+                    "Colorless"
+                ],
+                "dmg": 90,
+                "text": "Discard a [R] Energy from this Pok\u00e9mon.",
+                "name": "Fire Spin"
             }
         ],
         "ability": None
@@ -8635,7 +8625,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Scratch"
             }
         ],
@@ -8668,9 +8658,9 @@ CARD_DB = {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Gnaw"
+                "dmg": 0,
+                "text": "Take a [W] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
+                "name": "Call Forth Cold"
             }
         ],
         "ability": None
@@ -8713,18 +8703,17 @@ CARD_DB = {
     },
     "brionne": {
         "name": "Brionne",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Water",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Water",
-                    "Colorless"
+                    "Water"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Water Gun"
+                "dmg": 30,
+                "text": None,
+                "name": "Wave Splash"
             }
         ],
         "ability": None
@@ -8741,7 +8730,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             }
         ],
@@ -8815,7 +8804,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Hook"
             }
         ],
@@ -8890,7 +8879,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Knuckle Punch"
             }
         ],
@@ -8909,7 +8898,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Heavy Impact"
             }
         ],
@@ -8946,7 +8935,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Vise Grip"
             }
         ],
@@ -8972,18 +8961,17 @@ CARD_DB = {
     },
     "togedemaru": {
         "name": "Togedemaru",
-        "hp": 80,
-        "energy_type": "Metal",
+        "hp": 70,
+        "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Metal",
-                    "Metal"
+                    "Lightning"
                 ],
-                "dmg": 30,
-                "text": "During your opponent's next turn, if this Pok\u00e9mon is damaged by an attack, do 30 damage to the Attacking Pok\u00e9mon.",
-                "name": "Bristling Spikes"
+                "dmg": 20,
+                "text": "Flip a coin. If heads, this attack does 30 more damage.",
+                "name": "Electrosmash"
             }
         ],
         "ability": None
@@ -9016,11 +9004,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Psychic",
-                    "Psychic"
+                    "Colorless"
                 ],
-                "dmg": 70,
-                "text": "Discard a card from your hand. If you can't, this attack does nothing.",
-                "name": "Dirty Throw"
+                "dmg": 40,
+                "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
+                "name": "Corner"
             }
         ],
         "ability": None
@@ -9055,7 +9043,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Zen Headbutt"
             }
         ],
@@ -9073,7 +9061,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Moon Press"
             }
         ],
@@ -9090,7 +9078,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Will-O-Wisp"
             }
         ],
@@ -9124,7 +9112,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Flap"
             }
         ],
@@ -9141,7 +9129,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Fairy Wind"
             }
         ],
@@ -9159,7 +9147,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Spinning Attack"
             }
         ],
@@ -9171,36 +9159,36 @@ CARD_DB = {
     "sandygast": {
         "name": "Sandygast",
         "hp": 80,
-        "energy_type": "Fighting",
+        "energy_type": "Psychic",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
+                    "Psychic",
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
-                "name": "Sand Attack"
+                "dmg": 30,
+                "text": None,
+                "name": "Vibration"
             }
         ],
         "ability": None
     },
     "palossand": {
         "name": "Palossand",
-        "hp": 140,
-        "energy_type": "Fighting",
+        "hp": 130,
+        "energy_type": "Psychic",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Fighting",
+                    "Psychic",
+                    "Colorless",
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "Heal 20 damage from this Pok\u00e9mon.",
-                "name": "Life Sucker"
+                "text": None,
+                "name": "Spooky Shot"
             }
         ],
         "ability": None
@@ -9214,11 +9202,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Psychic",
-                    "Psychic"
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Flip a coin. If heads, choose 1 of your opponent's Active Pok\u00e9mon's attacks and use it as this attack.",
-                "name": "Try to Imitate"
+                "dmg": 60,
+                "text": "This attack also does 20 damage to 1 of your Pok\u00e9mon.",
+                "name": "Shadow Hit"
             }
         ],
         "ability": None
@@ -9288,7 +9276,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Lunar Blast"
             }
         ],
@@ -9319,18 +9307,17 @@ CARD_DB = {
     },
     "makuhita": {
         "name": "Makuhita",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Fighting",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
                     "Fighting"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Strength"
+                "dmg": 20,
+                "text": None,
+                "name": "Slap Push"
             }
         ],
         "ability": None
@@ -9344,12 +9331,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Fighting",
-                    "Fighting",
-                    "Fighting"
+                    "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Megaton Slap Push"
+                "dmg": 50,
+                "text": "Switch out your opponent's Active Pok\u00e9mon to the Bench. (Your opponent chooses the new Active Pok\u00e9mon.)",
+                "name": "Push Out"
             }
         ],
         "ability": None
@@ -9366,7 +9352,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Solar Beam"
             }
         ],
@@ -9380,12 +9366,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Headbutt Bounce"
+                "dmg": 10,
+                "text": None,
+                "name": "Scratch"
             }
         ],
         "ability": None
@@ -9401,7 +9386,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Corkscrew Punch"
             }
         ],
@@ -9419,7 +9404,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Strength"
             }
         ],
@@ -9438,7 +9423,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Mega Punch"
             }
         ],
@@ -9458,7 +9443,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Punch"
             }
         ],
@@ -9512,7 +9497,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Rear Kick"
             }
         ],
@@ -9550,7 +9535,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Seismic Toss"
             }
         ],
@@ -9588,7 +9573,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -9622,9 +9607,9 @@ CARD_DB = {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 0,
-                "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
-                "name": "Swagger"
+                "dmg": 20,
+                "text": None,
+                "name": "Scratch"
             }
         ],
         "ability": None
@@ -9637,14 +9622,18 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Darkness"
+                    "Darkness",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Bite"
+                "dmg": 50,
+                "text": None,
+                "name": "Claw Slash"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Fur Coat",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
+        }
     },
     "alolan grimer": {
         "name": "Alolan Grimer",
@@ -9654,11 +9643,12 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Darkness"
+                    "Darkness",
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-                "name": "Poison Gas"
+                "dmg": 30,
+                "text": None,
+                "name": "Sludge Toss"
             }
         ],
         "ability": None
@@ -9690,36 +9680,36 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Darkness"
+                    "Darkness",
+                    "Colorless"
                 ],
-                "dmg": 0,
-                "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Leap Over"
+                "dmg": 20,
+                "text": "If your opponent's Active Pok\u00e9mon is affected by a Special Condition, this attack does 60 more damage.",
+                "name": "Unseen Claw"
             }
         ],
         "ability": None
     },
     "trubbish": {
         "name": "Trubbish",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
-                    "Colorless"
+                    "Darkness"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Drool"
+                "dmg": 20,
+                "text": None,
+                "name": "Pound"
             }
         ],
         "ability": None
     },
     "garbodor": {
         "name": "Garbodor",
-        "hp": 130,
+        "hp": 120,
         "energy_type": "Darkness",
         "retreat": 3,
         "attacks": [
@@ -9730,43 +9720,42 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
-                "name": "Acid Spray"
+                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
+                "name": "Super Poison Breath"
             }
         ],
         "ability": None
     },
     "mareanie": {
         "name": "Mareanie",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Darkness",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Darkness"
                 ],
-                "dmg": 0,
-                "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
-                "name": "Poison Sting"
+                "dmg": 20,
+                "text": None,
+                "name": "Pierce"
             }
         ],
         "ability": None
     },
     "toxapex": {
         "name": "Toxapex",
-        "hp": 100,
+        "hp": 110,
         "energy_type": "Darkness",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
                     "Darkness"
                 ],
-                "dmg": 50,
-                "text": "If your opponent's Active Pok\u00e9mon is Poisoned, this attack does 70 more damage.",
-                "name": "Venoshock"
+                "dmg": 20,
+                "text": "Flip 4 coins. This attack does 20 damage for each heads.",
+                "name": "Spike Cannon"
             }
         ],
         "ability": None
@@ -9782,7 +9771,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -9808,19 +9797,17 @@ CARD_DB = {
     },
     "excadrill": {
         "name": "Excadrill",
-        "hp": 120,
+        "hp": 110,
         "energy_type": "Metal",
-        "retreat": 2,
+        "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Metal",
-                    "Metal",
-                    "Colorless"
+                    "Metal"
                 ],
-                "dmg": 80,
-                "text": "",
-                "name": "Slashing Claw"
+                "dmg": 50,
+                "text": None,
+                "name": "Slash"
             }
         ],
         "ability": None
@@ -9844,23 +9831,20 @@ CARD_DB = {
     },
     "klefki": {
         "name": "Klefki",
-        "hp": 50,
-        "energy_type": "Psychic",
+        "hp": 70,
+        "energy_type": "Metal",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Metal"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Hook"
+                "dmg": 10,
+                "text": "Draw a card.",
+                "name": "Unlock"
             }
         ],
-        "ability": {
-            "title": "Dismantling Keys",
-            "effect": "Once during your turn, if this Pok\u00e9mon is on your Bench, you may discard all Pok\u00e9mon Tools from your opponent's Active Pok\u00e9mon. If you do, discard this Pok\u00e9mon."
-        }
+        "ability": None
     },
     "solgaleo ex": {
         "name": "Solgaleo ex",
@@ -9912,9 +9896,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "Flip a coin. If tails, this attack does nothing. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
-                "name": "Dragon Breath"
+                "dmg": 20,
+                "text": "If any of your Benched Pok\u00e9mon have damage on them, this attack does 50 more damage.",
+                "name": "Berserk"
             }
         ],
         "ability": None
@@ -9930,7 +9914,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -9948,7 +9932,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Dragon Claw"
             }
         ],
@@ -9974,7 +9958,7 @@ CARD_DB = {
     },
     "skitty": {
         "name": "Skitty",
-        "hp": 50,
+        "hp": 60,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -9982,33 +9966,29 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Play Rough"
+                "dmg": 20,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
     },
     "delcatty": {
         "name": "Delcatty",
-        "hp": 80,
+        "hp": 90,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Cat Kick"
+                "dmg": 30,
+                "text": "Take a [C] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon.",
+                "name": "Energy Assist"
             }
         ],
-        "ability": {
-            "title": "Search for Friends",
-            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may put a Supporter card from your discard pile into your hand."
-        }
+        "ability": None
     },
     "fletchling": {
         "name": "Fletchling",
@@ -10020,27 +10000,26 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 10,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Quick Attack"
+                "dmg": 20,
+                "text": None,
+                "name": "Flap"
             }
         ],
         "ability": None
     },
     "hawlucha": {
         "name": "Hawlucha",
-        "hp": 70,
-        "energy_type": "Fighting",
+        "hp": 80,
+        "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Flip a coin. If heads, this attack does 30 more damage.",
-                "name": "Aerial Ace"
+                "dmg": 20,
+                "text": "If your opponent's Active Pok\u00e9mon is a [D] Pok\u00e9mon, this attack does 30 more damage.",
+                "name": "Justified Press"
             }
         ],
         "ability": None
@@ -10056,7 +10035,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Peck"
             }
         ],
@@ -10073,7 +10052,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Glide"
             }
         ],
@@ -10087,12 +10066,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Burned.",
-                "name": "Beak Blast"
+                "dmg": 70,
+                "text": None,
+                "name": "Drill Peck"
             }
         ],
         "ability": None
@@ -10108,7 +10086,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -10126,7 +10104,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Headbang"
             }
         ],
@@ -10141,11 +10119,12 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Ram"
+                "dmg": 60,
+                "text": None,
+                "name": "Hammer In"
             }
         ],
         "ability": None
@@ -10153,18 +10132,19 @@ CARD_DB = {
     "bewear": {
         "name": "Bewear",
         "hp": 130,
-        "energy_type": "Fighting",
+        "energy_type": "Colorless",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Fighting",
-                    "Fighting"
+                    "Colorless",
+                    "Colorless",
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Heavy Impact"
+                "dmg": 130,
+                "text": "This Pok\u00e9mon is now Confused.",
+                "name": "Tantrum"
             }
         ],
         "ability": None
@@ -10178,12 +10158,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "",
-                "name": "Hammer In"
+                "dmg": 40,
+                "text": "During your opponent's next turn, attacks used by the Defending Pok\u00e9mon cost 1 [C] more, and its Retreat Cost is 1 [C] more.",
+                "name": "Primate's Trap"
             }
         ],
         "ability": None
@@ -10200,7 +10179,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Rolling Tackle"
             }
         ],
@@ -10239,7 +10218,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Punch"
             },
             {
@@ -10283,7 +10262,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Thrash Metal"
             }
         ],
@@ -10310,20 +10289,18 @@ CARD_DB = {
     },
     "mantine": {
         "name": "Mantine",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Water",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Water",
-                    "Water",
-                    "Water",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
-                "name": "Dive"
+                "dmg": 50,
+                "text": None,
+                "name": "Surf"
             }
         ],
         "ability": None
@@ -10339,7 +10316,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -10371,12 +10348,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Lightning",
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 50,
-                "text": "",
-                "name": "Mach Bolt"
+                "dmg": 30,
+                "text": None,
+                "name": "Static Shock"
             }
         ],
         "ability": None
@@ -10402,7 +10378,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Mach Bolt"
             }
         ],
@@ -10439,7 +10415,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Lightning Claw"
             }
         ],
@@ -10460,7 +10436,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Spinning Attack"
             }
         ],
@@ -10479,7 +10455,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Power Beam"
             }
         ],
@@ -10509,34 +10485,35 @@ CARD_DB = {
     },
     "passimian": {
         "name": "Passimian",
-        "hp": 90,
+        "hp": 100,
         "energy_type": "Fighting",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Fighting",
                     "Fighting"
                 ],
-                "dmg": 0,
-                "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
-                "name": "Fling"
+                "dmg": 40,
+                "text": "If Passimian is on your Bench, this attack does 40 more damage.",
+                "name": "Let's Throw"
             }
         ],
         "ability": None
     },
     "sandile": {
         "name": "Sandile",
-        "hp": 60,
-        "energy_type": "Fighting",
-        "retreat": 1,
+        "hp": 70,
+        "energy_type": "Darkness",
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fighting"
+                    "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Gnaw"
+                "text": None,
+                "name": "Bite"
             }
         ],
         "ability": None
@@ -10544,36 +10521,36 @@ CARD_DB = {
     "krokorok": {
         "name": "Krokorok",
         "hp": 90,
-        "energy_type": "Fighting",
+        "energy_type": "Darkness",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
+                    "Darkness",
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
-                "name": "Bite"
+                "text": None,
+                "name": "Light Punch"
             }
         ],
         "ability": None
     },
     "krookodile": {
         "name": "Krookodile",
-        "hp": 160,
-        "energy_type": "Fighting",
+        "hp": 140,
+        "energy_type": "Darkness",
         "retreat": 3,
         "attacks": [
             {
                 "cost": [
-                    "Fighting",
-                    "Fighting",
+                    "Darkness",
+                    "Darkness",
                     "Colorless"
                 ],
                 "dmg": 90,
-                "text": "Flip a coin until you get tails. For each heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
-                "name": "Chomp Chomp Bite"
+                "text": "Flip 3 coins. For each heads, a card is chosen at random from your opponent's hand. Your opponent reveals that card and shuffles it into their deck.",
+                "name": "Poaching Fangs"
             }
         ],
         "ability": None
@@ -10622,7 +10599,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 120,
-                "text": "",
+                "text": None,
                 "name": "Tyrannical Hole"
             }
         ],
@@ -10692,7 +10669,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -10711,7 +10688,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Lunge Out"
             }
         ],
@@ -10739,26 +10716,9 @@ CARD_DB = {
     },
     "ferroseed": {
         "name": "Ferroseed",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Metal",
         "retreat": 2,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 10,
-                "text": "",
-                "name": "Tackle"
-            }
-        ],
-        "ability": None
-    },
-    "ferrothorn": {
-        "name": "Ferrothorn",
-        "hp": 120,
-        "energy_type": "Metal",
-        "retreat": 3,
         "attacks": [
             {
                 "cost": [
@@ -10766,11 +10726,33 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "Flip a coin. If heads, this attack does 60 more damage.",
-                "name": "Pummel"
+                "text": None,
+                "name": "Spike Sting"
             }
         ],
         "ability": None
+    },
+    "ferrothorn": {
+        "name": "Ferrothorn",
+        "hp": 110,
+        "energy_type": "Metal",
+        "retreat": 3,
+        "attacks": [
+            {
+                "cost": [
+                    "Metal",
+                    "Metal",
+                    "Colorless"
+                ],
+                "dmg": 70,
+                "text": None,
+                "name": "Spinning Attack"
+            }
+        ],
+        "ability": {
+            "title": "Steel Spikes",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, do 20 damage to the Attacking Pok\u00e9mon."
+        }
     },
     "stakataka": {
         "name": "Stakataka",
@@ -10800,49 +10782,50 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Draw a card.",
-                "name": "Collect"
+                "dmg": 20,
+                "text": None,
+                "name": "Tackle"
             }
         ],
         "ability": None
     },
     "herdier": {
         "name": "Herdier",
-        "hp": 90,
+        "hp": 80,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Headbutt Bounce"
+                "dmg": 30,
+                "text": None,
+                "name": "Bite"
             }
         ],
         "ability": None
     },
     "stoutland": {
         "name": "Stoutland",
-        "hp": 150,
+        "hp": 140,
         "energy_type": "Colorless",
-        "retreat": 3,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "If your opponent's Active Pok\u00e9mon is a Basic Pok\u00e9mon, this attack does 70 more damage.",
-                "name": "Dangerous Bite"
+                "text": None,
+                "name": "Sharp Fang"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Guard Dog Visage",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, attacks used by your opponent's Active Pok\u00e9mon cost 1 [C] more."
+        }
     },
     "type: None": {
         "name": "Type: Null",
@@ -10910,11 +10893,12 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Flip 2 coins. This attack does 40 damage for each heads.",
-                "name": "Double Smash"
+                "dmg": 60,
+                "text": None,
+                "name": "Cutting Wind"
             }
         ],
         "ability": None
@@ -10930,7 +10914,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -11033,15 +11017,15 @@ CARD_DB = {
         "name": "Vanillish",
         "hp": 80,
         "energy_type": "Water",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Water"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Frost Breath"
+                "dmg": 30,
+                "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 20 more damage.",
+                "name": "Sweets Relay"
             }
         ],
         "ability": None
@@ -11055,11 +11039,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Water",
-                    "Water"
+                    "Colorless"
                 ],
-                "dmg": 60,
-                "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 60 more damage.",
-                "name": "Sweets Relay"
+                "dmg": 80,
+                "text": "Flip 2 coins. This attack does 80 damage for each heads.",
+                "name": "Double Spin"
             }
         ],
         "ability": None
@@ -11157,7 +11141,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Fairy Wind"
             }
         ],
@@ -11202,17 +11186,18 @@ CARD_DB = {
     },
     "carbink": {
         "name": "Carbink",
-        "hp": 50,
-        "energy_type": "Psychic",
+        "hp": 80,
+        "energy_type": "Fighting",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Fighting",
+                    "Colorless"
                 ],
                 "dmg": 30,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -30 damage from attacks.",
-                "name": "Guard Press"
+                "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
+                "name": "Hard Roll"
             }
         ],
         "ability": None
@@ -11264,7 +11249,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -11298,7 +11283,7 @@ CARD_DB = {
     },
     "audino": {
         "name": "Audino",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Colorless",
         "retreat": 2,
         "attacks": [
@@ -11307,9 +11292,9 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Heal 10 damage from this Pok\u00e9mon.",
-                "name": "Drain Slap"
+                "dmg": 20,
+                "text": "This attack does 20 damage for each of your Benched Pok\u00e9mon.",
+                "name": "Do the Wave"
             }
         ],
         "ability": None
@@ -11326,7 +11311,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -11362,7 +11347,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Razor Leaf"
             }
         ],
@@ -11380,7 +11365,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Vine Whip"
             }
         ],
@@ -11413,11 +11398,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Grass"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Punch"
+                "dmg": 20,
+                "text": None,
+                "name": "Bug Bite"
             }
         ],
         "ability": None
@@ -11430,11 +11415,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Grass"
                 ],
-                "dmg": 40,
-                "text": "This attack's damage isn't affected by Weakness or by any effects on your opponent's Active Pok\u00e9mon.",
-                "name": "Swift"
+                "dmg": 50,
+                "text": None,
+                "name": "Punch"
             }
         ],
         "ability": None
@@ -11450,7 +11435,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -11467,7 +11452,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Seed Bomb"
             }
         ],
@@ -11484,7 +11469,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Spinning Attack"
             }
         ],
@@ -11495,7 +11480,7 @@ CARD_DB = {
     },
     "sunkern": {
         "name": "Sunkern",
-        "hp": 50,
+        "hp": 40,
         "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
@@ -11504,25 +11489,26 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Seed Bomb"
+                "text": "Heal 10 damage from this Pok\u00e9mon.",
+                "name": "Blot"
             }
         ],
         "ability": None
     },
     "sunflora": {
         "name": "Sunflora",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Grass",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Grass",
                     "Grass"
                 ],
-                "dmg": 30,
-                "text": "If Quick-Grow Extract is in your discard pile, this attack does 30 more damage.",
-                "name": "Quick-Grow Beam"
+                "dmg": 70,
+                "text": None,
+                "name": "Solar Beam"
             }
         ],
         "ability": None
@@ -11539,7 +11525,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Bug Buzz"
             }
         ],
@@ -11557,7 +11543,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -11594,7 +11580,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Flare"
             }
         ],
@@ -11611,7 +11597,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Combustion"
             }
         ],
@@ -11629,7 +11615,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Magma Punch"
             }
         ],
@@ -11696,36 +11682,35 @@ CARD_DB = {
         "name": "Darumaka",
         "hp": 70,
         "energy_type": "Fire",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Fire",
-                    "Fire"
+                    "Colorless"
                 ],
-                "dmg": 50,
-                "text": "This Pok\u00e9mon also does 10 damage to itself.",
-                "name": "Reckless Charge"
+                "dmg": 30,
+                "text": None,
+                "name": "Flop"
             }
         ],
         "ability": None
     },
     "darmanitan": {
         "name": "Darmanitan",
-        "hp": 130,
+        "hp": 120,
         "energy_type": "Fire",
-        "retreat": 3,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Fire",
-                    "Fire",
-                    "Fire",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "Flip 2 coins. This attack does 30 more damage for each heads.",
-                "name": "Darmani-Hands"
+                "dmg": 70,
+                "text": None,
+                "name": "Heat Blast"
             }
         ],
         "ability": None
@@ -11742,7 +11727,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Hyper Voice"
             }
         ],
@@ -11780,7 +11765,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Wave Splash"
             }
         ],
@@ -11798,7 +11783,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -11835,7 +11820,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Rain Splash"
             }
         ],
@@ -11854,7 +11839,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             }
         ],
@@ -11905,7 +11890,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Water Gun"
             }
         ],
@@ -11931,18 +11916,17 @@ CARD_DB = {
     },
     "delibird": {
         "name": "Delibird",
-        "hp": 80,
+        "hp": 70,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Water"
                 ],
-                "dmg": 0,
-                "text": "Flip a coin. If heads, this attack does 70 damage to your opponent's Active Pok\u00e9mon. If tails, heal 30 damage from your opponent's Active Pok\u00e9mon.",
-                "name": "Box of Surprises"
+                "dmg": 10,
+                "text": "Draw a card.",
+                "name": "Stumbling Draw"
             }
         ],
         "ability": None
@@ -11968,17 +11952,18 @@ CARD_DB = {
     },
     "corphish": {
         "name": "Corphish",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Water",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Water",
+                    "Colorless"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Water Gun"
+                "dmg": 30,
+                "text": None,
+                "name": "Vise Grip"
             }
         ],
         "ability": None
@@ -11995,16 +11980,19 @@ CARD_DB = {
                     "Water",
                     "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Guillotine"
+                "dmg": 70,
+                "text": None,
+                "name": "Crabhammer"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Unruly Claw",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may discard a random Energy from your opponent's Active Pok\u00e9mon."
+        }
     },
     "chinchou": {
         "name": "Chinchou",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
@@ -12012,9 +12000,9 @@ CARD_DB = {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 0,
-                "text": "Flip a coin. If heads, switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
-                "name": "Luring Glow"
+                "dmg": 10,
+                "text": None,
+                "name": "Lightning Ball"
             }
         ],
         "ability": None
@@ -12055,7 +12043,7 @@ CARD_DB = {
     },
     "mareep": {
         "name": "Mareep",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
@@ -12063,9 +12051,9 @@ CARD_DB = {
                 "cost": [
                     "Lightning"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Rear Kick"
+                "dmg": 20,
+                "text": None,
+                "name": "Static Shock"
             }
         ],
         "ability": None
@@ -12074,35 +12062,34 @@ CARD_DB = {
         "name": "Flaaffy",
         "hp": 90,
         "energy_type": "Lightning",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Lightning",
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Electric Punch"
+                "dmg": 50,
+                "text": None,
+                "name": "Zap Kick"
             }
         ],
         "ability": None
     },
     "ampharos": {
         "name": "Ampharos",
-        "hp": 140,
+        "hp": 150,
         "energy_type": "Lightning",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Lightning",
-                    "Lightning",
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 90,
-                "text": "1 of your opponent's Benched Pok\u00e9mon is chosen at random. This attack also does 20 damage to it.",
-                "name": "Zapping Bullet"
+                "dmg": 80,
+                "text": "Flip a coin. If heads, this attack does 40 more damage. If tails, this Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Thunder Punch"
             }
         ],
         "ability": None
@@ -12142,17 +12129,18 @@ CARD_DB = {
     },
     "slowking": {
         "name": "Slowking",
-        "hp": 130,
-        "energy_type": "Water",
-        "retreat": 3,
+        "hp": 110,
+        "energy_type": "Psychic",
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Psychic",
+                    "Colorless"
                 ],
-                "dmg": 50,
-                "text": "Discard up to 2 Pok\u00e9mon Tool cards from your hand. This attack does 50 damage for each card you discarded in this way.",
-                "name": "Litter"
+                "dmg": 10,
+                "text": "This attack does 30 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
+                "name": "Psychic"
             }
         ],
         "ability": None
@@ -12189,16 +12177,16 @@ CARD_DB = {
     },
     "natu": {
         "name": "Natu",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 10,
-                "text": "",
+                "dmg": 20,
+                "text": None,
                 "name": "Peck"
             }
         ],
@@ -12206,19 +12194,18 @@ CARD_DB = {
     },
     "xatu": {
         "name": "Xatu",
-        "hp": 100,
+        "hp": 80,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
-                    "Colorless",
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 80,
-                "text": "",
-                "name": "Zen Headbutt"
+                "dmg": 0,
+                "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon's remaining HP is now 10.",
+                "name": "Life Drain"
             }
         ],
         "ability": None
@@ -12235,7 +12222,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Super Psy Bolt"
             }
         ],
@@ -12246,19 +12233,18 @@ CARD_DB = {
     },
     "wobbuffet": {
         "name": "Wobbuffet",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Psychic",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Psychic",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 80,
-                "text": "This Pok\u00e9mon also does 10 damage to itself.",
-                "name": "Flip Over"
+                "dmg": 30,
+                "text": "If this Pok\u00e9mon was damaged by an attack during your opponent's last turn while it was in the Active Spot, this attack does 50 more damage.",
+                "name": "Reply Strongly"
             }
         ],
         "ability": None
@@ -12290,12 +12276,11 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless",
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Sharp Fang"
+                "dmg": 20,
+                "text": None,
+                "name": "Ram"
             }
         ],
         "ability": None
@@ -12310,11 +12295,11 @@ CARD_DB = {
                 "cost": [
                     "Psychic",
                     "Psychic",
-                    "Psychic"
+                    "Colorless"
                 ],
-                "dmg": 90,
-                "text": "",
-                "name": "Strength"
+                "dmg": 100,
+                "text": "This Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Wild Tackle"
             }
         ],
         "ability": None
@@ -12330,7 +12315,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Psyshot"
             }
         ],
@@ -12380,7 +12365,7 @@ CARD_DB = {
             {
                 "cost": [],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Slappy Knuckle"
             }
         ],
@@ -12417,7 +12402,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Dynamic Chop"
             }
         ],
@@ -12442,40 +12427,37 @@ CARD_DB = {
     },
     "spinarak": {
         "name": "Spinarak",
-        "hp": 50,
-        "energy_type": "Grass",
+        "hp": 60,
+        "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Sting"
+                "text": None,
+                "name": "Pierce"
             }
         ],
         "ability": None
     },
     "ariados": {
         "name": "Ariados",
-        "hp": 90,
-        "energy_type": "Grass",
+        "hp": 80,
+        "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Grass"
+                    "Darkness"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Pierce"
+                "dmg": 40,
+                "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
+                "name": "Bind Down"
             }
         ],
-        "ability": {
-            "title": "Trap Territory",
-            "effect": "Your opponent's Active Pok\u00e9mon's Retreat Cost is 1 more."
-        }
+        "ability": None
     },
     "umbreon ex": {
         "name": "Umbreon ex",
@@ -12489,7 +12471,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Darkness Fang"
             }
         ],
@@ -12509,7 +12491,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             }
         ],
@@ -12528,7 +12510,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Shell Crash"
             }
         ],
@@ -12543,13 +12525,13 @@ CARD_DB = {
             {
                 "cost": [
                     "Metal",
-                    "Metal",
+                    "Colorless",
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 100,
-                "text": "During your opponent's next turn, this Pok\u00e9mon has no Weakness.",
-                "name": "Metal Defender"
+                "dmg": 110,
+                "text": None,
+                "name": "Heavy Impact"
             }
         ],
         "ability": None
@@ -12601,7 +12583,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Vise Grip"
             }
         ],
@@ -12619,7 +12601,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Gear Cutter"
             }
         ],
@@ -12674,15 +12656,15 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "Flip 2 coins. This attack does 20 damage for each heads.",
-                "name": "Tail Rap"
+                "text": None,
+                "name": "Scratch"
             }
         ],
         "ability": None
     },
     "furret": {
         "name": "Furret",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -12690,9 +12672,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Headbutt Bounce"
+                "dmg": 80,
+                "text": "Flip a coin. If tails, this attack does nothing.",
+                "name": "Tail Smash"
             }
         ],
         "ability": None
@@ -12724,16 +12706,16 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "Flip a coin. If tails, this attack does nothing.",
-                "name": "Surprise Attack"
+                "dmg": 0,
+                "text": "Heal 20 damage from this Pok\u00e9mon.",
+                "name": "Honey Snack"
             }
         ],
         "ability": None
     },
     "ursaring": {
         "name": "Ursaring",
-        "hp": 130,
+        "hp": 120,
         "energy_type": "Colorless",
         "retreat": 3,
         "attacks": [
@@ -12741,12 +12723,11 @@ CARD_DB = {
                 "cost": [
                     "Colorless",
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 110,
-                "text": "",
-                "name": "Claw Slash"
+                "dmg": 60,
+                "text": "Flip 2 coins. This attack does 20 more damage for each heads.",
+                "name": "Swing Around"
             }
         ],
         "ability": None
@@ -12771,7 +12752,7 @@ CARD_DB = {
     },
     "smeargle": {
         "name": "Smeargle",
-        "hp": 60,
+        "hp": 70,
         "energy_type": "Colorless",
         "retreat": 1,
         "attacks": [
@@ -12780,15 +12761,12 @@ CARD_DB = {
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 30,
-                "text": "",
-                "name": "Tail Whap"
+                "dmg": 50,
+                "text": "Change the type of a random Energy attached to your opponent's Active Pok\u00e9mon to 1 of the following at random: [G], [R], [W], [L], [P], [F], [D], or [M].",
+                "name": "Splatter Coating"
             }
         ],
-        "ability": {
-            "title": "Portrait",
-            "effect": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may look at a random Supporter card from your opponent's hand. Use the effect of that card as the effect of this Ability."
-        }
+        "ability": None
     },
     "lugia ex": {
         "name": "Lugia ex",
@@ -12818,11 +12796,12 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "If any of your Pok\u00e9mon were Knocked Out by damage from an attack during your opponent's last turn, this attack does 40 more damage.",
-                "name": "Revenge"
+                "dmg": 70,
+                "text": "Flip a coin until you get tails. This attack does 70 damage for each heads.",
+                "name": "Continuous Headbutt"
             }
         ],
         "ability": None
@@ -12864,18 +12843,18 @@ CARD_DB = {
     },
     "durant": {
         "name": "Durant",
-        "hp": 80,
-        "energy_type": "Metal",
+        "hp": 70,
+        "energy_type": "Grass",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Metal",
-                    "Colorless"
+                    "Grass",
+                    "Grass"
                 ],
                 "dmg": 40,
-                "text": "If Durant is on your Bench, this attack does 40 more damage.",
-                "name": "Bite Together"
+                "text": "Discard the top card of your opponent's deck.",
+                "name": "Mountain Munch"
             }
         ],
         "ability": None
@@ -12951,7 +12930,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Aqua Edge"
             }
         ],
@@ -12977,17 +12956,18 @@ CARD_DB = {
     },
     "cryogonal": {
         "name": "Cryogonal",
-        "hp": 70,
+        "hp": 80,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
+                    "Water",
                     "Water"
                 ],
-                "dmg": 20,
-                "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
-                "name": "Frozen Lock"
+                "dmg": 0,
+                "text": "This attack does 40 damage to 1 of your opponent's Pok\u00e9mon.",
+                "name": "Ice Blade"
             }
         ],
         "ability": None
@@ -13025,7 +13005,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Static Shock"
             }
         ],
@@ -13039,47 +13019,47 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Lightning"
                 ],
-                "dmg": 0,
-                "text": "Switch out your opponent's Active Pok\u00e9mon to the Bench. (Your opponent chooses the new Active Pok\u00e9mon.)",
-                "name": "Roar"
+                "dmg": 20,
+                "text": None,
+                "name": "Zap Kick"
             }
         ],
         "ability": None
     },
     "boltund": {
         "name": "Boltund",
-        "hp": 110,
+        "hp": 120,
         "energy_type": "Lightning",
-        "retreat": 1,
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Lightning",
+                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 60,
-                "text": "",
-                "name": "Zap Kick"
+                "dmg": 70,
+                "text": "If this Pok\u00e9mon has damage on it, this attack can be used for 1 [L] Energy.",
+                "name": "Defiant Spark"
             }
         ],
         "ability": None
     },
     "mismagius": {
         "name": "Mismagius",
-        "hp": 90,
+        "hp": 100,
         "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Psychic",
                     "Psychic"
                 ],
-                "dmg": 60,
-                "text": "Move all [P] Energy from this Pok\u00e9mon to 1 of your Benched Pok\u00e9mon.",
-                "name": "Stored Power"
+                "dmg": 0,
+                "text": "At the end of your opponent's next turn, do 90 damage to the Defending Pok\u00e9mon.",
+                "name": "Cursed Prose"
             }
         ],
         "ability": None
@@ -13095,7 +13075,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -13113,7 +13093,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Spooky Shot"
             }
         ],
@@ -13164,40 +13144,38 @@ CARD_DB = {
     "frillish": {
         "name": "Frillish",
         "hp": 60,
-        "energy_type": "Water",
+        "energy_type": "Psychic",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Psychic"
                 ],
-                "dmg": 20,
-                "text": "",
-                "name": "Water Gun"
+                "dmg": 10,
+                "text": "Heal 10 damage from this Pok\u00e9mon.",
+                "name": "Absorb"
             }
         ],
         "ability": None
     },
     "jellicent": {
         "name": "Jellicent",
-        "hp": 120,
-        "energy_type": "Water",
+        "hp": 110,
+        "energy_type": "Psychic",
         "retreat": 2,
         "attacks": [
             {
                 "cost": [
-                    "Water",
-                    "Water"
+                    "Psychic",
+                    "Psychic",
+                    "Colorless"
                 ],
-                "dmg": 60,
-                "text": "",
-                "name": "Surf"
+                "dmg": 80,
+                "text": None,
+                "name": "Devour Soul"
             }
         ],
-        "ability": {
-            "title": "Bouncy Body",
-            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, take a [W] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon."
-        }
+        "ability": None
     },
     "poliwrath ex": {
         "name": "Poliwrath ex",
@@ -13248,7 +13226,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Sand Spray"
             }
         ],
@@ -13303,7 +13281,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -13321,7 +13299,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Night Daze"
             }
         ],
@@ -13341,7 +13319,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -13366,18 +13344,17 @@ CARD_DB = {
     },
     "skrelp": {
         "name": "Skrelp",
-        "hp": 60,
+        "hp": 50,
         "energy_type": "Darkness",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Darkness",
-                    "Colorless"
+                    "Darkness"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Razor Fin"
+                "dmg": 20,
+                "text": None,
+                "name": "Melt"
             }
         ],
         "ability": None
@@ -13395,7 +13372,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Sludge Bomb"
             }
         ],
@@ -13403,18 +13380,18 @@ CARD_DB = {
     },
     "altaria": {
         "name": "Altaria",
-        "hp": 100,
-        "energy_type": "Colorless",
-        "retreat": 1,
+        "hp": 120,
+        "energy_type": "Dragon",
+        "retreat": 2,
         "attacks": [
             {
                 "cost": [
                     "Colorless",
                     "Colorless"
                 ],
-                "dmg": 20,
-                "text": "This attack does 20 more damage for each of your Benched Pok\u00e9mon.",
-                "name": "Do the Wave"
+                "dmg": 40,
+                "text": "If this Pok\u00e9mon has 2 or more different types of Energy attached, this attack does 60 more damage.",
+                "name": "Dragon Arcana"
             }
         ],
         "ability": None
@@ -13476,9 +13453,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 0,
-                "text": "Put a random Pok\u00e9mon from your deck into your hand.",
-                "name": "Find a Friend"
+                "dmg": 20,
+                "text": None,
+                "name": "Peck"
             }
         ],
         "ability": None
@@ -13495,7 +13472,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             }
         ],
@@ -13534,7 +13511,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -13619,7 +13596,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Rollout"
             }
         ],
@@ -13637,7 +13614,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Gentle Slap"
             }
         ],
@@ -13672,7 +13649,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -13689,7 +13666,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Seed Bomb"
             }
         ],
@@ -13706,7 +13683,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Beat"
             }
         ],
@@ -13778,7 +13755,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Beat"
             }
         ],
@@ -13796,7 +13773,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Hammer In"
             }
         ],
@@ -13816,7 +13793,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 120,
-                "text": "",
+                "text": None,
                 "name": "Drum Rush"
             }
         ],
@@ -13875,7 +13852,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Peck"
             }
         ],
@@ -13893,7 +13870,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "High Jump Kick"
             }
         ],
@@ -13946,7 +13923,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Beat"
             }
         ],
@@ -13973,16 +13950,16 @@ CARD_DB = {
     "litwick": {
         "name": "Litwick",
         "hp": 50,
-        "energy_type": "Psychic",
+        "energy_type": "Fire",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Psychic"
+                    "Fire"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Mumble"
+                "text": None,
+                "name": "Flare"
             }
         ],
         "ability": None
@@ -13990,58 +13967,6 @@ CARD_DB = {
     "lampent": {
         "name": "Lampent",
         "hp": 80,
-        "energy_type": "Psychic",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Psychic"
-                ],
-                "dmg": 30,
-                "text": "",
-                "name": "Petty Grudge"
-            }
-        ],
-        "ability": None
-    },
-    "chandelure": {
-        "name": "Chandelure",
-        "hp": 140,
-        "energy_type": "Psychic",
-        "retreat": 2,
-        "attacks": [
-            {
-                "cost": [
-                    "Psychic",
-                    "Psychic"
-                ],
-                "dmg": 60,
-                "text": "This attack does 20 more damage for each Supporter card in your discard pile.",
-                "name": "Past Friends"
-            }
-        ],
-        "ability": None
-    },
-    "litleo": {
-        "name": "Litleo",
-        "hp": 70,
-        "energy_type": "Fire",
-        "retreat": 1,
-        "attacks": [
-            {
-                "cost": [
-                    "Colorless"
-                ],
-                "dmg": 10,
-                "text": "",
-                "name": "Stampede"
-            }
-        ],
-        "ability": None
-    },
-    "pyroar": {
-        "name": "Pyroar",
-        "hp": 90,
         "energy_type": "Fire",
         "retreat": 1,
         "attacks": [
@@ -14050,9 +13975,66 @@ CARD_DB = {
                     "Fire",
                     "Fire"
                 ],
-                "dmg": 70,
-                "text": "",
+                "dmg": 40,
+                "text": None,
+                "name": "Will-O-Wisp"
+            }
+        ],
+        "ability": None
+    },
+    "chandelure": {
+        "name": "Chandelure",
+        "hp": 140,
+        "energy_type": "Fire",
+        "retreat": 2,
+        "attacks": [
+            {
+                "cost": [
+                    "Fire",
+                    "Fire"
+                ],
+                "dmg": 80,
+                "text": None,
                 "name": "Heat Blast"
+            }
+        ],
+        "ability": {
+            "title": "Slow Sear",
+            "effect": "Once during your turn, you may discard the top card of your opponent's deck."
+        }
+    },
+    "litleo": {
+        "name": "Litleo",
+        "hp": 60,
+        "energy_type": "Fire",
+        "retreat": 1,
+        "attacks": [
+            {
+                "cost": [
+                    "Fire"
+                ],
+                "dmg": 20,
+                "text": None,
+                "name": "Live Coal"
+            }
+        ],
+        "ability": None
+    },
+    "pyroar": {
+        "name": "Pyroar",
+        "hp": 130,
+        "energy_type": "Fire",
+        "retreat": 2,
+        "attacks": [
+            {
+                "cost": [
+                    "Fire",
+                    "Fire",
+                    "Colorless"
+                ],
+                "dmg": 130,
+                "text": "Discard 2 [R] Energy from this Pok\u00e9mon.",
+                "name": "Fire Blast"
             }
         ],
         "ability": None
@@ -14088,7 +14070,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Water Gun"
             }
         ],
@@ -14106,7 +14088,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Gentle Slap"
             }
         ],
@@ -14143,7 +14125,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             }
         ],
@@ -14198,7 +14180,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Beat"
             }
         ],
@@ -14234,7 +14216,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Mud-Slap"
             }
         ],
@@ -14253,7 +14235,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Hyper Voice"
             }
         ],
@@ -14290,7 +14272,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Shell Attack"
             }
         ],
@@ -14346,7 +14328,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Aqua Edge"
             }
         ],
@@ -14367,7 +14349,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Icicle"
             }
         ],
@@ -14400,28 +14382,29 @@ CARD_DB = {
         "attacks": [
             {
                 "cost": [
-                    "Colorless"
+                    "Water"
                 ],
-                "dmg": 10,
-                "text": "",
-                "name": "Ram"
+                "dmg": 20,
+                "text": None,
+                "name": "Peck"
             }
         ],
         "ability": None
     },
     "barraskewda": {
         "name": "Barraskewda",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Water",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Water"
+                    "Water",
+                    "Colorless"
                 ],
-                "dmg": 40,
-                "text": "",
-                "name": "Jet Headbutt"
+                "dmg": 80,
+                "text": "This Pok\u00e9mon also does 20 damage to itself.",
+                "name": "Double-Edge"
             }
         ],
         "ability": None
@@ -14438,7 +14421,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -14459,7 +14442,7 @@ CARD_DB = {
                     "Lightning"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Mach Bolt"
             }
         ],
@@ -14548,7 +14531,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Mumble"
             }
         ],
@@ -14583,7 +14566,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Stampede"
             }
         ],
@@ -14600,7 +14583,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Slap"
             }
         ],
@@ -14634,27 +14617,26 @@ CARD_DB = {
                 "cost": [
                     "Psychic"
                 ],
-                "dmg": 0,
-                "text": "Heal 20 damage from 1 of your Pok\u00e9mon.",
-                "name": "Sweet Scent"
+                "dmg": 20,
+                "text": None,
+                "name": "Fairy Wind"
             }
         ],
         "ability": None
     },
     "aromatisse": {
         "name": "Aromatisse",
-        "hp": 100,
+        "hp": 90,
         "energy_type": "Psychic",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Psychic",
-                    "Colorless"
+                    "Psychic"
                 ],
-                "dmg": 60,
-                "text": "During your opponent's next turn, attacks used by the Defending Pok\u00e9mon cost 1 [C] more.",
-                "name": "Perfume Blast"
+                "dmg": 40,
+                "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
+                "name": "Confounding Cologne"
             }
         ],
         "ability": None
@@ -14708,7 +14690,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Rock Throw"
             }
         ],
@@ -14761,7 +14743,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Punch"
             }
         ],
@@ -14795,7 +14777,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -14813,7 +14795,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Heat Crash"
             }
         ],
@@ -14867,7 +14849,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -14885,7 +14867,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Darkness Fang"
             }
         ],
@@ -14942,7 +14924,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Draconic Whip"
             }
         ],
@@ -14962,7 +14944,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -14999,7 +14981,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 100,
-                "text": "",
+                "text": None,
                 "name": "Wrack Down"
             }
         ],
@@ -15026,17 +15008,17 @@ CARD_DB = {
     },
     "honedge": {
         "name": "Honedge",
-        "hp": 70,
+        "hp": 60,
         "energy_type": "Metal",
-        "retreat": 2,
+        "retreat": 1,
         "attacks": [
             {
                 "cost": [
                     "Metal"
                 ],
                 "dmg": 20,
-                "text": "",
-                "name": "Cut Up"
+                "text": None,
+                "name": "Pierce"
             }
         ],
         "ability": None
@@ -15050,11 +15032,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Metal",
-                    "Metal"
+                    "Colorless"
                 ],
                 "dmg": 40,
-                "text": "Flip 2 coins. This attack does 40 damage for each heads.",
-                "name": "Dual Blades"
+                "text": None,
+                "name": "Slash"
             }
         ],
         "ability": None
@@ -15068,15 +15050,18 @@ CARD_DB = {
             {
                 "cost": [
                     "Metal",
-                    "Metal",
-                    "Metal"
+                    "Colorless",
+                    "Colorless"
                 ],
-                "dmg": 80,
-                "text": "During your opponent's next turn, this Pok\u00e9mon takes -80 damage from attacks from your opponent's Pok\u00e9mon ex.",
-                "name": "Superb Shield"
+                "dmg": 70,
+                "text": None,
+                "name": "Slicing Blade"
             }
         ],
-        "ability": None
+        "ability": {
+            "title": "Cursed Metal",
+            "effect": "Attacks used by your [P] Pok\u00e9mon and [M] Pok\u00e9mon do +30 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "melmetal ex": {
         "name": "Melmetal ex",
@@ -15091,7 +15076,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             },
             {
@@ -15139,7 +15124,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -15160,7 +15145,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Gentle Slap"
             }
         ],
@@ -15214,7 +15199,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -15231,7 +15216,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Jet Headbutt"
             }
         ],
@@ -15248,7 +15233,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Pound"
             }
         ],
@@ -15266,7 +15251,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Hyper Voice"
             }
         ],
@@ -15301,9 +15286,9 @@ CARD_DB = {
                 "cost": [
                     "Colorless"
                 ],
-                "dmg": 40,
-                "text": "This Pok\u00e9mon is now Confused.",
-                "name": "Teetering Steps"
+                "dmg": 30,
+                "text": "Both Active Pok\u00e9mon are now Confused.",
+                "name": "Dizzying Headbutt"
             }
         ],
         "ability": None
@@ -15319,7 +15304,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -15355,7 +15340,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Wing Attack"
             }
         ],
@@ -15374,7 +15359,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             }
         ],
@@ -15389,12 +15374,11 @@ CARD_DB = {
             {
                 "cost": [
                     "Colorless",
-                    "Colorless",
                     "Colorless"
                 ],
-                "dmg": 70,
-                "text": "",
-                "name": "Hammer In"
+                "dmg": 50,
+                "text": None,
+                "name": "Sharp Fang"
             }
         ],
         "ability": {
@@ -15413,7 +15397,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Flap"
             }
         ],
@@ -15431,7 +15415,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Drill Peck"
             }
         ],
@@ -15525,7 +15509,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Water Gun"
             }
         ],
@@ -15559,7 +15543,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Rollout"
             }
         ],
@@ -15577,7 +15561,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Psyshot"
             }
         ],
@@ -15596,7 +15580,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 90,
-                "text": "",
+                "text": None,
                 "name": "Psypunch"
             }
         ],
@@ -15711,7 +15695,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Corkscrew Punch"
             }
         ],
@@ -15748,7 +15732,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Vine Whip"
             }
         ],
@@ -15767,7 +15751,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Needle Arm"
             }
         ],
@@ -15804,7 +15788,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Bug Bite"
             }
         ],
@@ -15874,7 +15858,7 @@ CARD_DB = {
                     "Grass"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Razor Leaf"
             }
         ],
@@ -15975,7 +15959,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Flop"
             }
         ],
@@ -15992,7 +15976,7 @@ CARD_DB = {
                     "Fire"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Kick"
             }
         ],
@@ -16063,7 +16047,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Icy Snow"
             }
         ],
@@ -16099,7 +16083,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Tackle"
             }
         ],
@@ -16117,7 +16101,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Surf"
             }
         ],
@@ -16173,7 +16157,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Aurora Beam"
             }
         ],
@@ -16283,7 +16267,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Static Shock"
             }
         ],
@@ -16338,7 +16322,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Electric Ball"
             }
         ],
@@ -16355,7 +16339,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 10,
-                "text": "",
+                "text": None,
                 "name": "Flop"
             }
         ],
@@ -16408,7 +16392,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Psyshot"
             }
         ],
@@ -16428,7 +16412,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Ram"
             }
         ],
@@ -16463,7 +16447,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Claw Slash"
             }
         ],
@@ -16500,7 +16484,7 @@ CARD_DB = {
                     "Psychic"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Spooky Shot"
             }
         ],
@@ -16540,7 +16524,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 30,
-                "text": "",
+                "text": None,
                 "name": "Mud-Slap"
             }
         ],
@@ -16559,7 +16543,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Power Gem"
             }
         ],
@@ -16597,7 +16581,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Hammer In"
             }
         ],
@@ -16653,7 +16637,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Sludge Bomb"
             }
         ],
@@ -16673,7 +16657,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Dig Claws"
             }
         ],
@@ -16690,7 +16674,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 40,
-                "text": "",
+                "text": None,
                 "name": "Rear Kick"
             }
         ],
@@ -16725,7 +16709,7 @@ CARD_DB = {
                     "Darkness"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Headbutt"
             }
         ],
@@ -16799,7 +16783,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Slash"
             }
         ],
@@ -16817,7 +16801,7 @@ CARD_DB = {
                     "Metal"
                 ],
                 "dmg": 70,
-                "text": "",
+                "text": None,
                 "name": "Metal Claw"
             }
         ],
@@ -16873,7 +16857,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Bite"
             }
         ],
@@ -16891,7 +16875,7 @@ CARD_DB = {
                     "Water"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Rolling Tackle"
             }
         ],
@@ -16966,7 +16950,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Peck"
             }
         ],
@@ -16984,7 +16968,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 50,
-                "text": "",
+                "text": None,
                 "name": "Wing Attack"
             }
         ],
@@ -17079,7 +17063,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Gnaw"
             }
         ],
@@ -17148,7 +17132,7 @@ CARD_DB = {
                     "Fighting"
                 ],
                 "dmg": 20,
-                "text": "",
+                "text": None,
                 "name": "Invade"
             }
         ],
@@ -17189,7 +17173,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 80,
-                "text": "",
+                "text": None,
                 "name": "Psychic Flash"
             }
         ],
@@ -17289,7 +17273,7 @@ CARD_DB = {
                     "Colorless"
                 ],
                 "dmg": 60,
-                "text": "",
+                "text": None,
                 "name": "Photon Claw"
             },
             {

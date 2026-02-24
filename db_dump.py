@@ -14,7 +14,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "ivysaur": {
         "name": "Ivysaur",
@@ -30,7 +31,8 @@ CARD_DB = {
                 "text": "Take 2 [G] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
                 "name": "Synthesis"
             }
-        ]
+        ],
+        "ability": None
     },
     "venusaur": {
         "name": "Venusaur",
@@ -49,7 +51,8 @@ CARD_DB = {
                 "text": "Heal 30 damage from this Pok\u00e9mon.",
                 "name": "Mega Drain"
             }
-        ]
+        ],
+        "ability": None
     },
     "venusaur ex": {
         "name": "Venusaur ex",
@@ -78,7 +81,8 @@ CARD_DB = {
                 "text": "Heal 30 damage from this Pok\u00e9mon.",
                 "name": "Giant Bloom"
             }
-        ]
+        ],
+        "ability": None
     },
     "caterpie": {
         "name": "Caterpie",
@@ -94,7 +98,8 @@ CARD_DB = {
                 "text": "Put 1 random [G] Pok\u00e9mon from your deck into your hand.",
                 "name": "Find a Friend"
             }
-        ]
+        ],
+        "ability": None
     },
     "metapod": {
         "name": "Metapod",
@@ -111,7 +116,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "butterfree": {
         "name": "Butterfree",
@@ -129,7 +135,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Gust"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Powder Heal",
+            "effect": "Once during your turn, you may heal 20 damage from each of your Pok\u00e9mon."
+        }
     },
     "weedle": {
         "name": "Weedle",
@@ -145,7 +155,8 @@ CARD_DB = {
                 "text": "Put 1 random Weedle from your deck onto your Bench.",
                 "name": "Multiply"
             }
-        ]
+        ],
+        "ability": None
     },
     "kakuna": {
         "name": "Kakuna",
@@ -161,7 +172,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "String Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "beedrill": {
         "name": "Beedrill",
@@ -177,7 +189,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sharp Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "oddish": {
         "name": "Oddish",
@@ -193,7 +206,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Powder"
             }
-        ]
+        ],
+        "ability": None
     },
     "gloom": {
         "name": "Gloom",
@@ -210,7 +224,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Leaf Step"
             }
-        ]
+        ],
+        "ability": None
     },
     "vileplume": {
         "name": "Vileplume",
@@ -228,7 +243,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Soothing Scent"
             }
-        ]
+        ],
+        "ability": None
     },
     "paras": {
         "name": "Paras",
@@ -245,7 +261,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Scratch"
             }
-        ]
+        ],
+        "ability": None
     },
     "parasect": {
         "name": "Parasect",
@@ -263,7 +280,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "venonat": {
         "name": "Venonat",
@@ -279,7 +297,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "venomoth": {
         "name": "Venomoth",
@@ -295,7 +314,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Powder"
             }
-        ]
+        ],
+        "ability": None
     },
     "bellsprout": {
         "name": "Bellsprout",
@@ -311,7 +331,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "weepinbell": {
         "name": "Weepinbell",
@@ -328,7 +349,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "victreebel": {
         "name": "Victreebel",
@@ -345,7 +367,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fragrance Trap",
+            "effect": "If this Pok\u00e9mon is in the Active Spot, once during your turn, you may switch in 1 of your opponent's Benched Basic Pok\u00e9mon to the Active Spot."
+        }
     },
     "exeggcute": {
         "name": "Exeggcute",
@@ -361,7 +387,8 @@ CARD_DB = {
                 "text": "Take a [G] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
                 "name": "Growth Spurt"
             }
-        ]
+        ],
+        "ability": None
     },
     "exeggutor": {
         "name": "Exeggutor",
@@ -380,7 +407,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Psychic"
             }
-        ]
+        ],
+        "ability": None
     },
     "exeggutor ex": {
         "name": "Exeggutor ex",
@@ -396,7 +424,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 40 more damage.",
                 "name": "Tropical Swing"
             }
-        ]
+        ],
+        "ability": None
     },
     "tangela": {
         "name": "Tangela",
@@ -413,7 +442,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Sleep Powder"
             }
-        ]
+        ],
+        "ability": None
     },
     "scyther": {
         "name": "Scyther",
@@ -429,7 +459,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "pinsir": {
         "name": "Pinsir",
@@ -447,7 +478,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 50 more damage.",
                 "name": "X-Scissor"
             }
-        ]
+        ],
+        "ability": None
     },
     "cottonee": {
         "name": "Cottonee",
@@ -463,7 +495,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "whimsicott": {
         "name": "Whimsicott",
@@ -479,7 +512,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rolling Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "petilil": {
         "name": "Petilil",
@@ -495,7 +529,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Surprise Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "lilligant": {
         "name": "Lilligant",
@@ -512,7 +547,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Smack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Toughness Aroma",
+            "effect": "Each of your [G] Pok\u00e9mon gets +20 HP."
+        }
     },
     "skiddo": {
         "name": "Skiddo",
@@ -529,7 +568,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "gogoat": {
         "name": "Gogoat",
@@ -547,7 +587,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 20 damage to itself.",
                 "name": "Double-Edge"
             }
-        ]
+        ],
+        "ability": None
     },
     "charmander": {
         "name": "Charmander",
@@ -563,7 +604,8 @@ CARD_DB = {
                 "text": "Discard a [R] Energy from this Pok\u00e9mon.",
                 "name": "Ember"
             }
-        ]
+        ],
+        "ability": None
     },
     "charmeleon": {
         "name": "Charmeleon",
@@ -581,7 +623,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Steady Firebreathing"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Ignition",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may take a [R] Energy from your Energy Zone and attach it to your Active [R] Pok\u00e9mon."
+        }
     },
     "charizard": {
         "name": "Charizard",
@@ -600,7 +646,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 30 damage to itself.",
                 "name": "Inferno Onrush"
             }
-        ]
+        ],
+        "ability": None
     },
     "charizard ex": {
         "name": "Charizard ex",
@@ -629,7 +676,8 @@ CARD_DB = {
                 "text": "Discard 2 [R] Energy from this Pok\u00e9mon.",
                 "name": "Crimson Storm"
             }
-        ]
+        ],
+        "ability": None
     },
     "vulpix": {
         "name": "Vulpix",
@@ -646,7 +694,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Live Coal"
             }
-        ]
+        ],
+        "ability": None
     },
     "ninetales": {
         "name": "Ninetales",
@@ -664,7 +713,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Scorching Breath"
             }
-        ]
+        ],
+        "ability": None
     },
     "growlithe": {
         "name": "Growlithe",
@@ -680,7 +730,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Dig Claws"
             }
-        ]
+        ],
+        "ability": None
     },
     "arcanine": {
         "name": "Arcanine",
@@ -697,7 +748,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Burned.",
                 "name": "Fire Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "arcanine ex": {
         "name": "Arcanine ex",
@@ -715,7 +767,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 20 damage to itself.",
                 "name": "Inferno Onrush"
             }
-        ]
+        ],
+        "ability": None
     },
     "ponyta": {
         "name": "Ponyta",
@@ -732,7 +785,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Combustion"
             }
-        ]
+        ],
+        "ability": None
     },
     "rapidash": {
         "name": "Rapidash",
@@ -749,7 +803,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 60 more damage.",
                 "name": "Rising Lunge"
             }
-        ]
+        ],
+        "ability": None
     },
     "magmar": {
         "name": "Magmar",
@@ -765,7 +820,8 @@ CARD_DB = {
                 "text": "Take a [R] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
                 "name": "Stoke"
             }
-        ]
+        ],
+        "ability": None
     },
     "flareon": {
         "name": "Flareon",
@@ -782,7 +838,8 @@ CARD_DB = {
                 "text": "Take a [R] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon.",
                 "name": "Assisting Heater"
             }
-        ]
+        ],
+        "ability": None
     },
     "moltres": {
         "name": "Moltres",
@@ -800,7 +857,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Sky Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "moltres ex": {
         "name": "Moltres ex",
@@ -826,7 +884,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heat Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "heatmor": {
         "name": "Heatmor",
@@ -842,7 +901,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Tongue Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "salandit": {
         "name": "Salandit",
@@ -858,7 +918,8 @@ CARD_DB = {
                 "text": "Discard a [R] Energy from this Pok\u00e9mon.",
                 "name": "Ember"
             }
-        ]
+        ],
+        "ability": None
     },
     "salazzle": {
         "name": "Salazzle",
@@ -874,7 +935,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Combustion"
             }
-        ]
+        ],
+        "ability": None
     },
     "sizzlipede": {
         "name": "Sizzlipede",
@@ -890,7 +952,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": None
     },
     "centiskorch": {
         "name": "Centiskorch",
@@ -909,7 +972,8 @@ CARD_DB = {
                 "text": "Discard a [R] Energy from this Pok\u00e9mon.",
                 "name": "Fire Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "squirtle": {
         "name": "Squirtle",
@@ -925,7 +989,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "wartortle": {
         "name": "Wartortle",
@@ -943,7 +1008,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Waterfall"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Shell Shield",
+            "effect": "As long as this Pok\u00e9mon is on your Bench, prevent all damage done to this Pok\u00e9mon by attacks."
+        }
     },
     "blastoise": {
         "name": "Blastoise",
@@ -961,7 +1030,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 2 extra [W] Energy attached, this attack does 60 more damage.",
                 "name": "Hydro Pump"
             }
-        ]
+        ],
+        "ability": None
     },
     "blastoise ex": {
         "name": "Blastoise ex",
@@ -988,7 +1058,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 2 extra [W] Energy attached, this attack does 60 more damage.",
                 "name": "Hydro Bazooka"
             }
-        ]
+        ],
+        "ability": None
     },
     "psyduck": {
         "name": "Psyduck",
@@ -1004,7 +1075,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rain Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "golduck": {
         "name": "Golduck",
@@ -1020,7 +1092,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wave Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "poliwag": {
         "name": "Poliwag",
@@ -1036,7 +1109,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Surprise Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "poliwhirl": {
         "name": "Poliwhirl",
@@ -1053,7 +1127,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Knuckle Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "poliwrath": {
         "name": "Poliwrath",
@@ -1071,7 +1146,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Mega Punch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Counterattack",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, do 20 damage to the Attacking Pok\u00e9mon."
+        }
     },
     "tentacool": {
         "name": "Tentacool",
@@ -1088,7 +1167,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "tentacruel": {
         "name": "Tentacruel",
@@ -1106,7 +1186,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Poisoned and Paralyzed.",
                 "name": "Stun Poison"
             }
-        ]
+        ],
+        "ability": None
     },
     "seel": {
         "name": "Seel",
@@ -1123,7 +1204,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "dewgong": {
         "name": "Dewgong",
@@ -1141,7 +1223,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": None
     },
     "shellder": {
         "name": "Shellder",
@@ -1157,7 +1240,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "cloyster": {
         "name": "Cloyster",
@@ -1174,7 +1258,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Guard Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "krabby": {
         "name": "Krabby",
@@ -1191,7 +1276,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vise Grip"
             }
-        ]
+        ],
+        "ability": None
     },
     "kingler": {
         "name": "Kingler",
@@ -1209,7 +1295,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. If both of them are heads, this attack does 80 more damage.",
                 "name": "KO Crab"
             }
-        ]
+        ],
+        "ability": None
     },
     "horsea": {
         "name": "Horsea",
@@ -1225,7 +1312,8 @@ CARD_DB = {
                 "text": "This attack does 10 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Water Arrow"
             }
-        ]
+        ],
+        "ability": None
     },
     "seadra": {
         "name": "Seadra",
@@ -1242,7 +1330,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Fin"
             }
-        ]
+        ],
+        "ability": None
     },
     "goldeen": {
         "name": "Goldeen",
@@ -1258,7 +1347,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flop"
             }
-        ]
+        ],
+        "ability": None
     },
     "seaking": {
         "name": "Seaking",
@@ -1274,7 +1364,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Horn Hazard"
             }
-        ]
+        ],
+        "ability": None
     },
     "staryu": {
         "name": "Staryu",
@@ -1290,7 +1381,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Smack"
             }
-        ]
+        ],
+        "ability": None
     },
     "starmie": {
         "name": "Starmie",
@@ -1306,7 +1398,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wave Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "starmie ex": {
         "name": "Starmie ex",
@@ -1323,7 +1416,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hydro Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "magikarp": {
         "name": "Magikarp",
@@ -1339,7 +1433,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. If both of them are heads, this attack does 20 more damage.",
                 "name": "Expert Splasher"
             }
-        ]
+        ],
+        "ability": None
     },
     "gyarados": {
         "name": "Gyarados",
@@ -1358,7 +1453,8 @@ CARD_DB = {
                 "text": "Discard the top card of your opponent's deck.",
                 "name": "Hammering Tail"
             }
-        ]
+        ],
+        "ability": None
     },
     "lapras": {
         "name": "Lapras",
@@ -1374,7 +1470,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 3 extra [W] Energy attached, this attack does 70 more damage.",
                 "name": "Hydro Pump"
             }
-        ]
+        ],
+        "ability": None
     },
     "vaporeon": {
         "name": "Vaporeon",
@@ -1392,7 +1489,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Wave Splash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Wash Out",
+            "effect": "As often as you like during your turn, you may move a [W] Energy from 1 of your Benched [W] Pok\u00e9mon to your Active [W] Pok\u00e9mon."
+        }
     },
     "omanyte": {
         "name": "Omanyte",
@@ -1408,7 +1509,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "omastar": {
         "name": "Omastar",
@@ -1426,7 +1528,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't attack.",
                 "name": "Ancient Whirlpool"
             }
-        ]
+        ],
+        "ability": None
     },
     "articuno": {
         "name": "Articuno",
@@ -1444,7 +1547,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Ice Beam"
             }
-        ]
+        ],
+        "ability": None
     },
     "articuno ex": {
         "name": "Articuno ex",
@@ -1471,7 +1575,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Blizzard"
             }
-        ]
+        ],
+        "ability": None
     },
     "ducklett": {
         "name": "Ducklett",
@@ -1487,7 +1592,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rain Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "swanna": {
         "name": "Swanna",
@@ -1504,7 +1610,8 @@ CARD_DB = {
                 "text": "Move all Energy from this Pok\u00e9mon to 1 of your Benched Pok\u00e9mon.",
                 "name": "Feathery Cyclone"
             }
-        ]
+        ],
+        "ability": None
     },
     "froakie": {
         "name": "Froakie",
@@ -1521,7 +1628,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Bubble"
             }
-        ]
+        ],
+        "ability": None
     },
     "frogadier": {
         "name": "Frogadier",
@@ -1538,7 +1646,8 @@ CARD_DB = {
                 "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
                 "name": "Bounce"
             }
-        ]
+        ],
+        "ability": None
     },
     "greninja": {
         "name": "Greninja",
@@ -1555,7 +1664,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Mist Slash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Water Shuriken",
+            "effect": "Once during your turn, you may do 20 damage to 1 of your opponent's Pok\u00e9mon."
+        }
     },
     "pyukumuku": {
         "name": "Pyukumuku",
@@ -1571,7 +1684,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Sprinkle Water"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Innards Out",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pok\u00e9mon, do 50 damage to the Attacking Pok\u00e9mon."
+        }
     },
     "bruxish": {
         "name": "Bruxish",
@@ -1588,7 +1705,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wave Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "snom": {
         "name": "Snom",
@@ -1604,7 +1722,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "frosmoth": {
         "name": "Frosmoth",
@@ -1621,7 +1740,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Powder Snow"
             }
-        ]
+        ],
+        "ability": None
     },
     "pikachu": {
         "name": "Pikachu",
@@ -1637,7 +1757,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Spark"
             }
-        ]
+        ],
+        "ability": None
     },
     "raichu": {
         "name": "Raichu",
@@ -1654,7 +1775,11 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Spark"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Resilience Link",
+            "effect": "If you have Arceus or Arceus ex in play, this Pok\u00e9mon takes -30 damage from attacks."
+        }
     },
     "pikachu ex": {
         "name": "Pikachu ex",
@@ -1672,7 +1797,8 @@ CARD_DB = {
                 "text": "Discard all Energy from this Pok\u00e9mon.",
                 "name": "Thunderbolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "magnemite": {
         "name": "Magnemite",
@@ -1688,7 +1814,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Lightning Ball"
             }
-        ]
+        ],
+        "ability": None
     },
     "magneton": {
         "name": "Magneton",
@@ -1704,7 +1831,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Spark"
             }
-        ]
+        ],
+        "ability": None
     },
     "voltorb": {
         "name": "Voltorb",
@@ -1720,7 +1848,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Big Explosion"
             }
-        ]
+        ],
+        "ability": None
     },
     "electrode": {
         "name": "Electrode",
@@ -1736,7 +1865,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rolling Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "electabuzz": {
         "name": "Electabuzz",
@@ -1752,7 +1882,8 @@ CARD_DB = {
                 "text": "Take a [L] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
                 "name": "Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "jolteon": {
         "name": "Jolteon",
@@ -1768,7 +1899,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon evolved during this turn, this attack does 20 more damage.",
                 "name": "Beginning Bolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "zapdos": {
         "name": "Zapdos",
@@ -1786,7 +1918,8 @@ CARD_DB = {
                 "text": "1 other Pok\u00e9mon (either yours or your opponent's) is chosen at random 1 time. Do 100 damage to the chosen Pok\u00e9mon.",
                 "name": "Heavy Thunder"
             }
-        ]
+        ],
+        "ability": None
     },
     "zapdos ex": {
         "name": "Zapdos ex",
@@ -1812,7 +1945,8 @@ CARD_DB = {
                 "text": "Flip 4 coins. This attack does 50 damage for each heads.",
                 "name": "Thundering Hurricane"
             }
-        ]
+        ],
+        "ability": None
     },
     "blitzle": {
         "name": "Blitzle",
@@ -1828,7 +1962,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tiny Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "zebstrika": {
         "name": "Zebstrika",
@@ -1846,7 +1981,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Electric Ball"
             }
-        ]
+        ],
+        "ability": None
     },
     "tynamo": {
         "name": "Tynamo",
@@ -1862,7 +1998,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tiny Bolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "eelektrik": {
         "name": "Eelektrik",
@@ -1879,7 +2016,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Electro Ball"
             }
-        ]
+        ],
+        "ability": None
     },
     "eelektross": {
         "name": "Eelektross",
@@ -1897,7 +2035,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 20 damage to itself.",
                 "name": "Wild Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "helioptile": {
         "name": "Helioptile",
@@ -1913,7 +2052,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Thunder Shock"
             }
-        ]
+        ],
+        "ability": None
     },
     "heliolisk": {
         "name": "Heliolisk",
@@ -1930,7 +2070,8 @@ CARD_DB = {
                 "text": "Discard all Energy from this Pok\u00e9mon.",
                 "name": "Thunderbolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "pincurchin": {
         "name": "Pincurchin",
@@ -1947,7 +2088,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Thunder Shock"
             }
-        ]
+        ],
+        "ability": None
     },
     "clefairy": {
         "name": "Clefairy",
@@ -1963,7 +2105,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "clefable": {
         "name": "Clefable",
@@ -1979,7 +2122,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Magical Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "abra": {
         "name": "Abra",
@@ -1995,7 +2139,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Psyshot"
             }
-        ]
+        ],
+        "ability": None
     },
     "kadabra": {
         "name": "Kadabra",
@@ -2011,7 +2156,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Psyshot"
             }
-        ]
+        ],
+        "ability": None
     },
     "alakazam": {
         "name": "Alakazam",
@@ -2028,7 +2174,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to each of your opponent's Benched Pok\u00e9mon that has any Energy attached.",
                 "name": "Psychic Suppression"
             }
-        ]
+        ],
+        "ability": None
     },
     "slowpoke": {
         "name": "Slowpoke",
@@ -2044,7 +2191,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "slowbro": {
         "name": "Slowbro",
@@ -2062,7 +2210,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Super Psy Bolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "gastly": {
         "name": "Gastly",
@@ -2078,7 +2227,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Suffocating Gas"
             }
-        ]
+        ],
+        "ability": None
     },
     "haunter": {
         "name": "Haunter",
@@ -2094,7 +2244,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Surprise Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "gengar": {
         "name": "Gengar",
@@ -2110,7 +2261,8 @@ CARD_DB = {
                 "text": "Your opponent can't use any Supporter cards from their hand during their next turn.",
                 "name": "Bother"
             }
-        ]
+        ],
+        "ability": None
     },
     "gengar ex": {
         "name": "Gengar ex",
@@ -2128,7 +2280,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spooky Shot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Shadowy Spellbind",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, your opponent can't use any Supporter cards from their hand."
+        }
     },
     "drowzee": {
         "name": "Drowzee",
@@ -2145,7 +2301,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mumble"
             }
-        ]
+        ],
+        "ability": None
     },
     "hypno": {
         "name": "Hypno",
@@ -2163,7 +2320,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Psypunch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Sleep Pendulum",
+            "effect": "Once during your turn, you may flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Asleep."
+        }
     },
     "mr. mime": {
         "name": "Mr. Mime",
@@ -2180,7 +2341,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Barrier Shove"
             }
-        ]
+        ],
+        "ability": None
     },
     "jynx": {
         "name": "Jynx",
@@ -2197,7 +2359,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Psychic"
             }
-        ]
+        ],
+        "ability": None
     },
     "mewtwo": {
         "name": "Mewtwo",
@@ -2216,7 +2379,8 @@ CARD_DB = {
                 "text": "Discard 2 [P] Energy from this Pok\u00e9mon.",
                 "name": "Power Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "mewtwo ex": {
         "name": "Mewtwo ex",
@@ -2244,7 +2408,8 @@ CARD_DB = {
                 "text": "Discard 2 [P] Energy from this Pok\u00e9mon.",
                 "name": "Psydrive"
             }
-        ]
+        ],
+        "ability": None
     },
     "ralts": {
         "name": "Ralts",
@@ -2260,7 +2425,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Confuse Ray"
             }
-        ]
+        ],
+        "ability": None
     },
     "kirlia": {
         "name": "Kirlia",
@@ -2276,7 +2442,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Psybeam"
             }
-        ]
+        ],
+        "ability": None
     },
     "gardevoir": {
         "name": "Gardevoir",
@@ -2293,7 +2460,8 @@ CARD_DB = {
                 "text": "Take 2 [P] Energy from your Energy Zone and attach it to 1 of your Benched [P] Pok\u00e9mon.",
                 "name": "Psy Turbo"
             }
-        ]
+        ],
+        "ability": None
     },
     "woobat": {
         "name": "Woobat",
@@ -2309,7 +2477,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gust"
             }
-        ]
+        ],
+        "ability": None
     },
     "swoobat": {
         "name": "Swoobat",
@@ -2325,7 +2494,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Psyshot"
             }
-        ]
+        ],
+        "ability": None
     },
     "golett": {
         "name": "Golett",
@@ -2341,7 +2511,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Stampede"
             }
-        ]
+        ],
+        "ability": None
     },
     "golurk": {
         "name": "Golurk",
@@ -2358,7 +2529,8 @@ CARD_DB = {
                 "text": "Reveal the top 3 cards of your deck. This attack does 60 damage for each Pok\u00e9mon with a Retreat Cost of 3 or more you find there. Shuffle the revealed cards back into your deck.",
                 "name": "Heavy Rocket"
             }
-        ]
+        ],
+        "ability": None
     },
     "sandshrew": {
         "name": "Sandshrew",
@@ -2374,7 +2546,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 20 damage for each heads.",
                 "name": "Double Scratch"
             }
-        ]
+        ],
+        "ability": None
     },
     "sandslash": {
         "name": "Sandslash",
@@ -2390,7 +2563,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 30 damage for each heads.",
                 "name": "Fury Swipes"
             }
-        ]
+        ],
+        "ability": None
     },
     "diglett": {
         "name": "Diglett",
@@ -2406,7 +2580,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "dugtrio": {
         "name": "Dugtrio",
@@ -2422,7 +2597,8 @@ CARD_DB = {
                 "text": "Discard the top card of your deck. If that card is a [F] Pok\u00e9mon, this attack does 60 more damage.",
                 "name": "Cliff Crumbler"
             }
-        ]
+        ],
+        "ability": None
     },
     "mankey": {
         "name": "Mankey",
@@ -2438,7 +2614,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Reckless Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "primeape": {
         "name": "Primeape",
@@ -2455,7 +2632,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has damage on it, this attack does 60 more damage.",
                 "name": "Fight Back"
             }
-        ]
+        ],
+        "ability": None
     },
     "machop": {
         "name": "Machop",
@@ -2471,7 +2649,8 @@ CARD_DB = {
                 "text": "Discard a Stadium in play.",
                 "name": "Shatter"
             }
-        ]
+        ],
+        "ability": None
     },
     "machoke": {
         "name": "Machoke",
@@ -2487,7 +2666,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Chop"
             }
-        ]
+        ],
+        "ability": None
     },
     "machamp": {
         "name": "Machamp",
@@ -2505,7 +2685,8 @@ CARD_DB = {
                 "text": "Flip 4 coins. This attack does 50 damage for each heads.",
                 "name": "Hurricane Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "machamp ex": {
         "name": "Machamp ex",
@@ -2523,7 +2704,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mega Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "geodude": {
         "name": "Geodude",
@@ -2539,7 +2721,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "graveler": {
         "name": "Graveler",
@@ -2556,7 +2739,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Lunge Out"
             }
-        ]
+        ],
+        "ability": None
     },
     "golem": {
         "name": "Golem",
@@ -2575,7 +2759,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -30 damage from attacks.",
                 "name": "Guard Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "onix": {
         "name": "Onix",
@@ -2593,7 +2778,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Tail Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "cubone": {
         "name": "Cubone",
@@ -2609,7 +2795,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "marowak": {
         "name": "Marowak",
@@ -2625,7 +2812,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bone Beatdown"
             }
-        ]
+        ],
+        "ability": None
     },
     "marowak ex": {
         "name": "Marowak ex",
@@ -2642,7 +2830,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 80 damage for each heads.",
                 "name": "Bonemerang"
             }
-        ]
+        ],
+        "ability": None
     },
     "hitmonlee": {
         "name": "Hitmonlee",
@@ -2658,7 +2847,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Stretch Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "hitmonchan": {
         "name": "Hitmonchan",
@@ -2674,7 +2864,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Jab"
             }
-        ]
+        ],
+        "ability": None
     },
     "rhyhorn": {
         "name": "Rhyhorn",
@@ -2691,7 +2882,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Horn Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "rhydon": {
         "name": "Rhydon",
@@ -2709,7 +2901,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wrack Down"
             }
-        ]
+        ],
+        "ability": None
     },
     "kabuto": {
         "name": "Kabuto",
@@ -2725,7 +2918,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Shell Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "kabutops": {
         "name": "Kabutops",
@@ -2741,7 +2935,8 @@ CARD_DB = {
                 "text": "Heal from this Pok\u00e9mon the same amount of damage you did to your opponent's Active Pok\u00e9mon.",
                 "name": "Leech Life"
             }
-        ]
+        ],
+        "ability": None
     },
     "mienfoo": {
         "name": "Mienfoo",
@@ -2757,7 +2952,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Chop"
             }
-        ]
+        ],
+        "ability": None
     },
     "mienshao": {
         "name": "Mienshao",
@@ -2773,7 +2969,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Low Sweep"
             }
-        ]
+        ],
+        "ability": None
     },
     "clobbopus": {
         "name": "Clobbopus",
@@ -2790,7 +2987,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Knuckle Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "grapploct": {
         "name": "Grapploct",
@@ -2808,7 +3006,8 @@ CARD_DB = {
                 "text": "Switch out your opponent's Active Pok\u00e9mon to the Bench. (Your opponent chooses the new Active Pok\u00e9mon.)",
                 "name": "Knock Back"
             }
-        ]
+        ],
+        "ability": None
     },
     "ekans": {
         "name": "Ekans",
@@ -2824,7 +3023,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "arbok": {
         "name": "Arbok",
@@ -2841,7 +3041,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
                 "name": "Corner"
             }
-        ]
+        ],
+        "ability": None
     },
     "nidoran\u2640": {
         "name": "Nidoran\u2640",
@@ -2857,7 +3058,8 @@ CARD_DB = {
                 "text": "Put 1 random Nidoran\u2642 from your deck onto your Bench.",
                 "name": "Call for Family"
             }
-        ]
+        ],
+        "ability": None
     },
     "nidorina": {
         "name": "Nidorina",
@@ -2873,7 +3075,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "nidoqueen": {
         "name": "Nidoqueen",
@@ -2891,7 +3094,8 @@ CARD_DB = {
                 "text": "This attack does 50 more damage for each of your Benched Nidoking.",
                 "name": "Lovestrike"
             }
-        ]
+        ],
+        "ability": None
     },
     "nidoran\u2642": {
         "name": "Nidoran\u2642",
@@ -2907,7 +3111,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "nidorino": {
         "name": "Nidorino",
@@ -2924,7 +3129,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Horn Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "nidoking": {
         "name": "Nidoking",
@@ -2942,7 +3148,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Horn"
             }
-        ]
+        ],
+        "ability": None
     },
     "zubat": {
         "name": "Zubat",
@@ -2958,7 +3165,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "golbat": {
         "name": "Golbat",
@@ -2974,7 +3182,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "grimer": {
         "name": "Grimer",
@@ -2991,7 +3200,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sludge Bomb"
             }
-        ]
+        ],
+        "ability": None
     },
     "muk": {
         "name": "Muk",
@@ -3009,7 +3219,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Gunk Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "koffing": {
         "name": "Koffing",
@@ -3025,7 +3236,8 @@ CARD_DB = {
                 "text": "Put 1 random Koffing from your deck onto your Bench.",
                 "name": "Division"
             }
-        ]
+        ],
+        "ability": None
     },
     "weezing": {
         "name": "Weezing",
@@ -3042,7 +3254,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
                 "name": "Smokescreen"
             }
-        ]
+        ],
+        "ability": None
     },
     "mawile": {
         "name": "Mawile",
@@ -3059,7 +3272,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Cavernous Chomp"
             }
-        ]
+        ],
+        "ability": None
     },
     "pawniard": {
         "name": "Pawniard",
@@ -3075,7 +3289,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Pierce"
             }
-        ]
+        ],
+        "ability": None
     },
     "bisharp": {
         "name": "Bisharp",
@@ -3092,7 +3307,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Metal Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "meltan": {
         "name": "Meltan",
@@ -3108,7 +3324,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beam"
             }
-        ]
+        ],
+        "ability": None
     },
     "melmetal": {
         "name": "Melmetal",
@@ -3126,7 +3343,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mega Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "dratini": {
         "name": "Dratini",
@@ -3142,7 +3360,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "dragonair": {
         "name": "Dragonair",
@@ -3158,7 +3377,8 @@ CARD_DB = {
                 "text": "Heal 30 damage from this Pok\u00e9mon.",
                 "name": "Shed Skin"
             }
-        ]
+        ],
+        "ability": None
     },
     "dragonite": {
         "name": "Dragonite",
@@ -3177,7 +3397,8 @@ CARD_DB = {
                 "text": "1 of your opponent's Pok\u00e9mon is chosen at random 4 times. For each time a Pok\u00e9mon was chosen, do 50 damage to it.",
                 "name": "Draco Meteor"
             }
-        ]
+        ],
+        "ability": None
     },
     "pidgey": {
         "name": "Pidgey",
@@ -3194,7 +3415,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "pidgeotto": {
         "name": "Pidgeotto",
@@ -3211,7 +3433,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Speed Wing"
             }
-        ]
+        ],
+        "ability": None
     },
     "pidgeot": {
         "name": "Pidgeot",
@@ -3228,7 +3451,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. For each heads, discard a random Energy from your opponent's Active Pok\u00e9mon. If both of them are tails, this attack does nothing.",
                 "name": "Twister"
             }
-        ]
+        ],
+        "ability": None
     },
     "rattata": {
         "name": "Rattata",
@@ -3244,7 +3468,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "raticate": {
         "name": "Raticate",
@@ -3261,7 +3486,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "spearow": {
         "name": "Spearow",
@@ -3277,7 +3503,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Glide"
             }
-        ]
+        ],
+        "ability": None
     },
     "fearow": {
         "name": "Fearow",
@@ -3293,7 +3520,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is a [G] Pok\u00e9mon, this attack does 40 more damage.",
                 "name": "Peck Bugs"
             }
-        ]
+        ],
+        "ability": None
     },
     "jigglypuff": {
         "name": "Jigglypuff",
@@ -3309,7 +3537,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Sing"
             }
-        ]
+        ],
+        "ability": None
     },
     "wigglytuff": {
         "name": "Wigglytuff",
@@ -3326,7 +3555,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Gentle Slap"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Comforting Song",
+            "effect": "Once during your turn, you may heal 20 damage from your Active Pok\u00e9mon."
+        }
     },
     "wigglytuff ex": {
         "name": "Wigglytuff ex",
@@ -3344,7 +3577,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Sleepy Song"
             }
-        ]
+        ],
+        "ability": None
     },
     "meowth": {
         "name": "Meowth",
@@ -3360,7 +3594,8 @@ CARD_DB = {
                 "text": "Draw a card.",
                 "name": "Pay Day"
             }
-        ]
+        ],
+        "ability": None
     },
     "persian": {
         "name": "Persian",
@@ -3377,7 +3612,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "farfetch'd": {
         "name": "Farfetch'd",
@@ -3393,7 +3629,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Leek Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "doduo": {
         "name": "Doduo",
@@ -3409,7 +3646,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "dodrio": {
         "name": "Dodrio",
@@ -3425,7 +3663,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Drill Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "lickitung": {
         "name": "Lickitung",
@@ -3443,7 +3682,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tongue Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "chansey": {
         "name": "Chansey",
@@ -3461,7 +3701,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gentle Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "kangaskhan": {
         "name": "Kangaskhan",
@@ -3477,7 +3718,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is an Evolution Pok\u00e9mon, this attack does 40 more damage.",
                 "name": "Cross-Cut"
             }
-        ]
+        ],
+        "ability": None
     },
     "tauros": {
         "name": "Tauros",
@@ -3495,7 +3737,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is a Pok\u00e9mon ex, this attack does 80 more damage.",
                 "name": "Fighting Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "ditto": {
         "name": "Ditto",
@@ -3511,7 +3754,8 @@ CARD_DB = {
                 "text": "Choose 1 of your Benched Pok\u00e9mon's attacks, except any Pok\u00e9mon ex, and use it as this attack. If this Pok\u00e9mon doesn't have the necessary Energy to use that attack, this attack does nothing.",
                 "name": "Copy a Friend"
             }
-        ]
+        ],
+        "ability": None
     },
     "eevee": {
         "name": "Eevee",
@@ -3527,7 +3771,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Stampede"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Boosted Evolution",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, it can evolve during your first turn or the turn you play it."
+        }
     },
     "porygon": {
         "name": "Porygon",
@@ -3543,7 +3791,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Stiffen"
             }
-        ]
+        ],
+        "ability": None
     },
     "aerodactyl": {
         "name": "Aerodactyl",
@@ -3560,7 +3809,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent shuffles their Active Pok\u00e9mon into their deck.",
                 "name": "Primal Wingbeat"
             }
-        ]
+        ],
+        "ability": None
     },
     "snorlax": {
         "name": "Snorlax",
@@ -3579,7 +3829,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon is now Asleep.",
                 "name": "Collapse"
             }
-        ]
+        ],
+        "ability": None
     },
     "minccino": {
         "name": "Minccino",
@@ -3595,7 +3846,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Pound"
             }
-        ]
+        ],
+        "ability": None
     },
     "cinccino": {
         "name": "Cinccino",
@@ -3613,7 +3865,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage for each of your Benched Pok\u00e9mon.",
                 "name": "Do the Wave"
             }
-        ]
+        ],
+        "ability": None
     },
     "wooloo": {
         "name": "Wooloo",
@@ -3630,7 +3883,8 @@ CARD_DB = {
                 "text": "Flip a coin until you get tails. This attack does 40 damage for each heads.",
                 "name": "Continuous Tumble"
             }
-        ]
+        ],
+        "ability": None
     },
     "dubwool": {
         "name": "Dubwool",
@@ -3648,7 +3902,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Boundless Power"
             }
-        ]
+        ],
+        "ability": None
     },
     "mew": {
         "name": "Mew",
@@ -3664,7 +3919,8 @@ CARD_DB = {
                 "text": "Your opponent reveals their hand.",
                 "name": "Psy Report"
             }
-        ]
+        ],
+        "ability": None
     },
     "celebi ex": {
         "name": "Celebi ex",
@@ -3681,7 +3937,8 @@ CARD_DB = {
                 "text": "Flip a coin for each Energy attached to this Pok\u00e9mon. This attack does 50 damage for each heads.",
                 "name": "Powerful Bloom"
             }
-        ]
+        ],
+        "ability": None
     },
     "snivy": {
         "name": "Snivy",
@@ -3697,7 +3954,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "servine": {
         "name": "Servine",
@@ -3714,7 +3972,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "serperior": {
         "name": "Serperior",
@@ -3733,7 +3992,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Solar Beam"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Jungle Totem",
+            "effect": "Each [G] Energy attached to your [G] Pok\u00e9mon provides 2 [G] Energy. This effect doesn't stack."
+        }
     },
     "morelull": {
         "name": "Morelull",
@@ -3749,7 +4012,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hook"
             }
-        ]
+        ],
+        "ability": None
     },
     "shiinotic": {
         "name": "Shiinotic",
@@ -3766,7 +4030,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Gentle Slap"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Illuminate",
+            "effect": "Once during your turn, you may put a random Pok\u00e9mon from your deck into your hand."
+        }
     },
     "dhelmise": {
         "name": "Dhelmise",
@@ -3782,7 +4050,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 3 extra [G] Energy attached, this attack does 70 more damage.",
                 "name": "Energy Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "larvesta": {
         "name": "Larvesta",
@@ -3799,7 +4068,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Combustion"
             }
-        ]
+        ],
+        "ability": None
     },
     "volcarona": {
         "name": "Volcarona",
@@ -3817,7 +4087,8 @@ CARD_DB = {
                 "text": "Discard 2 [R] Energy from this Pok\u00e9mon. This attack does 80 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Volcanic Ash"
             }
-        ]
+        ],
+        "ability": None
     },
     "gyarados ex": {
         "name": "Gyarados ex",
@@ -3836,7 +4107,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from among the Energy attached to all Pok\u00e9mon (both yours and your opponent's).",
                 "name": "Rampaging Whirlpool"
             }
-        ]
+        ],
+        "ability": None
     },
     "finneon": {
         "name": "Finneon",
@@ -3852,7 +4124,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Elegant Swim"
             }
-        ]
+        ],
+        "ability": None
     },
     "lumineon": {
         "name": "Lumineon",
@@ -3868,7 +4141,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Waterfall"
             }
-        ]
+        ],
+        "ability": None
     },
     "chewtle": {
         "name": "Chewtle",
@@ -3886,7 +4160,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "drednaw": {
         "name": "Drednaw",
@@ -3905,7 +4180,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heavy Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "cramorant": {
         "name": "Cramorant",
@@ -3921,7 +4197,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Spit-Out Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "joltik": {
         "name": "Joltik",
@@ -3937,7 +4214,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Attach"
             }
-        ]
+        ],
+        "ability": None
     },
     "galvantula": {
         "name": "Galvantula",
@@ -3953,7 +4231,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Electro Ball"
             }
-        ]
+        ],
+        "ability": None
     },
     "dedenne": {
         "name": "Dedenne",
@@ -3969,7 +4248,8 @@ CARD_DB = {
                 "text": "Discard a [L] Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Electric Nibbling"
             }
-        ]
+        ],
+        "ability": None
     },
     "mew ex": {
         "name": "Mew ex",
@@ -3995,7 +4275,8 @@ CARD_DB = {
                 "text": "Choose 1 of your opponent's Active Pok\u00e9mon's attacks and use it as this attack.",
                 "name": "Genome Hacking"
             }
-        ]
+        ],
+        "ability": None
     },
     "sigilyph": {
         "name": "Sigilyph",
@@ -4011,7 +4292,8 @@ CARD_DB = {
                 "text": "Draw a card.",
                 "name": "Spike Draw"
             }
-        ]
+        ],
+        "ability": None
     },
     "elgyem": {
         "name": "Elgyem",
@@ -4027,7 +4309,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "beheeyem": {
         "name": "Beheeyem",
@@ -4043,7 +4326,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Mind Jack"
             }
-        ]
+        ],
+        "ability": None
     },
     "flab\u00e9b\u00e9": {
         "name": "Flab\u00e9b\u00e9",
@@ -4059,7 +4343,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Hypnotic Gaze"
             }
-        ]
+        ],
+        "ability": None
     },
     "floette": {
         "name": "Floette",
@@ -4075,7 +4360,8 @@ CARD_DB = {
                 "text": "Heal 10 damage from this Pok\u00e9mon.",
                 "name": "Leaf Drain"
             }
-        ]
+        ],
+        "ability": None
     },
     "florges": {
         "name": "Florges",
@@ -4092,7 +4378,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from each of your Pok\u00e9mon.",
                 "name": "Bloomshine"
             }
-        ]
+        ],
+        "ability": None
     },
     "swirlix": {
         "name": "Swirlix",
@@ -4108,7 +4395,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Cotton Guard"
             }
-        ]
+        ],
+        "ability": None
     },
     "slurpuff": {
         "name": "Slurpuff",
@@ -4125,7 +4413,8 @@ CARD_DB = {
                 "text": "Heal 30 damage from this Pok\u00e9mon.",
                 "name": "Draining Kiss"
             }
-        ]
+        ],
+        "ability": None
     },
     "aerodactyl ex": {
         "name": "Aerodactyl ex",
@@ -4142,7 +4431,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Land Crush"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Primeval Law",
+            "effect": "Your opponent can't play any Pok\u00e9mon from their hand to evolve their Active Pok\u00e9mon."
+        }
     },
     "marshadow": {
         "name": "Marshadow",
@@ -4159,7 +4452,8 @@ CARD_DB = {
                 "text": "If any of your Pok\u00e9mon were Knocked Out by damage from an attack during your opponent's last turn, this attack does 60 more damage.",
                 "name": "Revenge"
             }
-        ]
+        ],
+        "ability": None
     },
     "stonjourner": {
         "name": "Stonjourner",
@@ -4177,7 +4471,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mega Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "purrloin": {
         "name": "Purrloin",
@@ -4193,7 +4488,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, look at a random card from your opponent's hand and shuffle it into their deck.",
                 "name": "Whiny Voice"
             }
-        ]
+        ],
+        "ability": None
     },
     "liepard": {
         "name": "Liepard",
@@ -4209,7 +4505,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Fasten Claws"
             }
-        ]
+        ],
+        "ability": None
     },
     "venipede": {
         "name": "Venipede",
@@ -4225,7 +4522,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "whirlipede": {
         "name": "Whirlipede",
@@ -4241,7 +4539,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "scolipede": {
         "name": "Scolipede",
@@ -4258,7 +4557,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is Poisoned, this attack does 50 more damage.",
                 "name": "Venoshock"
             }
-        ]
+        ],
+        "ability": None
     },
     "druddigon": {
         "name": "Druddigon",
@@ -4277,7 +4577,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. If both of them are tails, this attack does nothing.",
                 "name": "Giga Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "pidgeot ex": {
         "name": "Pidgeot ex",
@@ -4295,7 +4596,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Scattering Cyclone"
             }
-        ]
+        ],
+        "ability": None
     },
     "chatot": {
         "name": "Chatot",
@@ -4312,7 +4614,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Sleepy Song"
             }
-        ]
+        ],
+        "ability": None
     },
     "bellossom": {
         "name": "Bellossom",
@@ -4329,7 +4632,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 60 damage for each heads. This Pok\u00e9mon is now Confused.",
                 "name": "Petal Dance"
             }
-        ]
+        ],
+        "ability": None
     },
     "tangrowth": {
         "name": "Tangrowth",
@@ -4347,7 +4651,8 @@ CARD_DB = {
                 "text": "This attack does 40 more damage for each Energy in your opponent's Active Pok\u00e9mon's Retreat Cost.",
                 "name": "Grass Knot"
             }
-        ]
+        ],
+        "ability": None
     },
     "yanma": {
         "name": "Yanma",
@@ -4363,7 +4668,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flap"
             }
-        ]
+        ],
+        "ability": None
     },
     "yanmega ex": {
         "name": "Yanmega ex",
@@ -4381,7 +4687,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from this Pok\u00e9mon.",
                 "name": "Air Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "roselia": {
         "name": "Roselia",
@@ -4397,7 +4704,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Trip Over"
             }
-        ]
+        ],
+        "ability": None
     },
     "roserade": {
         "name": "Roserade",
@@ -4414,7 +4722,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned. During your opponent's next turn, that Pok\u00e9mon can't retreat.",
                 "name": "Poison Ring"
             }
-        ]
+        ],
+        "ability": None
     },
     "turtwig": {
         "name": "Turtwig",
@@ -4431,7 +4740,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "grotle": {
         "name": "Grotle",
@@ -4449,7 +4759,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "torterra": {
         "name": "Torterra",
@@ -4468,7 +4779,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't use Frenzy Plant.",
                 "name": "Frenzy Plant"
             }
-        ]
+        ],
+        "ability": None
     },
     "kricketot": {
         "name": "Kricketot",
@@ -4484,7 +4796,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "kricketune": {
         "name": "Kricketune",
@@ -4501,7 +4814,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Entrancing Melody"
             }
-        ]
+        ],
+        "ability": None
     },
     "burmy": {
         "name": "Burmy",
@@ -4518,7 +4832,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hang Down"
             }
-        ]
+        ],
+        "ability": None
     },
     "wormadam": {
         "name": "Wormadam",
@@ -4535,7 +4850,8 @@ CARD_DB = {
                 "text": "Flip a coin until you get tails. This attack does 30 more damage for each heads.",
                 "name": "Iron Head"
             }
-        ]
+        ],
+        "ability": None
     },
     "combee": {
         "name": "Combee",
@@ -4551,7 +4867,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "vespiquen": {
         "name": "Vespiquen",
@@ -4569,7 +4886,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 30 damage to itself.",
                 "name": "Reckless Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "carnivine": {
         "name": "Carnivine",
@@ -4585,7 +4903,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Power Link",
+            "effect": "If you have Arceus or Arceus ex in play, attacks used by this Pok\u00e9mon do +30 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "leafeon": {
         "name": "Leafeon",
@@ -4601,7 +4923,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each [G] Energy attached to this Pok\u00e9mon.",
                 "name": "Leaf Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "mow rotom": {
         "name": "Mow Rotom",
@@ -4618,7 +4941,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Energy Cutoff"
             }
-        ]
+        ],
+        "ability": None
     },
     "shaymin": {
         "name": "Shaymin",
@@ -4635,7 +4959,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Flop"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fragrant Flower Garden",
+            "effect": "Once during your turn, you may heal 10 damage from each of your Pok\u00e9mon."
+        }
     },
     "magmortar": {
         "name": "Magmortar",
@@ -4653,7 +4981,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
                 "name": "Smoke Bomb"
             }
-        ]
+        ],
+        "ability": None
     },
     "slugma": {
         "name": "Slugma",
@@ -4670,7 +4999,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Combustion"
             }
-        ]
+        ],
+        "ability": None
     },
     "magcargo": {
         "name": "Magcargo",
@@ -4688,7 +5018,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heat Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "chimchar": {
         "name": "Chimchar",
@@ -4704,7 +5035,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Scratch"
             }
-        ]
+        ],
+        "ability": None
     },
     "monferno": {
         "name": "Monferno",
@@ -4720,7 +5052,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Fiery Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "infernape ex": {
         "name": "Infernape ex",
@@ -4737,7 +5070,8 @@ CARD_DB = {
                 "text": "Discard all [R] Energy from this Pok\u00e9mon.",
                 "name": "Flare Blitz"
             }
-        ]
+        ],
+        "ability": None
     },
     "heat rotom": {
         "name": "Heat Rotom",
@@ -4754,7 +5088,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Heat Breath"
             }
-        ]
+        ],
+        "ability": None
     },
     "swinub": {
         "name": "Swinub",
@@ -4771,7 +5106,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mud-Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "piloswine": {
         "name": "Piloswine",
@@ -4789,7 +5125,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt Bounce"
             }
-        ]
+        ],
+        "ability": None
     },
     "mamoswine": {
         "name": "Mamoswine",
@@ -4808,7 +5145,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to each of your Benched Pok\u00e9mon.",
                 "name": "Earthquake"
             }
-        ]
+        ],
+        "ability": None
     },
     "regice": {
         "name": "Regice",
@@ -4825,7 +5163,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Frost Smash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Crystal Body",
+            "effect": "Prevent all effects of attacks used by your opponent's Pok\u00e9mon done to this Pok\u00e9mon."
+        }
     },
     "piplup": {
         "name": "Piplup",
@@ -4841,7 +5183,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Nap"
             }
-        ]
+        ],
+        "ability": None
     },
     "prinplup": {
         "name": "Prinplup",
@@ -4858,7 +5201,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": None
     },
     "empoleon": {
         "name": "Empoleon",
@@ -4876,7 +5220,8 @@ CARD_DB = {
                 "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Aqua Jet"
             }
-        ]
+        ],
+        "ability": None
     },
     "buizel": {
         "name": "Buizel",
@@ -4892,7 +5237,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "floatzel": {
         "name": "Floatzel",
@@ -4908,7 +5254,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon has damage on it, this attack does 60 more damage.",
                 "name": "Attack the Wound"
             }
-        ]
+        ],
+        "ability": None
     },
     "shellos": {
         "name": "Shellos",
@@ -4925,7 +5272,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mud-Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "gastrodon": {
         "name": "Gastrodon",
@@ -4943,7 +5291,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Muddy Water"
             }
-        ]
+        ],
+        "ability": None
     },
     "snover": {
         "name": "Snover",
@@ -4960,7 +5309,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Corkscrew Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "abomasnow": {
         "name": "Abomasnow",
@@ -4978,7 +5328,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Mega Punch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Vigor Link",
+            "effect": "If you have Arceus or Arceus ex in play, attacks used by this Pok\u00e9mon cost 1 less [C] Energy."
+        }
     },
     "glaceon": {
         "name": "Glaceon",
@@ -4995,7 +5349,8 @@ CARD_DB = {
                 "text": "This attack does 50 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Ice Blade"
             }
-        ]
+        ],
+        "ability": None
     },
     "wash rotom": {
         "name": "Wash Rotom",
@@ -5011,7 +5366,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wave Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "frost rotom": {
         "name": "Frost Rotom",
@@ -5028,7 +5384,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Blizzard"
             }
-        ]
+        ],
+        "ability": None
     },
     "palkia ex": {
         "name": "Palkia ex",
@@ -5055,7 +5412,8 @@ CARD_DB = {
                 "text": "Discard 3 [W] Energy from this Pok\u00e9mon. This attack also does 20 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Dimensional Storm"
             }
-        ]
+        ],
+        "ability": None
     },
     "manaphy": {
         "name": "Manaphy",
@@ -5071,7 +5429,8 @@ CARD_DB = {
                 "text": "Choose 2 of your Benched Pok\u00e9mon. For each of those Pok\u00e9mon, take a [W] Energy from your Energy Zone and attach it to that Pok\u00e9mon.",
                 "name": "Oceanic Gift"
             }
-        ]
+        ],
+        "ability": None
     },
     "magnezone": {
         "name": "Magnezone",
@@ -5089,7 +5448,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
                 "name": "Mirror Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "electivire": {
         "name": "Electivire",
@@ -5106,7 +5466,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 2 extra [L] Energy attached, this attack does 80 more damage.",
                 "name": "Exciting Voltage"
             }
-        ]
+        ],
+        "ability": None
     },
     "shinx": {
         "name": "Shinx",
@@ -5122,7 +5483,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flop"
             }
-        ]
+        ],
+        "ability": None
     },
     "luxio": {
         "name": "Luxio",
@@ -5138,7 +5500,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "luxray": {
         "name": "Luxray",
@@ -5155,7 +5518,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your Benched Pok\u00e9mon.",
                 "name": "Flash Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "pachirisu ex": {
         "name": "Pachirisu ex",
@@ -5172,7 +5536,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, this attack does 40 more damage.",
                 "name": "Sparking Gadget"
             }
-        ]
+        ],
+        "ability": None
     },
     "rotom": {
         "name": "Rotom",
@@ -5188,7 +5553,11 @@ CARD_DB = {
                 "text": "This attack does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Dash Attack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Speed Link",
+            "effect": "If you have Arceus or Arceus ex in play, this Pok\u00e9mon has no Retreat Cost."
+        }
     },
     "togepi": {
         "name": "Togepi",
@@ -5204,7 +5573,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Pound"
             }
-        ]
+        ],
+        "ability": None
     },
     "togetic": {
         "name": "Togetic",
@@ -5221,7 +5591,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Speed Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "togekiss": {
         "name": "Togekiss",
@@ -5239,7 +5610,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Magical Shot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Celestial Blessing",
+            "effect": "If any damage is done to this Pok\u00e9mon by attacks, flip a coin. If heads, prevent that damage."
+        }
     },
     "misdreavus": {
         "name": "Misdreavus",
@@ -5255,7 +5630,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Confuse Ray"
             }
-        ]
+        ],
+        "ability": None
     },
     "mismagius ex": {
         "name": "Mismagius ex",
@@ -5272,7 +5648,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Magical Delusion"
             }
-        ]
+        ],
+        "ability": None
     },
     "duskull": {
         "name": "Duskull",
@@ -5288,7 +5665,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Ambush"
             }
-        ]
+        ],
+        "ability": None
     },
     "dusclops": {
         "name": "Dusclops",
@@ -5304,7 +5682,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Will-O-Wisp"
             }
-        ]
+        ],
+        "ability": None
     },
     "dusknoir": {
         "name": "Dusknoir",
@@ -5321,7 +5700,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Hammer In"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fade into Darkness",
+            "effect": "When this Pok\u00e9mon is Knocked Out, flip a coin. If heads, your opponent can't get any points for it."
+        }
     },
     "drifloon": {
         "name": "Drifloon",
@@ -5337,7 +5720,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Wind Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "drifblim": {
         "name": "Drifblim",
@@ -5354,7 +5738,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Energy attached to this Pok\u00e9mon.",
                 "name": "Balloon Barrage"
             }
-        ]
+        ],
+        "ability": None
     },
     "uxie": {
         "name": "Uxie",
@@ -5370,7 +5755,8 @@ CARD_DB = {
                 "text": "Take a [P] Energy from your Energy Zone and attach it to Mesprit or Azelf.",
                 "name": "Mind Boost"
             }
-        ]
+        ],
+        "ability": None
     },
     "mesprit": {
         "name": "Mesprit",
@@ -5388,7 +5774,8 @@ CARD_DB = {
                 "text": "You can use this attack only if you have Uxie and Azelf on your Bench. Discard all Energy from this Pok\u00e9mon.",
                 "name": "Supreme Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "azelf": {
         "name": "Azelf",
@@ -5404,7 +5791,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Psychic Arrow"
             }
-        ]
+        ],
+        "ability": None
     },
     "giratina": {
         "name": "Giratina",
@@ -5422,7 +5810,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spooky Shot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Levitate",
+            "effect": "If this Pok\u00e9mon has any Energy attached, it has no Retreat Cost."
+        }
     },
     "cresselia": {
         "name": "Cresselia",
@@ -5439,7 +5831,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Moonlight Gain"
             }
-        ]
+        ],
+        "ability": None
     },
     "rhyperior": {
         "name": "Rhyperior",
@@ -5458,7 +5851,8 @@ CARD_DB = {
                 "text": "Discard the top 3 cards of your deck.",
                 "name": "Mountain Swing"
             }
-        ]
+        ],
+        "ability": None
     },
     "gligar": {
         "name": "Gligar",
@@ -5474,7 +5868,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Glide"
             }
-        ]
+        ],
+        "ability": None
     },
     "gliscor": {
         "name": "Gliscor",
@@ -5491,7 +5886,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sharp Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "hitmontop": {
         "name": "Hitmontop",
@@ -5507,7 +5903,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Piercing Spin"
             }
-        ]
+        ],
+        "ability": None
     },
     "nosepass": {
         "name": "Nosepass",
@@ -5524,7 +5921,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks.",
                 "name": "Iron Defense"
             }
-        ]
+        ],
+        "ability": None
     },
     "regirock": {
         "name": "Regirock",
@@ -5543,7 +5941,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Boulder Crush"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Exoskeleton",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
+        }
     },
     "cranidos": {
         "name": "Cranidos",
@@ -5559,7 +5961,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "rampardos": {
         "name": "Rampardos",
@@ -5575,7 +5978,8 @@ CARD_DB = {
                 "text": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this attack, this Pok\u00e9mon also does 50 damage to itself.",
                 "name": "Head Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "riolu": {
         "name": "Riolu",
@@ -5592,7 +5996,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "lucario": {
         "name": "Lucario",
@@ -5609,7 +6014,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Submarine Blow"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fighting Coach",
+            "effect": "Attacks used by your [F] Pok\u00e9mon do +20 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "hippopotas": {
         "name": "Hippopotas",
@@ -5626,7 +6035,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mud Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "hippowdon": {
         "name": "Hippowdon",
@@ -5644,7 +6054,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, during your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Crashing Fangs"
             }
-        ]
+        ],
+        "ability": None
     },
     "gallade ex": {
         "name": "Gallade ex",
@@ -5661,7 +6072,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Energized Blade"
             }
-        ]
+        ],
+        "ability": None
     },
     "murkrow": {
         "name": "Murkrow",
@@ -5678,7 +6090,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Glide"
             }
-        ]
+        ],
+        "ability": None
     },
     "honchkrow": {
         "name": "Honchkrow",
@@ -5695,7 +6108,8 @@ CARD_DB = {
                 "text": "This attack does 40 more damage for each of your opponent's Pok\u00e9mon in play that has an Ability.",
                 "name": "Evil Admonition"
             }
-        ]
+        ],
+        "ability": None
     },
     "sneasel": {
         "name": "Sneasel",
@@ -5711,7 +6125,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 20 damage for each heads.",
                 "name": "Double Scratch"
             }
-        ]
+        ],
+        "ability": None
     },
     "weavile ex": {
         "name": "Weavile ex",
@@ -5727,7 +6142,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon has damage on it, this attack does 40 more damage.",
                 "name": "Scratching Nails"
             }
-        ]
+        ],
+        "ability": None
     },
     "poochyena": {
         "name": "Poochyena",
@@ -5743,7 +6159,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "mightyena": {
         "name": "Mightyena",
@@ -5760,7 +6177,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Darkness Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "stunky": {
         "name": "Stunky",
@@ -5777,7 +6195,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Spray Fluid"
             }
-        ]
+        ],
+        "ability": None
     },
     "skuntank": {
         "name": "Skuntank",
@@ -5795,7 +6214,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
                 "name": "Smokescreen Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "spiritomb": {
         "name": "Spiritomb",
@@ -5812,7 +6232,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spooky Shot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Final Scream",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pok\u00e9mon, do 10 damage to each of your opponent's Pok\u00e9mon."
+        }
     },
     "skorupi": {
         "name": "Skorupi",
@@ -5828,7 +6252,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "drapion": {
         "name": "Drapion",
@@ -5846,7 +6271,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Poisoned and Paralyzed.",
                 "name": "Stun Poison"
             }
-        ]
+        ],
+        "ability": None
     },
     "croagunk": {
         "name": "Croagunk",
@@ -5862,7 +6288,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "toxicroak": {
         "name": "Toxicroak",
@@ -5878,7 +6305,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned. Do 20 damage to this Pok\u00e9mon instead of the usual amount for this Special Condition.",
                 "name": "Toxic"
             }
-        ]
+        ],
+        "ability": None
     },
     "darkrai": {
         "name": "Darkrai",
@@ -5896,7 +6324,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
                 "name": "Shadow Cage"
             }
-        ]
+        ],
+        "ability": None
     },
     "darkrai ex": {
         "name": "Darkrai ex",
@@ -5914,7 +6343,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Dark Prism"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Nightmare Aura",
+            "effect": "Whenever you attach a [D] Energy from your Energy Zone to this Pok\u00e9mon, do 20 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "skarmory": {
         "name": "Skarmory",
@@ -5930,7 +6363,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, this attack does 30 more damage.",
                 "name": "Metal Arms"
             }
-        ]
+        ],
+        "ability": None
     },
     "registeel": {
         "name": "Registeel",
@@ -5948,7 +6382,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Metal Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "shieldon": {
         "name": "Shieldon",
@@ -5965,7 +6400,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "bastiodon": {
         "name": "Bastiodon",
@@ -5983,7 +6419,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbang"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Guarded Grill",
+            "effect": "If any damage is done to this Pok\u00e9mon by attacks, flip a coin. If heads, this Pok\u00e9mon takes -100 damage from that attack."
+        }
     },
     "bronzor": {
         "name": "Bronzor",
@@ -5999,7 +6439,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "bronzong": {
         "name": "Bronzong",
@@ -6017,7 +6458,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Psychic"
             }
-        ]
+        ],
+        "ability": None
     },
     "probopass": {
         "name": "Probopass",
@@ -6034,7 +6476,8 @@ CARD_DB = {
                 "text": "Take 2 [M] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon.",
                 "name": "Metallic Turbo"
             }
-        ]
+        ],
+        "ability": None
     },
     "dialga ex": {
         "name": "Dialga ex",
@@ -6062,7 +6505,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heavy Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "heatran": {
         "name": "Heatran",
@@ -6079,7 +6523,11 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has damage on it, this attack does 40 more damage.",
                 "name": "Ragin' Mad Strike"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Speed Link",
+            "effect": "If you have Arceus or Arceus ex in play, this Pok\u00e9mon has no Retreat Cost."
+        }
     },
     "gible": {
         "name": "Gible",
@@ -6095,7 +6543,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "gabite": {
         "name": "Gabite",
@@ -6111,7 +6560,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sharp Scythe"
             }
-        ]
+        ],
+        "ability": None
     },
     "garchomp": {
         "name": "Garchomp",
@@ -6128,7 +6578,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Dragon Claw"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Reckless Shearing",
+            "effect": "You must discard a card from your hand in order to use this Ability. Once during your turn, you may draw a card."
+        }
     },
     "lickilicky ex": {
         "name": "Lickilicky ex",
@@ -6147,7 +6601,8 @@ CARD_DB = {
                 "text": "Flip a coin until you get tails. This attack does 40 more damage for each heads.",
                 "name": "Licking Fury"
             }
-        ]
+        ],
+        "ability": None
     },
     "porygon2": {
         "name": "Porygon2",
@@ -6164,7 +6619,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Speed Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "porygon-z": {
         "name": "Porygon-Z",
@@ -6182,7 +6638,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Trainer card in your opponent's deck.",
                 "name": "Cyberjack"
             }
-        ]
+        ],
+        "ability": None
     },
     "aipom": {
         "name": "Aipom",
@@ -6198,7 +6655,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Tail Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "ambipom": {
         "name": "Ambipom",
@@ -6214,7 +6672,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 30 damage for each heads. If this Pok\u00e9mon has Lucky Mittens attached, flip 4 coins instead.",
                 "name": "Excited Tail"
             }
-        ]
+        ],
+        "ability": None
     },
     "starly": {
         "name": "Starly",
@@ -6230,7 +6689,8 @@ CARD_DB = {
                 "text": "Put 1 random Starly from your deck onto your Bench.",
                 "name": "Call for Family"
             }
-        ]
+        ],
+        "ability": None
     },
     "staravia": {
         "name": "Staravia",
@@ -6247,7 +6707,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Quick Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "staraptor": {
         "name": "Staraptor",
@@ -6265,7 +6726,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Wing Attack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Defensive Whirlwind",
+            "effect": "This Pok\u00e9mon takes -30 damage from attacks from [F] Pok\u00e9mon."
+        }
     },
     "bidoof": {
         "name": "Bidoof",
@@ -6282,7 +6747,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "bibarel": {
         "name": "Bibarel",
@@ -6299,7 +6765,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rolling Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "buneary": {
         "name": "Buneary",
@@ -6315,7 +6782,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 20 damage for each heads.",
                 "name": "Double Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "lopunny": {
         "name": "Lopunny",
@@ -6332,7 +6800,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 50 damage for each heads.",
                 "name": "Double Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "glameow": {
         "name": "Glameow",
@@ -6348,7 +6817,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Pose"
             }
-        ]
+        ],
+        "ability": None
     },
     "purugly": {
         "name": "Purugly",
@@ -6366,7 +6836,8 @@ CARD_DB = {
                 "text": "Your opponent reveals their hand. Choose a card you find there and shuffle it into your opponent's deck.",
                 "name": "Interrupt"
             }
-        ]
+        ],
+        "ability": None
     },
     "fan rotom": {
         "name": "Fan Rotom",
@@ -6383,7 +6854,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, put your opponent's Active Pok\u00e9mon into their hand.",
                 "name": "Spin Storm"
             }
-        ]
+        ],
+        "ability": None
     },
     "regigigas": {
         "name": "Regigigas",
@@ -6402,7 +6874,8 @@ CARD_DB = {
                 "text": "This attack does more damage equal to the damage this Pok\u00e9mon has on it.",
                 "name": "Raging Hammer"
             }
-        ]
+        ],
+        "ability": None
     },
     "heracross": {
         "name": "Heracross",
@@ -6419,7 +6892,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has no damage on it, this attack does 40 more damage.",
                 "name": "Single Lunge"
             }
-        ]
+        ],
+        "ability": None
     },
     "mothim": {
         "name": "Mothim",
@@ -6437,7 +6911,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Cutting Wind"
             }
-        ]
+        ],
+        "ability": None
     },
     "cherubi": {
         "name": "Cherubi",
@@ -6453,7 +6928,11 @@ CARD_DB = {
                 "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 20 more damage.",
                 "name": "Sweets Relay"
             }
-        ]
+        ],
+        "ability": {
+            "title": "En-fruits-iastic",
+            "effect": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, attacks used by this Pok\u00e9mon cost 1 less [G] Energy."
+        }
     },
     "cherrim": {
         "name": "Cherrim",
@@ -6470,7 +6949,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Leech Seed"
             }
-        ]
+        ],
+        "ability": None
     },
     "leafeon ex": {
         "name": "Leafeon ex",
@@ -6488,7 +6968,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Solar Beam"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Forest Breath",
+            "effect": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may take a [G] Energy from your Energy Zone and attach it to 1 of your [G] Pok\u00e9mon."
+        }
     },
     "houndour": {
         "name": "Houndour",
@@ -6504,7 +6988,8 @@ CARD_DB = {
                 "text": "Switch out your opponent's Active Pok\u00e9mon to the Bench. (Your opponent chooses the new Active Pok\u00e9mon.)",
                 "name": "Roar"
             }
-        ]
+        ],
+        "ability": None
     },
     "houndoom": {
         "name": "Houndoom",
@@ -6522,7 +7007,8 @@ CARD_DB = {
                 "text": "Discard a random card from your opponent's hand.",
                 "name": "Diving Swipe"
             }
-        ]
+        ],
+        "ability": None
     },
     "marill": {
         "name": "Marill",
@@ -6538,7 +7024,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "azumarill": {
         "name": "Azumarill",
@@ -6556,7 +7043,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Tail Smack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Thick Fat",
+            "effect": "This Pok\u00e9mon takes -30 damage from attacks from [R] or [W] Pok\u00e9mon."
+        }
     },
     "barboach": {
         "name": "Barboach",
@@ -6573,7 +7064,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mud Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "whiscash": {
         "name": "Whiscash",
@@ -6592,7 +7084,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to each of your Benched Pok\u00e9mon.",
                 "name": "Earthquake"
             }
-        ]
+        ],
+        "ability": None
     },
     "snorunt": {
         "name": "Snorunt",
@@ -6608,7 +7101,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Icicle"
             }
-        ]
+        ],
+        "ability": None
     },
     "froslass": {
         "name": "Froslass",
@@ -6625,7 +7119,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Blizzard"
             }
-        ]
+        ],
+        "ability": None
     },
     "glaceon ex": {
         "name": "Glaceon ex",
@@ -6643,7 +7138,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Freezing Wind"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Snowy Terrain",
+            "effect": "During Pok\u00e9mon Checkup, if this Pok\u00e9mon is in the Active Spot, do 10 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "origin forme palkia": {
         "name": "Origin Forme Palkia",
@@ -6661,7 +7160,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 60 more damage.",
                 "name": "Zone Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "phione": {
         "name": "Phione",
@@ -6678,7 +7178,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Water Pulse"
             }
-        ]
+        ],
+        "ability": None
     },
     "electrike": {
         "name": "Electrike",
@@ -6694,7 +7195,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Zap Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "manectric": {
         "name": "Manectric",
@@ -6710,7 +7212,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
                 "name": "Flash"
             }
-        ]
+        ],
+        "ability": None
     },
     "unown": {
         "name": "Unown",
@@ -6726,7 +7229,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Hidden Power"
             }
-        ]
+        ],
+        "ability": {
+            "title": "POWER",
+            "effect": "This Ability works if you have any Unown in play with an Ability other than POWER. Attacks used by your Pok\u00e9mon do +10 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "sudowoodo": {
         "name": "Sudowoodo",
@@ -6743,7 +7250,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has damage on it, this attack does 50 more damage.",
                 "name": "Fight Back"
             }
-        ]
+        ],
+        "ability": None
     },
     "phanpy": {
         "name": "Phanpy",
@@ -6759,7 +7267,8 @@ CARD_DB = {
                 "text": "This attack does damage to your opponent's Active Pok\u00e9mon equal to the damage this Pok\u00e9mon has on it.",
                 "name": "Flail"
             }
-        ]
+        ],
+        "ability": None
     },
     "donphan": {
         "name": "Donphan",
@@ -6777,7 +7286,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Land Crush"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Exoskeleton",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
+        }
     },
     "larvitar": {
         "name": "Larvitar",
@@ -6793,7 +7306,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "pupitar": {
         "name": "Pupitar",
@@ -6810,7 +7324,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -30 damage from attacks.",
                 "name": "Guard Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "tyranitar": {
         "name": "Tyranitar",
@@ -6829,7 +7344,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Buster Tail"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Energy Plunder",
+            "effect": "Once during your turn, you may move all [D] Energy from each of your Pok\u00e9mon to this Pok\u00e9mon."
+        }
     },
     "meditite": {
         "name": "Meditite",
@@ -6845,7 +7364,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Smack"
             }
-        ]
+        ],
+        "ability": None
     },
     "medicham": {
         "name": "Medicham",
@@ -6862,7 +7382,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has any [P] Energy attached, this attack does 50 more damage.",
                 "name": "Psykick"
             }
-        ]
+        ],
+        "ability": None
     },
     "garchomp ex": {
         "name": "Garchomp ex",
@@ -6888,7 +7409,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Dragon Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "crobat": {
         "name": "Crobat",
@@ -6904,7 +7426,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Darkness Fang"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Cunning Link",
+            "effect": "Once during your turn, if you have Arceus or Arceus ex in play, you may do 30 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "probopass ex": {
         "name": "Probopass ex",
@@ -6922,7 +7448,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Defensive Unit"
             }
-        ]
+        ],
+        "ability": None
     },
     "origin forme dialga": {
         "name": "Origin Forme Dialga",
@@ -6940,7 +7467,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, during your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Time Mash"
             }
-        ]
+        ],
+        "ability": None
     },
     "hoothoot": {
         "name": "Hoothoot",
@@ -6957,7 +7485,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Wing Attack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Insomnia",
+            "effect": "This Pok\u00e9mon can't be Asleep."
+        }
     },
     "noctowl": {
         "name": "Noctowl",
@@ -6975,7 +7507,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Fly"
             }
-        ]
+        ],
+        "ability": None
     },
     "arceus": {
         "name": "Arceus",
@@ -6994,7 +7527,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from this Pok\u00e9mon.",
                 "name": "Power Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "arceus ex": {
         "name": "Arceus ex",
@@ -7012,7 +7546,11 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each of your Benched Pok\u00e9mon.",
                 "name": "Ultimate Force"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fabled Luster",
+            "effect": "This Pok\u00e9mon can't be affected by any Special Conditions."
+        }
     },
     "beedrill ex": {
         "name": "Beedrill ex",
@@ -7029,7 +7567,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Crushing Spear"
             }
-        ]
+        ],
+        "ability": None
     },
     "sprigatito": {
         "name": "Sprigatito",
@@ -7045,7 +7584,8 @@ CARD_DB = {
                 "text": "Put 1 random [G] Pok\u00e9mon from your deck into your hand.",
                 "name": "Cry for Help"
             }
-        ]
+        ],
+        "ability": None
     },
     "floragato": {
         "name": "Floragato",
@@ -7062,7 +7602,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "meowscarada": {
         "name": "Meowscarada",
@@ -7079,7 +7620,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is a Pok\u00e9mon ex, this attack does 70 more damage.",
                 "name": "Fighting Claws"
             }
-        ]
+        ],
+        "ability": None
     },
     "paldean tauros": {
         "name": "Paldean Tauros",
@@ -7097,7 +7639,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Blaze Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "wiglett": {
         "name": "Wiglett",
@@ -7113,7 +7656,8 @@ CARD_DB = {
                 "text": "1 of your opponent's Pok\u00e9mon is chosen at random. Do 30 damage to it.",
                 "name": "Spring Out"
             }
-        ]
+        ],
+        "ability": None
     },
     "wugtrio ex": {
         "name": "Wugtrio ex",
@@ -7131,7 +7675,8 @@ CARD_DB = {
                 "text": "1 of your opponent's Pok\u00e9mon is chosen at random 3 times. For each time a Pok\u00e9mon was chosen, do 50 damage to it.",
                 "name": "Pop Out Throughout"
             }
-        ]
+        ],
+        "ability": None
     },
     "dondozo": {
         "name": "Dondozo",
@@ -7150,7 +7695,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Ocean Cyclone"
             }
-        ]
+        ],
+        "ability": None
     },
     "tatsugiri": {
         "name": "Tatsugiri",
@@ -7166,7 +7712,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Rain Splash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Retreat Directive",
+            "effect": "Your Active Dondozo has no Retreat Cost."
+        }
     },
     "pachirisu": {
         "name": "Pachirisu",
@@ -7182,7 +7732,8 @@ CARD_DB = {
                 "text": "Take a [L] Energy from your Energy Zone and attach it to 1 of your Benched [L] Pok\u00e9mon.",
                 "name": "Plasma"
             }
-        ]
+        ],
+        "ability": None
     },
     "pawmi": {
         "name": "Pawmi",
@@ -7198,7 +7749,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "pawmo": {
         "name": "Pawmo",
@@ -7215,7 +7767,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "pawmot": {
         "name": "Pawmot",
@@ -7232,7 +7785,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Electric Punch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Counterattack",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, do 20 damage to the Attacking Pok\u00e9mon."
+        }
     },
     "giratina ex": {
         "name": "Giratina ex",
@@ -7251,7 +7808,11 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 20 damage to itself.",
                 "name": "Chaotic Impact"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Broken-Space Bellow",
+            "effect": "Once during your turn, you may take a [P] Energy from your Energy Zone and attach it to this Pok\u00e9mon. If you use this Ability, your turn ends."
+        }
     },
     "gimmighoul": {
         "name": "Gimmighoul",
@@ -7267,7 +7828,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Chest-ouflage"
             }
-        ]
+        ],
+        "ability": None
     },
     "lucario ex": {
         "name": "Lucario ex",
@@ -7285,7 +7847,8 @@ CARD_DB = {
                 "text": "This attack also does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Aura Sphere"
             }
-        ]
+        ],
+        "ability": None
     },
     "flamigo": {
         "name": "Flamigo",
@@ -7302,7 +7865,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 50 damage for each heads.",
                 "name": "Double Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "paldean wooper": {
         "name": "Paldean Wooper",
@@ -7318,7 +7882,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Jab"
             }
-        ]
+        ],
+        "ability": None
     },
     "paldean clodsire ex": {
         "name": "Paldean Clodsire ex",
@@ -7335,7 +7900,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is Poisoned, this attack does 60 more damage.",
                 "name": "Venoshock"
             }
-        ]
+        ],
+        "ability": None
     },
     "shroodle": {
         "name": "Shroodle",
@@ -7351,7 +7917,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": None
     },
     "grafaiai": {
         "name": "Grafaiai",
@@ -7368,7 +7935,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Poison Coating",
+            "effect": "Once during your turn, you may flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Poisoned."
+        }
     },
     "tinkatink": {
         "name": "Tinkatink",
@@ -7384,7 +7955,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Corkscrew Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "tinkatuff": {
         "name": "Tinkatuff",
@@ -7401,7 +7973,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Tenacious Hammer"
             }
-        ]
+        ],
+        "ability": None
     },
     "tinkaton ex": {
         "name": "Tinkaton ex",
@@ -7419,7 +7992,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 80 more damage.",
                 "name": "Terrific Thumping"
             }
-        ]
+        ],
+        "ability": None
     },
     "varoom": {
         "name": "Varoom",
@@ -7435,7 +8009,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "revavroom": {
         "name": "Revavroom",
@@ -7453,7 +8028,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Spinning Drift"
             }
-        ]
+        ],
+        "ability": None
     },
     "gholdengo": {
         "name": "Gholdengo",
@@ -7471,7 +8047,8 @@ CARD_DB = {
                 "text": "Flip a coin for each [M] Energy attached to this Pok\u00e9mon. This attack does 50 damage for each heads.",
                 "name": "Scintillating Surfing"
             }
-        ]
+        ],
+        "ability": None
     },
     "lickilicky": {
         "name": "Lickilicky",
@@ -7489,7 +8066,8 @@ CARD_DB = {
                 "text": "This attack does 60 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Stretch Tongue"
             }
-        ]
+        ],
+        "ability": None
     },
     "bibarel ex": {
         "name": "Bibarel ex",
@@ -7508,7 +8086,8 @@ CARD_DB = {
                 "text": "Heal 30 damage from this Pok\u00e9mon.",
                 "name": "Carefree Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "cyclizar": {
         "name": "Cyclizar",
@@ -7524,7 +8103,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon's Overacceleration attack does +20 damage.",
                 "name": "Overacceleration"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan exeggutor": {
         "name": "Alolan Exeggutor",
@@ -7542,7 +8122,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Tropical Hammer"
             }
-        ]
+        ],
+        "ability": None
     },
     "surskit": {
         "name": "Surskit",
@@ -7558,7 +8139,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 20 more damage.",
                 "name": "Quick Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "masquerain": {
         "name": "Masquerain",
@@ -7574,7 +8156,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Buzz"
             }
-        ]
+        ],
+        "ability": None
     },
     "maractus": {
         "name": "Maractus",
@@ -7591,7 +8174,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Dazzle Dance"
             }
-        ]
+        ],
+        "ability": None
     },
     "karrablast": {
         "name": "Karrablast",
@@ -7607,7 +8191,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "phantump": {
         "name": "Phantump",
@@ -7624,7 +8209,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Branch Poke"
             }
-        ]
+        ],
+        "ability": None
     },
     "trevenant": {
         "name": "Trevenant",
@@ -7641,7 +8227,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Horn Leech"
             }
-        ]
+        ],
+        "ability": None
     },
     "rowlet": {
         "name": "Rowlet",
@@ -7657,7 +8244,8 @@ CARD_DB = {
                 "text": "This attack does 10 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Skill Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "dartrix": {
         "name": "Dartrix",
@@ -7673,7 +8261,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Skill Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "decidueye ex": {
         "name": "Decidueye ex",
@@ -7699,7 +8288,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "grubbin": {
         "name": "Grubbin",
@@ -7715,7 +8305,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": None
     },
     "fomantis": {
         "name": "Fomantis",
@@ -7731,7 +8322,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Leafage"
             }
-        ]
+        ],
+        "ability": None
     },
     "lurantis": {
         "name": "Lurantis",
@@ -7747,7 +8339,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to each of your opponent's Pok\u00e9mon.",
                 "name": "Petal Blizzard"
             }
-        ]
+        ],
+        "ability": None
     },
     "bounsweet": {
         "name": "Bounsweet",
@@ -7763,7 +8356,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flop"
             }
-        ]
+        ],
+        "ability": None
     },
     "steenee": {
         "name": "Steenee",
@@ -7779,7 +8373,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Leaf Step"
             }
-        ]
+        ],
+        "ability": None
     },
     "tsareena": {
         "name": "Tsareena",
@@ -7795,7 +8390,8 @@ CARD_DB = {
                 "text": "Your opponent reveals a random card from their hand and shuffles it into their deck.",
                 "name": "Kick Down"
             }
-        ]
+        ],
+        "ability": None
     },
     "wimpod": {
         "name": "Wimpod",
@@ -7813,7 +8409,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Wimp Out",
+            "effect": "During your first turn, this Pok\u00e9mon has no Retreat Cost."
+        }
     },
     "golisopod": {
         "name": "Golisopod",
@@ -7831,7 +8431,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon moved from your Bench to the Active Spot this turn, this attack does 60 more damage.",
                 "name": "First Impression"
             }
-        ]
+        ],
+        "ability": None
     },
     "dhelmise ex": {
         "name": "Dhelmise ex",
@@ -7849,7 +8450,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
                 "name": "Anchor Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "tapu bulu": {
         "name": "Tapu Bulu",
@@ -7867,7 +8469,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this Pok\u00e9mon also does 20 damage to itself.",
                 "name": "Stuck-In Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan marowak": {
         "name": "Alolan Marowak",
@@ -7884,7 +8487,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
                 "name": "Fiery Bone"
             }
-        ]
+        ],
+        "ability": None
     },
     "fletchinder": {
         "name": "Fletchinder",
@@ -7900,7 +8504,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Fire Wing"
             }
-        ]
+        ],
+        "ability": None
     },
     "talonflame": {
         "name": "Talonflame",
@@ -7916,7 +8521,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Burned.",
                 "name": "Searing Flame"
             }
-        ]
+        ],
+        "ability": None
     },
     "litten": {
         "name": "Litten",
@@ -7932,7 +8538,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Heat Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "torracat": {
         "name": "Torracat",
@@ -7948,7 +8555,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Heat Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "incineroar ex": {
         "name": "Incineroar ex",
@@ -7974,23 +8582,29 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has damage on it, this attack does 60 more damage.",
                 "name": "Scar-Charged Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "oricorio": {
         "name": "Oricorio",
         "hp": 70,
-        "energy_type": "Fire",
+        "energy_type": "Lightning",
         "retreat": 1,
         "attacks": [
             {
                 "cost": [
-                    "Fire"
+                    "Lightning",
+                    "Colorless"
                 ],
-                "dmg": 10,
-                "text": "During your next turn, attacks used by your Pok\u00e9mon do +20 damage to your opponent's Active Pok\u00e9mon.",
-                "name": "Inspiring Dance"
+                "dmg": 50,
+                "text": "",
+                "name": "Zzzap"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Safeguard",
+            "effect": "Prevent all damage done to this Pok\u00e9mon by attacks from your opponent's Pok\u00e9mon ex."
+        }
     },
     "turtonator": {
         "name": "Turtonator",
@@ -8007,7 +8621,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if this Pok\u00e9mon is damaged by an attack, do 20 damage to the Attacking Pok\u00e9mon.",
                 "name": "Shell Trap"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan sandshrew": {
         "name": "Alolan Sandshrew",
@@ -8023,7 +8638,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Scratch"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan sandslash": {
         "name": "Alolan Sandslash",
@@ -8039,7 +8655,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if this Pok\u00e9mon is damaged by an attack, do 40 damage to the Attacking Pok\u00e9mon.",
                 "name": "Spike Armor"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan vulpix": {
         "name": "Alolan Vulpix",
@@ -8055,7 +8672,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan ninetales": {
         "name": "Alolan Ninetales",
@@ -8073,7 +8691,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Blizzard"
             }
-        ]
+        ],
+        "ability": None
     },
     "popplio": {
         "name": "Popplio",
@@ -8089,7 +8708,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Sing"
             }
-        ]
+        ],
+        "ability": None
     },
     "brionne": {
         "name": "Brionne",
@@ -8106,7 +8726,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "primarina": {
         "name": "Primarina",
@@ -8123,7 +8744,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Melodious Healing",
+            "effect": "Once during your turn, you may heal 30 damage from each of your [W] Pok\u00e9mon."
+        }
     },
     "crabominable ex": {
         "name": "Crabominable ex",
@@ -8139,7 +8764,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon's Insatiable Striking attack does +40 damage.",
                 "name": "Insatiable Striking"
             }
-        ]
+        ],
+        "ability": None
     },
     "wishiwashi": {
         "name": "Wishiwashi",
@@ -8155,7 +8781,8 @@ CARD_DB = {
                 "text": "Put 1 random Wishiwashi or Wishiwashi ex from your deck onto your Bench.",
                 "name": "Call for Family"
             }
-        ]
+        ],
+        "ability": None
     },
     "wishiwashi ex": {
         "name": "Wishiwashi ex",
@@ -8173,7 +8800,8 @@ CARD_DB = {
                 "text": "This attack does 40 more damage for each of your Benched Wishiwashi and Wishiwashi ex.",
                 "name": "School Storm"
             }
-        ]
+        ],
+        "ability": None
     },
     "dewpider": {
         "name": "Dewpider",
@@ -8190,7 +8818,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hook"
             }
-        ]
+        ],
+        "ability": None
     },
     "araquanid": {
         "name": "Araquanid",
@@ -8208,7 +8837,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is a Basic Pok\u00e9mon, this attack does 60 more damage.",
                 "name": "Dangerous Claws"
             }
-        ]
+        ],
+        "ability": None
     },
     "tapu fini": {
         "name": "Tapu Fini",
@@ -8226,7 +8856,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Spiral Drain"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan raichu ex": {
         "name": "Alolan Raichu ex",
@@ -8244,7 +8875,8 @@ CARD_DB = {
                 "text": "This attack does 30 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Psychic"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan geodude": {
         "name": "Alolan Geodude",
@@ -8261,7 +8893,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Knuckle Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan graveler": {
         "name": "Alolan Graveler",
@@ -8279,7 +8912,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heavy Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan golem": {
         "name": "Alolan Golem",
@@ -8298,7 +8932,8 @@ CARD_DB = {
                 "text": "Discard 2 [L] Energy from this Pok\u00e9mon.",
                 "name": "Super Zap Cannon"
             }
-        ]
+        ],
+        "ability": None
     },
     "charjabug": {
         "name": "Charjabug",
@@ -8314,7 +8949,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vise Grip"
             }
-        ]
+        ],
+        "ability": None
     },
     "vikavolt": {
         "name": "Vikavolt",
@@ -8331,7 +8967,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
                 "name": "Disconnect"
             }
-        ]
+        ],
+        "ability": None
     },
     "togedemaru": {
         "name": "Togedemaru",
@@ -8348,7 +8985,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if this Pok\u00e9mon is damaged by an attack, do 30 damage to the Attacking Pok\u00e9mon.",
                 "name": "Bristling Spikes"
             }
-        ]
+        ],
+        "ability": None
     },
     "tapu koko": {
         "name": "Tapu Koko",
@@ -8366,7 +9004,8 @@ CARD_DB = {
                 "text": "Switch this Pok\u00e9mon with 1 of your Benched [L] Pok\u00e9mon.",
                 "name": "Volt Switch"
             }
-        ]
+        ],
+        "ability": None
     },
     "sableye": {
         "name": "Sableye",
@@ -8383,7 +9022,8 @@ CARD_DB = {
                 "text": "Discard a card from your hand. If you can't, this attack does nothing.",
                 "name": "Dirty Throw"
             }
-        ]
+        ],
+        "ability": None
     },
     "spoink": {
         "name": "Spoink",
@@ -8399,7 +9039,8 @@ CARD_DB = {
                 "text": "Take a [P] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
                 "name": "Psycharge"
             }
-        ]
+        ],
+        "ability": None
     },
     "grumpig": {
         "name": "Grumpig",
@@ -8417,7 +9058,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Zen Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "lunatone": {
         "name": "Lunatone",
@@ -8434,7 +9076,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Moon Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "shuppet": {
         "name": "Shuppet",
@@ -8450,7 +9093,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Will-O-Wisp"
             }
-        ]
+        ],
+        "ability": None
     },
     "banette": {
         "name": "Banette",
@@ -8466,7 +9110,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, they can't take any Energy from their Energy Zone to attach to their Active Pok\u00e9mon.",
                 "name": "Night Bind"
             }
-        ]
+        ],
+        "ability": None
     },
     "cutiefly": {
         "name": "Cutiefly",
@@ -8482,7 +9127,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flap"
             }
-        ]
+        ],
+        "ability": None
     },
     "ribombee": {
         "name": "Ribombee",
@@ -8498,7 +9144,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Fairy Wind"
             }
-        ]
+        ],
+        "ability": None
     },
     "comfey": {
         "name": "Comfey",
@@ -8515,7 +9162,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spinning Attack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Flower Shield",
+            "effect": "Each of your Pok\u00e9mon that has any [P] Energy attached recovers from all Special Conditions and can't be affected by any Special Conditions."
+        }
     },
     "sandygast": {
         "name": "Sandygast",
@@ -8532,7 +9183,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen.",
                 "name": "Sand Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "palossand": {
         "name": "Palossand",
@@ -8550,7 +9202,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Life Sucker"
             }
-        ]
+        ],
+        "ability": None
     },
     "mimikyu": {
         "name": "Mimikyu",
@@ -8567,7 +9220,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, choose 1 of your opponent's Active Pok\u00e9mon's attacks and use it as this attack.",
                 "name": "Try to Imitate"
             }
-        ]
+        ],
+        "ability": None
     },
     "tapu lele": {
         "name": "Tapu Lele",
@@ -8583,7 +9237,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to 1 of your opponent's Pok\u00e9mon for each Energy attached to that Pok\u00e9mon.",
                 "name": "Energy Arrow"
             }
-        ]
+        ],
+        "ability": None
     },
     "cosmog": {
         "name": "Cosmog",
@@ -8599,7 +9254,8 @@ CARD_DB = {
                 "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
                 "name": "Teleport"
             }
-        ]
+        ],
+        "ability": None
     },
     "cosmoem": {
         "name": "Cosmoem",
@@ -8616,7 +9272,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -50 damage from attacks.",
                 "name": "Stiffen"
             }
-        ]
+        ],
+        "ability": None
     },
     "lunala ex": {
         "name": "Lunala ex",
@@ -8634,7 +9291,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Lunar Blast"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Psychic Connect",
+            "effect": "Once during your turn, you may move all [P] Energy from 1 of your Benched [P] Pok\u00e9mon to your Active Pok\u00e9mon."
+        }
     },
     "necrozma": {
         "name": "Necrozma",
@@ -8653,7 +9314,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Prismatic Laser"
             }
-        ]
+        ],
+        "ability": None
     },
     "makuhita": {
         "name": "Makuhita",
@@ -8670,7 +9332,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Strength"
             }
-        ]
+        ],
+        "ability": None
     },
     "hariyama": {
         "name": "Hariyama",
@@ -8688,7 +9351,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Megaton Slap Push"
             }
-        ]
+        ],
+        "ability": None
     },
     "solrock": {
         "name": "Solrock",
@@ -8705,7 +9369,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Solar Beam"
             }
-        ]
+        ],
+        "ability": None
     },
     "drilbur": {
         "name": "Drilbur",
@@ -8722,7 +9387,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt Bounce"
             }
-        ]
+        ],
+        "ability": None
     },
     "timburr": {
         "name": "Timburr",
@@ -8738,7 +9404,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Corkscrew Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "gurdurr": {
         "name": "Gurdurr",
@@ -8755,7 +9422,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Strength"
             }
-        ]
+        ],
+        "ability": None
     },
     "conkeldurr": {
         "name": "Conkeldurr",
@@ -8773,7 +9441,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Mega Punch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Guts",
+            "effect": "If this Pok\u00e9mon would be Knocked Out by damage from an attack, flip a coin. If heads, this Pok\u00e9mon is not Knocked Out, and its remaining HP becomes 10."
+        }
     },
     "crabrawler": {
         "name": "Crabrawler",
@@ -8789,7 +9461,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "rockruff": {
         "name": "Rockruff",
@@ -8805,7 +9478,8 @@ CARD_DB = {
                 "text": "Put a random card that evolves from Rockruff from your deck into your hand.",
                 "name": "Signs of Evolution"
             }
-        ]
+        ],
+        "ability": None
     },
     "lycanroc": {
         "name": "Lycanroc",
@@ -8823,7 +9497,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Crunch"
             }
-        ]
+        ],
+        "ability": None
     },
     "mudbray": {
         "name": "Mudbray",
@@ -8840,7 +9515,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rear Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "mudsdale": {
         "name": "Mudsdale",
@@ -8859,7 +9535,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 40 damage to itself.",
                 "name": "High Horsepower"
             }
-        ]
+        ],
+        "ability": None
     },
     "passimian ex": {
         "name": "Passimian ex",
@@ -8876,7 +9553,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Seismic Toss"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Offload Pass",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pok\u00e9mon, move all [F] Energy from this Pok\u00e9mon to 1 of your Benched Pok\u00e9mon."
+        }
     },
     "minior": {
         "name": "Minior",
@@ -8893,7 +9574,8 @@ CARD_DB = {
                 "text": "This attack does 40 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Star Drop"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan rattata": {
         "name": "Alolan Rattata",
@@ -8909,7 +9591,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan raticate": {
         "name": "Alolan Raticate",
@@ -8926,7 +9609,8 @@ CARD_DB = {
                 "text": "Discard a random Item card from your opponent's hand.",
                 "name": "Scrounge-and-Scarf"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan meowth": {
         "name": "Alolan Meowth",
@@ -8942,7 +9626,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Swagger"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan persian": {
         "name": "Alolan Persian",
@@ -8958,7 +9643,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan grimer": {
         "name": "Alolan Grimer",
@@ -8974,7 +9660,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Gas"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan muk ex": {
         "name": "Alolan Muk ex",
@@ -8992,7 +9679,8 @@ CARD_DB = {
                 "text": "1 Special Condition from among Asleep, Burned, Confused, Paralyzed, and Poisoned is chosen at random, and your opponent's Active Pok\u00e9mon is now affected by that Special Condition. Any Special Conditions already affecting that Pok\u00e9mon will not be chosen.",
                 "name": "Chemical Panic"
             }
-        ]
+        ],
+        "ability": None
     },
     "absol": {
         "name": "Absol",
@@ -9008,7 +9696,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Leap Over"
             }
-        ]
+        ],
+        "ability": None
     },
     "trubbish": {
         "name": "Trubbish",
@@ -9025,7 +9714,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Drool"
             }
-        ]
+        ],
+        "ability": None
     },
     "garbodor": {
         "name": "Garbodor",
@@ -9043,7 +9733,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Acid Spray"
             }
-        ]
+        ],
+        "ability": None
     },
     "mareanie": {
         "name": "Mareanie",
@@ -9059,7 +9750,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "toxapex": {
         "name": "Toxapex",
@@ -9076,7 +9768,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is Poisoned, this attack does 70 more damage.",
                 "name": "Venoshock"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan diglett": {
         "name": "Alolan Diglett",
@@ -9092,7 +9785,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan dugtrio": {
         "name": "Alolan Dugtrio",
@@ -9109,7 +9803,8 @@ CARD_DB = {
                 "text": "Flip a coin until you get tails. This attack does 70 damage for each heads.",
                 "name": "Iron Head"
             }
-        ]
+        ],
+        "ability": None
     },
     "excadrill": {
         "name": "Excadrill",
@@ -9127,7 +9822,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slashing Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "escavalier": {
         "name": "Escavalier",
@@ -9143,7 +9839,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Pike"
             }
-        ]
+        ],
+        "ability": None
     },
     "klefki": {
         "name": "Klefki",
@@ -9159,7 +9856,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Hook"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Dismantling Keys",
+            "effect": "Once during your turn, if this Pok\u00e9mon is on your Bench, you may discard all Pok\u00e9mon Tools from your opponent's Active Pok\u00e9mon. If you do, discard this Pok\u00e9mon."
+        }
     },
     "solgaleo ex": {
         "name": "Solgaleo ex",
@@ -9176,7 +9877,11 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Sol Breaker"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Rising Road",
+            "effect": "Once during your turn, if this Pok\u00e9mon is on your Bench, you may switch it with your Active Pok\u00e9mon."
+        }
     },
     "magearna": {
         "name": "Magearna",
@@ -9193,7 +9898,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon has an Ability, this attack does 40 more damage.",
                 "name": "Silver Cannon"
             }
-        ]
+        ],
+        "ability": None
     },
     "drampa": {
         "name": "Drampa",
@@ -9210,7 +9916,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Dragon Breath"
             }
-        ]
+        ],
+        "ability": None
     },
     "jangmo-o": {
         "name": "Jangmo-o",
@@ -9226,7 +9933,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "hakamo-o": {
         "name": "Hakamo-o",
@@ -9243,7 +9951,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Dragon Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "kommo-o": {
         "name": "Kommo-o",
@@ -9260,7 +9969,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes +30 damage from attacks.",
                 "name": "Clanging Scales"
             }
-        ]
+        ],
+        "ability": None
     },
     "skitty": {
         "name": "Skitty",
@@ -9276,7 +9986,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Play Rough"
             }
-        ]
+        ],
+        "ability": None
     },
     "delcatty": {
         "name": "Delcatty",
@@ -9293,7 +10004,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Cat Kick"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Search for Friends",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may put a Supporter card from your discard pile into your hand."
+        }
     },
     "fletchling": {
         "name": "Fletchling",
@@ -9309,7 +10024,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Quick Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "hawlucha": {
         "name": "Hawlucha",
@@ -9326,7 +10042,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 30 more damage.",
                 "name": "Aerial Ace"
             }
-        ]
+        ],
+        "ability": None
     },
     "pikipek": {
         "name": "Pikipek",
@@ -9342,7 +10059,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "trumbeak": {
         "name": "Trumbeak",
@@ -9358,7 +10076,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Glide"
             }
-        ]
+        ],
+        "ability": None
     },
     "toucannon": {
         "name": "Toucannon",
@@ -9375,7 +10094,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Burned.",
                 "name": "Beak Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "yungoos": {
         "name": "Yungoos",
@@ -9391,7 +10111,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "gumshoos": {
         "name": "Gumshoos",
@@ -9408,7 +10129,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbang"
             }
-        ]
+        ],
+        "ability": None
     },
     "stufful": {
         "name": "Stufful",
@@ -9425,7 +10147,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "bewear": {
         "name": "Bewear",
@@ -9443,7 +10166,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heavy Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "oranguru": {
         "name": "Oranguru",
@@ -9461,7 +10185,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hammer In"
             }
-        ]
+        ],
+        "ability": None
     },
     "komala": {
         "name": "Komala",
@@ -9478,7 +10203,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Rolling Tackle"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Comatose",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, whenever you attach an Energy from your Energy Zone to it, it is now Asleep."
+        }
     },
     "decidueye": {
         "name": "Decidueye",
@@ -9495,7 +10224,8 @@ CARD_DB = {
                 "text": "This attack does 70 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Sniping Arrow"
             }
-        ]
+        ],
+        "ability": None
     },
     "buzzwole ex": {
         "name": "Buzzwole ex",
@@ -9522,7 +10252,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't use Big Beat.",
                 "name": "Big Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "pheromosa": {
         "name": "Pheromosa",
@@ -9538,7 +10269,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Jump Blues"
             }
-        ]
+        ],
+        "ability": None
     },
     "kartana": {
         "name": "Kartana",
@@ -9554,7 +10286,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Thrash Metal"
             }
-        ]
+        ],
+        "ability": None
     },
     "blacephalon": {
         "name": "Blacephalon",
@@ -9572,7 +10305,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 70 damage to itself.",
                 "name": "Beat Punk"
             }
-        ]
+        ],
+        "ability": None
     },
     "mantine": {
         "name": "Mantine",
@@ -9591,7 +10325,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "carvanha": {
         "name": "Carvanha",
@@ -9607,7 +10342,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "sharpedo": {
         "name": "Sharpedo",
@@ -9624,7 +10360,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Crunch"
             }
-        ]
+        ],
+        "ability": None
     },
     "emolga": {
         "name": "Emolga",
@@ -9641,7 +10378,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mach Bolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "tapu koko ex": {
         "name": "Tapu Koko ex",
@@ -9667,7 +10405,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mach Bolt"
             }
-        ]
+        ],
+        "ability": None
     },
     "xurkitree": {
         "name": "Xurkitree",
@@ -9685,7 +10424,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Electronica"
             }
-        ]
+        ],
+        "ability": None
     },
     "zeraora": {
         "name": "Zeraora",
@@ -9702,7 +10442,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Lightning Claw"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Thunderclap Flash",
+            "effect": "At the end of your first turn, take a [L] Energy from your Energy Zone and attach it to this Pok\u00e9mon."
+        }
     },
     "baltoy": {
         "name": "Baltoy",
@@ -9719,7 +10463,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Spinning Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "claydol": {
         "name": "Claydol",
@@ -9737,7 +10482,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Power Beam"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Heal Block",
+            "effect": "Pok\u00e9mon (both yours and your opponent's) can't be healed."
+        }
     },
     "lycanroc ex": {
         "name": "Lycanroc ex",
@@ -9755,7 +10504,8 @@ CARD_DB = {
                 "text": "Discard a [F] Energy from this Pok\u00e9mon.",
                 "name": "Lycanfang"
             }
-        ]
+        ],
+        "ability": None
     },
     "passimian": {
         "name": "Passimian",
@@ -9771,7 +10521,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Fling"
             }
-        ]
+        ],
+        "ability": None
     },
     "sandile": {
         "name": "Sandile",
@@ -9787,7 +10538,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": None
     },
     "krokorok": {
         "name": "Krokorok",
@@ -9804,7 +10556,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "krookodile": {
         "name": "Krookodile",
@@ -9822,7 +10575,8 @@ CARD_DB = {
                 "text": "Flip a coin until you get tails. For each heads, discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Chomp Chomp Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "nihilego": {
         "name": "Nihilego",
@@ -9839,7 +10593,11 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "New Wave"
             }
-        ]
+        ],
+        "ability": {
+            "title": "More Poison",
+            "effect": "Your opponent's Active Pok\u00e9mon takes +10 damage from being Poisoned."
+        }
     },
     "guzzlord ex": {
         "name": "Guzzlord ex",
@@ -9867,7 +10625,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tyrannical Hole"
             }
-        ]
+        ],
+        "ability": None
     },
     "poipole": {
         "name": "Poipole",
@@ -9883,7 +10642,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 20 damage for each heads.",
                 "name": "2-Step"
             }
-        ]
+        ],
+        "ability": None
     },
     "naganadel": {
         "name": "Naganadel",
@@ -9899,7 +10659,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Electro House"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan dugtrio ex": {
         "name": "Alolan Dugtrio ex",
@@ -9916,7 +10677,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 60 damage for each heads.",
                 "name": "Triplet Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "aron": {
         "name": "Aron",
@@ -9933,7 +10695,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "lairon": {
         "name": "Lairon",
@@ -9951,7 +10714,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Lunge Out"
             }
-        ]
+        ],
+        "ability": None
     },
     "aggron": {
         "name": "Aggron",
@@ -9970,7 +10734,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Giga Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "ferroseed": {
         "name": "Ferroseed",
@@ -9986,7 +10751,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "ferrothorn": {
         "name": "Ferrothorn",
@@ -10003,7 +10769,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 60 more damage.",
                 "name": "Pummel"
             }
-        ]
+        ],
+        "ability": None
     },
     "stakataka": {
         "name": "Stakataka",
@@ -10020,7 +10787,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Brass Rock"
             }
-        ]
+        ],
+        "ability": None
     },
     "lillipup": {
         "name": "Lillipup",
@@ -10036,7 +10804,8 @@ CARD_DB = {
                 "text": "Draw a card.",
                 "name": "Collect"
             }
-        ]
+        ],
+        "ability": None
     },
     "herdier": {
         "name": "Herdier",
@@ -10053,7 +10822,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt Bounce"
             }
-        ]
+        ],
+        "ability": None
     },
     "stoutland": {
         "name": "Stoutland",
@@ -10071,9 +10841,10 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is a Basic Pok\u00e9mon, this attack does 70 more damage.",
                 "name": "Dangerous Bite"
             }
-        ]
+        ],
+        "ability": None
     },
-    "type: null": {
+    "type: None": {
         "name": "Type: Null",
         "hp": 80,
         "energy_type": "Colorless",
@@ -10087,7 +10858,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 20 more damage.",
                 "name": "Quick Blow"
             }
-        ]
+        ],
+        "ability": None
     },
     "silvally": {
         "name": "Silvally",
@@ -10104,7 +10876,8 @@ CARD_DB = {
                 "text": "If you played a Supporter card from your hand during this turn, this attack does 50 more damage.",
                 "name": "Brave Buddies"
             }
-        ]
+        ],
+        "ability": None
     },
     "celesteela": {
         "name": "Celesteela",
@@ -10122,7 +10895,11 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Moombahton"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Ultra Thrusters",
+            "effect": "Once during your turn, you may switch your Active Ultra Beast with 1 of your Benched Ultra Beasts."
+        }
     },
     "tropius": {
         "name": "Tropius",
@@ -10139,7 +10916,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 40 damage for each heads.",
                 "name": "Double Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "applin": {
         "name": "Applin",
@@ -10155,7 +10933,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "appletun": {
         "name": "Appletun",
@@ -10171,7 +10950,8 @@ CARD_DB = {
                 "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 30 more damage.",
                 "name": "Sweets Relay"
             }
-        ]
+        ],
+        "ability": None
     },
     "flareon ex": {
         "name": "Flareon ex",
@@ -10189,7 +10969,11 @@ CARD_DB = {
                 "text": "Discard 2 [R] Energy from this Pok\u00e9mon.",
                 "name": "Fire Spin"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Combust",
+            "effect": "Once during your turn, you may attach a [R] Energy from your discard pile to this Pok\u00e9mon. If you do, do 20 damage to this Pok\u00e9mon."
+        }
     },
     "torkoal": {
         "name": "Torkoal",
@@ -10206,7 +10990,8 @@ CARD_DB = {
                 "text": "Discard a [R] Energy from this Pok\u00e9mon.",
                 "name": "Flamethrower"
             }
-        ]
+        ],
+        "ability": None
     },
     "incineroar": {
         "name": "Incineroar",
@@ -10224,7 +11009,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 100 damage for each heads.",
                 "name": "Darkest Lariat"
             }
-        ]
+        ],
+        "ability": None
     },
     "vanillite": {
         "name": "Vanillite",
@@ -10240,7 +11026,8 @@ CARD_DB = {
                 "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 20 more damage.",
                 "name": "Sweets Relay"
             }
-        ]
+        ],
+        "ability": None
     },
     "vanillish": {
         "name": "Vanillish",
@@ -10256,7 +11043,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Frost Breath"
             }
-        ]
+        ],
+        "ability": None
     },
     "vanilluxe": {
         "name": "Vanilluxe",
@@ -10273,7 +11061,8 @@ CARD_DB = {
                 "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 60 more damage.",
                 "name": "Sweets Relay"
             }
-        ]
+        ],
+        "ability": None
     },
     "alomomola": {
         "name": "Alomomola",
@@ -10291,7 +11080,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Water Pulse"
             }
-        ]
+        ],
+        "ability": None
     },
     "primarina ex": {
         "name": "Primarina ex",
@@ -10317,7 +11107,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Sparkling Aria"
             }
-        ]
+        ],
+        "ability": None
     },
     "espeon": {
         "name": "Espeon",
@@ -10333,7 +11124,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage for each Energy attached to all of your opponent's Pok\u00e9mon.",
                 "name": "Energy Crush"
             }
-        ]
+        ],
+        "ability": None
     },
     "sylveon": {
         "name": "Sylveon",
@@ -10350,7 +11142,8 @@ CARD_DB = {
                 "text": "This attack does 30 more damage for each Evolution Pok\u00e9mon on your Bench.",
                 "name": "Evoharmony"
             }
-        ]
+        ],
+        "ability": None
     },
     "sylveon ex": {
         "name": "Sylveon ex",
@@ -10367,7 +11160,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Fairy Wind"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Happy Ribbon",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may draw 2 cards."
+        }
     },
     "milcery": {
         "name": "Milcery",
@@ -10383,7 +11180,8 @@ CARD_DB = {
                 "text": "If 1 of your Pok\u00e9mon used Sweets Relay during your last turn, this attack does 20 more damage.",
                 "name": "Sweets Relay"
             }
-        ]
+        ],
+        "ability": None
     },
     "alcremie": {
         "name": "Alcremie",
@@ -10399,7 +11197,8 @@ CARD_DB = {
                 "text": "This attack does 40 damage for each time your Pok\u00e9mon used Sweets Relay during this game.",
                 "name": "Sweets Overload"
             }
-        ]
+        ],
+        "ability": None
     },
     "carbink": {
         "name": "Carbink",
@@ -10415,7 +11214,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -30 damage from attacks.",
                 "name": "Guard Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "umbreon": {
         "name": "Umbreon",
@@ -10431,7 +11231,8 @@ CARD_DB = {
                 "text": "If the Defending Pok\u00e9mon is a Basic Pok\u00e9mon, it can't attack during your opponent's next turn.",
                 "name": "Dark Binding"
             }
-        ]
+        ],
+        "ability": None
     },
     "dragonite ex": {
         "name": "Dragonite ex",
@@ -10449,7 +11250,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Giga Impact"
             }
-        ]
+        ],
+        "ability": None
     },
     "eevee ex": {
         "name": "Eevee ex",
@@ -10465,7 +11267,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Veevee 'volve",
+            "effect": "This Pok\u00e9mon can evolve into any Pok\u00e9mon that evolves from Eevee if you play it from your hand onto this Pok\u00e9mon. (This Pok\u00e9mon can't evolve during your first turn or the turn you play it.)"
+        }
     },
     "snorlax ex": {
         "name": "Snorlax ex",
@@ -10484,7 +11290,11 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon is now Asleep.",
                 "name": "Flop-Down Punch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Full-Mouth Manner",
+            "effect": "At the end of your turn, if this Pok\u00e9mon is in the Active Spot, heal 20 damage from it."
+        }
     },
     "audino": {
         "name": "Audino",
@@ -10501,7 +11311,8 @@ CARD_DB = {
                 "text": "Heal 10 damage from this Pok\u00e9mon.",
                 "name": "Drain Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "skwovet": {
         "name": "Skwovet",
@@ -10518,7 +11329,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "greedent": {
         "name": "Greedent",
@@ -10536,7 +11348,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, this attack does 50 more damage.",
                 "name": "Enhanced Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "chikorita": {
         "name": "Chikorita",
@@ -10552,7 +11365,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "bayleef": {
         "name": "Bayleef",
@@ -10569,7 +11383,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "meganium": {
         "name": "Meganium",
@@ -10587,7 +11402,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from each of your Pok\u00e9mon.",
                 "name": "Bloomshine"
             }
-        ]
+        ],
+        "ability": None
     },
     "ledyba": {
         "name": "Ledyba",
@@ -10603,7 +11419,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "ledian": {
         "name": "Ledian",
@@ -10619,7 +11436,8 @@ CARD_DB = {
                 "text": "This attack's damage isn't affected by Weakness or by any effects on your opponent's Active Pok\u00e9mon.",
                 "name": "Swift"
             }
-        ]
+        ],
+        "ability": None
     },
     "hoppip": {
         "name": "Hoppip",
@@ -10635,7 +11453,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "skiploom": {
         "name": "Skiploom",
@@ -10651,7 +11470,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Seed Bomb"
             }
-        ]
+        ],
+        "ability": None
     },
     "jumpluff": {
         "name": "Jumpluff",
@@ -10667,7 +11487,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spinning Attack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fluffy Flight",
+            "effect": "Your Active Pok\u00e9mon has no Retreat Cost."
+        }
     },
     "sunkern": {
         "name": "Sunkern",
@@ -10683,7 +11507,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Seed Bomb"
             }
-        ]
+        ],
+        "ability": None
     },
     "sunflora": {
         "name": "Sunflora",
@@ -10699,7 +11524,8 @@ CARD_DB = {
                 "text": "If Quick-Grow Extract is in your discard pile, this attack does 30 more damage.",
                 "name": "Quick-Grow Beam"
             }
-        ]
+        ],
+        "ability": None
     },
     "yanmega": {
         "name": "Yanmega",
@@ -10716,7 +11542,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Buzz"
             }
-        ]
+        ],
+        "ability": None
     },
     "pineco": {
         "name": "Pineco",
@@ -10733,7 +11560,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "shuckle ex": {
         "name": "Shuckle ex",
@@ -10749,7 +11577,11 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 20 damage for each heads.",
                 "name": "Triple Slap"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Solid Shell",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
+        }
     },
     "cyndaquil": {
         "name": "Cyndaquil",
@@ -10765,7 +11597,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flare"
             }
-        ]
+        ],
+        "ability": None
     },
     "quilava": {
         "name": "Quilava",
@@ -10781,7 +11614,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Combustion"
             }
-        ]
+        ],
+        "ability": None
     },
     "typhlosion": {
         "name": "Typhlosion",
@@ -10798,7 +11632,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Magma Punch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fire Breath",
+            "effect": "Once during your turn, you may make your opponent's Active Pok\u00e9mon Burned."
+        }
     },
     "magby": {
         "name": "Magby",
@@ -10812,7 +11650,8 @@ CARD_DB = {
                 "text": "Take a [R] Energy from your Energy Zone and attach it to 1 of your Benched Basic Pok\u00e9mon.",
                 "name": "Toasty Toss"
             }
-        ]
+        ],
+        "ability": None
     },
     "entei": {
         "name": "Entei",
@@ -10831,7 +11670,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, discard 2 random Energy from this Pok\u00e9mon.",
                 "name": "Strong Flare"
             }
-        ]
+        ],
+        "ability": None
     },
     "ho-oh ex": {
         "name": "Ho-Oh ex",
@@ -10849,7 +11689,8 @@ CARD_DB = {
                 "text": "Take a [R], [W], and [L] Energy from your Energy Zone and attach them to your Benched Basic Pok\u00e9mon in any way you like.",
                 "name": "Phoenix Turbo"
             }
-        ]
+        ],
+        "ability": None
     },
     "darumaka": {
         "name": "Darumaka",
@@ -10866,7 +11707,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Reckless Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "darmanitan": {
         "name": "Darmanitan",
@@ -10885,7 +11727,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 30 more damage for each heads.",
                 "name": "Darmani-Hands"
             }
-        ]
+        ],
+        "ability": None
     },
     "politoed": {
         "name": "Politoed",
@@ -10902,7 +11745,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Hyper Voice"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Lordly Cheering",
+            "effect": "As long as this Pok\u00e9mon is on your Bench, attacks used by your Pok\u00e9mon that evolve from Poliwhirl do +40 damage to your opponent's Active Pok\u00e9mon."
+        }
     },
     "kingdra ex": {
         "name": "Kingdra ex",
@@ -10919,7 +11766,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, the Defending Pok\u00e9mon can't retreat.",
                 "name": "Stormy Prison"
             }
-        ]
+        ],
+        "ability": None
     },
     "totodile": {
         "name": "Totodile",
@@ -10935,7 +11783,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wave Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "croconaw": {
         "name": "Croconaw",
@@ -10952,7 +11801,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "feraligatr": {
         "name": "Feraligatr",
@@ -10970,7 +11820,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from your opponent's Active Pok\u00e9mon.",
                 "name": "Destructive Whirlpool"
             }
-        ]
+        ],
+        "ability": None
     },
     "wooper": {
         "name": "Wooper",
@@ -10987,7 +11838,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rain Splash"
             }
-        ]
+        ],
+        "ability": None
     },
     "quagsire": {
         "name": "Quagsire",
@@ -11005,7 +11857,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": None
     },
     "qwilfish": {
         "name": "Qwilfish",
@@ -11021,7 +11874,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Poison Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "corsola": {
         "name": "Corsola",
@@ -11037,7 +11891,8 @@ CARD_DB = {
                 "text": "Put a random Pok\u00e9mon from your deck into your hand.",
                 "name": "Find a Friend"
             }
-        ]
+        ],
+        "ability": None
     },
     "remoraid": {
         "name": "Remoraid",
@@ -11053,7 +11908,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "octillery": {
         "name": "Octillery",
@@ -11070,7 +11926,8 @@ CARD_DB = {
                 "text": "If the Defending Pok\u00e9mon tries to use an attack, your opponent flips a coin. If tails, that attack doesn't happen. This effect lasts until the Defending Pok\u00e9mon leaves the Active Spot, and it doesn't stack.",
                 "name": "Octazooka"
             }
-        ]
+        ],
+        "ability": None
     },
     "delibird": {
         "name": "Delibird",
@@ -11087,7 +11944,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 70 damage to your opponent's Active Pok\u00e9mon. If tails, heal 30 damage from your opponent's Active Pok\u00e9mon.",
                 "name": "Box of Surprises"
             }
-        ]
+        ],
+        "ability": None
     },
     "suicune": {
         "name": "Suicune",
@@ -11105,7 +11963,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, attacks used by the Defending Pok\u00e9mon do -20 damage.",
                 "name": "Cure Stream"
             }
-        ]
+        ],
+        "ability": None
     },
     "corphish": {
         "name": "Corphish",
@@ -11121,7 +11980,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "crawdaunt": {
         "name": "Crawdaunt",
@@ -11139,7 +11999,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Guillotine"
             }
-        ]
+        ],
+        "ability": None
     },
     "chinchou": {
         "name": "Chinchou",
@@ -11155,7 +12016,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot.",
                 "name": "Luring Glow"
             }
-        ]
+        ],
+        "ability": None
     },
     "lanturn ex": {
         "name": "Lanturn ex",
@@ -11173,7 +12035,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed. If tails, your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Flashing Signal"
             }
-        ]
+        ],
+        "ability": None
     },
     "pichu": {
         "name": "Pichu",
@@ -11187,7 +12050,8 @@ CARD_DB = {
                 "text": "Take a [L] Energy from your Energy Zone and attach it to 1 of your Benched Basic Pok\u00e9mon.",
                 "name": "Crackly Toss"
             }
-        ]
+        ],
+        "ability": None
     },
     "mareep": {
         "name": "Mareep",
@@ -11203,7 +12067,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rear Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "flaaffy": {
         "name": "Flaaffy",
@@ -11220,7 +12085,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Electric Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "ampharos": {
         "name": "Ampharos",
@@ -11238,7 +12104,8 @@ CARD_DB = {
                 "text": "1 of your opponent's Benched Pok\u00e9mon is chosen at random. This attack also does 20 damage to it.",
                 "name": "Zapping Bullet"
             }
-        ]
+        ],
+        "ability": None
     },
     "elekid": {
         "name": "Elekid",
@@ -11252,7 +12119,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Zappy Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "raikou": {
         "name": "Raikou",
@@ -11269,7 +12137,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 20 damage to itself.",
                 "name": "Thunder"
             }
-        ]
+        ],
+        "ability": None
     },
     "slowking": {
         "name": "Slowking",
@@ -11285,7 +12154,8 @@ CARD_DB = {
                 "text": "Discard up to 2 Pok\u00e9mon Tool cards from your hand. This attack does 50 damage for each card you discarded in this way.",
                 "name": "Litter"
             }
-        ]
+        ],
+        "ability": None
     },
     "smoochum": {
         "name": "Smoochum",
@@ -11299,7 +12169,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Shivery Wave"
             }
-        ]
+        ],
+        "ability": None
     },
     "cleffa": {
         "name": "Cleffa",
@@ -11313,7 +12184,8 @@ CARD_DB = {
                 "text": "Put a random Pok\u00e9mon from your deck into your hand.",
                 "name": "Twinkly Call"
             }
-        ]
+        ],
+        "ability": None
     },
     "natu": {
         "name": "Natu",
@@ -11329,7 +12201,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "xatu": {
         "name": "Xatu",
@@ -11347,7 +12220,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Zen Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "espeon ex": {
         "name": "Espeon ex",
@@ -11364,7 +12238,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Super Psy Bolt"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Psychic Healing",
+            "effect": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may heal 30 damage from 1 of your Pok\u00e9mon."
+        }
     },
     "wobbuffet": {
         "name": "Wobbuffet",
@@ -11382,7 +12260,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Flip Over"
             }
-        ]
+        ],
+        "ability": None
     },
     "girafarig": {
         "name": "Girafarig",
@@ -11400,7 +12279,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Psybeam"
             }
-        ]
+        ],
+        "ability": None
     },
     "snubbull": {
         "name": "Snubbull",
@@ -11417,7 +12297,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sharp Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "granbull": {
         "name": "Granbull",
@@ -11435,7 +12316,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Strength"
             }
-        ]
+        ],
+        "ability": None
     },
     "munna": {
         "name": "Munna",
@@ -11451,7 +12333,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Psyshot"
             }
-        ]
+        ],
+        "ability": None
     },
     "musharna": {
         "name": "Musharna",
@@ -11468,7 +12351,8 @@ CARD_DB = {
                 "text": "Both Active Pok\u00e9mon are now Asleep.",
                 "name": "Dream Dance"
             }
-        ]
+        ],
+        "ability": None
     },
     "donphan ex": {
         "name": "Donphan ex",
@@ -11484,7 +12368,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 2 extra [F] Energy attached, this attack does 60 more damage.",
                 "name": "Gigantic Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "tyrogue": {
         "name": "Tyrogue",
@@ -11498,7 +12383,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slappy Knuckle"
             }
-        ]
+        ],
+        "ability": None
     },
     "binacle": {
         "name": "Binacle",
@@ -11515,7 +12401,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 30 damage for each heads.",
                 "name": "Dual Chop"
             }
-        ]
+        ],
+        "ability": None
     },
     "barbaracle": {
         "name": "Barbaracle",
@@ -11533,7 +12420,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Dynamic Chop"
             }
-        ]
+        ],
+        "ability": None
     },
     "crobat ex": {
         "name": "Crobat ex",
@@ -11549,7 +12437,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned.",
                 "name": "Venomous Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "spinarak": {
         "name": "Spinarak",
@@ -11565,7 +12454,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sting"
             }
-        ]
+        ],
+        "ability": None
     },
     "ariados": {
         "name": "Ariados",
@@ -11581,7 +12471,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Pierce"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Trap Territory",
+            "effect": "Your opponent's Active Pok\u00e9mon's Retreat Cost is 1 more."
+        }
     },
     "umbreon ex": {
         "name": "Umbreon ex",
@@ -11598,7 +12492,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Darkness Fang"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Dark Chase",
+            "effect": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may switch in 1 of your opponent's Benched Pok\u00e9mon that has damage on it to the Active Spot."
+        }
     },
     "weavile": {
         "name": "Weavile",
@@ -11614,7 +12512,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "forretress": {
         "name": "Forretress",
@@ -11632,7 +12531,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Shell Crash"
             }
-        ]
+        ],
+        "ability": None
     },
     "steelix": {
         "name": "Steelix",
@@ -11651,7 +12551,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon has no Weakness.",
                 "name": "Metal Defender"
             }
-        ]
+        ],
+        "ability": None
     },
     "scizor": {
         "name": "Scizor",
@@ -11668,7 +12569,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon moved from your Bench to the Active Spot this turn, this attack does 50 more damage.",
                 "name": "Gale Thrust"
             }
-        ]
+        ],
+        "ability": None
     },
     "skarmory ex": {
         "name": "Skarmory ex",
@@ -11685,7 +12587,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Steel Wing"
             }
-        ]
+        ],
+        "ability": None
     },
     "klink": {
         "name": "Klink",
@@ -11701,7 +12604,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vise Grip"
             }
-        ]
+        ],
+        "ability": None
     },
     "klang": {
         "name": "Klang",
@@ -11718,7 +12622,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gear Cutter"
             }
-        ]
+        ],
+        "ability": None
     },
     "klinklang": {
         "name": "Klinklang",
@@ -11736,7 +12641,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon's Gear Spinner attack does +70 damage.",
                 "name": "Gear Spinner"
             }
-        ]
+        ],
+        "ability": None
     },
     "blissey": {
         "name": "Blissey",
@@ -11754,7 +12660,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Energy attached to this Pok\u00e9mon.",
                 "name": "Energy Blow"
             }
-        ]
+        ],
+        "ability": None
     },
     "sentret": {
         "name": "Sentret",
@@ -11770,7 +12677,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 20 damage for each heads.",
                 "name": "Tail Rap"
             }
-        ]
+        ],
+        "ability": None
     },
     "furret": {
         "name": "Furret",
@@ -11786,7 +12694,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt Bounce"
             }
-        ]
+        ],
+        "ability": None
     },
     "dunsparce": {
         "name": "Dunsparce",
@@ -11802,7 +12711,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Sudden Flash"
             }
-        ]
+        ],
+        "ability": None
     },
     "teddiursa": {
         "name": "Teddiursa",
@@ -11818,7 +12728,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Surprise Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "ursaring": {
         "name": "Ursaring",
@@ -11837,7 +12748,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Claw Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "stantler": {
         "name": "Stantler",
@@ -11854,7 +12766,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, this attack does 50 more damage.",
                 "name": "Enhanced Horns"
             }
-        ]
+        ],
+        "ability": None
     },
     "smeargle": {
         "name": "Smeargle",
@@ -11871,7 +12784,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Tail Whap"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Portrait",
+            "effect": "Once during your turn, if this Pok\u00e9mon is in the Active Spot, you may look at a random Supporter card from your opponent's hand. Use the effect of that card as the effect of this Ability."
+        }
     },
     "lugia ex": {
         "name": "Lugia ex",
@@ -11889,7 +12806,8 @@ CARD_DB = {
                 "text": "Discard a [R], [W], and [L] Energy from this Pok\u00e9mon.",
                 "name": "Elemental Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "bouffalant": {
         "name": "Bouffalant",
@@ -11906,7 +12824,8 @@ CARD_DB = {
                 "text": "If any of your Pok\u00e9mon were Knocked Out by damage from an attack during your opponent's last turn, this attack does 40 more damage.",
                 "name": "Revenge"
             }
-        ]
+        ],
+        "ability": None
     },
     "jumpluff ex": {
         "name": "Jumpluff ex",
@@ -11922,7 +12841,8 @@ CARD_DB = {
                 "text": "You may switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
                 "name": "Breeze-By Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "celebi": {
         "name": "Celebi",
@@ -11939,7 +12859,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is an evolved Pok\u00e9mon, devolve it by putting the highest Stage Evolution card on it into your opponent's hand.",
                 "name": "Temporal Leaves"
             }
-        ]
+        ],
+        "ability": None
     },
     "durant": {
         "name": "Durant",
@@ -11956,7 +12877,8 @@ CARD_DB = {
                 "text": "If Durant is on your Bench, this attack does 40 more damage.",
                 "name": "Bite Together"
             }
-        ]
+        ],
+        "ability": None
     },
     "entei ex": {
         "name": "Entei ex",
@@ -11973,7 +12895,11 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 2 extra [R] Energy attached, this attack does 60 more damage.",
                 "name": "Blazing Beatdown"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Legendary Pulse",
+            "effect": "At the end of your turn, if this Pok\u00e9mon is in the Active Spot, draw a card."
+        }
     },
     "suicune ex": {
         "name": "Suicune ex",
@@ -11990,7 +12916,11 @@ CARD_DB = {
                 "text": "This attack does 20 damage for each Benched Pok\u00e9mon (both yours and your opponent's).",
                 "name": "Crystal Waltz"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Legendary Pulse",
+            "effect": "At the end of your turn, if this Pok\u00e9mon is in the Active Spot, draw a card."
+        }
     },
     "feebas": {
         "name": "Feebas",
@@ -12006,7 +12936,8 @@ CARD_DB = {
                 "text": "Switch this Pok\u00e9mon with 1 of your Benched Pok\u00e9mon.",
                 "name": "Leap Out"
             }
-        ]
+        ],
+        "ability": None
     },
     "milotic": {
         "name": "Milotic",
@@ -12023,7 +12954,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Aqua Edge"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Healing Ripples",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may heal 60 damage from 1 of your [W] Pok\u00e9mon."
+        }
     },
     "mantyke": {
         "name": "Mantyke",
@@ -12037,7 +12972,8 @@ CARD_DB = {
                 "text": "Take a [W] Energy from your Energy Zone and attach it to 1 of your Benched Basic Pok\u00e9mon.",
                 "name": "Splashy Toss"
             }
-        ]
+        ],
+        "ability": None
     },
     "cryogonal": {
         "name": "Cryogonal",
@@ -12053,7 +12989,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
                 "name": "Frozen Lock"
             }
-        ]
+        ],
+        "ability": None
     },
     "raikou ex": {
         "name": "Raikou ex",
@@ -12070,7 +13007,11 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Voltaic Bullet"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Legendary Pulse",
+            "effect": "At the end of your turn, if this Pok\u00e9mon is in the Active Spot, draw a card."
+        }
     },
     "stunfisk": {
         "name": "Stunfisk",
@@ -12087,7 +13028,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Static Shock"
             }
-        ]
+        ],
+        "ability": None
     },
     "yamper": {
         "name": "Yamper",
@@ -12103,7 +13045,8 @@ CARD_DB = {
                 "text": "Switch out your opponent's Active Pok\u00e9mon to the Bench. (Your opponent chooses the new Active Pok\u00e9mon.)",
                 "name": "Roar"
             }
-        ]
+        ],
+        "ability": None
     },
     "boltund": {
         "name": "Boltund",
@@ -12120,7 +13063,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Zap Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "mismagius": {
         "name": "Mismagius",
@@ -12137,7 +13081,8 @@ CARD_DB = {
                 "text": "Move all [P] Energy from this Pok\u00e9mon to 1 of your Benched Pok\u00e9mon.",
                 "name": "Stored Power"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian corsola": {
         "name": "Galarian Corsola",
@@ -12153,7 +13098,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian cursola": {
         "name": "Galarian Cursola",
@@ -12170,7 +13116,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spooky Shot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Perish Body",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is Knocked Out by damage from an attack from your opponent's Pok\u00e9mon, flip a coin. If heads, the Attacking Pok\u00e9mon is Knocked Out."
+        }
     },
     "latias": {
         "name": "Latias",
@@ -12186,7 +13136,8 @@ CARD_DB = {
                 "text": "If Latios is on your Bench, this attack does 20 more damage.",
                 "name": "Crossing Flights"
             }
-        ]
+        ],
+        "ability": None
     },
     "latios": {
         "name": "Latios",
@@ -12204,7 +13155,11 @@ CARD_DB = {
                 "text": "Discard all Energy from this Pok\u00e9mon.",
                 "name": "Luster Purge"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fantastical Floating",
+            "effect": "If you have Latias in play, this Pok\u00e9mon has no Retreat Cost."
+        }
     },
     "frillish": {
         "name": "Frillish",
@@ -12220,7 +13175,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "jellicent": {
         "name": "Jellicent",
@@ -12237,7 +13193,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Bouncy Body",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, take a [W] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon."
+        }
     },
     "poliwrath ex": {
         "name": "Poliwrath ex",
@@ -12255,7 +13215,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has any [W] Energy attached, this attack does 40 more damage.",
                 "name": "Hydro Knuckle"
             }
-        ]
+        ],
+        "ability": None
     },
     "relicanth": {
         "name": "Relicanth",
@@ -12272,7 +13233,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 10 damage to itself.",
                 "name": "Take Down"
             }
-        ]
+        ],
+        "ability": None
     },
     "dwebble": {
         "name": "Dwebble",
@@ -12289,7 +13251,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sand Spray"
             }
-        ]
+        ],
+        "ability": None
     },
     "crustle": {
         "name": "Crustle",
@@ -12308,7 +13271,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 50 more damage.",
                 "name": "Stone Edge"
             }
-        ]
+        ],
+        "ability": None
     },
     "seviper": {
         "name": "Seviper",
@@ -12325,7 +13289,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is Zangoose, this attack does 40 more damage.",
                 "name": "Fateful Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "zorua": {
         "name": "Zorua",
@@ -12341,7 +13306,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "zoroark": {
         "name": "Zoroark",
@@ -12358,7 +13324,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Night Daze"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Illusive Trickery",
+            "effect": "If your opponent's Pok\u00e9mon is Knocked Out by damage from this Pok\u00e9mon's attacks, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon."
+        }
     },
     "inkay": {
         "name": "Inkay",
@@ -12374,7 +13344,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "malamar": {
         "name": "Malamar",
@@ -12390,7 +13361,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to each of your opponent's Pok\u00e9mon.",
                 "name": "Mental Surge"
             }
-        ]
+        ],
+        "ability": None
     },
     "skrelp": {
         "name": "Skrelp",
@@ -12407,7 +13379,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Fin"
             }
-        ]
+        ],
+        "ability": None
     },
     "dragalge": {
         "name": "Dragalge",
@@ -12425,7 +13398,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Sludge Bomb"
             }
-        ]
+        ],
+        "ability": None
     },
     "altaria": {
         "name": "Altaria",
@@ -12442,7 +13416,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each of your Benched Pok\u00e9mon.",
                 "name": "Do the Wave"
             }
-        ]
+        ],
+        "ability": None
     },
     "igglybuff": {
         "name": "Igglybuff",
@@ -12456,7 +13431,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Sleepy Lullaby"
             }
-        ]
+        ],
+        "ability": None
     },
     "miltank": {
         "name": "Miltank",
@@ -12472,7 +13448,8 @@ CARD_DB = {
                 "text": "Until this Pok\u00e9mon leaves the Active Spot, this Pok\u00e9mon's Rolling Frenzy attack does +30 damage. This effect stacks.",
                 "name": "Rolling Frenzy"
             }
-        ]
+        ],
+        "ability": None
     },
     "azurill": {
         "name": "Azurill",
@@ -12486,7 +13463,8 @@ CARD_DB = {
                 "text": "Heal 50 damage from 1 of your Benched Pok\u00e9mon.",
                 "name": "Squishy Healing"
             }
-        ]
+        ],
+        "ability": None
     },
     "swablu": {
         "name": "Swablu",
@@ -12502,7 +13480,8 @@ CARD_DB = {
                 "text": "Put a random Pok\u00e9mon from your deck into your hand.",
                 "name": "Find a Friend"
             }
-        ]
+        ],
+        "ability": None
     },
     "zangoose": {
         "name": "Zangoose",
@@ -12519,7 +13498,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Counterattack",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, do 20 damage to the Attacking Pok\u00e9mon."
+        }
     },
     "mega pinsir ex": {
         "name": "Mega Pinsir ex",
@@ -12537,7 +13520,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 70 more damage.",
                 "name": "Critical Scissors"
             }
-        ]
+        ],
+        "ability": None
     },
     "wurmple": {
         "name": "Wurmple",
@@ -12553,7 +13537,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "silcoon": {
         "name": "Silcoon",
@@ -12569,7 +13554,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks if that damage is 40 or less.",
                 "name": "Harden"
             }
-        ]
+        ],
+        "ability": None
     },
     "beautifly": {
         "name": "Beautifly",
@@ -12585,7 +13571,8 @@ CARD_DB = {
                 "text": "This attack does 50 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Skill Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "cascoon": {
         "name": "Cascoon",
@@ -12601,7 +13588,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, prevent all damage done to this Pok\u00e9mon by attacks if that damage is 40 or less.",
                 "name": "Harden"
             }
-        ]
+        ],
+        "ability": None
     },
     "dustox": {
         "name": "Dustox",
@@ -12617,7 +13605,8 @@ CARD_DB = {
                 "text": "Choose either Poisoned or Confused. Your opponent's Active Pok\u00e9mon is now affected by that Special Condition.",
                 "name": "Select Powder"
             }
-        ]
+        ],
+        "ability": None
     },
     "seedot": {
         "name": "Seedot",
@@ -12633,7 +13622,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rollout"
             }
-        ]
+        ],
+        "ability": None
     },
     "nuzleaf": {
         "name": "Nuzleaf",
@@ -12650,7 +13640,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gentle Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "shiftry": {
         "name": "Shiftry",
@@ -12667,7 +13658,8 @@ CARD_DB = {
                 "text": "Discard a random card from your opponent's hand.",
                 "name": "Nipping Cyclone"
             }
-        ]
+        ],
+        "ability": None
     },
     "shroomish": {
         "name": "Shroomish",
@@ -12683,7 +13675,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "breloom": {
         "name": "Breloom",
@@ -12699,7 +13692,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Seed Bomb"
             }
-        ]
+        ],
+        "ability": None
     },
     "pansage": {
         "name": "Pansage",
@@ -12715,7 +13709,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "simisage": {
         "name": "Simisage",
@@ -12732,7 +13727,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 40 damage for each heads.",
                 "name": "Fury Swipes"
             }
-        ]
+        ],
+        "ability": None
     },
     "whimsicott ex": {
         "name": "Whimsicott ex",
@@ -12749,7 +13745,8 @@ CARD_DB = {
                 "text": "This attack does 30 more damage for each Energy in your opponent's Active Pok\u00e9mon's Retreat Cost.",
                 "name": "Grass Knot"
             }
-        ]
+        ],
+        "ability": None
     },
     "virizion": {
         "name": "Virizion",
@@ -12767,7 +13764,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't use Sacred Sword.",
                 "name": "Sacred Sword"
             }
-        ]
+        ],
+        "ability": None
     },
     "grookey": {
         "name": "Grookey",
@@ -12783,7 +13781,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "thwackey": {
         "name": "Thwackey",
@@ -12800,7 +13799,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hammer In"
             }
-        ]
+        ],
+        "ability": None
     },
     "rillaboom": {
         "name": "Rillaboom",
@@ -12819,7 +13819,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Drum Rush"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Captivating Rhythm",
+            "effect": "Once during your turn, you may flip a coin. If heads, switch in 1 of your opponent's Benched Pok\u00e9mon to the Active Spot."
+        }
     },
     "rapidash ex": {
         "name": "Rapidash ex",
@@ -12837,7 +13841,8 @@ CARD_DB = {
                 "text": "This attack also does 20 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Sprinting Flare"
             }
-        ]
+        ],
+        "ability": None
     },
     "ho-oh": {
         "name": "Ho-Oh",
@@ -12856,7 +13861,8 @@ CARD_DB = {
                 "text": "Heal 30 damage from each of your Benched Basic Pok\u00e9mon.",
                 "name": "Blessed Burn"
             }
-        ]
+        ],
+        "ability": None
     },
     "torchic": {
         "name": "Torchic",
@@ -12872,7 +13878,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "combusken": {
         "name": "Combusken",
@@ -12889,7 +13896,8 @@ CARD_DB = {
                 "text": "",
                 "name": "High Jump Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "blaziken": {
         "name": "Blaziken",
@@ -12906,7 +13914,8 @@ CARD_DB = {
                 "text": "Discard a [R] Energy from this Pok\u00e9mon.",
                 "name": "Blaze Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega blaziken ex": {
         "name": "Mega Blaziken ex",
@@ -12923,7 +13932,8 @@ CARD_DB = {
                 "text": "Discard Fire[R] Energy from this Pok\u00e9mon. Your opponent's Active Pok\u00e9mon is now Burned.",
                 "name": "Mega Burning"
             }
-        ]
+        ],
+        "ability": None
     },
     "pansear": {
         "name": "Pansear",
@@ -12939,7 +13949,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "simisear": {
         "name": "Simisear",
@@ -12956,7 +13967,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 40 damage for each heads.",
                 "name": "Fury Swipes"
             }
-        ]
+        ],
+        "ability": None
     },
     "litwick": {
         "name": "Litwick",
@@ -12972,7 +13984,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mumble"
             }
-        ]
+        ],
+        "ability": None
     },
     "lampent": {
         "name": "Lampent",
@@ -12988,7 +14001,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Petty Grudge"
             }
-        ]
+        ],
+        "ability": None
     },
     "chandelure": {
         "name": "Chandelure",
@@ -13005,7 +14019,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each Supporter card in your discard pile.",
                 "name": "Past Friends"
             }
-        ]
+        ],
+        "ability": None
     },
     "litleo": {
         "name": "Litleo",
@@ -13021,7 +14036,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Stampede"
             }
-        ]
+        ],
+        "ability": None
     },
     "pyroar": {
         "name": "Pyroar",
@@ -13038,7 +14054,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heat Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega gyarados ex": {
         "name": "Mega Gyarados ex",
@@ -13057,7 +14074,8 @@ CARD_DB = {
                 "text": "Discard the top 3 cards of your opponent's deck.",
                 "name": "Mega Blaster"
             }
-        ]
+        ],
+        "ability": None
     },
     "lotad": {
         "name": "Lotad",
@@ -13073,7 +14091,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "lombre": {
         "name": "Lombre",
@@ -13090,7 +14109,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gentle Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "ludicolo": {
         "name": "Ludicolo",
@@ -13107,7 +14127,8 @@ CARD_DB = {
                 "text": "If you have exactly 1, 3, or 5 cards in your hand, this attack does 60 more damage.",
                 "name": "Rhythmic Steps"
             }
-        ]
+        ],
+        "ability": None
     },
     "wailmer": {
         "name": "Wailmer",
@@ -13125,7 +14146,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": None
     },
     "wailord": {
         "name": "Wailord",
@@ -13144,7 +14166,8 @@ CARD_DB = {
                 "text": "This attack does 10 more damage for each [W] Energy attached to this Pok\u00e9mon.",
                 "name": "Whale Pump"
             }
-        ]
+        ],
+        "ability": None
     },
     "luvdisc": {
         "name": "Luvdisc",
@@ -13161,7 +14184,8 @@ CARD_DB = {
                 "text": "If you have exactly 2, 4, or 6 cards in your hand, this attack does 30 more damage.",
                 "name": "Paired Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "panpour": {
         "name": "Panpour",
@@ -13177,7 +14201,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "simipour": {
         "name": "Simipour",
@@ -13194,7 +14219,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 40 damage for each heads.",
                 "name": "Fury Swipes"
             }
-        ]
+        ],
+        "ability": None
     },
     "tympole": {
         "name": "Tympole",
@@ -13211,7 +14237,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mud-Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "palpitoad": {
         "name": "Palpitoad",
@@ -13229,7 +14256,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hyper Voice"
             }
-        ]
+        ],
+        "ability": None
     },
     "seismitoad": {
         "name": "Seismitoad",
@@ -13247,7 +14275,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Split Spiral Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "tirtouga": {
         "name": "Tirtouga",
@@ -13264,7 +14293,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Shell Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "carracosta": {
         "name": "Carracosta",
@@ -13282,7 +14312,8 @@ CARD_DB = {
                 "text": "Prevent all damage done to this Pok\u00e9mon by attacks from Basic Pok\u00e9mon during your opponent's next turn.",
                 "name": "Blocking Shell"
             }
-        ]
+        ],
+        "ability": None
     },
     "keldeo": {
         "name": "Keldeo",
@@ -13300,7 +14331,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't use Sacred Sword.",
                 "name": "Sacred Sword"
             }
-        ]
+        ],
+        "ability": None
     },
     "greninja ex": {
         "name": "Greninja ex",
@@ -13317,7 +14349,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Aqua Edge"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Shifting Stream",
+            "effect": "Once during your turn, you may switch your Active [W] Pok\u00e9mon with 1 of your Benched Pok\u00e9mon."
+        }
     },
     "bergmite": {
         "name": "Bergmite",
@@ -13334,7 +14370,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Icicle"
             }
-        ]
+        ],
+        "ability": None
     },
     "avalugg": {
         "name": "Avalugg",
@@ -13352,7 +14389,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Frost Barrier"
             }
-        ]
+        ],
+        "ability": None
     },
     "arrokuda": {
         "name": "Arrokuda",
@@ -13368,7 +14406,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "barraskewda": {
         "name": "Barraskewda",
@@ -13384,7 +14423,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Jet Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "eiscue": {
         "name": "Eiscue",
@@ -13401,7 +14441,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Ice Face",
+            "effect": "If this Pok\u00e9mon has full HP, it takes -40 damage from attacks from your opponent's Pok\u00e9mon."
+        }
     },
     "jolteon ex": {
         "name": "Jolteon ex",
@@ -13418,7 +14462,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Mach Bolt"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Electromagnetic Wall",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, whenever your opponent attaches an Energy from their Energy Zone to 1 of their Pok\u00e9mon, do 20 damage to that Pok\u00e9mon."
+        }
     },
     "mega ampharos ex": {
         "name": "Mega Ampharos ex",
@@ -13436,7 +14484,8 @@ CARD_DB = {
                 "text": "1 of your opponent's Benched Pok\u00e9mon is chosen at random 3 times. For each time a Pok\u00e9mon was chosen, also do 20 damage to it.",
                 "name": "Lightning Lancer"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega altaria ex": {
         "name": "Mega Altaria ex",
@@ -13453,7 +14502,8 @@ CARD_DB = {
                 "text": "This attack does 30 more damage for each of your Benched Pok\u00e9mon.",
                 "name": "Mega Harmony"
             }
-        ]
+        ],
+        "ability": None
     },
     "jirachi": {
         "name": "Jirachi",
@@ -13469,7 +14519,8 @@ CARD_DB = {
                 "text": "This attack does 30 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Star Drop"
             }
-        ]
+        ],
+        "ability": None
     },
     "chingling": {
         "name": "Chingling",
@@ -13483,7 +14534,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
                 "name": "Jingly Noise"
             }
-        ]
+        ],
+        "ability": None
     },
     "yamask": {
         "name": "Yamask",
@@ -13499,7 +14551,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mumble"
             }
-        ]
+        ],
+        "ability": None
     },
     "cofagrigus": {
         "name": "Cofagrigus",
@@ -13516,7 +14569,8 @@ CARD_DB = {
                 "text": "Discard 2 cards from your hand. If you can't discard 2 cards, this attack does nothing.",
                 "name": "Soul Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "gothita": {
         "name": "Gothita",
@@ -13532,7 +14586,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Stampede"
             }
-        ]
+        ],
+        "ability": None
     },
     "gothorita": {
         "name": "Gothorita",
@@ -13548,7 +14603,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "gothitelle": {
         "name": "Gothitelle",
@@ -13565,7 +14621,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if they attach Energy from their Energy Zone to the Defending Pok\u00e9mon, that Pok\u00e9mon will be Asleep.",
                 "name": "Stellar Cradle"
             }
-        ]
+        ],
+        "ability": None
     },
     "spritzee": {
         "name": "Spritzee",
@@ -13581,7 +14638,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from 1 of your Pok\u00e9mon.",
                 "name": "Sweet Scent"
             }
-        ]
+        ],
+        "ability": None
     },
     "aromatisse": {
         "name": "Aromatisse",
@@ -13598,7 +14656,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, attacks used by the Defending Pok\u00e9mon cost 1 [C] more.",
                 "name": "Perfume Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "indeedee ex": {
         "name": "Indeedee ex",
@@ -13615,7 +14674,11 @@ CARD_DB = {
                 "text": "This attack does 30 more damage for each Energy attached to your opponent's Active Pok\u00e9mon.",
                 "name": "Psychic"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Watch Over",
+            "effect": "Once during your turn, you may heal 20 damage from your Active Pok\u00e9mon."
+        }
     },
     "hitmonchan ex": {
         "name": "Hitmonchan ex",
@@ -13631,7 +14694,8 @@ CARD_DB = {
                 "text": "This attack's damage isn't affected by Weakness.",
                 "name": "Quick Straight"
             }
-        ]
+        ],
+        "ability": None
     },
     "archen": {
         "name": "Archen",
@@ -13647,7 +14711,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rock Throw"
             }
-        ]
+        ],
+        "ability": None
     },
     "archeops": {
         "name": "Archeops",
@@ -13663,7 +14728,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to each of your opponent's Pok\u00e9mon. During your next turn, this Pok\u00e9mon's Wild Spin attack does +20 damage to each of your opponent's Pok\u00e9mon.",
                 "name": "Wild Spin"
             }
-        ]
+        ],
+        "ability": None
     },
     "terrakion": {
         "name": "Terrakion",
@@ -13681,7 +14747,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't use Sacred Sword.",
                 "name": "Sacred Sword"
             }
-        ]
+        ],
+        "ability": None
     },
     "pancham": {
         "name": "Pancham",
@@ -13697,7 +14764,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "crabominable": {
         "name": "Crabominable",
@@ -13713,7 +14781,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon's remaining HP is 30 or less, this attack does 60 more damage.",
                 "name": "Last-Chance Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "rolycoly": {
         "name": "Rolycoly",
@@ -13729,7 +14798,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "carkol": {
         "name": "Carkol",
@@ -13746,7 +14816,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Heat Crash"
             }
-        ]
+        ],
+        "ability": None
     },
     "coalossal": {
         "name": "Coalossal",
@@ -13764,7 +14835,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon is a [G] Pok\u00e9mon, this attack does 50 more damage.",
                 "name": "Coal Drop"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega absol ex": {
         "name": "Mega Absol ex",
@@ -13781,7 +14853,8 @@ CARD_DB = {
                 "text": "Your opponent reveals their hand. Choose a Supporter card you find there and discard it.",
                 "name": "Darkness Claw"
             }
-        ]
+        ],
+        "ability": None
     },
     "deino": {
         "name": "Deino",
@@ -13797,7 +14870,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "zweilous": {
         "name": "Zweilous",
@@ -13814,7 +14888,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Darkness Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "hydreigon": {
         "name": "Hydreigon",
@@ -13832,7 +14907,11 @@ CARD_DB = {
                 "text": "Discard all Energy from this Pok\u00e9mon.",
                 "name": "Hyper Ray"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Roar in Unison",
+            "effect": "Once during your turn, you may take 2 [D] Energy from your Energy Zone and attach it to this Pok\u00e9mon. If you do, do 30 damage to this Pok\u00e9mon."
+        }
     },
     "pangoro": {
         "name": "Pangoro",
@@ -13848,7 +14927,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon's Overdrive Smash attack does +30 damage.",
                 "name": "Overdrive Smash"
             }
-        ]
+        ],
+        "ability": None
     },
     "dragalge ex": {
         "name": "Dragalge ex",
@@ -13865,7 +14945,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Draconic Whip"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Poison Point",
+            "effect": "If this Pok\u00e9mon is in the Active Spot and is damaged by an attack from your opponent's Pok\u00e9mon, the Attacking Pok\u00e9mon is now Poisoned."
+        }
     },
     "impidimp": {
         "name": "Impidimp",
@@ -13881,7 +14965,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "morgrem": {
         "name": "Morgrem",
@@ -13898,7 +14983,8 @@ CARD_DB = {
                 "text": "This attack's damage isn't affected by any effects on your opponent's Active Pok\u00e9mon.",
                 "name": "False Surrender"
             }
-        ]
+        ],
+        "ability": None
     },
     "grimmsnarl": {
         "name": "Grimmsnarl",
@@ -13916,7 +15002,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wrack Down"
             }
-        ]
+        ],
+        "ability": None
     },
     "cobalion": {
         "name": "Cobalion",
@@ -13934,7 +15021,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't use Sacred Sword.",
                 "name": "Sacred Sword"
             }
-        ]
+        ],
+        "ability": None
     },
     "honedge": {
         "name": "Honedge",
@@ -13950,7 +15038,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Cut Up"
             }
-        ]
+        ],
+        "ability": None
     },
     "doublade": {
         "name": "Doublade",
@@ -13967,7 +15056,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 40 damage for each heads.",
                 "name": "Dual Blades"
             }
-        ]
+        ],
+        "ability": None
     },
     "aegislash": {
         "name": "Aegislash",
@@ -13985,7 +15075,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -80 damage from attacks from your opponent's Pok\u00e9mon ex.",
                 "name": "Superb Shield"
             }
-        ]
+        ],
+        "ability": None
     },
     "melmetal ex": {
         "name": "Melmetal ex",
@@ -14014,7 +15105,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has a Pok\u00e9mon Tool attached, this attack does 50 more damage.",
                 "name": "Metal Arms"
             }
-        ]
+        ],
+        "ability": None
     },
     "corviknight": {
         "name": "Corviknight",
@@ -14032,7 +15124,8 @@ CARD_DB = {
                 "text": "Discard 2 [M] Energy from this Pok\u00e9mon. During your opponent's next turn, this Pok\u00e9mon takes -50 damage from attacks.",
                 "name": "Iron Wings"
             }
-        ]
+        ],
+        "ability": None
     },
     "goomy": {
         "name": "Goomy",
@@ -14049,7 +15142,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Sticky Membrane",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, attacks used by your opponent's Active Pok\u00e9mon cost 1 [C] more."
+        }
     },
     "sliggoo": {
         "name": "Sliggoo",
@@ -14066,7 +15163,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gentle Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "goodra": {
         "name": "Goodra",
@@ -14084,7 +15182,8 @@ CARD_DB = {
                 "text": "Heal 40 damage from this Pok\u00e9mon.",
                 "name": "Spiral Drain"
             }
-        ]
+        ],
+        "ability": None
     },
     "tauros ex": {
         "name": "Tauros ex",
@@ -14101,7 +15200,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this Pok\u00e9mon also does 30 damage to itself.",
                 "name": "Wild Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "zigzagoon": {
         "name": "Zigzagoon",
@@ -14117,7 +15217,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "linoone": {
         "name": "Linoone",
@@ -14133,7 +15234,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Jet Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "whismur": {
         "name": "Whismur",
@@ -14149,7 +15251,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Pound"
             }
-        ]
+        ],
+        "ability": None
     },
     "loudred": {
         "name": "Loudred",
@@ -14166,7 +15269,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hyper Voice"
             }
-        ]
+        ],
+        "ability": None
     },
     "exploud": {
         "name": "Exploud",
@@ -14184,7 +15288,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, they can't play any Item cards from their hand.",
                 "name": "Booming Roar"
             }
-        ]
+        ],
+        "ability": None
     },
     "spinda": {
         "name": "Spinda",
@@ -14200,7 +15305,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon is now Confused.",
                 "name": "Teetering Steps"
             }
-        ]
+        ],
+        "ability": None
     },
     "patrat": {
         "name": "Patrat",
@@ -14216,7 +15322,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "watchog": {
         "name": "Watchog",
@@ -14233,7 +15340,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack does 40 more damage.",
                 "name": "Biting Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "rufflet": {
         "name": "Rufflet",
@@ -14250,7 +15358,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Wing Attack"
             }
-        ]
+        ],
+        "ability": None
     },
     "braviary": {
         "name": "Braviary",
@@ -14268,7 +15377,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "furfrou": {
         "name": "Furfrou",
@@ -14286,7 +15396,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Hammer In"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Fur Coat",
+            "effect": "This Pok\u00e9mon takes -20 damage from attacks."
+        }
     },
     "rookidee": {
         "name": "Rookidee",
@@ -14302,7 +15416,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flap"
             }
-        ]
+        ],
+        "ability": None
     },
     "corvisquire": {
         "name": "Corvisquire",
@@ -14319,7 +15434,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Drill Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega venusaur ex": {
         "name": "Mega Venusaur ex",
@@ -14338,7 +15454,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned and Asleep.",
                 "name": "Critical Bloom"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega charizard y ex": {
         "name": "Mega Charizard Y ex",
@@ -14357,7 +15474,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 50 damage to itself.",
                 "name": "Crimson Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega blastoise ex": {
         "name": "Mega Blastoise ex",
@@ -14375,7 +15493,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has at least 3 extra [W] Energy attached, this attack also does 50 damage to 2 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Triple Bombardment"
             }
-        ]
+        ],
+        "ability": None
     },
     "basculin": {
         "name": "Basculin",
@@ -14392,7 +15511,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon moved from your Bench to the Active Spot this turn, this attack does 40 more damage.",
                 "name": "Surprise Strike"
             }
-        ]
+        ],
+        "ability": None
     },
     "clauncher": {
         "name": "Clauncher",
@@ -14408,7 +15528,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Water Gun"
             }
-        ]
+        ],
+        "ability": None
     },
     "clawitzer": {
         "name": "Clawitzer",
@@ -14424,7 +15545,8 @@ CARD_DB = {
                 "text": "This attack does 20 damage to each of your opponent's Pok\u00e9mon.",
                 "name": "Aqua Shower"
             }
-        ]
+        ],
+        "ability": None
     },
     "solosis": {
         "name": "Solosis",
@@ -14440,7 +15562,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rollout"
             }
-        ]
+        ],
+        "ability": None
     },
     "duosion": {
         "name": "Duosion",
@@ -14457,7 +15580,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Psyshot"
             }
-        ]
+        ],
+        "ability": None
     },
     "reuniclus": {
         "name": "Reuniclus",
@@ -14475,7 +15599,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Psypunch"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Infinite Increase",
+            "effect": "This Pok\u00e9mon gets +30 HP for each [P] Energy attached to it."
+        }
     },
     "xerneas": {
         "name": "Xerneas",
@@ -14493,7 +15621,8 @@ CARD_DB = {
                 "text": "This attack's damage is reduced by the amount of damage this Pok\u00e9mon has on it.",
                 "name": "Geoburst"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega lopunny ex": {
         "name": "Mega Lopunny ex",
@@ -14510,7 +15639,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 90 damage for each heads. Your opponent's Active Pok\u00e9mon is now Confused.",
                 "name": "Rapid Smashers"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega steelix ex": {
         "name": "Mega Steelix ex",
@@ -14529,7 +15659,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes  damage from attacks and has no Weakness.",
                 "name": "Adamantine Rolling"
             }
-        ]
+        ],
+        "ability": None
     },
     "genesect": {
         "name": "Genesect",
@@ -14547,7 +15678,8 @@ CARD_DB = {
                 "text": "This attack does 20 more damage for each [M] Energy attached to this Pok\u00e9mon.",
                 "name": "Metal Blast"
             }
-        ]
+        ],
+        "ability": None
     },
     "shuckle": {
         "name": "Shuckle",
@@ -14564,7 +15696,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, this Pok\u00e9mon takes -20 damage from attacks.",
                 "name": "Guard Press"
             }
-        ]
+        ],
+        "ability": None
     },
     "cacnea": {
         "name": "Cacnea",
@@ -14581,7 +15714,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Corkscrew Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "cacturne": {
         "name": "Cacturne",
@@ -14599,7 +15733,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon has damage on it, this attack does 60 more damage.",
                 "name": "Spike Rend"
             }
-        ]
+        ],
+        "ability": None
     },
     "chespin": {
         "name": "Chespin",
@@ -14616,7 +15751,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Vine Whip"
             }
-        ]
+        ],
+        "ability": None
     },
     "quilladin": {
         "name": "Quilladin",
@@ -14634,7 +15770,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Needle Arm"
             }
-        ]
+        ],
+        "ability": None
     },
     "chesnaught": {
         "name": "Chesnaught",
@@ -14653,7 +15790,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if this Pok\u00e9mon is damaged by an attack, do 80 damage to the Attacking Pok\u00e9mon.",
                 "name": "Needle Lariat"
             }
-        ]
+        ],
+        "ability": None
     },
     "scatterbug": {
         "name": "Scatterbug",
@@ -14669,7 +15807,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bug Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "spewpa": {
         "name": "Spewpa",
@@ -14685,7 +15824,8 @@ CARD_DB = {
                 "text": "Put a random card that evolves from Spewpa from your deck into your hand.",
                 "name": "Signs of Evolution"
             }
-        ]
+        ],
+        "ability": None
     },
     "vivillon": {
         "name": "Vivillon",
@@ -14702,7 +15842,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Poisoned and Asleep.",
                 "name": "Vivid Powder"
             }
-        ]
+        ],
+        "ability": None
     },
     "buzzwole": {
         "name": "Buzzwole",
@@ -14719,7 +15860,8 @@ CARD_DB = {
                 "text": "If your opponent has gotten exactly 1 points, this attack does 40 more damage.",
                 "name": "Ground Beat"
             }
-        ]
+        ],
+        "ability": None
     },
     "gossifleur": {
         "name": "Gossifleur",
@@ -14735,7 +15877,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Razor Leaf"
             }
-        ]
+        ],
+        "ability": None
     },
     "eldegoss": {
         "name": "Eldegoss",
@@ -14751,7 +15894,8 @@ CARD_DB = {
                 "text": "You may shuffle this Pok\u00e9mon and all attached cards into your deck.",
                 "name": "Float Up"
             }
-        ]
+        ],
+        "ability": None
     },
     "teal mask ogerpon ex": {
         "name": "Teal Mask Ogerpon ex",
@@ -14768,7 +15912,11 @@ CARD_DB = {
                 "text": "If the amount of Energy attached to both Active Pok\u00e9mon is 5 or more, this attack does 60 more damage.",
                 "name": "Energized Leaves"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Soothing Wind",
+            "effect": "Each of your Pok\u00e9mon that has any Energy attached recovers from all Special Conditions and can't be affected by any Special Conditions."
+        }
     },
     "reshiram": {
         "name": "Reshiram",
@@ -14786,7 +15934,8 @@ CARD_DB = {
                 "text": "Discard 2 [R] Energy from this Pok\u00e9mon.",
                 "name": "Blue Flare"
             }
-        ]
+        ],
+        "ability": None
     },
     "blacephalon ex": {
         "name": "Blacephalon ex",
@@ -14812,7 +15961,8 @@ CARD_DB = {
                 "text": "Discard 3 [R] Energy from this Pok\u00e9mon.",
                 "name": "Pop-Punk"
             }
-        ]
+        ],
+        "ability": None
     },
     "scorbunny": {
         "name": "Scorbunny",
@@ -14828,7 +15978,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flop"
             }
-        ]
+        ],
+        "ability": None
     },
     "raboot": {
         "name": "Raboot",
@@ -14844,7 +15995,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "cinderace": {
         "name": "Cinderace",
@@ -14861,7 +16013,8 @@ CARD_DB = {
                 "text": "During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Fireball Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "hearthflame mask ogerpon": {
         "name": "Hearthflame Mask Ogerpon",
@@ -14878,7 +16031,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, take 2 [R] Energy from your Energy Zone and attach it to 1 of your Benched Pok\u00e9mon.",
                 "name": "Hearthflame Dance"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan ninetales ex": {
         "name": "Alolan Ninetales ex",
@@ -14895,7 +16049,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, they can't take any Energy from their Energy Zone to attach to their Active Pok\u00e9mon.",
                 "name": "Binding Snow"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian mr. mime": {
         "name": "Galarian Mr. Mime",
@@ -14911,7 +16066,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Icy Snow"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian mr. rime": {
         "name": "Galarian Mr. Rime",
@@ -14929,7 +16085,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. This attack does 60 damage for each heads.",
                 "name": "Triple Spin"
             }
-        ]
+        ],
+        "ability": None
     },
     "mudkip": {
         "name": "Mudkip",
@@ -14945,7 +16102,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "marshtomp": {
         "name": "Marshtomp",
@@ -14962,7 +16120,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Surf"
             }
-        ]
+        ],
+        "ability": None
     },
     "swampert": {
         "name": "Swampert",
@@ -14980,7 +16139,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from among the Energy attached to all Pok\u00e9mon (both yours and your opponent's).",
                 "name": "Large Whirlpool"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega swampert ex": {
         "name": "Mega Swampert ex",
@@ -14998,7 +16158,8 @@ CARD_DB = {
                 "text": "Discard 2 random Energy from among the Energy attached to all Pok\u00e9mon (both yours and your opponent's).",
                 "name": "Strong-Armed Destroyer"
             }
-        ]
+        ],
+        "ability": None
     },
     "amaura": {
         "name": "Amaura",
@@ -15015,7 +16176,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Aurora Beam"
             }
-        ]
+        ],
+        "ability": None
     },
     "aurorus": {
         "name": "Aurorus",
@@ -15033,7 +16195,8 @@ CARD_DB = {
                 "text": "Discard Water2 [W] Energy from this Pok\u00e9mon. Your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Hail Prison"
             }
-        ]
+        ],
+        "ability": None
     },
     "wellspring mask ogerpon": {
         "name": "Wellspring Mask Ogerpon",
@@ -15050,7 +16213,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, this attack also does 40 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Wellspring Dance"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan raichu": {
         "name": "Alolan Raichu",
@@ -15067,7 +16231,11 @@ CARD_DB = {
                 "text": "This attack does 50 damage to 1 of your opponent's Pok\u00e9mon.",
                 "name": "Thunder Spear"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Surge Surfer",
+            "effect": "If a Stadium is in play, this Pok\u00e9mon has no Retreat Cost."
+        }
     },
     "plusle": {
         "name": "Plusle",
@@ -15083,7 +16251,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, your opponent's Active Pok\u00e9mon is now Paralyzed.",
                 "name": "Electric Tail"
             }
-        ]
+        ],
+        "ability": None
     },
     "minun": {
         "name": "Minun",
@@ -15099,7 +16268,8 @@ CARD_DB = {
                 "text": "If Plusle is on your Bench, this attack also does 10 damage to each of your opponent's Benched Pok\u00e9mon.",
                 "name": "Buddy Spark"
             }
-        ]
+        ],
+        "ability": None
     },
     "toxel": {
         "name": "Toxel",
@@ -15116,7 +16286,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Static Shock"
             }
-        ]
+        ],
+        "ability": None
     },
     "toxtricity ex": {
         "name": "Toxtricity ex",
@@ -15134,7 +16305,8 @@ CARD_DB = {
                 "text": "This attack also does 30 damage to each of your opponent's Benched Pok\u00e9mon that has damage on it.",
                 "name": "Damaging Spark"
             }
-        ]
+        ],
+        "ability": None
     },
     "tadbulb": {
         "name": "Tadbulb",
@@ -15150,7 +16322,8 @@ CARD_DB = {
                 "text": "Take a [L] Energy from your Energy Zone and attach it to this Pok\u00e9mon.",
                 "name": "Charge"
             }
-        ]
+        ],
+        "ability": None
     },
     "bellibolt": {
         "name": "Bellibolt",
@@ -15168,7 +16341,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Electric Ball"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian ponyta": {
         "name": "Galarian Ponyta",
@@ -15184,7 +16358,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Flop"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian rapidash": {
         "name": "Galarian Rapidash",
@@ -15200,7 +16375,8 @@ CARD_DB = {
                 "text": "If you have 5 or more [P] Energy in play, this attack does 60 more damage.",
                 "name": "Photon Laser"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega gardevoir ex": {
         "name": "Mega Gardevoir ex",
@@ -15217,7 +16393,8 @@ CARD_DB = {
                 "text": "Take 3 [P] Energy from your Energy Zone and attach it to your [P] Pok\u00e9mon in any way you like.",
                 "name": "Fantasia Force"
             }
-        ]
+        ],
+        "ability": None
     },
     "meloetta": {
         "name": "Meloetta",
@@ -15234,7 +16411,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Psyshot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Strange Singing",
+            "effect": "At the beginning of your turn, if this Pok\u00e9mon is in the Active Spot, put a random [P] Pok\u00e9mon from your deck into your hand."
+        }
     },
     "pumpkaboo": {
         "name": "Pumpkaboo",
@@ -15250,7 +16431,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Ram"
             }
-        ]
+        ],
+        "ability": None
     },
     "gourgeist": {
         "name": "Gourgeist",
@@ -15266,7 +16448,8 @@ CARD_DB = {
                 "text": "Discard a card from your hand. If you can't, this attack does nothing.",
                 "name": "Soul Shot"
             }
-        ]
+        ],
+        "ability": None
     },
     "mimikyu ex": {
         "name": "Mimikyu ex",
@@ -15283,7 +16466,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Claw Slash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Disguise",
+            "effect": "When this Pok\u00e9mon is first damaged by an attack after coming into play, prevent that damage."
+        }
     },
     "sinistea": {
         "name": "Sinistea",
@@ -15299,7 +16486,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, prevent all damage from\u2014and effects of\u2014attacks done to this Pok\u00e9mon.",
                 "name": "Hide"
             }
-        ]
+        ],
+        "ability": None
     },
     "polteageist": {
         "name": "Polteageist",
@@ -15315,7 +16503,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Spooky Shot"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Refreshing Tea",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may have your opponent shuffle their hand into their deck. For each remaining point that your opponent needs to win, they draw a card."
+        }
     },
     "indeedee": {
         "name": "Indeedee",
@@ -15333,7 +16525,8 @@ CARD_DB = {
                 "text": "This attack does 70 damage to 1 of your opponent's Benched Pok\u00e9mon.",
                 "name": "Zen Shard"
             }
-        ]
+        ],
+        "ability": None
     },
     "roggenrola": {
         "name": "Roggenrola",
@@ -15350,7 +16543,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Mud-Slap"
             }
-        ]
+        ],
+        "ability": None
     },
     "boldore": {
         "name": "Boldore",
@@ -15368,7 +16562,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Power Gem"
             }
-        ]
+        ],
+        "ability": None
     },
     "gigalith ex": {
         "name": "Gigalith ex",
@@ -15387,7 +16582,8 @@ CARD_DB = {
                 "text": "This attack does 140 damage to 1 of your opponent's Pok\u00e9mon. During your next turn, this Pok\u00e9mon can't attack.",
                 "name": "Megaton Cannon"
             }
-        ]
+        ],
+        "ability": None
     },
     "tyrunt": {
         "name": "Tyrunt",
@@ -15404,7 +16600,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Hammer In"
             }
-        ]
+        ],
+        "ability": None
     },
     "tyrantrum": {
         "name": "Tyrantrum",
@@ -15422,7 +16619,8 @@ CARD_DB = {
                 "text": "If you have fewer Pok\u00e9mon in play than your opponent, this attack does 80 more damage.",
                 "name": "Tyrannical Fang"
             }
-        ]
+        ],
+        "ability": None
     },
     "cornerstone mask ogerpon": {
         "name": "Cornerstone Mask Ogerpon",
@@ -15439,7 +16637,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, during your opponent's next turn, this Pok\u00e9mon takes -100 damage from attacks.",
                 "name": "Cornerstone Dance"
             }
-        ]
+        ],
+        "ability": None
     },
     "alolan muk": {
         "name": "Alolan Muk",
@@ -15457,7 +16656,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Sludge Bomb"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Power of Alchemy",
+            "effect": "Basic Pok\u00e9mon in play\u00a0(both yours and your opponent's)\u00a0have no Abilities."
+        }
     },
     "galarian zigzagoon": {
         "name": "Galarian Zigzagoon",
@@ -15473,7 +16676,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Dig Claws"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian linoone": {
         "name": "Galarian Linoone",
@@ -15489,7 +16693,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rear Kick"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian obstagoon": {
         "name": "Galarian Obstagoon",
@@ -15506,7 +16711,8 @@ CARD_DB = {
                 "text": "If your opponent's Active Pok\u00e9mon has damage on it, this attack does 50 more damage.",
                 "name": "Merciless Strike"
             }
-        ]
+        ],
+        "ability": None
     },
     "scraggy": {
         "name": "Scraggy",
@@ -15522,7 +16728,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Headbutt"
             }
-        ]
+        ],
+        "ability": None
     },
     "scrafty": {
         "name": "Scrafty",
@@ -15539,7 +16746,8 @@ CARD_DB = {
                 "text": "If this Pok\u00e9mon has more Energy attached than your opponent's Active Pok\u00e9mon, this attack does 50 more damage.",
                 "name": "Crush the Weak"
             }
-        ]
+        ],
+        "ability": None
     },
     "yveltal": {
         "name": "Yveltal",
@@ -15557,7 +16765,8 @@ CARD_DB = {
                 "text": "Discard a random Energy from both Active Pok\u00e9mon.",
                 "name": "Evil Crash"
             }
-        ]
+        ],
+        "ability": None
     },
     "guzzlord": {
         "name": "Guzzlord",
@@ -15576,7 +16785,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, discard your opponent's Active Pok\u00e9mon.",
                 "name": "Breakcore"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian meowth": {
         "name": "Galarian Meowth",
@@ -15592,7 +16802,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Slash"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian perrserker": {
         "name": "Galarian Perrserker",
@@ -15609,7 +16820,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Metal Claw"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Dig Up",
+            "effect": "Once during your turn, when you play this Pok\u00e9mon from your hand to evolve 1 of your Pok\u00e9mon, you may put 2 random Pok\u00e9mon Tool cards from your discard pile into your hand."
+        }
     },
     "mega mawile ex": {
         "name": "Mega Mawile ex",
@@ -15626,7 +16841,8 @@ CARD_DB = {
                 "text": "Until this Pok\u00e9mon leaves the Active Spot, this Pok\u00e9mon's Heat-Up Crunch attack does +30 damage. This effect stacks.",
                 "name": "Heat-Up Crunch"
             }
-        ]
+        ],
+        "ability": None
     },
     "galarian stunfisk": {
         "name": "Galarian Stunfisk",
@@ -15643,7 +16859,8 @@ CARD_DB = {
                 "text": "During your opponent's next turn, if this Pok\u00e9mon is in the Active Spot when your opponent's Active Pok\u00e9mon retreats, this attack does 40 damage to the new Active Pok\u00e9mon.",
                 "name": "Snapping Trap"
             }
-        ]
+        ],
+        "ability": None
     },
     "bagon": {
         "name": "Bagon",
@@ -15659,7 +16876,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Bite"
             }
-        ]
+        ],
+        "ability": None
     },
     "shelgon": {
         "name": "Shelgon",
@@ -15676,7 +16894,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Rolling Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "salamence": {
         "name": "Salamence",
@@ -15694,7 +16913,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this Pok\u00e9mon also does 50 damage to itself.",
                 "name": "Dragon Dive"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega kangaskhan ex": {
         "name": "Mega Kangaskhan ex",
@@ -15712,7 +16932,8 @@ CARD_DB = {
                 "text": "This attack is used twice in a row. The second attack does 40 damage.(If the first attack Knocks Out your opponent's Active Pok\u00e9mon, the second attack is used after your opponent chooses a new Active Pok\u00e9mon.)",
                 "name": "Double-Punching Family"
             }
-        ]
+        ],
+        "ability": None
     },
     "lugia": {
         "name": "Lugia",
@@ -15731,7 +16952,8 @@ CARD_DB = {
                 "text": "Flip 2 coins. This attack does 40 more damage for each heads.",
                 "name": "Aeroblast"
             }
-        ]
+        ],
+        "ability": None
     },
     "taillow": {
         "name": "Taillow",
@@ -15747,7 +16969,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Peck"
             }
-        ]
+        ],
+        "ability": None
     },
     "swellow": {
         "name": "Swellow",
@@ -15764,7 +16987,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Wing Attack"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Repelling Wind",
+            "effect": "Once during your turn, you may switch out your opponent's Active Basic Pok\u00e9mon to the Bench.\u00a0(Your opponent chooses the new Active Pok\u00e9mon.)"
+        }
     },
     "slakoth": {
         "name": "Slakoth",
@@ -15780,7 +17007,8 @@ CARD_DB = {
                 "text": "Your opponent's Active Pok\u00e9mon is now Asleep.",
                 "name": "Yawn"
             }
-        ]
+        ],
+        "ability": None
     },
     "vigoroth": {
         "name": "Vigoroth",
@@ -15797,7 +17025,8 @@ CARD_DB = {
                 "text": "Flip a coin. If tails, this attack does nothing.",
                 "name": "Best Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "slaking": {
         "name": "Slaking",
@@ -15815,7 +17044,11 @@ CARD_DB = {
                 "text": "Discard a random Energy from this Pok\u00e9mon.",
                 "name": "Knuckle Sandwich"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Snoozing Habit",
+            "effect": "As long as this Pok\u00e9mon is in the Active Spot, whenever you attach an Energy from your Energy Zone to it, it is now Asleep."
+        }
     },
     "tornadus": {
         "name": "Tornadus",
@@ -15832,7 +17065,8 @@ CARD_DB = {
                 "text": "If a Stadium is in play, this attack does 40 more damage.",
                 "name": "Blow Through"
             }
-        ]
+        ],
+        "ability": None
     },
     "bunnelby": {
         "name": "Bunnelby",
@@ -15848,7 +17082,8 @@ CARD_DB = {
                 "text": "",
                 "name": "Gnaw"
             }
-        ]
+        ],
+        "ability": None
     },
     "diggersby": {
         "name": "Diggersby",
@@ -15865,7 +17100,8 @@ CARD_DB = {
                 "text": "This attack also does 10 damage to each of your Benched Pok\u00e9mon.",
                 "name": "Earthquake"
             }
-        ]
+        ],
+        "ability": None
     },
     "tandemaus": {
         "name": "Tandemaus",
@@ -15881,7 +17117,8 @@ CARD_DB = {
                 "text": "Put 3 random cards from among Tandemaus and Maushold from your deck onto your Bench.",
                 "name": "Flock"
             }
-        ]
+        ],
+        "ability": None
     },
     "maushold": {
         "name": "Maushold",
@@ -15897,7 +17134,8 @@ CARD_DB = {
                 "text": "Flip a coin for each Tandemaus and Maushold you have in play. This attack does 60 damage for each heads.",
                 "name": "Family Beatdown"
             }
-        ]
+        ],
+        "ability": None
     },
     "falinks": {
         "name": "Falinks",
@@ -15913,7 +17151,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Invade"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Coordinated Unit",
+            "effect": "If you have another Falinks in play, this Pok\u00e9mon's attacks do +20 damage to your opponent's Active Pok\u00e9mon, and this Pok\u00e9mon takes -20 damage from attacks from your opponent's Pok\u00e9mon."
+        }
     },
     "lapras ex": {
         "name": "Lapras ex",
@@ -15931,7 +17173,8 @@ CARD_DB = {
                 "text": "Heal 20 damage from this Pok\u00e9mon.",
                 "name": "Bubble Drain"
             }
-        ]
+        ],
+        "ability": None
     },
     "cresselia ex": {
         "name": "Cresselia ex",
@@ -15949,7 +17192,11 @@ CARD_DB = {
                 "text": "",
                 "name": "Psychic Flash"
             }
-        ]
+        ],
+        "ability": {
+            "title": "Lunar Plumage",
+            "effect": "Whenever you attach a [P] Energy from your Energy Zone to this Pok\u00e9mon, heal 20 damage from this Pok\u00e9mon."
+        }
     },
     "rayquaza": {
         "name": "Rayquaza",
@@ -15968,7 +17215,8 @@ CARD_DB = {
                 "text": "Flip a coin until you get tails. This attack does 30 more damage for each heads.",
                 "name": "Spiral Rush"
             }
-        ]
+        ],
+        "ability": None
     },
     "rayquaza ex": {
         "name": "Rayquaza ex",
@@ -15987,7 +17235,8 @@ CARD_DB = {
                 "text": "1 of your opponent's Pok\u00e9mon is chosen at random 4 times. For each time a Pok\u00e9mon was chosen, do 40 damage to it.",
                 "name": "Draco Meteor"
             }
-        ]
+        ],
+        "ability": None
     },
     "dawn wings necrozma": {
         "name": "Dawn Wings Necrozma",
@@ -16005,7 +17254,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 30 damage to itself.",
                 "name": "Psychobilly"
             }
-        ]
+        ],
+        "ability": None
     },
     "dusk mane necrozma": {
         "name": "Dusk Mane Necrozma",
@@ -16023,7 +17273,8 @@ CARD_DB = {
                 "text": "Discard a [M] Energy from this Pok\u00e9mon.",
                 "name": "Black Metal"
             }
-        ]
+        ],
+        "ability": None
     },
     "ultra necrozma ex": {
         "name": "Ultra Necrozma ex",
@@ -16052,7 +17303,8 @@ CARD_DB = {
                 "text": "Discard the top 5 cards of each player's deck.",
                 "name": "Shoegaze"
             }
-        ]
+        ],
+        "ability": None
     },
     "blissey ex": {
         "name": "Blissey ex",
@@ -16071,7 +17323,8 @@ CARD_DB = {
                 "text": "Flip a coin. If heads, heal 60 damage from this Pok\u00e9mon.",
                 "name": "Happy Punch"
             }
-        ]
+        ],
+        "ability": None
     },
     "raichu ex": {
         "name": "Raichu ex",
@@ -16089,7 +17342,8 @@ CARD_DB = {
                 "text": "This Pok\u00e9mon also does 30 damage to itself.",
                 "name": "Volt Tackle"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega pidgeot ex": {
         "name": "Mega Pidgeot ex",
@@ -16107,7 +17361,8 @@ CARD_DB = {
                 "text": "Flip 3 coins. For each heads, discard a random Energy from your opponent's Active Pok\u00e9mon. If all of them are tails, this attack does nothing.",
                 "name": "Giant Twister"
             }
-        ]
+        ],
+        "ability": None
     },
     "mega latios ex": {
         "name": "Mega Latios ex",
@@ -16125,6 +17380,7 @@ CARD_DB = {
                 "text": "Discard all Energy from this Pok\u00e9mon.",
                 "name": "Sonic Impulse"
             }
-        ]
+        ],
+        "ability": None
     }
 }

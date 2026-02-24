@@ -243,7 +243,12 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             elif "tails, this attack does nothing" in text:
                  damage *= 0.5
 
-    # 2. Scaling Damage
+    # 2. Fixed Damage in Text
+    m_fixed = re.search(r"this attack does (\d+) damage", text)
+    if m_fixed:
+        damage = int(m_fixed.group(1))
+
+    # 3. Scaling Damage
     if "damage for each" in text and "heads" not in text:
         multiplier = 20
         m_mult = re.search(r"(\d+) damage for each", text)
@@ -266,7 +271,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         else:
              damage += (count * multiplier)
 
-    # 3. Specific Card Overrides
+    # 4. Specific Card Overrides
     if "pikachu ex" in name_lower and attack_idx == 0:
          count = 0
          for b in state.my_bench:

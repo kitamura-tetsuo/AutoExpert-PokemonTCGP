@@ -199,19 +199,19 @@ def main():
     
     # 1. Load Current Best (P0)
     current_best_func = None
-    library = SkillLibrary()
-    best_skill = library.get_best_skill()
-    if best_skill:
-        logging.info(f"Using expert skill from library for Player 0: {best_skill['name']}")
-        current_best_func = get_play_func(best_skill)
-    else:
-        try:
-            import candidate_player
-            import importlib
-            importlib.reload(candidate_player)
-            current_best_func = candidate_player.play
-            logging.info("Using candidate_player.play for Player 0.")
-        except ImportError:
+    try:
+        import candidate_player
+        import importlib
+        importlib.reload(candidate_player)
+        current_best_func = candidate_player.play
+        logging.info("Using candidate_player.play for Player 0.")
+    except ImportError:
+        library = SkillLibrary()
+        best_skill = library.get_best_skill()
+        if best_skill:
+            logging.info(f"Using expert skill from library for Player 0: {best_skill['name']}")
+            current_best_func = get_play_func(best_skill)
+        else:
             logging.warning("No current expert found. Using random.")
             current_best_func = get_play_func(None)
 

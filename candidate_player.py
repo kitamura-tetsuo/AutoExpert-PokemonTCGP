@@ -235,6 +235,18 @@ class Card:
 
         return self.energy_count < max_cost
 
+    @property
+    def ability_used(self):
+        if self.obj and hasattr(self.obj, "ability_used"):
+             return self.obj.ability_used
+        return False
+
+    @property
+    def attached_tool(self):
+        if self.obj and hasattr(self.obj, "attached_tool"):
+             return self.obj.attached_tool
+        return None
+
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):
         self.state = state
@@ -409,106 +421,104 @@ def get_opponent_max_damage(gs: GameStateWrapper):
     # Create a view from opponent's perspective
     opp_gs = GameStateWrapper(gs.state, perspective_player=gs.opp)
 
+    # Scan opponent board for support abilities (Gardevoir, Leafeon ex)
+    support_energy = {"Psychic": 0, "Grass": 0}
+    potential_supporters = [opp_gs.my_active] + opp_gs.my_bench
+    for card in potential_supporters:
+        if not card or card.name == "Unknown": continue
+        if card.ability_used: continue
+        if not card.db_entry: continue
+
+        ab = card.db_entry.get("ability")
+        if not ab: continue
+
+        n_lower = card.name.lower()
+        if "gardevoir" in n_lower:
+             support_energy["Psychic"] += 1
+        elif "leafeon ex" in n_lower and card == opp_gs.my_active:
+             support_energy["Grass"] += 1
+
     max_dmg = 0
     attacker = opp_gs.my_active
 
-    # 1. Active Damage (Current state)
-    if attacker:
-        current_energy = attacker.energy
+    def evaluate_attacker(attacker_card, is_active_now, manual_attach_available):
+        if not attacker_card: return 0
+        local_max = 0
 
-        attacks = attacker.attacks
-        for i, atk in enumerate(attacks):
+        current_energy = attacker_card.energy
+        extra_energy = []
+
+        # 1. Self abilities
+        if not attacker_card.ability_used and attacker_card.db_entry:
+             ab = attacker_card.db_entry.get("ability")
+             if ab:
+                 n_lower = attacker_card.name.lower()
+                 if "hydreigon" in n_lower:
+                     extra_energy.extend(["Darkness", "Darkness"])
+                 elif "magneton" in n_lower:
+                     extra_energy.append("Lightning")
+                 elif "flareon ex" in n_lower:
+                     extra_energy.append("Fire")
+
+        # 2. Support abilities
+        if is_active_now and "Psychic" in attacker_card.energy_type:
+             for _ in range(support_energy["Psychic"]):
+                 extra_energy.append("Psychic")
+
+        if "Grass" in attacker_card.energy_type:
+             for _ in range(support_energy["Grass"]):
+                 extra_energy.append("Grass")
+
+        available_base = list(current_energy) + list(extra_energy)
+
+        for i, atk in enumerate(attacker_card.attacks):
             cost = atk.get("cost", [])
-            # Check if they can use it
-            if can_use_attack(cost, current_energy):
-                 dmg = calculate_damage(attacker, i, opp_gs, extra_damage=0, mode="max")
-                 if dmg > max_dmg: max_dmg = dmg
+            needed_types = [c for c in cost if c != "Colorless"]
 
-            # Check if they can use it with +1 Energy attachment
-            # This covers potential attachment to active
-            simulated_energy = current_energy + ["Colorless"] # Assume any energy can be attached (effectively)
-            # Actually, we should check specific types, but "Colorless" is safest assumption for quantity check
-            # For colored costs, we'd need to guess. Let's just assume +1 count is enough if colors match partially?
-            # Or simplified: if len(cost) <= len(current_energy) + 1.
-            # But let's stick to strict check for now to avoid false positives.
-            # If we assume they attach the RIGHT energy:
-            needed_types = []
-            for c in cost:
-                if c != "Colorless": needed_types.append(c)
-
-            # Count missing
+            available = list(available_base)
             missing = 0
-            temp_energy = list(current_energy)
             for c in needed_types:
-                if c in temp_energy:
-                    temp_energy.remove(c)
+                if c in available:
+                    available.remove(c)
                 else:
                     missing += 1
 
-            if missing <= 1: # If only 1 specific energy missing, assume they can attach it
-                 # Check total count
-                 if len(current_energy) + 1 >= len(cost):
-                      dmg = calculate_damage(attacker, i, opp_gs, extra_damage=0, mode="max")
-                      if dmg > max_dmg: max_dmg = dmg
+            can_use = False
+            if missing == 0:
+                if len(available) >= (len(cost) - len(needed_types)):
+                     can_use = True
+                elif manual_attach_available and len(available) + 1 >= (len(cost) - len(needed_types)):
+                     can_use = True
+            elif missing == 1 and manual_attach_available:
+                # Manual attach provides the missing specific energy
+                if (len(available_base) + 1) >= len(cost):
+                    can_use = True
+
+            if can_use:
+                 d = calculate_damage(attacker_card, i, opp_gs, extra_damage=0, mode="max")
+                 if d > local_max: local_max = d
+
+        return local_max
+
+    # 1. Active Damage
+    max_dmg = evaluate_attacker(attacker, True, True)
 
     # 2. Bench Threats (Retreat/Switch)
-    # If active can retreat (or is knocked out? No, get_opponent_max_damage assumes active is alive)
-    # Check if they can retreat
     can_retreat = False
+    manual_attach_for_bench = True
+
     if attacker:
         retreat_cost = attacker.retreat_cost
         if attacker.energy_count >= retreat_cost:
             can_retreat = True
         elif attacker.energy_count + 1 >= retreat_cost:
-            can_retreat = True # Assume they attach to retreat
+            can_retreat = True
+            manual_attach_for_bench = False # Consumed by retreat
 
     if can_retreat:
         for b in opp_gs.my_bench:
-            # Check if b can attack immediately upon becoming active
-            # We assume no extra energy attached to b (because attached to active to retreat?)
-            # UNLESS retreat cost was 0 or already met.
-            # If retreat cost met without attachment, they can attach to b!
-
-            # Case A: Retreat paid by existing energy -> Attach to B possible
-            # Case B: Retreat paid by attaching -> No attach to B
-
-            can_attach_to_b = False
-            if attacker.energy_count >= attacker.retreat_cost:
-                can_attach_to_b = True
-
-            b_energy = b.energy
-
-            for i, atk in enumerate(b.attacks):
-                cost = atk.get("cost", [])
-
-                # Check if usable now
-                usable = can_use_attack(cost, b_energy)
-
-                # Check if usable with +1 attachment (if allowed)
-                if not usable and can_attach_to_b:
-                    # Same logic as above for active
-                    needed_types = [c for c in cost if c != "Colorless"]
-                    missing = 0
-                    temp = list(b_energy)
-                    for c in needed_types:
-                        if c in temp: temp.remove(c)
-                        else: missing += 1
-
-                    if missing <= 1 and len(b_energy) + 1 >= len(cost):
-                        usable = True
-
-                if usable:
-                    # We need to pass 'extra_damage' if needed, but for bench we assume standard max
-                    # Note: we need to pass the correct 'attacker' to calculate_damage
-                    # But calculate_damage takes 'attacker: Card', which 'b' is.
-                    # However, 'state' passed to it assumes 'opp_gs'.
-                    # We need to temporarily set 'opp_gs.my_active' to 'b' for context?
-                    # 'calculate_damage' uses 'state.opp_bench' etc.
-                    # If b becomes active, the old active goes to bench.
-                    # This might affect scaling damage (e.g. "damage for each benched pokemon").
-                    # But for now, let's just approximate by using current state.
-                    d = calculate_damage(b, i, opp_gs, extra_damage=0, mode="max")
-                    if d > max_dmg: max_dmg = d
+            d = evaluate_attacker(b, True, manual_attach_for_bench)
+            if d > max_dmg: max_dmg = d
 
     return max_dmg
 
@@ -645,6 +655,23 @@ def play(state, game):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
                             action["score"] += 1000
+
+                # Check for Self-Harm (Poison Barb / Rocky Helmet)
+                if gs.opp_active:
+                     tool = gs.opp_active.attached_tool
+                     if tool:
+                         tname = tool.name.lower()
+                         recoil = 0
+                         if "poison barb" in tname: recoil = 10
+                         elif "rocky helmet" in tname: recoil = 20
+
+                         if recoil > 0 and action["damage"] > 0:
+                             surviving_hp = gs.my_active.hp - recoil
+                             # Only penalize if it changes survival status (we die next turn due to this)
+                             # opp_max_dmg is what they can do next turn.
+                             if gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
+                                  if not action.get("is_lethal") and not action.get("is_ko"):
+                                       action["score"] -= 50000 # Don't suicide if not KO/Lethal
 
                 # Donk Avoidance for Attack
                 if len(gs.my_bench) == 0 and not action.get("is_lethal") and not action.get("is_ko"):

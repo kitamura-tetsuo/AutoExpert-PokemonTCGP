@@ -899,6 +899,8 @@ def play(state, game):
             elif "mars" in aname_lower or "bill" in aname_lower or "hau" in aname_lower or "nemona" in aname_lower or ("bug" in aname_lower and "catcher" in aname_lower) or "tierno" in aname_lower or ("mom" in aname_lower and "gaze" in aname_lower):
                  action["type"] = "draw_supporter"
                  action["score"] = DRAW_SUPPORTER_SCORE
+                 if len(gs.my_hand) < 3:
+                     action["score"] += 3000
                  if risk_of_donk:
                      action["score"] = DONK_DRAW_SCORE
 
@@ -1218,8 +1220,10 @@ def play(state, game):
                          a["score"] += 1000
 
                          retreat_cost = target.retreat_cost
+                         # Only boost weak attach if not threatened OR if attachment allows retreat
                          if target.energy_count < retreat_cost:
-                             a["score"] += ACTIVE_WEAK_ATTACH_BONUS # Always boost if we can't retreat, might need to pivot
+                             if not threat_lethal or (target.energy_count + 1 >= retreat_cost):
+                                 a["score"] += ACTIVE_WEAK_ATTACH_BONUS
 
                          # Lethal Lookahead
                          if target and target.db_entry:
@@ -1242,13 +1246,12 @@ def play(state, game):
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
                          if threat_lethal and a["score"] < 90000: # 75000 base + small bonuses < 90000 (lethal boost is +20000)
-                             a["score"] -= 5000
+                             a["score"] -= 10000 # Increased penalty
 
                 else:
                      a["score"] -= 1000
             else:
                 a["score"] -= 100000
-
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()

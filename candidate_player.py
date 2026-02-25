@@ -60,114 +60,6 @@ CARRY_LIST = [
     "mega altaria ex", "greninja ex", "greninja", "mega kangaskhan ex"
 ]
 
-EVOLUTION_COST_MAP = {
-    "bulbasaur": 4, "ivysaur": 4,
-    "charmander": 4, "charmeleon": 4,
-    "squirtle": 3, "wartortle": 3,
-    "caterpie": 3, "metapod": 3,
-    "weedle": 1, "kakuna": 1,
-    "pidgey": 2, "pidgeotto": 2,
-    "rattata": 2,
-    "spearow": 2,
-    "ekans": 2,
-    "pikachu": 3,
-    "sandshrew": 2,
-    "nidoran♀": 3, "nidorina": 3, "nidoran\u2640": 3,
-    "nidoran♂": 3, "nidorino": 3, "nidoran\u2642": 3,
-    "clefairy": 3,
-    "vulpix": 2,
-    "jigglypuff": 3,
-    "zubat": 2,
-    "oddish": 3, "gloom": 3,
-    "paras": 2,
-    "venonat": 2,
-    "diglett": 1,
-    "meowth": 2,
-    "psyduck": 2,
-    "mankey": 2,
-    "growlithe": 3,
-    "poliwag": 3, "poliwhirl": 3,
-    "abra": 3, "kadabra": 3,
-    "machop": 3, "machoke": 3,
-    "bellsprout": 2, "weepinbell": 2,
-    "tentacool": 2,
-    "geodude": 4, "graveler": 4,
-    "ponyta": 1,
-    "slowpoke": 3,
-    "magnemite": 4,
-    "farfetch'd": 2,
-    "doduo": 1,
-    "seel": 3,
-    "grimer": 3,
-    "shellder": 3,
-    "gastly": 3, "haunter": 3,
-    "onix": 3,
-    "drowzee": 3,
-    "krabby": 3,
-    "voltorb": 2,
-    "exeggcute": 1,
-    "cubone": 2,
-    "koffing": 3,
-    "rhyhorn": 4,
-    "horsea": 3,
-    "goldeen": 1,
-    "staryu": 2,
-    "magikarp": 4,
-    "eevee": 3,
-    "omanyte": 3,
-    "kabuto": 1,
-    "dratini": 4, "dragonair": 4,
-    "ralts": 3, "kirlia": 3,
-    "froakie": 2, "frogadier": 2,
-    "pawniard": 2,
-    "meltan": 4,
-    "blitzle": 1,
-    "mareep": 3,
-    "skrelp": 3,
-    "goomy": 3,
-    "noibat": 2,
-    "axew": 3,
-    "deino": 3, "zweilous": 3,
-    "larvesta": 3,
-    "fletchling": 1,
-    "litleo": 3,
-    "skiddo": 2,
-    "pancham": 3,
-    "furfrou": 2,
-    "espurr": 2,
-    "honedge": 3,
-    "spritzee": 2,
-    "swirlix": 2,
-    "inkay": 3,
-    "binacle": 3,
-    "clauncher": 2,
-    "helioptile": 2,
-    "tyrunt": 3,
-    "amaura": 3,
-    "phantump": 3,
-    "pumpkaboo": 3,
-    "bergmite": 3,
-    "rowlet": 3,
-    "litten": 3,
-    "popplio": 3,
-    "pikipek": 3,
-    "yungoos": 1,
-    "grubbin": 3,
-    "crabrawler": 3,
-    "mareanie": 2,
-    "mudbray": 3,
-    "dewpider": 3,
-    "fomantis": 1,
-    "morelull": 2,
-    "salandit": 2,
-    "stufful": 3,
-    "bounsweet": 3,
-    "oranguru": 2,
-    "passimian": 2,
-    "wimpod": 3,
-    "sandygast": 3,
-}
-
 WEAKNESS_MAP = {
     "Grass": ["Fire"],
     "Fire": ["Water"],
@@ -283,32 +175,46 @@ class Card:
 
     def needs_energy(self):
         max_cost = 0
-        n_lower = self.name.lower()
-
-        # 1. Check Evolution Cost Map first (Override for evolutions)
-        if n_lower in EVOLUTION_COST_MAP:
-            max_cost = EVOLUTION_COST_MAP[n_lower]
-
-        # 2. Check DB Entry
-        elif self.db_entry:
+        if self.db_entry:
             attacks = self.attacks
-            if attacks:
+            if not attacks:
+                max_cost = 0
+            else:
                 for atk in attacks:
                     cost = len(atk.get("cost", []))
                     if cost > max_cost: max_cost = cost
 
-        # 3. Fallback logic
-        if max_cost == 0:
-            # Fallback if DB missing or no attacks (unlikely for cards we care about)
-            max_cost = 3 # Increased default
-            if "pikachu ex" in n_lower: max_cost = 3 # Ensure 3 for Raichu just in case
-            elif "mewtwo ex" in n_lower: max_cost = 4 # Psydrive
+            if max_cost == 0:
+                n_lower = self.name.lower()
+                if n_lower in ["pichu", "bulbasaur", "charmander", "squirtle", "ralts", "gastly", "abra", "machop", "geodude", "dratini", "growlithe", "eevee", "nidoran", "poliwag", "mareep", "blitzle", "meltan", "turtwig", "chimchar", "piplup", "deino", "zorua", "froakie"]:
+                    max_cost = 2
+
+        # Override for evolving basics regardless of DB presence
+        n_lower = self.name.lower()
+        if n_lower == "froakie": max_cost = 2
+        elif n_lower == "ralts": max_cost = 3 # For Gardevoir
+        elif n_lower == "gastly": max_cost = 3 # For Gengar
+        elif n_lower == "dratini": max_cost = 4 # Dragonite
+        elif n_lower == "charmander": max_cost = 4 # Charizard ex
+        elif n_lower == "squirtle": max_cost = 3 # Blastoise ex
+        elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
+        elif n_lower == "abra": max_cost = 3 # Alakazam
+        elif n_lower == "machop": max_cost = 3 # Machamp
+
+        if not self.db_entry:
+            # Fallback if DB missing
+            max_cost = 2
+            if "pikachu ex" in n_lower: max_cost = 2
+            elif "mewtwo ex" in n_lower: max_cost = 4
             elif "charizard ex" in n_lower: max_cost = 4
             elif "starmie ex" in n_lower: max_cost = 2
-            elif "greninja" in n_lower: max_cost = 3
+            elif "greninja" in n_lower: max_cost = 2
             elif "venusaur" in n_lower: max_cost = 4
             elif "mega" in n_lower and "ex" in n_lower: max_cost = 4
             elif "ex" in n_lower: max_cost = 3
+
+        if "pikachu ex" in self.name.lower():
+            max_cost = 2
 
         # Hard cap check
         if self.energy_count >= max_cost and max_cost > 0:
@@ -770,6 +676,288 @@ def play(state, game):
                 else:
                     if action["score"] < RETREAT_SCORE + 1000:
                          action["score"] = RETREAT_SCORE + 1000
+
+        elif "Activate" in aname:
+            m = re.search(r"Activate\((\d+)\)", aname)
+            if m:
+                action["type"] = "activate"
+                target_idx = int(m.group(1)) - 1
+                activating_for_opp = False
+                if gs.my_active and gs.my_active.hp > 0:
+                    activating_for_opp = True
+
+                action["score"] = LETHAL_WIN_SCORE # Must activate to continue
+
+                if activating_for_opp:
+                    # Logic for opponent is tricky. We can't really control it?
+                    # If game asks us to activate for opponent, it's usually weird state.
+                    # But if we must:
+                    target = None
+                    if target_idx < len(gs.opp_bench):
+                        target = gs.opp_bench[target_idx]
+                    if target:
+                        # Pick the WEAKEST one to stall?
+                        action["score"] -= target.hp * 10
+                        action["score"] -= target.energy_count * 5000
+                else:
+                    target = gs.get_bench_card(target_idx)
+                    if target:
+                        # Pick ready attacker
+                        action["score"] += target.hp
+                        if not target.needs_energy():
+                             action["score"] += 5000
+                        if "ex" in target.name.lower():
+                             # Prioritize EX as active? Or preserve?
+                             # Usually EX is attacker.
+                            action["score"] += 1000
+                        if target.hp < 60:
+                             action["score"] -= 500
+
+        elif "Discard" in aname:
+             action["type"] = "discard"
+             action["score"] = ITEM_SCORE
+
+        elif "UseAbility" in aname:
+            action["type"] = "ability"
+            action["score"] = ABILITY_SCORE
+            m = re.search(r"UseAbility\((\d+)\)", aname)
+            if m:
+                idx = int(m.group(1))
+                target = None
+                if idx == 0:
+                    target = gs.my_active
+                else:
+                    target = gs.get_bench_card(idx - 1)
+
+                if target:
+                    n_lower = target.name.lower()
+                    if "gardevoir" in n_lower:
+                        if gs.my_active and "Psychic" in gs.my_active.energy_type:
+                            action["score"] += 4000
+                            if gs.my_active.needs_energy():
+                                action["score"] += 2000
+
+                    elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower:
+                        action["score"] += 3000
+
+                    elif "greninja" in n_lower:
+                        action["score"] += 1000
+                        if gs.opp_bench:
+                            min_hp = 1000
+                            for b in gs.opp_bench:
+                                if b.hp < min_hp and b.hp > 0:
+                                    min_hp = b.hp
+                            if min_hp <= 20:
+                                 action["score"] = LETHAL_KO_SCORE
+
+        elif "ApplyDamage" in aname:
+             # ApplyDamage(idx) usually from Greninja (20 dmg)
+             m = re.search(r"ApplyDamage\((\d+)\)", aname)
+             if m:
+                 idx = int(m.group(1))
+                 action["type"] = "apply_damage"
+                 action["score"] = 50000 # High baseline
+
+                 target = None
+                 if idx == 0:
+                     target = gs.opp_active
+                 elif idx > 0:
+                     bench_idx = idx - 1
+                     if bench_idx < len(gs.opp_bench):
+                         target = gs.opp_bench[bench_idx]
+
+                 if target:
+                     if target.hp <= 20:
+                         action["score"] = LETHAL_KO_SCORE + 10000
+                         is_ex = "ex" in target.name.lower()
+                         if is_ex: action["score"] += 5000
+                         points_gained = 2 if is_ex else 1
+                         if points_gained >= points_needed_to_win:
+                             action["score"] = LETHAL_WIN_SCORE
+                     else:
+                         # Prioritize EX or active if it helps KO
+                         if "ex" in target.name.lower():
+                             action["score"] += 2000
+
+                         if idx == 0 and gs.my_active: # Hitting active
+                             # Check if this puts it in KO range for my active
+                             current_dmg = 0
+                             for i in range(len(gs.my_active.attacks)):
+                                 d = calculate_damage(gs.my_active, i, gs)
+                                 if d > current_dmg: current_dmg = d
+
+                             if current_dmg < target.hp and current_dmg >= (target.hp - 20):
+                                  action["score"] += 5000
+
+        actions.append(action)
+
+    if not gs.my_bench:
+        for a in actions:
+            if a["type"] == "place":
+                a["score"] = DONK_PREVENTION_SCORE
+
+    for a in actions:
+        if a["type"] == "attach_energy":
+            target = None
+            if a["pos"] == 0: target = gs.my_active
+            elif a["pos"] > 0:
+                bench_idx = a["pos"] - 1
+                target = gs.get_bench_card(bench_idx)
+
+            if not target:
+                a["score"] -= 10000
+                continue
+
+            if target.needs_energy():
+                is_compatible = False
+                if target.energy_type == "Colorless": is_compatible = True
+                elif a["energy_type"] == target.energy_type: is_compatible = True
+
+                if not is_compatible and target.db_entry:
+                    for atk in target.attacks:
+                        if a["energy_type"] in atk.get("cost", []):
+                            is_compatible = True
+                            break
+
+                if is_compatible:
+                    a["score"] += 2000
+                    if "ex" in target.name.lower():
+                        a["score"] += 1000
+                    if target.name.lower() in CARRY_LIST:
+                        a["score"] += CARRY_BONUS
+
+                    if a["pos"] == 0:
+                         a["score"] += 1000
+
+                         retreat_cost = target.retreat_cost
+                         if target.energy_count < retreat_cost:
+                             active_weak = target.hp < 60
+                             if active_weak: a["score"] += ACTIVE_WEAK_ATTACH_BONUS
+
+                         # Lethal Lookahead
+                         if target and target.db_entry:
+                             current_max_dmg = 0
+                             potential_max_dmg = 0
+                             new_energy = target.energy + [a["energy_type"]]
+
+                             for i, atk in enumerate(target.attacks):
+                                 if can_use_attack(atk.get("cost", []), target.energy):
+                                     d = calculate_damage(target, i, gs, extra_damage=10 if has_giovanni else 0)
+                                     if d > current_max_dmg: current_max_dmg = d
+
+                                 if can_use_attack(atk.get("cost", []), new_energy):
+                                     d = calculate_damage(target, i, gs, extra_damage=10 if has_giovanni else 0)
+                                     if d > potential_max_dmg: potential_max_dmg = d
+
+                             if gs.opp_active:
+                                 if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
+                                     a["score"] += 20000 # Boost significantly if it enables lethal
+                else:
+                     a["score"] -= 1000
+            else:
+                a["score"] -= 100000
+
+    for a in actions:
+        if a["type"] == "place":
+            n_lower = a.get("card_name", "").lower()
+            if len(gs.my_bench) >= 2:
+                if n_lower not in CARRY_LIST and "ex" not in n_lower:
+                    a["score"] -= 1000
+            if "ex" in n_lower or n_lower in CARRY_LIST:
+                a["score"] += CARRY_BONUS
+
+            if any("misty" in c.name.lower() for c in gs.my_hand):
+                 is_water = False
+                 key = n_lower
+                 if key in CARD_DB:
+                     if "Water" in CARD_DB[key].get("energy_type", "Colorless"): is_water = True
+                 elif any(x in n_lower for x in ["starmie", "greninja", "lapras", "blastoise", "articuno", "squirtle", "psyduck"]):
+                     is_water = True
+
+                 if is_water:
+                     a["score"] = MISTY_PREP_SCORE
+
+            if gs.my_active and "pikachu ex" in gs.my_active.name.lower():
+                 a["score"] += 5000
+                 current_damage = calculate_damage(gs.my_active, 0, gs)
+                 if gs.opp_active:
+                     if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
+                         a["score"] = LETHAL_KO_SCORE + 1000
+
+    for a in actions:
+        if a["type"] == "research":
+            # Smart Research: Discard energy is bad, UNLESS we can accelerate it back (Gardevoir)
+            has_energy = any("Energy" in c.name for c in gs.my_hand)
+            has_gardevoir_line = any("gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
+
+            if has_energy:
+                 if has_gardevoir_line:
+                     a["score"] += 1000 # Good to discard for Psy Shadow
+                 else:
+                     a["score"] -= 10000 # Bad to discard
+            elif len(gs.my_hand) >= 5:
+                 a["score"] += 1000
+            elif len(gs.my_hand) < 5:
+                a["score"] += 5000
+
+        elif a["type"] == "copycat":
+            if gs.opp_hand_count > len(gs.my_hand):
+                 a["score"] += 1000
+            elif gs.opp_hand_count <= len(gs.my_hand):
+                 a["score"] -= 5000
+        elif a["type"] == "misty":
+            a["score"] = MISTY_SCORE
+            targets = []
+            if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): targets.append(gs.my_active)
+            for b in gs.my_bench:
+                if "Water" in b.energy_type and b.needs_energy(): targets.append(b)
+            if targets:
+                 a["score"] += 2000
+            else:
+                 a["score"] -= 5000
+        elif a["type"] == "red_card":
+            if gs.opp_hand_count >= 4:
+                a["score"] += 2000
+            else:
+                a["score"] -= 2000
+        elif a["type"] == "potion":
+            # Already handled in parsing, but can refine here?
+            pass
+        elif a["type"] == "gust":
+            if can_win_on_bench:
+                a["score"] = LETHAL_WIN_SCORE
+            elif has_lethal_on_board:
+                a["score"] -= 50000
+            elif can_ko_on_bench:
+                a["score"] = GUST_LETHAL_SCORE
+            elif gs.opp_active and gs.opp_active.hp > 80:
+                a["score"] += 2000
+            else:
+                a["score"] -= 5000
+        elif a["type"] == "giovanni":
+            needed = False
+            gives_win = False
+
+            # Check if Giovanni makes any attack lethal
+            if gs.my_active and gs.opp_active:
+                for idx in range(len(gs.my_active.attacks)):
+                    base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                    if base_dmg < gs.opp_active.hp and (base_dmg + 10) >= gs.opp_active.hp:
+                        needed = True
+                        is_ex = "ex" in gs.opp_active.name.lower()
+                        points_gained = 2 if is_ex else 1
+                        if points_gained >= points_needed_to_win:
+                            gives_win = True
+                        break
+
+            if gives_win:
+                a["score"] = LETHAL_WIN_SCORE
+            elif needed:
+                a["score"] = GIOVANNI_NEEDED_SCORE
+            else:
+                is_attacking = any(x["type"] == "attack" for x in actions)
+                if is_attacking: a["score"] += 500
+                else: a["score"] -= 1000
 
     for a in actions:
         if a["type"] == "x_speed":

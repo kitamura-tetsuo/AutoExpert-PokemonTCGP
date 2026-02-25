@@ -520,6 +520,9 @@ def get_opponent_max_damage(gs: GameStateWrapper):
             d = evaluate_attacker(b, True, manual_attach_for_bench)
             if d > max_dmg: max_dmg = d
 
+    # Add buffer for unknown buffs (Giovanni etc.)
+    max_dmg += 10
+
     return max_dmg
 
 def play(state, game):
@@ -598,7 +601,7 @@ def play(state, game):
             action["type"] = "end_turn"
             action["score"] = END_TURN_SCORE
             # Avoid ending turn if we can play a basic to prevent donk
-            if len(gs.my_bench) == 0 and gs.my_active and gs.my_active.hp <= 60:
+            if risk_of_donk and gs.my_active and gs.my_active.hp <= 60:
                  action["score"] -= 100000
 
         elif "Attack" in aname:
@@ -674,7 +677,7 @@ def play(state, game):
                                        action["score"] -= 50000 # Don't suicide if not KO/Lethal
 
                 # Donk Avoidance for Attack
-                if len(gs.my_bench) == 0 and not action.get("is_lethal") and not action.get("is_ko"):
+                if risk_of_donk and not action.get("is_lethal") and not action.get("is_ko"):
                      # Score is already decent (ATTACK_BASE_SCORE), but ensure it doesn't override Place Basic.
                      pass
 
@@ -720,20 +723,31 @@ def play(state, game):
             action["type"] = "evolve"
             action["score"] = EVOLVE_SCORE
 
-            # Defensive Evolution Check
-            if threat_lethal:
-                action["score"] += 2000 # Prioritize evolution to build board/options when threatened
+            # Enhanced Defensive Evolution Logic
+            m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+            if m:
+                card_name_raw = m.group(1)
+                target_pos = int(m.group(2))
+                evolution_name = Card._clean_name(card_name_raw)
 
-            if threat_lethal and gs.my_active:
-                m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
-                if m:
-                    target_pos = int(m.group(2))
+                # Check DB for HP
+                evol_entry = None
+                key = evolution_name.lower()
+                if key in CARD_DB_FULL: evol_entry = CARD_DB_FULL[key][0]
+                elif key in CARD_DB: evol_entry = CARD_DB[key] if not isinstance(CARD_DB[key], list) else CARD_DB[key][0]
+
+                evol_hp = evol_entry.get("hp", 0) if evol_entry else 0
+
+                if threat_lethal:
+                    action["score"] += 2000
+
                     if target_pos == 0: # Evolving active
-                        # Check if evolution saves us (HP > opp_max_dmg)
-                        # We can try to guess evolution HP or just assume it's better
-                        # Most stage 1/2 are > 80 HP.
-                        if opp_max_dmg < 100: # Simple heuristic
-                             action["score"] += 20000
+                        current_hp = gs.my_active.hp if gs.my_active else 0
+                        # If evolution saves us from lethal
+                        if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
+                             action["score"] += 25000 # Boost significantly
+                        elif evol_hp > current_hp:
+                             action["score"] += 2000 # Small boost for HP increase
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Specific Item Parsing
@@ -768,9 +782,33 @@ def play(state, game):
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
                 action["score"] = RESEARCH_SCORE
+                if risk_of_donk:
+                    action["score"] = DONK_SEARCH_SCORE
+                else:
+                    if gs.opp_hand_count > len(gs.my_hand):
+                         action["score"] += 1000
+                    elif gs.opp_hand_count <= len(gs.my_hand):
+                         action["score"] -= 5000
+
             elif "misty" in aname_lower:
                 action["type"] = "misty"
                 action["score"] = MISTY_SCORE
+                targets = []
+                if gs.my_active and "Water" in gs.my_active.energy_type:
+                     if gs.my_active.needs_energy() or gs.my_active.energy_count < 5:
+                         targets.append(gs.my_active)
+                for b in gs.my_bench:
+                    if "Water" in b.energy_type:
+                        if b.needs_energy() or b.energy_count < 5:
+                             targets.append(b)
+                if targets:
+                     a["score"] += 2000
+                else:
+                     a["score"] -= 5000
+
+                # If desperate for ANY action or stall, maybe Misty helps?
+                # But it doesn't draw cards.
+
             elif "giovanni" in aname_lower:
                 action["type"] = "giovanni"
                 action["score"] = GIOVANNI_SCORE
@@ -782,8 +820,6 @@ def play(state, game):
                 action["score"] = SEARCH_SCORE
                 if risk_of_donk:
                     action["score"] = DONK_SEARCH_SCORE
-                if len(gs.my_bench) == 0:
-                     action["score"] = DONK_SEARCH_SCORE
 
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
@@ -1099,10 +1135,13 @@ def play(state, game):
                 a["score"] += 5000
 
         elif a["type"] == "copycat":
-            if gs.opp_hand_count > len(gs.my_hand):
-                 a["score"] += 1000
-            elif gs.opp_hand_count <= len(gs.my_hand):
-                 a["score"] -= 5000
+            if risk_of_donk:
+                pass # Already handled
+            else:
+                if gs.opp_hand_count > len(gs.my_hand):
+                     a["score"] += 1000
+                elif gs.opp_hand_count <= len(gs.my_hand):
+                     a["score"] -= 5000
         elif a["type"] == "misty":
             a["score"] = MISTY_SCORE
             targets = []

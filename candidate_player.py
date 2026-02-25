@@ -23,6 +23,14 @@ except ImportError:
     CARD_DB = {}
     CARD_DB_FULL = {}
 
+# Ensure CARD_DB_FULL is populated if empty but CARD_DB exists
+if not CARD_DB_FULL and CARD_DB:
+    for k, v in CARD_DB.items():
+        if isinstance(v, list):
+            CARD_DB_FULL[k] = v
+        else:
+            CARD_DB_FULL[k] = [v]
+
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
 DONK_PREVENTION_SCORE = 502000 # Prioritize placing basic immediately
@@ -46,6 +54,7 @@ DRAW_SUPPORTER_SCORE = 72000
 GIOVANNI_SCORE = 60000
 
 ABILITY_SCORE = 50000
+INFERNO_DANCE_SCORE = 20000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
@@ -248,6 +257,12 @@ class Card:
         if self.obj and hasattr(self.obj, "attached_tool"):
              return self.obj.attached_tool
         return None
+
+    @property
+    def status(self):
+        if self.obj and hasattr(self.obj, "status"):
+             return self.obj.status
+        return []
 
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):
@@ -700,6 +715,20 @@ def play(state, game):
                     if not is_ko and gs.opp_active and max_damage >= gs.opp_active.hp:
                         action["score"] += POTENTIAL_LETHAL_BONUS
 
+                    if "moltres ex" in gs.my_active.name.lower() and idx == 0:
+                         fire_needs = 0
+                         for b in gs.my_bench:
+                             if "Fire" in b.energy_type and b.needs_energy():
+                                 fire_needs += 1
+                         if fire_needs > 0:
+                             action["score"] = INFERNO_DANCE_SCORE + (fire_needs * 5000)
+
+                    if action["damage"] == 0:
+                         atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+                         if "deck" in atk_text and "bench" in atk_text:
+                              if len(gs.my_bench) < 3:
+                                   action["score"] += 5000
+
                     if is_ko:
                         action["score"] = LETHAL_KO_SCORE
                         action["is_ko"] = True
@@ -878,21 +907,32 @@ def play(state, game):
             elif "misty" in aname_lower:
                 action["type"] = "misty"
                 action["score"] = MISTY_SCORE + 2000 # Boost slightly above Attach (75000) -> 80000 base
-                targets = []
-                if gs.my_active and "Water" in gs.my_active.energy_type:
-                     if gs.my_active.needs_energy() or gs.my_active.energy_count < 5:
-                         targets.append(gs.my_active)
-                for b in gs.my_bench:
-                    if "Water" in b.energy_type:
-                        if b.needs_energy() or b.energy_count < 5:
-                             targets.append(b)
-                if targets:
-                     a["score"] += 2000
-                else:
-                     a["score"] -= 5000
 
-                # If desperate for ANY action or stall, maybe Misty helps?
-                # But it doesn't draw cards.
+                # Helper to score targets
+                def score_misty_target(card):
+                    s = 0
+                    if not card: return 0
+                    if "Water" not in card.energy_type: return 0
+
+                    if card.needs_energy(): s += 2000
+                    if card.energy_count < 5: s += 1000
+                    if "ex" in card.name.lower(): s += 1000
+                    if card.name.lower() in CARRY_LIST: s += 1000
+                    return s
+
+                best_target_score = 0
+                if gs.my_active:
+                     s = score_misty_target(gs.my_active)
+                     if s > 0: best_target_score = max(best_target_score, s)
+
+                for b in gs.my_bench:
+                     s = score_misty_target(b)
+                     if s > 0: best_target_score = max(best_target_score, s)
+
+                if best_target_score > 0:
+                     action["score"] += best_target_score
+                else:
+                     action["score"] -= 5000
 
             elif "giovanni" in aname_lower:
                 action["type"] = "giovanni"
@@ -1042,9 +1082,12 @@ def play(state, game):
                     n_lower = target.name.lower()
                     if "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
-                            action["score"] += 4000
-                            if gs.my_active.needs_energy():
-                                action["score"] += 2000 # Boost significantly
+                            if gs.my_active.hp > 20:
+                                action["score"] += 4000
+                                if gs.my_active.needs_energy():
+                                    action["score"] += 2000 # Boost significantly
+                            else:
+                                action["score"] -= 100000
 
                     elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower: # Draw
                         action["score"] += 3000
@@ -1059,6 +1102,10 @@ def play(state, game):
                                     min_hp = b.hp
                             if min_hp <= 20:
                                  action["score"] = LETHAL_KO_SCORE
+
+                    elif "weezing" in n_lower: # Gas Leak
+                        if gs.opp_active and not any("poison" in str(s).lower() for s in gs.opp_active.status):
+                             action["score"] += 5000
 
         elif "ApplyDamage" in aname:
              # ApplyDamage(idx) usually from Greninja (20 dmg) or other selection effects
@@ -1250,21 +1297,6 @@ def play(state, game):
                      a["score"] += 1000
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
-        elif a["type"] == "misty":
-            a["score"] = MISTY_SCORE
-            targets = []
-            if gs.my_active and "Water" in gs.my_active.energy_type:
-                 # Check if needs energy OR has less than 5 energy (for scaling/retreat)
-                 if gs.my_active.needs_energy() or gs.my_active.energy_count < 5:
-                     targets.append(gs.my_active)
-            for b in gs.my_bench:
-                if "Water" in b.energy_type:
-                    if b.needs_energy() or b.energy_count < 5:
-                         targets.append(b)
-            if targets:
-                 a["score"] += 2000
-            else:
-                 a["score"] -= 5000
         elif a["type"] == "red_card":
             if gs.opp_hand_count >= 4:
                 a["score"] += 2000

@@ -107,18 +107,17 @@ class Card:
             cleaned = cleaned[:-3] + " ex"
 
         key = cleaned.lower()
+        if key in CARD_DB_FULL:
+            return CARD_DB_FULL[key][0].get("name", cleaned)
         if key in CARD_DB:
             entry = CARD_DB[key]
             if isinstance(entry, list):
                 return entry[0].get("name", cleaned)
             return entry.get("name", cleaned)
 
-        for k in CARD_DB:
+        for k in CARD_DB_FULL:
             if k in key:
-                 entry = CARD_DB[k]
-                 if isinstance(entry, list):
-                     return entry[0].get("name", k.title())
-                 return entry.get("name", k.title())
+                 return CARD_DB_FULL[k][0].get("name", k.title())
 
         return cleaned
 
@@ -128,25 +127,28 @@ class Card:
         if key in CARD_DB_FULL:
             entries = CARD_DB_FULL[key]
         elif key in CARD_DB:
-             entries = [CARD_DB[key]]
+             entry = CARD_DB[key]
+             if isinstance(entry, list):
+                 entries = entry
+             else:
+                 entries = [entry]
         else:
             for k in CARD_DB_FULL:
-                 if k == key:
+                 if k in key: # Partial match
                      entries = CARD_DB_FULL[k]
                      break
 
         if not entries:
             return None
 
-        if isinstance(entries, list):
-            # Try to match by max_hp
-            if self.max_hp > 0:
-                for e in entries:
-                    if e.get("hp") == self.max_hp:
-                        return e
-            # Fallback to first entry
-            return entries[0]
-        return entries
+        # Logic to match variant
+        if self.max_hp > 0:
+            for e in entries:
+                # Basic matching: HP
+                if e.get("hp") == self.max_hp:
+                    return e
+
+        return entries[0]
 
     @property
     def energy_type(self):
@@ -191,7 +193,7 @@ class Card:
 
         # Override for evolving basics regardless of DB presence
         n_lower = self.name.lower()
-        if n_lower == "froakie": max_cost = 2
+        if n_lower == "froakie": max_cost = 3 # Greninja is 3 usually (Water Shuriken/Mist Slash is low but often needs more for retreat or abilities)
         elif n_lower == "ralts": max_cost = 3 # For Gardevoir
         elif n_lower == "gastly": max_cost = 3 # For Gengar
         elif n_lower == "dratini": max_cost = 4 # Dragonite
@@ -216,7 +218,7 @@ class Card:
             elif "ex" in n_lower: max_cost = 3
 
         if "pikachu ex" in self.name.lower():
-            max_cost = 2
+            max_cost = 3 # Circle Circuit needs 2, but sometimes useful to have retreat energy or extra
 
         # Hard cap check
         if self.energy_count >= max_cost and max_cost > 0:
@@ -489,6 +491,7 @@ def play(state, game):
         if aname == "EndTurn":
             action["type"] = "end_turn"
             action["score"] = END_TURN_SCORE
+            # Avoid ending turn if we can play a basic to prevent donk
             if len(gs.my_bench) == 0 and gs.my_active and gs.my_active.hp <= 60:
                  action["score"] -= 100000
 
@@ -503,6 +506,7 @@ def play(state, game):
 
                 effective_damage = action["damage"]
                 if gs.opp_active:
+                     # Overkill prevention
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
                 action["score"] = ATTACK_BASE_SCORE + effective_damage
 
@@ -518,7 +522,7 @@ def play(state, game):
                         can_be_lethal_with_giovanni = True
                         action["can_be_lethal_with_giovanni"] = True
 
-                    # Probabilistic Lethal Check
+                    # Probabilistic Lethal Check (lucky hit)
                     if not is_ko and gs.opp_active and max_damage >= gs.opp_active.hp:
                         action["score"] += POTENTIAL_LETHAL_BONUS
 
@@ -548,7 +552,10 @@ def play(state, game):
 
                 # Donk Avoidance for Attack
                 if len(gs.my_bench) == 0 and not action.get("is_lethal") and not action.get("is_ko"):
-                     action["score"] = 5000
+                     # If we can't kill and have no bench, attacking is still better than ending turn,
+                     # but we should prioritize playing basics first.
+                     # Score is already decent (ATTACK_BASE_SCORE), but ensure it doesn't override Place Basic.
+                     pass
 
         elif "AttachEnergy" in aname:
             m = re.search(r"AttachEnergy\((\d+), (.*?)\)", aname)
@@ -595,7 +602,27 @@ def play(state, game):
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             risk_of_donk = (len(gs.my_bench) == 0)
 
-            if "research" in aname_lower or "professor" in aname_lower:
+            # Specific Item Parsing
+            if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
+                action["type"] = "gust"
+                action["score"] = ITEM_SCORE
+            elif "ice pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower:
+                action["type"] = "potion"
+                action["score"] = ITEM_SCORE
+                target = gs.my_active
+                m_p = re.search(r", (\d+)\)", aname)
+                if m_p:
+                    t_idx = int(m_p.group(1))
+                    if t_idx == 0: target = gs.my_active
+                    else: target = gs.get_bench_card(t_idx - 1)
+
+                if target:
+                    if target.hp >= target.max_hp:
+                        action["score"] -= 50000 # Don't heal full HP
+                    elif target.hp <= 60 or threat_lethal:
+                        action["score"] = POTION_CRITICAL_SCORE
+
+            elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
@@ -607,16 +634,13 @@ def play(state, game):
             elif "misty" in aname_lower:
                 action["type"] = "misty"
                 action["score"] = MISTY_SCORE
-            elif "sabrina" in aname_lower or "boss" in aname_lower or "catcher" in aname_lower:
-                action["type"] = "gust"
-                action["score"] = ITEM_SCORE
             elif "giovanni" in aname_lower:
                 action["type"] = "giovanni"
                 action["score"] = GIOVANNI_SCORE
             elif "red card" in aname_lower:
                 action["type"] = "red_card"
                 action["score"] = RED_CARD_SCORE
-            elif "ball" in aname_lower or "search" in aname_lower:
+            elif "ball" in aname_lower or "search" in aname_lower or "slab" in aname_lower: # Mythical Slab
                 action["type"] = "search_item"
                 action["score"] = SEARCH_SCORE
                 if risk_of_donk:
@@ -627,26 +651,6 @@ def play(state, game):
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
                 action["score"] = ITEM_SCORE
-            elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower or "icepop" in aname_lower:
-                action["type"] = "potion"
-                action["score"] = ITEM_SCORE
-
-                target = gs.my_active
-                # Try to parse target index if present e.g. Play(..., 1)
-                m_p = re.search(r", (\d+)\)", aname)
-                if m_p:
-                    t_idx = int(m_p.group(1))
-                    if t_idx == 0: target = gs.my_active
-                    else: target = gs.get_bench_card(t_idx - 1)
-
-                if target:
-                    if target.hp >= target.max_hp and target.max_hp > 0:
-                        action["score"] -= 50000
-                    elif threat_lethal and target == gs.my_active:
-                        # Check if Potion saves us
-                        if (target.hp + 20) > opp_max_dmg:
-                            action["score"] += 30000
-
             elif "brock" in aname_lower:
                 action["type"] = "energy_retrieval"
                 action["score"] = ITEM_SCORE
@@ -669,11 +673,13 @@ def play(state, game):
                     continue
 
                 if has_lethal_on_board:
-                    # If we have lethal, don't retreat unless we can't kill them?
-                    # But has_lethal_on_board checks we can use the attack and it is lethal.
-                    # So we should generally NOT retreat.
+                    # If we have lethal, generally don't retreat.
                     action["score"] = -100000
                     continue
+
+                # Cost Penalty
+                if gs.my_active:
+                    action["score"] -= (gs.my_active.retreat_cost * 1000)
 
                 if threat_lethal:
                     # Only retreat if bench is ready OR we are saving a valuable card (EX or loaded)
@@ -685,40 +691,21 @@ def play(state, game):
                     bench_is_safer = target and target.hp > opp_max_dmg
                     bench_can_attack = target and target.energy_count >= 1 # Soft check
 
-                    # Increased boost to prioritize saving prizes
                     if (is_valuable and bench_is_safer):
                         action["score"] += 35000
 
                     if bench_can_attack:
                          action["score"] += 15000
 
-            if active_hp <= 40 and active_hp > 0:
-                 should_retreat = True
-                 action["score"] += 1000
-
-            if not target.needs_energy():
-                 target_dmg = 0
-                 for i in range(len(target.attacks)):
+                # Strategic Switch
+                target_dmg = 0
+                for i in range(len(target.attacks)):
                      d = calculate_damage(target, i, gs)
                      if d > target_dmg: target_dmg = d
 
-                 if target_dmg > active_dmg + 10 and active_hp < 60:
-                     should_retreat = True
-                     action["score"] = STRATEGIC_SWITCH_SCORE + 500
-                 elif target_dmg > active_dmg + 30:
+                if target_dmg > active_dmg + 30:
                      should_retreat = True
                      action["score"] = STRATEGIC_SWITCH_SCORE
-
-            if gs.my_active:
-                action["score"] -= (gs.my_active.retreat_cost * 1000)
-
-            if should_retreat:
-                if not target.needs_energy():
-                     if action["score"] < STRATEGIC_SWITCH_SCORE:
-                         action["score"] = STRATEGIC_SWITCH_SCORE
-                else:
-                    if action["score"] < RETREAT_SCORE + 1000:
-                         action["score"] = RETREAT_SCORE + 1000
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)
@@ -726,39 +713,44 @@ def play(state, game):
                 action["type"] = "activate"
                 target_idx = int(m.group(1)) - 1
                 activating_for_opp = False
+                # If we have an active with HP > 0, and we are asked to activate,
+                # it might be an effect like Red Card or something forcing switch?
+                # Usually Activate() is for replacing KO'd pokemon.
                 if gs.my_active and gs.my_active.hp > 0:
                     activating_for_opp = True
 
                 action["score"] = LETHAL_WIN_SCORE # Must activate to continue
 
                 if activating_for_opp:
-                    # Logic for opponent is tricky. We can't really control it?
-                    # If game asks us to activate for opponent, it's usually weird state.
-                    # But if we must:
+                    # Choosing for opponent (e.g. from Gust effect? No, usually that's automatic or different action)
+                    # If this happens, prioritize WORST opponent
                     target = None
                     if target_idx < len(gs.opp_bench):
                         target = gs.opp_bench[target_idx]
                     if target:
-                        # Pick the WEAKEST one to stall?
                         action["score"] -= target.hp * 10
                         action["score"] -= target.energy_count * 5000
                 else:
+                    # Choosing for self (after KO)
                     target = gs.get_bench_card(target_idx)
                     if target:
-                        # Pick ready attacker
+                        # Prioritize ready attacker
                         action["score"] += target.hp
                         if not target.needs_energy():
                              action["score"] += 5000
                         if "ex" in target.name.lower():
-                             # Prioritize EX as active? Or preserve?
-                             # Usually EX is attacker.
                             action["score"] += 1000
-                        if target.hp < 60:
-                             action["score"] -= 500
+
+                        # Check if this pokemon has energy to retreat if needed?
+                        if target.energy_count >= target.retreat_cost:
+                             action["score"] += 500
 
         elif "Discard" in aname:
              action["type"] = "discard"
              action["score"] = ITEM_SCORE
+             # If DiscardOpponentSupporter, it's good!
+             if "Opponent" in aname:
+                 action["score"] += 2000
 
         elif "UseAbility" in aname:
             action["type"] = "ability"
@@ -774,17 +766,18 @@ def play(state, game):
 
                 if target:
                     n_lower = target.name.lower()
-                    if "gardevoir" in n_lower:
+                    if "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
                             action["score"] += 4000
                             if gs.my_active.needs_energy():
-                                action["score"] += 2000
+                                action["score"] += 2000 # Boost significantly
 
-                    elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower:
+                    elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower: # Draw
                         action["score"] += 3000
 
-                    elif "greninja" in n_lower:
+                    elif "greninja" in n_lower: # Water Shuriken
                         action["score"] += 1000
+                        # Check for bench sniping lethal
                         if gs.opp_bench:
                             min_hp = 1000
                             for b in gs.opp_bench:
@@ -794,12 +787,12 @@ def play(state, game):
                                  action["score"] = LETHAL_KO_SCORE
 
         elif "ApplyDamage" in aname:
-             # ApplyDamage(idx) usually from Greninja (20 dmg)
+             # ApplyDamage(idx) usually from Greninja (20 dmg) or other selection effects
              m = re.search(r"ApplyDamage\((\d+)\)", aname)
              if m:
                  idx = int(m.group(1))
                  action["type"] = "apply_damage"
-                 action["score"] = 50000 # High baseline
+                 action["score"] = 50000
 
                  target = None
                  if idx == 0:

@@ -418,7 +418,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     return int(damage)
 
-def get_opponent_max_damage(gs: GameStateWrapper):
+def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None):
     if not gs.opp_active:
         return 0
 
@@ -499,7 +499,7 @@ def get_opponent_max_damage(gs: GameStateWrapper):
                     can_use = True
 
             if can_use:
-                 d = calculate_damage(attacker_card, i, opp_gs, extra_damage=0, mode="max")
+                 d = calculate_damage(attacker_card, i, opp_gs, extra_damage=0, mode="max", target_override=target)
                  if d > local_max: local_max = d
 
         return local_max
@@ -526,6 +526,10 @@ def get_opponent_max_damage(gs: GameStateWrapper):
 
     # Add buffer for unknown buffs (Giovanni etc.)
     max_dmg += 10
+
+    if logger.isEnabledFor(logging.DEBUG):
+        tgt_name = target.name if target else gs.my_active.name
+        logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg}")
 
     return max_dmg
 
@@ -1058,6 +1062,27 @@ def play(state, game):
             if not target:
                 a["score"] -= 10000
                 continue
+
+            # Emergency Retreat Logic: If Active is threatened and this energy allows retreat to safety
+            if a["pos"] == 0 and threat_lethal:
+                retreat_cost = target.retreat_cost
+                if target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost:
+                    has_safe_bench = False
+                    opp_points_needed = 3 - gs.opp_points
+                    my_active_gives = 2 if "ex" in target.name.lower() else 1
+                    loses_game = (my_active_gives >= opp_points_needed)
+
+                    for b in gs.my_bench:
+                        bench_threat = get_opponent_max_damage(gs, target=b)
+                        if b.hp > bench_threat:
+                            has_safe_bench = True
+                            break
+
+                    if has_safe_bench:
+                         if loses_game:
+                             a["score"] = LETHAL_WIN_SCORE
+                         else:
+                             a["score"] = LETHAL_WIN_SCORE - 1000
 
             if target.needs_energy():
                 is_compatible = False

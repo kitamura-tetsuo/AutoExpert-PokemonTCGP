@@ -196,10 +196,12 @@ class Card:
         elif n_lower == "gastly": max_cost = 3 # For Gengar
         elif n_lower == "dratini": max_cost = 4 # Dragonite
         elif n_lower == "charmander": max_cost = 4 # Charizard ex
-        elif n_lower == "squirtle": max_cost = 3 # Blastoise ex
+        elif n_lower == "squirtle": max_cost = 5 # Blastoise ex (needs extra)
         elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
         elif n_lower == "abra": max_cost = 3 # Alakazam
         elif n_lower == "machop": max_cost = 3 # Machamp
+        elif "blastoise ex" in n_lower: max_cost = 5
+        elif n_lower == "lapras": max_cost = 4
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -487,7 +489,10 @@ def play(state, game):
                 action["type"] = "attack"
                 action["idx"] = idx
                 action["damage"] = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
-                action["score"] = ATTACK_BASE_SCORE + action["damage"]
+                effective_damage = action["damage"]
+                if gs.opp_active:
+                     effective_damage = min(action["damage"], gs.opp_active.hp + 10)
+                action["score"] = ATTACK_BASE_SCORE + effective_damage
 
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10
@@ -600,10 +605,22 @@ def play(state, game):
             elif "potion" in aname_lower or "heal" in aname_lower or "ice pop" in aname_lower or "icepop" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
-                if threat_lethal:
-                    # Check if Potion saves us
-                    if gs.my_active and (gs.my_active.hp + 20) > opp_max_dmg:
-                        action["score"] += 30000
+
+                target = gs.my_active
+                # Try to parse target index if present e.g. Play(..., 1)
+                m_p = re.search(r", (\d+)\)", aname)
+                if m_p:
+                    t_idx = int(m_p.group(1))
+                    if t_idx == 0: target = gs.my_active
+                    else: target = gs.get_bench_card(t_idx - 1)
+
+                if target:
+                    if target.hp >= target.max_hp and target.max_hp > 0:
+                        action["score"] -= 50000
+                    elif threat_lethal and target == gs.my_active:
+                        # Check if Potion saves us
+                        if (target.hp + 20) > opp_max_dmg:
+                            action["score"] += 30000
 
             elif "brock" in aname_lower:
                 action["type"] = "energy_retrieval"
@@ -663,8 +680,9 @@ def play(state, game):
                  if target_dmg > active_dmg + 10 and active_hp < 60:
                      should_retreat = True
                      action["score"] = STRATEGIC_SWITCH_SCORE + 500
-                 elif target_dmg > active_dmg + 20:
-                     action["score"] += 500
+                 elif target_dmg > active_dmg + 30:
+                     should_retreat = True
+                     action["score"] = STRATEGIC_SWITCH_SCORE
 
             if gs.my_active:
                 action["score"] -= (gs.my_active.retreat_cost * 1000)
@@ -933,7 +951,7 @@ def play(state, game):
             elif gs.opp_active and gs.opp_active.hp > 80:
                 a["score"] += 2000
             else:
-                a["score"] -= 5000
+                a["score"] = ITEM_SCORE - 10000
         elif a["type"] == "giovanni":
             needed = False
             gives_win = False

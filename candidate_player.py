@@ -36,8 +36,8 @@ GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
 SEARCH_SCORE = 76000 # Increased from 74500 to prioritize search over attach
+EVOLVE_SCORE = 75500 # Prioritize evolution over energy attach (75000)
 ATTACH_ENERGY_SCORE = 75000
-EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
 RED_CARD_SCORE = 71000
@@ -569,7 +569,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
         max_dmg += 10
 
     if logger.isEnabledFor(logging.DEBUG):
-        tgt_name = target.name if target else gs.my_active.name
+        tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
         logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg}")
 
     return max_dmg

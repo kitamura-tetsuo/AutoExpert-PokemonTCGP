@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "deckgym",
     "gymnasium>=1.2.3",
     "maturin>=1.12.2",
     "numpy>=2.4.2",
@@ -14,3 +15,11 @@ dependencies = [
     "requests>=2.32.5",
     "rich>=14.3.2",
 ]
+
+[tool.uv.workspace]
+members = [
+    "deckgym-core",
+]
+
+[tool.uv.sources]
+deckgym = { workspace = true }

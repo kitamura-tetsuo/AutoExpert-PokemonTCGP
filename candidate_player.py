@@ -269,6 +269,7 @@ class GameStateWrapper:
 
         self.opp_active = Card("OppActive", self.opp_active_obj) if self.opp_active_obj else None
         self.opp_bench = [Card(f"OppBench_{i}", b) for i, b in enumerate(self.opp_bench_objs) if b]
+        self.opp_hand = [Card(f"OppHand_{i}", h) for i, h in enumerate(self.opp_hand_objs)]
         self.opp_hand_count = len(self.opp_hand_objs)
 
         self.my_points = state.points[self.me]
@@ -425,6 +426,24 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
     # Create a view from opponent's perspective
     opp_gs = GameStateWrapper(gs.state, perspective_player=gs.opp)
 
+    # Hand Analysis
+    hand_names = [c.name.lower() for c in opp_gs.my_hand]
+    has_giovanni = any("giovanni" in n for n in hand_names)
+    has_gust = any(x in n for x in ["boss", "sabrina", "catcher", "gust"] for n in hand_names)
+    has_energy_in_hand = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names)
+    has_switch_card = any(x in n for x in ["switch", "rope", "escape"] for n in hand_names)
+    has_misty = any("misty" in n for n in hand_names)
+
+    # Resolve target
+    final_target = target if target else gs.my_active
+
+    is_bench_target = False
+    if final_target:
+        for b in gs.my_bench:
+            if b.obj == final_target.obj:
+                is_bench_target = True
+                break
+
     # Scan opponent board for support abilities (Gardevoir, Leafeon ex)
     support_energy = {"Psychic": 0, "Grass": 0}
     potential_supporters = [opp_gs.my_active] + opp_gs.my_bench
@@ -475,6 +494,9 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
 
         available_base = list(current_energy) + list(extra_energy)
 
+        # Misty Logic: If Misty is in hand and attacker is Water, assume infinite energy (worst case)
+        misty_active = has_misty and "Water" in attacker_card.energy_type
+
         for i, atk in enumerate(attacker_card.attacks):
             cost = atk.get("cost", [])
             needed_types = [c for c in cost if c != "Colorless"]
@@ -488,44 +510,63 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
                     missing += 1
 
             can_use = False
-            if missing == 0:
-                if len(available) >= (len(cost) - len(needed_types)):
-                     can_use = True
-                elif manual_attach_available and len(available) + 1 >= (len(cost) - len(needed_types)):
-                     can_use = True
-            elif missing == 1 and manual_attach_available:
-                # Manual attach provides the missing specific energy
-                if (len(available_base) + 1) >= len(cost):
-                    can_use = True
+            if misty_active:
+                can_use = True # Assume Misty hits enough
+            else:
+                total_available = len(available_base)
+                if manual_attach_available: total_available += 1
+
+                if total_available >= len(cost):
+                    if missing == 0: can_use = True
+                    elif missing == 1 and manual_attach_available: can_use = True
 
             if can_use:
-                 d = calculate_damage(attacker_card, i, opp_gs, extra_damage=0, mode="max", target_override=target)
-                 if d > local_max: local_max = d
+                 # Reachability Check
+                 can_reach = True
+                 if is_bench_target and not has_gust:
+                      # If target is on bench and NO Gust, check if attack is a Snipe
+                      text = (atk.get("text") or "").lower()
+                      # Snipe keywords: "to 1 of your opponent's Benched Pokemon", "to each of your opponent's Pokemon"
+                      if "benched" in text and "opponent" in text:
+                           can_reach = True
+                      elif "to each of your opponent's pokemon" in text or "to 1 of your opponent's pokemon" in text:
+                           can_reach = True
+                      else:
+                           can_reach = False
+
+                 if can_reach:
+                     extra = 10 if has_giovanni else 0
+                     d = calculate_damage(attacker_card, i, opp_gs, extra_damage=extra, mode="max", target_override=final_target)
+                     if d > local_max: local_max = d
 
         return local_max
 
     # 1. Active Damage
-    max_dmg = evaluate_attacker(attacker, True, True)
+    max_dmg = evaluate_attacker(attacker, True, has_energy_in_hand)
 
     # 2. Bench Threats (Retreat/Switch)
-    can_retreat = False
-    manual_attach_for_bench = True
+    can_switch = False
+    manual_attach_used_for_retreat = False
 
     if attacker:
         retreat_cost = attacker.retreat_cost
-        if attacker.energy_count >= retreat_cost:
-            can_retreat = True
-        elif attacker.energy_count + 1 >= retreat_cost:
-            can_retreat = True
-            manual_attach_for_bench = False # Consumed by retreat
+        if has_switch_card:
+            can_switch = True
+        elif attacker.energy_count >= retreat_cost:
+            can_switch = True
+        elif attacker.energy_count + 1 >= retreat_cost and has_energy_in_hand:
+            can_switch = True
+            manual_attach_used_for_retreat = True
 
-    if can_retreat:
+    if can_switch:
+        manual_attach_for_bench = has_energy_in_hand and not manual_attach_used_for_retreat
         for b in opp_gs.my_bench:
             d = evaluate_attacker(b, True, manual_attach_for_bench)
             if d > max_dmg: max_dmg = d
 
-    # Add buffer for unknown buffs (Giovanni etc.)
-    max_dmg += 10
+    # Add buffer only if we didn't account for Giovanni
+    if not has_giovanni:
+        max_dmg += 10
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else gs.my_active.name
@@ -595,6 +636,17 @@ def play(state, game):
     threat_lethal = False
     if gs.my_active and opp_max_dmg >= gs.my_active.hp:
         threat_lethal = True
+
+    # Bench Threat Check (Gust)
+    opp_hand_names = [c.name.lower() for c in gs.opp_hand]
+    opp_has_gust = any(x in n for x in ["boss", "sabrina", "catcher", "gust"] for n in opp_hand_names)
+
+    bench_threats_indices = []
+    if opp_has_gust:
+        for i, b in enumerate(gs.my_bench):
+            dmg = get_opponent_max_damage(gs, target=b)
+            if dmg >= b.hp:
+                bench_threats_indices.append(i)
 
     active_hp = gs.my_active.hp if gs.my_active else 0
     active_dmg = 0
@@ -764,6 +816,14 @@ def play(state, game):
                                  action["score"] += 25000 # Boost significantly
                         elif evol_hp > current_hp:
                              action["score"] += 2000 # Small boost for HP increase
+
+                # Check bench threats
+                if target_pos > 0 and (target_pos - 1) in bench_threats_indices:
+                     # Evolving bench that is threatened
+                     bench_card = gs.get_bench_card(target_pos - 1)
+                     bench_threat = get_opponent_max_damage(gs, target=bench_card)
+                     if bench_card and bench_threat >= bench_card.hp and evol_hp > bench_threat:
+                          action["score"] += 30000 # Save bench from Gust KO
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Specific Item Parsing

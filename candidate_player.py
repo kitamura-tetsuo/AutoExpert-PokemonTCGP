@@ -599,6 +599,18 @@ def play(state, game):
             action["type"] = "evolve"
             action["score"] = EVOLVE_SCORE
 
+            # Defensive Evolution Check
+            if threat_lethal and gs.my_active:
+                m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+                if m:
+                    target_pos = int(m.group(2))
+                    if target_pos == 0: # Evolving active
+                        # Check if evolution saves us (HP > opp_max_dmg)
+                        # We can try to guess evolution HP or just assume it's better
+                        # Most stage 1/2 are > 80 HP.
+                        if opp_max_dmg < 100: # Simple heuristic
+                             action["score"] += 20000
+
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             risk_of_donk = (len(gs.my_bench) == 0)
 
@@ -803,13 +815,18 @@ def play(state, game):
                          target = gs.opp_bench[bench_idx]
 
                  if target:
-                     if target.hp <= 20:
+                     # Increased threshold and better scoring
+                     if target.hp <= 50:
                          action["score"] = LETHAL_KO_SCORE + 10000
                          is_ex = "ex" in target.name.lower()
                          if is_ex: action["score"] += 5000
                          points_gained = 2 if is_ex else 1
                          if points_gained >= points_needed_to_win:
                              action["score"] = LETHAL_WIN_SCORE
+
+                         # Prioritize lower HP targets to guarantee KO
+                         if target.hp <= 20:
+                             action["score"] += 5000
                      else:
                          # Prioritize EX or active if it helps KO
                          if "ex" in target.name.lower():
@@ -867,8 +884,7 @@ def play(state, game):
 
                          retreat_cost = target.retreat_cost
                          if target.energy_count < retreat_cost:
-                             active_weak = target.hp < 60
-                             if active_weak: a["score"] += ACTIVE_WEAK_ATTACH_BONUS
+                             a["score"] += ACTIVE_WEAK_ATTACH_BONUS # Always boost if we can't retreat, might need to pivot
 
                          # Lethal Lookahead
                          if target and target.db_entry:
@@ -949,9 +965,14 @@ def play(state, game):
         elif a["type"] == "misty":
             a["score"] = MISTY_SCORE
             targets = []
-            if gs.my_active and "Water" in gs.my_active.energy_type and gs.my_active.needs_energy(): targets.append(gs.my_active)
+            if gs.my_active and "Water" in gs.my_active.energy_type:
+                 # Check if needs energy OR has less than 5 energy (for scaling/retreat)
+                 if gs.my_active.needs_energy() or gs.my_active.energy_count < 5:
+                     targets.append(gs.my_active)
             for b in gs.my_bench:
-                if "Water" in b.energy_type and b.needs_energy(): targets.append(b)
+                if "Water" in b.energy_type:
+                    if b.needs_energy() or b.energy_count < 5:
+                         targets.append(b)
             if targets:
                  a["score"] += 2000
             else:

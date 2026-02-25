@@ -10,6 +10,8 @@ def main():
         return
 
     db = {}
+    db_full = {}
+
     for entry in data:
         if "Pokemon" in entry:
             p = entry["Pokemon"]
@@ -38,17 +40,32 @@ def main():
                 "ability": ability
             }
 
-            # Use the first occurrence (usually base set A1)
+            # Backward compatibility: CARD_DB stores first entry
             if key not in db:
                 db[key] = entry_data
 
-    content = "CARD_DB = " + json.dumps(db, indent=4)
+            # New structure: CARD_DB_FULL stores all variants
+            if key not in db_full:
+                db_full[key] = []
+
+            exists = False
+            for variant in db_full[key]:
+                if variant["hp"] == entry_data["hp"] and variant["energy_type"] == entry_data["energy_type"]:
+                    exists = True
+                    break
+
+            if not exists:
+                db_full[key].append(entry_data)
+
+    content = "CARD_DB = " + json.dumps(db, indent=4) + "\n\n"
+    content += "CARD_DB_FULL = " + json.dumps(db_full, indent=4)
+
     content = content.replace("null", "None").replace("true", "True").replace("false", "False")
 
     with open("db_dump.py", "w") as f:
         f.write(content)
 
-    print(f"db_dump.py regenerated with {len(db)} entries.")
+    print(f"db_dump.py regenerated with {len(db)} entries and {len(db_full)} full entries.")
 
 if __name__ == "__main__":
     main()

@@ -13,9 +13,14 @@ if not logger.handlers:
 
 try:
     from db_dump import CARD_DB
+    try:
+        from db_dump import CARD_DB_FULL
+    except ImportError:
+        CARD_DB_FULL = {}
 except ImportError:
     logger.warning("Could not import CARD_DB from db_dump. Using empty DB.")
     CARD_DB = {}
+    CARD_DB_FULL = {}
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
@@ -62,9 +67,11 @@ class Card:
         self.raw_name = str(getattr(obj, "name", "")) if obj else ""
         if not self.raw_name: self.raw_name = "Unknown"
         self.name = self._clean_name(self.raw_name)
-        self.db_entry = self._get_db_entry()
         self.hp = getattr(obj, "remaining_hp", 0) if obj else 0
         self.max_hp = getattr(obj, "total_hp", 0) if obj else 0
+        if self.max_hp == 0 and obj:
+             self.max_hp = getattr(obj, "hp", 0)
+        self.db_entry = self._get_db_entry()
         self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
         self.energy_count = len(self.energy)
 
@@ -88,19 +95,45 @@ class Card:
 
         key = cleaned.lower()
         if key in CARD_DB:
-            return CARD_DB[key].get("name", cleaned)
+            entry = CARD_DB[key]
+            if isinstance(entry, list):
+                return entry[0].get("name", cleaned)
+            return entry.get("name", cleaned)
 
         for k in CARD_DB:
-            if k in key: return CARD_DB[k].get("name", k.title())
+            if k in key:
+                 entry = CARD_DB[k]
+                 if isinstance(entry, list):
+                     return entry[0].get("name", k.title())
+                 return entry.get("name", k.title())
 
         return cleaned
 
     def _get_db_entry(self):
         key = self.name.lower()
-        if key in CARD_DB: return CARD_DB[key]
-        for k in CARD_DB:
-             if k == key: return CARD_DB[k]
-        return None
+        entries = []
+        if key in CARD_DB_FULL:
+            entries = CARD_DB_FULL[key]
+        elif key in CARD_DB:
+             entries = [CARD_DB[key]]
+        else:
+            for k in CARD_DB_FULL:
+                 if k == key:
+                     entries = CARD_DB_FULL[k]
+                     break
+
+        if not entries:
+            return None
+
+        if isinstance(entries, list):
+            # Try to match by max_hp
+            if self.max_hp > 0:
+                for e in entries:
+                    if e.get("hp") == self.max_hp:
+                        return e
+            # Fallback to first entry
+            return entries[0]
+        return entries
 
     @property
     def energy_type(self):
@@ -543,6 +576,10 @@ def play(state, game):
                         if target.hp < 60:
                              action["score"] -= 500
 
+        elif "Discard" in aname:
+             action["type"] = "discard"
+             action["score"] = ITEM_SCORE
+
         elif "UseAbility" in aname:
             action["type"] = "ability"
             action["score"] = ABILITY_SCORE
@@ -681,7 +718,7 @@ def play(state, game):
                 else:
                      a["score"] -= 1000
             else:
-                a["score"] -= 5000
+                a["score"] -= 100000
 
     for a in actions:
         if a["type"] == "place":

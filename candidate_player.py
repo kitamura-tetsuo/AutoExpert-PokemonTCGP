@@ -41,6 +41,7 @@ PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
+DRAW_SUPPORTER_SCORE = 72000
 GIOVANNI_SCORE = 60000
 
 ABILITY_SCORE = 50000
@@ -754,7 +755,7 @@ def play(state, game):
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
-            elif "ice pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower:
+            elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
                 target = gs.my_active
@@ -789,6 +790,12 @@ def play(state, game):
                          action["score"] += 1000
                     elif gs.opp_hand_count <= len(gs.my_hand):
                          action["score"] -= 5000
+
+            elif "mars" in aname_lower or "bill" in aname_lower or "hau" in aname_lower or "nemona" in aname_lower or ("bug" in aname_lower and "catcher" in aname_lower) or "tierno" in aname_lower or ("mom" in aname_lower and "gaze" in aname_lower):
+                 action["type"] = "draw_supporter"
+                 action["score"] = DRAW_SUPPORTER_SCORE
+                 if risk_of_donk:
+                     action["score"] = DONK_SEARCH_SCORE
 
             elif "misty" in aname_lower:
                 action["type"] = "misty"

@@ -49,7 +49,7 @@ ABILITY_SCORE = 50000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
-LETHAL_KO_SCORE = 100000 # Prioritize taking prizes over setup/research (if not lethal win)
+LETHAL_KO_SCORE = 50000
 STRATEGIC_SWITCH_SCORE = 30000
 ATTACK_BASE_SCORE = 10000
 RETREAT_SCORE = -15000 # Don't retreat unless necessary
@@ -302,7 +302,7 @@ def can_use_attack(cost, energy_provided):
 
 POTENTIAL_LETHAL_BONUS = 15000
 
-def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev"):
+def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev", target_override=None):
     if not attacker: return 0
     attacks = attacker.attacks
     if attack_idx >= len(attacks): return 0
@@ -395,8 +395,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     damage += extra_damage
 
-    if state.opp_active and state.opp_active.db_entry:
-        ability = state.opp_active.db_entry.get("ability")
+    target = target_override if target_override else state.opp_active
+
+    if target and target.db_entry:
+        ability = target.db_entry.get("ability")
         if ability:
             effect = ability.get("effect", "").lower()
             if "prevent all damage" in effect and "pokémon ex" in effect:
@@ -404,8 +406,8 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                     damage = 0
 
     # 5. Weakness Logic
-    if state.opp_active:
-        opp_type = state.opp_active.energy_type
+    if target:
+        opp_type = target.energy_type
         attacker_type = attacker.energy_type
 
         # Check if opponent is weak to attacker
@@ -558,6 +560,7 @@ def play(state, game):
 
     can_win_on_bench = False
     can_ko_on_bench = False
+    best_bench_ko_value = 0
     points_needed_to_win = 3 - gs.my_points
 
     if gs.my_active:
@@ -568,11 +571,15 @@ def play(state, game):
                  if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
                      continue
 
-                 dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=10 if has_giovanni else 0)
+                 # For bench/gust calculations, assume we cannot use Giovanni (since Gust is likely a Supporter)
+                 dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0, target_override=b)
                  if dmg >= b.hp:
                      can_ko_on_bench = True
                      is_ex = "ex" in b.name.lower()
                      points_gained = 2 if is_ex else 1
+                     if points_gained > best_bench_ko_value:
+                         best_bench_ko_value = points_gained
+
                      if points_gained >= points_needed_to_win:
                         can_win_on_bench = True
                      break

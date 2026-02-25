@@ -680,9 +680,6 @@ def play(state, game):
         if aname == "EndTurn":
             action["type"] = "end_turn"
             action["score"] = END_TURN_SCORE
-            # Avoid ending turn if we can play a basic to prevent donk
-            if risk_of_donk and gs.my_active and gs.my_active.hp <= 60:
-                 action["score"] -= 100000
 
         elif "Attack" in aname:
             m = re.search(r"Attack\((\d+)\)", aname)
@@ -764,9 +761,10 @@ def play(state, game):
 
                          if recoil > 0 and action["damage"] > 0:
                              surviving_hp = gs.my_active.hp - recoil
-                             # Only penalize if it changes survival status (we die next turn due to this)
-                             # opp_max_dmg is what they can do next turn.
-                             if gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
+
+                             if surviving_hp <= 0:
+                                 action["score"] -= 200000 # Lethal Self KO
+                             elif gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
                                   if not action.get("is_lethal") and not action.get("is_ko"):
                                        action["score"] -= 50000 # Don't suicide if not KO/Lethal
 
@@ -1154,9 +1152,16 @@ def play(state, game):
         actions.append(action)
 
     if not gs.my_bench:
+        has_place_action = False
         for a in actions:
             if a["type"] == "place":
                 a["score"] = DONK_PREVENTION_SCORE
+                has_place_action = True
+
+        if has_place_action:
+             for a in actions:
+                 if a["type"] == "end_turn":
+                     a["score"] -= 100000
 
     for a in actions:
         if a["type"] == "attach_energy":

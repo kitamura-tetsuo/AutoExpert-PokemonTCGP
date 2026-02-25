@@ -26,7 +26,11 @@ except ImportError:
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
 DONK_PREVENTION_SCORE = 500000
+DONK_SEARCH_SCORE = 500000
+DONK_AVOIDANCE_SCORE = 450000
 
+GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
+POTION_CRITICAL_SCORE = 85000
 GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
@@ -35,15 +39,11 @@ ATTACH_ENERGY_SCORE = 75000
 EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
-GIOVANNI_SCORE = 60000
-GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
-DONK_SEARCH_SCORE = 500000
-DONK_AVOIDANCE_SCORE = 450000
+GIOVANNI_SCORE = 60000
 
 ABILITY_SCORE = 50000
-POTION_CRITICAL_SCORE = 85000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
@@ -58,7 +58,8 @@ CARRY_LIST = [
     "blastoise ex", "dragonite", "gardevoir", "darkrai", "marowak ex",
     "weezing", "arbok", "zapdos ex", "articuno ex", "moltres ex",
     "machamp ex", "gengar ex", "wigglytuff ex", "nidoqueen", "nidoking",
-    "mega altaria ex", "greninja ex", "greninja", "mega kangaskhan ex"
+    "mega altaria ex", "greninja ex", "greninja", "mega kangaskhan ex",
+    "moltres ex", "zapdos ex", "articuno ex", "exeggutor ex", "arcanine ex"
 ]
 
 WEAKNESS_MAP = {
@@ -205,6 +206,13 @@ class Card:
         elif n_lower == "machop": max_cost = 3 # Machamp
         elif "blastoise ex" in n_lower: max_cost = 5
         elif n_lower == "lapras": max_cost = 4
+        elif "charizard ex" in n_lower: max_cost = 4
+        elif "venusaur ex" in n_lower: max_cost = 4
+        elif "mewtwo ex" in n_lower: max_cost = 4
+        elif "dragonite" in n_lower: max_cost = 4
+        elif "machamp ex" in n_lower: max_cost = 3
+        elif "gengar ex" in n_lower: max_cost = 3
+        elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -314,7 +322,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     # 2. Fixed Damage in Text
     m_fixed = re.search(r"this attack does (\d+) damage", text)
-    if m_fixed:
+    if m_fixed and "flip" not in text and "each" not in text: # Careful not to override scaling
         damage = int(m_fixed.group(1))
 
     # Handle multi-strike (e.g., Mega Kangaskhan ex)
@@ -347,7 +355,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                 count = attacker.energy_count
 
         calculated_bonus = count * multiplier
-        if damage <= 10:
+        if damage <= 10: # If base damage is low/zero, assume it's pure scaling
              damage = calculated_bonus
         else:
              damage += calculated_bonus
@@ -484,6 +492,8 @@ def play(state, game):
              d = calculate_damage(gs.my_active, i, gs)
              if d > active_dmg: active_dmg = d
 
+    risk_of_donk = (len(gs.my_bench) == 0)
+
     for aid in legal_actions:
         aname = game.action_name(aid)
         action = {"id": aid, "name": aname, "score": 0, "type": "unknown"}
@@ -553,8 +563,6 @@ def play(state, game):
 
                 # Donk Avoidance for Attack
                 if len(gs.my_bench) == 0 and not action.get("is_lethal") and not action.get("is_ko"):
-                     # If we can't kill and have no bench, attacking is still better than ending turn,
-                     # but we should prioritize playing basics first.
                      # Score is already decent (ATTACK_BASE_SCORE), but ensure it doesn't override Place Basic.
                      pass
 
@@ -613,8 +621,6 @@ def play(state, game):
                              action["score"] += 20000
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
-            risk_of_donk = (len(gs.my_bench) == 0)
-
             # Specific Item Parsing
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
@@ -634,6 +640,9 @@ def play(state, game):
                         action["score"] -= 50000 # Don't heal full HP
                     elif target.hp <= 60 or threat_lethal:
                         action["score"] = POTION_CRITICAL_SCORE
+                    # If it puts us out of lethal range
+                    if threat_lethal and (target.hp + 20) > opp_max_dmg:
+                         action["score"] += 10000
 
             elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
@@ -753,6 +762,10 @@ def play(state, game):
                              action["score"] += 5000
                         if "ex" in target.name.lower():
                             action["score"] += 1000
+
+                        # Tie break for Carry Pokemon
+                        if target.name.lower() in CARRY_LIST:
+                            action["score"] += 2000
 
                         # Check if this pokemon has energy to retreat if needed?
                         if target.energy_count >= target.retreat_cost:
@@ -952,7 +965,9 @@ def play(state, game):
                  if has_gardevoir_line:
                      a["score"] += 1000 # Good to discard for Psy Shadow
                  else:
-                     a["score"] -= 10000 # Bad to discard
+                     # Only penalize if we have a bench. If Donk risk, ignore penalty.
+                     if not risk_of_donk:
+                         a["score"] -= 10000 # Bad to discard
             elif len(gs.my_hand) >= 5:
                  a["score"] += 1000
             elif len(gs.my_hand) < 5:

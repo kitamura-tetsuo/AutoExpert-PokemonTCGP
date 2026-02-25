@@ -813,7 +813,7 @@ def play(state, game):
 
             elif "misty" in aname_lower:
                 action["type"] = "misty"
-                action["score"] = MISTY_SCORE
+                action["score"] = MISTY_SCORE + 2000 # Boost slightly above Attach (75000) -> 80000 base
                 targets = []
                 if gs.my_active and "Water" in gs.my_active.energy_type:
                      if gs.my_active.needs_energy() or gs.my_active.energy_count < 5:
@@ -909,7 +909,9 @@ def play(state, game):
 
                 if target_dmg > active_dmg + 30:
                      should_retreat = True
-                     action["score"] = max(action["score"], STRATEGIC_SWITCH_SCORE)
+                     # Boost to override current attack score (10000 + active_dmg)
+                     new_score = ATTACK_BASE_SCORE + target_dmg + 5000
+                     action["score"] = max(action["score"], new_score)
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)

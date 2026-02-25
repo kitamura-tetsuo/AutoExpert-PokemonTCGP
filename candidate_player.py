@@ -412,6 +412,7 @@ def get_opponent_max_damage(gs: GameStateWrapper):
     max_dmg = 0
     attacker = opp_gs.my_active
 
+    # 1. Active Damage (Current state)
     if attacker:
         current_energy = attacker.energy
 
@@ -422,8 +423,92 @@ def get_opponent_max_damage(gs: GameStateWrapper):
             if can_use_attack(cost, current_energy):
                  dmg = calculate_damage(attacker, i, opp_gs, extra_damage=0, mode="max")
                  if dmg > max_dmg: max_dmg = dmg
-            else:
-                pass
+
+            # Check if they can use it with +1 Energy attachment
+            # This covers potential attachment to active
+            simulated_energy = current_energy + ["Colorless"] # Assume any energy can be attached (effectively)
+            # Actually, we should check specific types, but "Colorless" is safest assumption for quantity check
+            # For colored costs, we'd need to guess. Let's just assume +1 count is enough if colors match partially?
+            # Or simplified: if len(cost) <= len(current_energy) + 1.
+            # But let's stick to strict check for now to avoid false positives.
+            # If we assume they attach the RIGHT energy:
+            needed_types = []
+            for c in cost:
+                if c != "Colorless": needed_types.append(c)
+
+            # Count missing
+            missing = 0
+            temp_energy = list(current_energy)
+            for c in needed_types:
+                if c in temp_energy:
+                    temp_energy.remove(c)
+                else:
+                    missing += 1
+
+            if missing <= 1: # If only 1 specific energy missing, assume they can attach it
+                 # Check total count
+                 if len(current_energy) + 1 >= len(cost):
+                      dmg = calculate_damage(attacker, i, opp_gs, extra_damage=0, mode="max")
+                      if dmg > max_dmg: max_dmg = dmg
+
+    # 2. Bench Threats (Retreat/Switch)
+    # If active can retreat (or is knocked out? No, get_opponent_max_damage assumes active is alive)
+    # Check if they can retreat
+    can_retreat = False
+    if attacker:
+        retreat_cost = attacker.retreat_cost
+        if attacker.energy_count >= retreat_cost:
+            can_retreat = True
+        elif attacker.energy_count + 1 >= retreat_cost:
+            can_retreat = True # Assume they attach to retreat
+
+    if can_retreat:
+        for b in opp_gs.my_bench:
+            # Check if b can attack immediately upon becoming active
+            # We assume no extra energy attached to b (because attached to active to retreat?)
+            # UNLESS retreat cost was 0 or already met.
+            # If retreat cost met without attachment, they can attach to b!
+
+            # Case A: Retreat paid by existing energy -> Attach to B possible
+            # Case B: Retreat paid by attaching -> No attach to B
+
+            can_attach_to_b = False
+            if attacker.energy_count >= attacker.retreat_cost:
+                can_attach_to_b = True
+
+            b_energy = b.energy
+
+            for i, atk in enumerate(b.attacks):
+                cost = atk.get("cost", [])
+
+                # Check if usable now
+                usable = can_use_attack(cost, b_energy)
+
+                # Check if usable with +1 attachment (if allowed)
+                if not usable and can_attach_to_b:
+                    # Same logic as above for active
+                    needed_types = [c for c in cost if c != "Colorless"]
+                    missing = 0
+                    temp = list(b_energy)
+                    for c in needed_types:
+                        if c in temp: temp.remove(c)
+                        else: missing += 1
+
+                    if missing <= 1 and len(b_energy) + 1 >= len(cost):
+                        usable = True
+
+                if usable:
+                    # We need to pass 'extra_damage' if needed, but for bench we assume standard max
+                    # Note: we need to pass the correct 'attacker' to calculate_damage
+                    # But calculate_damage takes 'attacker: Card', which 'b' is.
+                    # However, 'state' passed to it assumes 'opp_gs'.
+                    # We need to temporarily set 'opp_gs.my_active' to 'b' for context?
+                    # 'calculate_damage' uses 'state.opp_bench' etc.
+                    # If b becomes active, the old active goes to bench.
+                    # This might affect scaling damage (e.g. "damage for each benched pokemon").
+                    # But for now, let's just approximate by using current state.
+                    d = calculate_damage(b, i, opp_gs, extra_damage=0, mode="max")
+                    if d > max_dmg: max_dmg = d
 
     return max_dmg
 
@@ -609,6 +694,9 @@ def play(state, game):
             action["score"] = EVOLVE_SCORE
 
             # Defensive Evolution Check
+            if threat_lethal:
+                action["score"] += 2000 # Prioritize evolution to build board/options when threatened
+
             if threat_lethal and gs.my_active:
                 m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
                 if m:
@@ -704,13 +792,22 @@ def play(state, game):
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
 
                 if threat_lethal:
+                    # Check if losing active means losing the game
+                    opp_points_needed = 3 - gs.opp_points
+                    my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
+                    loses_game = (my_active_gives >= opp_points_needed)
+
+                    bench_is_safer = target and target.hp > opp_max_dmg
+
+                    if loses_game and bench_is_safer:
+                        action["score"] = LETHAL_WIN_SCORE # Prevent game loss at all costs!
+
                     # Only retreat if bench is ready OR we are saving a valuable card (EX or loaded)
                     # AND the bench card isn't going to die immediately either
                     is_valuable = False
                     if gs.my_active:
                         is_valuable = "ex" in gs.my_active.name.lower() or gs.my_active.energy_count >= 2
 
-                    bench_is_safer = target and target.hp > opp_max_dmg
                     bench_can_attack = target and target.energy_count >= 1 # Soft check
 
                     if (is_valuable and bench_is_safer):
@@ -722,12 +819,13 @@ def play(state, game):
                 # Strategic Switch
                 target_dmg = 0
                 for i in range(len(target.attacks)):
-                     d = calculate_damage(target, i, gs)
-                     if d > target_dmg: target_dmg = d
+                     if can_use_attack(target.attacks[i].get("cost", []), target.energy):
+                         d = calculate_damage(target, i, gs)
+                         if d > target_dmg: target_dmg = d
 
                 if target_dmg > active_dmg + 30:
                      should_retreat = True
-                     action["score"] = STRATEGIC_SWITCH_SCORE
+                     action["score"] = max(action["score"], STRATEGIC_SWITCH_SCORE)
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)

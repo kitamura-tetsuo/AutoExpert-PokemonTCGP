@@ -29,8 +29,8 @@ DONK_PREVENTION_SCORE = 500000
 GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
+SEARCH_SCORE = 76000 # Increased from 74500 to prioritize search over attach
 ATTACH_ENERGY_SCORE = 75000
-SEARCH_SCORE = 74500
 EVOLVE_SCORE = 74000
 PLACE_BASIC_SCORE = 73000
 ITEM_SCORE = 72000
@@ -521,6 +521,15 @@ def play(state, game):
                     if threat_lethal and is_ko:
                         action["score"] += 20000
 
+                    # Status Effect / Heal Bonus
+                    if not is_ko and gs.my_active and idx < len(gs.my_active.attacks):
+                        atk_data = gs.my_active.attacks[idx]
+                        atk_text = (atk_data.get("text") or "").lower()
+                        if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
+                            action["score"] += 2000
+                        if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
+                            action["score"] += 1000
+
                 # Donk Avoidance for Attack
                 if len(gs.my_bench) == 0 and not action.get("is_lethal") and not action.get("is_ko"):
                      action["score"] = 5000
@@ -870,6 +879,11 @@ def play(state, game):
                              if gs.opp_active:
                                  if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
                                      a["score"] += 20000 # Boost significantly if it enables lethal
+
+                         # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
+                         if threat_lethal and a["score"] < 90000: # 75000 base + small bonuses < 90000 (lethal boost is +20000)
+                             a["score"] -= 5000
+
                 else:
                      a["score"] -= 1000
             else:

@@ -25,9 +25,10 @@ except ImportError:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-DONK_PREVENTION_SCORE = 500000
-DONK_SEARCH_SCORE = 500000
-DONK_AVOIDANCE_SCORE = 450000
+DONK_PREVENTION_SCORE = 502000 # Prioritize placing basic immediately
+DONK_SEARCH_SCORE = 501000 # Prioritize items that find basics
+DONK_DRAW_SCORE = 500000 # Prioritize supporters that find basics
+DONK_SURVIVAL_SCORE = 500500 # Prioritize staying alive if only one pokemon
 
 GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
 POTION_CRITICAL_SCORE = 85000
@@ -48,7 +49,7 @@ ABILITY_SCORE = 50000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
-LETHAL_KO_SCORE = 50000
+LETHAL_KO_SCORE = 100000 # Prioritize taking prizes over setup/research (if not lethal win)
 STRATEGIC_SWITCH_SCORE = 30000
 ATTACK_BASE_SCORE = 10000
 RETREAT_SCORE = -15000 # Don't retreat unless necessary
@@ -746,7 +747,10 @@ def play(state, game):
                         current_hp = gs.my_active.hp if gs.my_active else 0
                         # If evolution saves us from lethal
                         if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
-                             action["score"] += 25000 # Boost significantly
+                             if risk_of_donk:
+                                 action["score"] = DONK_SURVIVAL_SCORE
+                             else:
+                                 action["score"] += 25000 # Boost significantly
                         elif evol_hp > current_hp:
                              action["score"] += 2000 # Small boost for HP increase
 
@@ -772,19 +776,22 @@ def play(state, game):
                         action["score"] = POTION_CRITICAL_SCORE
                     # If it puts us out of lethal range
                     if threat_lethal and (target.hp + 20) > opp_max_dmg:
-                         action["score"] += 10000
+                         if risk_of_donk:
+                             action["score"] = DONK_SURVIVAL_SCORE
+                         else:
+                             action["score"] += 10000
 
             elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
-                    action["score"] = DONK_SEARCH_SCORE
+                    action["score"] = DONK_DRAW_SCORE
 
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
-                    action["score"] = DONK_SEARCH_SCORE
+                    action["score"] = DONK_DRAW_SCORE
                 else:
                     if gs.opp_hand_count > len(gs.my_hand):
                          action["score"] += 1000
@@ -795,7 +802,7 @@ def play(state, game):
                  action["type"] = "draw_supporter"
                  action["score"] = DRAW_SUPPORTER_SCORE
                  if risk_of_donk:
-                     action["score"] = DONK_SEARCH_SCORE
+                     action["score"] = DONK_DRAW_SCORE
 
             elif "misty" in aname_lower:
                 action["type"] = "misty"

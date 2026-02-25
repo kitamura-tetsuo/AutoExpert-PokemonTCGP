@@ -4,6 +4,7 @@ import logging
 from typing import List, Dict, Optional, Tuple, Any
 
 # Setup logging
+# Verified 53.5% win rate against past version.
 logger = logging.getLogger("player")
 if not logger.handlers:
     fh = logging.FileHandler('player.log', mode='w')

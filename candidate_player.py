@@ -25,9 +25,10 @@ except ImportError:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-DONK_PREVENTION_SCORE = 500000
-DONK_SEARCH_SCORE = 500000
-DONK_AVOIDANCE_SCORE = 450000
+DONK_PREVENTION_SCORE = 502000 # Prioritize placing basic immediately
+DONK_SEARCH_SCORE = 501000 # Prioritize items that find basics
+DONK_DRAW_SCORE = 500000 # Prioritize supporters that find basics
+DONK_SURVIVAL_SCORE = 500500 # Prioritize staying alive if only one pokemon
 
 GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
 POTION_CRITICAL_SCORE = 85000
@@ -301,7 +302,7 @@ def can_use_attack(cost, energy_provided):
 
 POTENTIAL_LETHAL_BONUS = 15000
 
-def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev"):
+def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev", target_override=None):
     if not attacker: return 0
     attacks = attacker.attacks
     if attack_idx >= len(attacks): return 0
@@ -394,8 +395,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     damage += extra_damage
 
-    if state.opp_active and state.opp_active.db_entry:
-        ability = state.opp_active.db_entry.get("ability")
+    target = target_override if target_override else state.opp_active
+
+    if target and target.db_entry:
+        ability = target.db_entry.get("ability")
         if ability:
             effect = ability.get("effect", "").lower()
             if "prevent all damage" in effect and "pokémon ex" in effect:
@@ -403,8 +406,8 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                     damage = 0
 
     # 5. Weakness Logic
-    if state.opp_active:
-        opp_type = state.opp_active.energy_type
+    if target:
+        opp_type = target.energy_type
         attacker_type = attacker.energy_type
 
         # Check if opponent is weak to attacker
@@ -557,6 +560,7 @@ def play(state, game):
 
     can_win_on_bench = False
     can_ko_on_bench = False
+    best_bench_ko_value = 0
     points_needed_to_win = 3 - gs.my_points
 
     if gs.my_active:
@@ -567,11 +571,15 @@ def play(state, game):
                  if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
                      continue
 
-                 dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=10 if has_giovanni else 0)
+                 # For bench/gust calculations, assume we cannot use Giovanni (since Gust is likely a Supporter)
+                 dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0, target_override=b)
                  if dmg >= b.hp:
                      can_ko_on_bench = True
                      is_ex = "ex" in b.name.lower()
                      points_gained = 2 if is_ex else 1
+                     if points_gained > best_bench_ko_value:
+                         best_bench_ko_value = points_gained
+
                      if points_gained >= points_needed_to_win:
                         can_win_on_bench = True
                      break
@@ -746,7 +754,10 @@ def play(state, game):
                         current_hp = gs.my_active.hp if gs.my_active else 0
                         # If evolution saves us from lethal
                         if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
-                             action["score"] += 25000 # Boost significantly
+                             if risk_of_donk:
+                                 action["score"] = DONK_SURVIVAL_SCORE
+                             else:
+                                 action["score"] += 25000 # Boost significantly
                         elif evol_hp > current_hp:
                              action["score"] += 2000 # Small boost for HP increase
 
@@ -772,19 +783,22 @@ def play(state, game):
                         action["score"] = POTION_CRITICAL_SCORE
                     # If it puts us out of lethal range
                     if threat_lethal and (target.hp + 20) > opp_max_dmg:
-                         action["score"] += 10000
+                         if risk_of_donk:
+                             action["score"] = DONK_SURVIVAL_SCORE
+                         else:
+                             action["score"] += 10000
 
             elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
-                    action["score"] = DONK_SEARCH_SCORE
+                    action["score"] = DONK_DRAW_SCORE
 
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
-                    action["score"] = DONK_SEARCH_SCORE
+                    action["score"] = DONK_DRAW_SCORE
                 else:
                     if gs.opp_hand_count > len(gs.my_hand):
                          action["score"] += 1000
@@ -795,11 +809,11 @@ def play(state, game):
                  action["type"] = "draw_supporter"
                  action["score"] = DRAW_SUPPORTER_SCORE
                  if risk_of_donk:
-                     action["score"] = DONK_SEARCH_SCORE
+                     action["score"] = DONK_DRAW_SCORE
 
             elif "misty" in aname_lower:
                 action["type"] = "misty"
-                action["score"] = MISTY_SCORE
+                action["score"] = MISTY_SCORE + 2000 # Boost slightly above Attach (75000) -> 80000 base
                 targets = []
                 if gs.my_active and "Water" in gs.my_active.energy_type:
                      if gs.my_active.needs_energy() or gs.my_active.energy_count < 5:
@@ -895,7 +909,9 @@ def play(state, game):
 
                 if target_dmg > active_dmg + 30:
                      should_retreat = True
-                     action["score"] = max(action["score"], STRATEGIC_SWITCH_SCORE)
+                     # Boost to override current attack score (10000 + active_dmg)
+                     new_score = ATTACK_BASE_SCORE + target_dmg + 5000
+                     action["score"] = max(action["score"], new_score)
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)

@@ -275,7 +275,9 @@ def can_use_attack(cost, energy_provided):
         return True
     return False
 
-def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0):
+POTENTIAL_LETHAL_BONUS = 15000
+
+def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev"):
     if not attacker: return 0
     attacks = attacker.attacks
     if attack_idx >= len(attacks): return 0
@@ -293,22 +295,30 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         elif "flip a coin" in text: num_coins = 1
 
     if num_coins > 0:
+        multiplier = 0.5 if mode == "ev" else 1.0
+
         m_each = re.search(r"(\d+) damage for each heads", text)
         if m_each:
             dmg_per_head = int(m_each.group(1))
-            damage = num_coins * 0.5 * dmg_per_head
+            damage = num_coins * multiplier * dmg_per_head
         else:
             m_more = re.search(r"heads, this attack does (\d+) more damage", text)
             if m_more:
                 bonus = int(m_more.group(1))
-                damage += (num_coins * 0.5 * bonus)
+                damage += (num_coins * multiplier * bonus)
             elif "tails, this attack does nothing" in text:
-                 damage *= 0.5
+                 damage *= multiplier
 
     # 2. Fixed Damage in Text
     m_fixed = re.search(r"this attack does (\d+) damage", text)
     if m_fixed:
         damage = int(m_fixed.group(1))
+
+    # Handle multi-strike (e.g., Mega Kangaskhan ex)
+    if "used twice" in text:
+        m_second = re.search(r"second attack does (\d+) damage", text)
+        second_dmg = int(m_second.group(1)) if m_second else damage
+        damage += second_dmg
 
     # 3. Scaling Damage
     if "damage for each" in text and "heads" not in text:
@@ -399,7 +409,7 @@ def get_opponent_max_damage(gs: GameStateWrapper):
             cost = atk.get("cost", [])
             # Check if they can use it
             if can_use_attack(cost, current_energy):
-                 dmg = calculate_damage(attacker, i, opp_gs, extra_damage=0)
+                 dmg = calculate_damage(attacker, i, opp_gs, extra_damage=0, mode="max")
                  if dmg > max_dmg: max_dmg = dmg
             else:
                 pass
@@ -488,7 +498,9 @@ def play(state, game):
                 idx = int(m.group(1))
                 action["type"] = "attack"
                 action["idx"] = idx
-                action["damage"] = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                action["damage"] = calculate_damage(gs.my_active, idx, gs, extra_damage=0, mode="ev")
+                max_damage = calculate_damage(gs.my_active, idx, gs, extra_damage=0, mode="max")
+
                 effective_damage = action["damage"]
                 if gs.opp_active:
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
@@ -505,6 +517,10 @@ def play(state, game):
                     if not is_ko and has_giovanni and dmg_with_giovanni >= gs.opp_active.hp:
                         can_be_lethal_with_giovanni = True
                         action["can_be_lethal_with_giovanni"] = True
+
+                    # Probabilistic Lethal Check
+                    if not is_ko and gs.opp_active and max_damage >= gs.opp_active.hp:
+                        action["score"] += POTENTIAL_LETHAL_BONUS
 
                     if is_ko:
                         action["score"] = LETHAL_KO_SCORE

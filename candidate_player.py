@@ -86,6 +86,14 @@ WEAKNESS_MAP = {
     "Colorless": ["Fighting"]
 }
 
+BIRDS = [
+    "pidgey", "pidgeotto", "pidgeot", "spearow", "fearow", "farfetch", "doduo", "dodrio",
+    "aerodactyl", "swablu", "altaria", "fletchling", "fletchinder", "talonflame",
+    "ducklett", "swanna", "rufflet", "braviary", "rookidee", "corvisquire", "corviknight",
+    "cramorant", "tornadus", "noibat", "noivern", "lugia", "ho-oh", "rayquaza",
+    "shaymin", "chatot", "staraptor", "starly", "staravia", "taillow", "swellow"
+]
+
 class Card:
     def __init__(self, debug_label, obj=None):
         self.debug_label = debug_label
@@ -427,14 +435,24 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         attacker_type = attacker.energy_type
 
         # Check if opponent is weak to attacker
+        weaknesses = []
         if opp_type in WEAKNESS_MAP:
-            weaknesses = WEAKNESS_MAP[opp_type]
-            if attacker_type in weaknesses:
-                damage *= 2
+            weaknesses = list(WEAKNESS_MAP[opp_type])
+
+        if opp_type == "Colorless":
+             n = target.name.lower()
+             if any(b in n for b in BIRDS):
+                  if "Lightning" not in weaknesses:
+                       weaknesses.append("Lightning")
+                  if "Fighting" in weaknesses:
+                       weaknesses = [w for w in weaknesses if w != "Fighting"]
+
+        if attacker_type in weaknesses:
+            damage *= 2
 
     return int(damage)
 
-def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None):
+def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None, treat_as_active: bool = False):
     if not gs.opp_active:
         return 0
 
@@ -458,7 +476,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
     final_target = target if target else gs.my_active
 
     is_bench_target = False
-    if final_target:
+    if final_target and not treat_as_active:
         for b in gs.my_bench:
             if b.obj == final_target.obj:
                 is_bench_target = True
@@ -1017,7 +1035,8 @@ def play(state, game):
                     my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
                     loses_game = (my_active_gives >= opp_points_needed)
 
-                    bench_is_safer = target and target.hp > opp_max_dmg
+                    bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+                    bench_is_safer = target and target.hp > bench_threat
 
                     if loses_game and bench_is_safer:
                         action["score"] = LETHAL_WIN_SCORE # Prevent game loss at all costs!
@@ -1049,7 +1068,11 @@ def play(state, game):
                              # If we retreat to a sitting duck and can't power it up, it's usually bad
                              # Unless it is to save the game (LETHAL_WIN_SCORE handles that above)
                              if action["score"] < LETHAL_WIN_SCORE:
-                                 action["score"] -= 50000
+                                 # Don't penalize if we are saving a valuable card from death
+                                 # Or if we are switching to a Tank (High HP) to stall
+                                 is_tank = target and gs.my_active and target.hp >= (gs.my_active.hp + 40)
+                                 if not ((is_valuable or is_tank) and threat_lethal):
+                                     action["score"] -= 50000
 
                 # Strategic Switch
                 target_dmg = 0
@@ -1239,7 +1262,7 @@ def play(state, game):
                     loses_game = (my_active_gives >= opp_points_needed)
 
                     for b in gs.my_bench:
-                        bench_threat = get_opponent_max_damage(gs, target=b)
+                        bench_threat = get_opponent_max_damage(gs, target=b, treat_as_active=True)
                         if b.hp > bench_threat:
                             has_safe_bench = True
                             break

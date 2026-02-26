@@ -86,6 +86,62 @@ WEAKNESS_MAP = {
     "Colorless": ["Fighting"]
 }
 
+EVOLUTION_MAP = {
+    "charmander": "charmeleon", "charmeleon": "charizard ex",
+    "squirtle": "wartortle", "wartortle": "blastoise ex",
+    "bulbasaur": "ivysaur", "ivysaur": "venusaur ex",
+    "dratini": "dragonair", "dragonair": "dragonite",
+    "deino": "zweilous", "zweilous": "hydreigon",
+    "gastly": "haunter", "haunter": "gengar ex",
+    "machop": "machoke", "machoke": "machamp ex",
+    "ralts": "kirlia", "kirlia": "gardevoir",
+    "pidgey": "pidgeotto", "pidgeotto": "pidgeot",
+    "nidoran\u2640": "nidorina", "nidorina": "nidoqueen",
+    "nidoran\u2642": "nidorino", "nidorino": "nidoking",
+    "oddish": "gloom", "gloom": "vileplume",
+    "bellsprout": "weepinbell", "weepinbell": "victreebel",
+    "abra": "kadabra", "kadabra": "alakazam",
+    "geodude": "graveler", "graveler": "golem",
+    "poliwag": "poliwhirl", "poliwhirl": "poliwrath",
+    "pikachu": "raichu",
+    "voltorb": "electrode",
+    "magnemite": "magneton",
+    "blitzle": "zebstrika",
+    "weedle": "kakuna", "kakuna": "beedrill",
+    "caterpie": "metapod", "metapod": "butterfree",
+    "zubat": "golbat",
+    "ekans": "arbok",
+    "sandshrew": "sandslash",
+    "clefairy": "clefable",
+    "vulpix": "ninetales",
+    "jigglypuff": "wigglytuff",
+    "paras": "parasect",
+    "venonat": "venomoth",
+    "diglett": "dugtrio",
+    "meowth": "persian",
+    "psyduck": "golduck",
+    "mankey": "primeape",
+    "growlithe": "arcanine",
+    "tentacool": "tentacruel",
+    "ponyta": "rapidash",
+    "slowpoke": "slowbro",
+    "doduo": "dodrio",
+    "seel": "dewgong",
+    "grimer": "muk",
+    "shellder": "cloyster",
+    "drowzee": "hypno",
+    "krabby": "kingler",
+    "cubone": "marowak",
+    "koffing": "weezing",
+    "rhyhorn": "rhydon",
+    "horsea": "seadra",
+    "goldeen": "seaking",
+    "staryu": "starmie",
+    "magikarp": "gyarados",
+    "omanyte": "omastar",
+    "kabuto": "kabutops"
+}
+
 BIRDS = [
     "pidgey", "pidgeotto", "pidgeot", "spearow", "fearow", "farfetch", "doduo", "dodrio",
     "aerodactyl", "swablu", "altaria", "fletchling", "fletchinder", "talonflame",
@@ -515,6 +571,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
              if ab:
                  n_lower = attacker_card.name.lower()
                  if "hydreigon" in n_lower:
+                     # Hydreigon ability attaches 2 Dark energy if used
                      extra_energy.extend(["Darkness", "Darkness"])
                  elif "magneton" in n_lower:
                      extra_energy.append("Lightning")
@@ -598,6 +655,56 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
     # 1. Active Damage
     max_dmg = evaluate_attacker(attacker, True, has_energy_in_hand)
+
+    # 1.5 Evolution Threat Check (Active)
+    if attacker and attacker.name.lower() in EVOLUTION_MAP:
+        evolved_name = EVOLUTION_MAP[attacker.name.lower()]
+        # Check if evolved form is in hand
+        if any(c.name.lower() == evolved_name.lower() for c in opp_gs.my_hand):
+             # Simulate evolution
+             # We create a dummy card with the properties of the evolution but current energy of the pre-evolution
+             # Note: HP doesn't matter for damage calculation usually, but attacks do.
+             # We need to find the DB entry for the evolution.
+             evolved_entry = None
+             if evolved_name.lower() in CARD_DB_FULL:
+                 evolved_entry = CARD_DB_FULL[evolved_name.lower()][0]
+             elif evolved_name.lower() in CARD_DB:
+                 e = CARD_DB[evolved_name.lower()]
+                 evolved_entry = e[0] if isinstance(e, list) else e
+
+             if evolved_entry:
+                 # Create a dummy card object.
+                 # We can reuse the Card class but we need to mock the internal obj or just manually set db_entry
+                 # Since Card class relies on obj for energy, we pass the original obj but override db_entry?
+                 # No, Card.db_entry is derived from name.
+                 # So we need a dummy obj with the evolved name.
+                 class DummyObj:
+                     def __init__(self, name, energy):
+                         self.name = name
+                         self.attached_energy = energy
+                         self.remaining_hp = 100 # Dummy
+                         self.total_hp = 100
+                         self.ability_used = False # Assume fresh
+                         self.attached_tool = attacker.attached_tool # Inherit tool
+                         self.status = attacker.status
+
+                 # Need to convert string energy back to objects? Card class handles strings in energy property
+                 # But we need to pass something that getattr(obj, "attached_energy") works on.
+                 # attacker.energy is a list of strings.
+                 dummy_obj = DummyObj(evolved_entry["name"], attacker.energy)
+                 # But wait, Card class expects obj.attached_energy to be iterable of things that str() to energy name.
+                 # So strings work fine if we wrap them? No, str("Fire") is "Fire".
+
+                 evolved_card = Card("EvolvedThreat", dummy_obj)
+                 # Force DB entry update if needed, but constructor does it based on name.
+
+                 # Calculate damage for evolved form
+                 # Evolution implies we used a card from hand, so we consumed a "Play" action?
+                 # But we can still attach energy manually if we haven't.
+                 # evaluate_attacker handles manual_attach_available.
+
+                 d = evaluate_attacker(evolved_card, True, has_energy_in_hand)
+                 if d > max_dmg: max_dmg = d
 
     # 2. Bench Threats (Retreat/Switch)
     can_switch = False
@@ -990,7 +1097,7 @@ def play(state, game):
             elif "red card" in aname_lower:
                 action["type"] = "red_card"
                 action["score"] = RED_CARD_SCORE
-            elif "ball" in aname_lower or "search" in aname_lower or "slab" in aname_lower: # Mythical Slab
+            elif "ball" in aname_lower or "search" in aname_lower or "slab" in aname_lower or "red" in aname_lower: # Mythical Slab, Red
                 action["type"] = "search_item"
                 action["score"] = SEARCH_SCORE
                 if risk_of_donk:

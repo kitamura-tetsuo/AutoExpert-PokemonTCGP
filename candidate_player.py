@@ -253,6 +253,30 @@ class Card:
             return self.db_entry.get("retreat", 1)
         return 1
 
+    @property
+    def is_ex(self):
+        return "ex" in self.name.lower()
+
+    @property
+    def is_carry(self):
+        return self.name.lower() in CARRY_LIST
+
+    @property
+    def weakness(self):
+        return WEAKNESS_MAP.get(self.energy_type, [])
+
+    def is_useful(self):
+        if self.is_ex or self.is_carry: return True
+        n = self.name.lower()
+        if n in EVOLUTION_MAP:
+            evolved = EVOLUTION_MAP[n]
+            if evolved in CARRY_LIST or "ex" in evolved: return True
+            # Check stage 2
+            if evolved in EVOLUTION_MAP:
+                stage2 = EVOLUTION_MAP[evolved]
+                if stage2 in CARRY_LIST or "ex" in stage2: return True
+        return False
+
     def needs_energy(self):
         max_cost = 0
         if self.db_entry:
@@ -443,6 +467,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                      count = 0
                      for b in state.my_bench:
                          if "Lightning" in b.energy_type: count += 1
+                elif "nidoqueen" in name_lower:
+                     count = sum(1 for b in state.my_bench if "nidoking" in b.name.lower())
+                elif "nidoking" in name_lower:
+                     count = sum(1 for b in state.my_bench if "nidoqueen" in b.name.lower())
         elif "energy" in text:
             if "opponent" in text:
                 if state.opp_active: count = state.opp_active.energy_count
@@ -457,6 +485,37 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
              damage = calculated_bonus
         else:
              damage += calculated_bonus
+
+    # 3.5 Conditional Damage ("If ... more damage")
+    if "more damage" in text:
+        m_plus = re.search(r"does (\d+) more damage", text)
+        if m_plus:
+            bonus = int(m_plus.group(1))
+            condition_met = False
+
+            if "damage on it" in text and state.opp_active and state.opp_active.hp < state.opp_active.max_hp:
+                condition_met = True
+            elif "poisoned" in text and state.opp_active and any("poison" in str(s).lower() for s in state.opp_active.status):
+                condition_met = True
+            elif "extra" in text and "energy" in text:
+                # e.g. "at least 3 extra [W] Energy"
+                needed_extra = 1
+                m_extra = re.search(r"at least (\d+) extra", text)
+                if m_extra: needed_extra = int(m_extra.group(1))
+
+                # Assume standard cost is already met, check total energy
+                # This is tricky without knowing exact attack cost, but we can approximate
+                total_energy = len(energy_override) if energy_override else attacker.energy_count
+                base_cost = len(atk.get("cost", []))
+                if total_energy >= base_cost + needed_extra:
+                    condition_met = True
+            elif "opponent's active pokémon is a" in text:
+                 # Type matching e.g. Coalossal vs Grass
+                 if state.opp_active:
+                     if "grass" in text and "Grass" in state.opp_active.energy_type: condition_met = True
+
+            if condition_met:
+                damage += bonus
 
     # 4. Specific Card Overrides (Fallback)
     if "pikachu ex" in name_lower and attack_idx == 0 and damage < 30:
@@ -482,12 +541,21 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     target = target_override if target_override else state.opp_active
 
     if target and target.db_entry:
+        # Ability Defense (e.g., Hard Coat, Fur Coat)
         ability = target.db_entry.get("ability")
         if ability:
             effect = ability.get("effect", "").lower()
             if "prevent all damage" in effect and "pokémon ex" in effect:
                 if "ex" in attacker.name.lower():
                     damage = 0
+            elif "takes -20 damage" in effect:
+                damage -= 20
+            elif "takes -10 damage" in effect:
+                damage -= 10
+            elif "takes -30 damage" in effect:
+                damage -= 30
+            elif "takes -40 damage" in effect and target.hp == target.max_hp: # Ice Face
+                damage -= 40
 
     # 5. Weakness Logic
     if target:
@@ -542,8 +610,9 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
                 is_bench_target = True
                 break
 
-    # Scan opponent board for support abilities (Gardevoir, Leafeon ex)
+    # Scan opponent board for support abilities (Gardevoir, Leafeon ex) and Damage Abilities (Greninja)
     support_energy = {"Psychic": 0, "Grass": 0}
+    ability_damage = 0
     potential_supporters = [opp_gs.my_active] + opp_gs.my_bench
     for card in potential_supporters:
         if not card or card.name == "Unknown": continue
@@ -558,6 +627,9 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
              support_energy["Psychic"] += 1
         elif "leafeon ex" in n_lower and card == opp_gs.my_active:
              support_energy["Grass"] += 1
+        elif "greninja" in n_lower:
+             # Water Shuriken: 20 dmg
+             ability_damage += 20
 
     max_dmg = 0
     attacker = opp_gs.my_active
@@ -690,7 +762,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
                          self.total_hp = 100
                          self.ability_used = False # Assume fresh
                          self.attached_tool = attacker.attached_tool # Inherit tool
-                         self.status = attacker.status
+                         self.status = [] # Evolving heals status
 
                  # Need to convert string energy back to objects? Card class handles strings in energy property
                  # But we need to pass something that getattr(obj, "attached_energy") works on.
@@ -738,6 +810,9 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
         for b in opp_gs.my_bench:
             d = evaluate_attacker(b, True, manual_attach_for_bench)
             if d > max_dmg: max_dmg = d
+
+    # Add ability damage (e.g. Greninja)
+    # max_dmg += ability_damage # Disabled: Too pessimistic, causes excessive retreats
 
     # Add buffer only if we didn't account for Giovanni
     if not has_giovanni:
@@ -831,6 +906,37 @@ def play(state, game):
              if d > active_dmg: active_dmg = d
 
     risk_of_donk = (len(gs.my_bench) == 0)
+
+    # 0. Immediate Lethal Check
+    # If any action guarantees a win, take it immediately.
+    # We prioritize attacking over everything else if it wins.
+    best_lethal_action = None
+    best_lethal_score = -1
+
+    for aid in legal_actions:
+        aname = game.action_name(aid)
+        if "Attack" in aname:
+            m = re.search(r"Attack\((\d+)\)", aname)
+            if m:
+                idx = int(m.group(1))
+                # Quick check
+                if gs.my_active:
+                    dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0) # Base damage
+                    # Check Giovanni/Red if available
+                    if has_giovanni:
+                         # This is complex because we need to play Giovanni first.
+                         # This loop only checks ATOMIC actions.
+                         # So we can't see "Play Giovanni THEN Attack" here as one action.
+                         # But if current attack is lethal WITHOUT supporters, take it.
+                         pass
+
+                    if gs.opp_active and dmg >= gs.opp_active.hp:
+                        # Check prizes
+                        is_ex = "ex" in gs.opp_active.name.lower()
+                        points_gained = 2 if is_ex else 1
+                        if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
+                             # FOUND LETHAL WIN
+                             return aid
 
     for aid in legal_actions:
         aname = game.action_name(aid)
@@ -1241,7 +1347,7 @@ def play(state, game):
                                  break
 
                     if (is_valuable and bench_is_safer):
-                        action["score"] += 35000
+                        action["score"] = DONK_SURVIVAL_SCORE + 1000
 
                     if bench_can_attack:
                          action["score"] += 15000
@@ -1545,10 +1651,24 @@ def play(state, game):
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()
+
+            # Bench Management: Don't fill bench with junk
+            is_useful = False
+            # We can't access Card object here easily, but we have card_name
+            # Replicate is_useful logic
+            if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+            elif n_lower in EVOLUTION_MAP:
+                 evolved = EVOLUTION_MAP[n_lower]
+                 if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                 elif evolved in EVOLUTION_MAP:
+                     stage2 = EVOLUTION_MAP[evolved]
+                     if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+
             if len(gs.my_bench) >= 2:
-                if n_lower not in CARRY_LIST and "ex" not in n_lower:
-                    a["score"] -= 1000
-            if "ex" in n_lower or n_lower in CARRY_LIST:
+                if not is_useful:
+                    a["score"] -= 10000 # Increase penalty for junk on full bench
+
+            if is_useful:
                 a["score"] += CARRY_BONUS
 
             if any("misty" in c.name.lower() for c in gs.my_hand):
@@ -1770,9 +1890,9 @@ def play(state, game):
                  # Prefer standard lethal to save energy? Psydrive discards energy.
                  for a in mewtwo_attacks:
                      if a["id"] == psydrive_lethal["id"]:
-                         a["score"] -= 2000
+                         a["score"] -= 500000 # Penalize heavy discard if cheap attack kills
                      elif a["id"] == standard_lethal["id"]:
-                         a["score"] += 500
+                         a["score"] += 1000
 
     if actions:
         actions.sort(key=lambda x: x["score"], reverse=True)

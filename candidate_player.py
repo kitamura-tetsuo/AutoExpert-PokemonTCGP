@@ -1230,7 +1230,7 @@ def play(state, game):
                                  break
 
                     if (is_valuable and bench_is_safer):
-                        action["score"] += 35000
+                        action["score"] = DONK_SURVIVAL_SCORE + 1000
 
                     if bench_can_attack:
                          action["score"] += 15000

@@ -380,9 +380,9 @@ def can_use_attack(cost, energy_provided):
         return True
     return False
 
-POTENTIAL_LETHAL_BONUS = 15000
+POTENTIAL_LETHAL_BONUS = 5000
 
-def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev", target_override=None):
+def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev", target_override=None, energy_override: Optional[List[str]] = None):
     if not attacker: return 0
     attacks = attacker.attacks
     if attack_idx >= len(attacks): return 0
@@ -446,7 +446,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             if "opponent" in text:
                 if state.opp_active: count = state.opp_active.energy_count
             else:
-                count = attacker.energy_count
+                if energy_override is not None:
+                    count = len(energy_override)
+                else:
+                    count = attacker.energy_count
 
         calculated_bonus = count * multiplier
         if damage <= 10: # If base damage is low/zero, assume it's pure scaling
@@ -648,7 +651,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
                      if has_giovanni and not supporter_conflict:
                          extra = 10
 
-                     d = calculate_damage(attacker_card, i, opp_gs, extra_damage=extra, mode="max", target_override=final_target)
+                     d = calculate_damage(attacker_card, i, opp_gs, extra_damage=extra, mode="max", target_override=final_target, energy_override=available_base)
                      if d > local_max: local_max = d
 
         return local_max
@@ -850,7 +853,7 @@ def play(state, game):
                 if gs.opp_active:
                      # Overkill prevention
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
-                action["score"] = ATTACK_BASE_SCORE + effective_damage
+                action["score"] = ATTACK_BASE_SCORE + (effective_damage * 100)
 
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10
@@ -881,6 +884,22 @@ def play(state, game):
                          if "deck" in atk_text and "bench" in atk_text:
                               if len(gs.my_bench) < 3:
                                    action["score"] += 5000
+
+                         # Energy Absorption / Acceleration
+                         if "attach" in atk_text and ("discard" in atk_text or "deck" in atk_text or "hand" in atk_text):
+                              # Basic score boost
+                              action["score"] += 5000
+                              # Contextual boost
+                              if gs.my_active.energy_count < 2:
+                                   action["score"] += 8000
+                              if "mewtwo ex" in gs.my_active.name.lower():
+                                   action["score"] += 10000
+
+                    # Setup Kill Bonus (2HKO)
+                    if not is_ko and gs.opp_active:
+                         remaining_hp = gs.opp_active.hp - action["damage"]
+                         if remaining_hp > 0 and remaining_hp <= 30:
+                             action["score"] += 5000
 
                     if is_ko:
                         action["score"] = LETHAL_KO_SCORE
@@ -994,7 +1013,14 @@ def play(state, game):
                         current_hp = gs.my_active.hp if gs.my_active else 0
                         # If evolution saves us from lethal
                         if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
-                             if risk_of_donk:
+                             # Check if losing this active means losing the game
+                             opp_points_needed = 3 - gs.opp_points
+                             my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
+                             loses_game = (my_active_gives >= opp_points_needed)
+
+                             if loses_game:
+                                 action["score"] = LETHAL_WIN_SCORE
+                             elif risk_of_donk:
                                  action["score"] = DONK_SURVIVAL_SCORE
                              else:
                                  action["score"] += 25000 # Boost significantly
@@ -1031,7 +1057,13 @@ def play(state, game):
                         action["score"] = POTION_CRITICAL_SCORE
                     # If it puts us out of lethal range
                     if threat_lethal and (target.hp + 20) > opp_max_dmg:
-                         if risk_of_donk:
+                         opp_points_needed = 3 - gs.opp_points
+                         my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
+                         loses_game = (my_active_gives >= opp_points_needed)
+
+                         if loses_game:
+                             action["score"] = LETHAL_WIN_SCORE
+                         elif risk_of_donk:
                              action["score"] = DONK_SURVIVAL_SCORE
                          else:
                              action["score"] += 10000
@@ -1191,7 +1223,7 @@ def play(state, game):
                 if target_dmg > active_dmg + 30:
                      should_retreat = True
                      # Boost to override current attack score (10000 + active_dmg)
-                     new_score = ATTACK_BASE_SCORE + target_dmg + 5000
+                     new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
                      action["score"] = max(action["score"], new_score)
 
         elif "Activate" in aname:

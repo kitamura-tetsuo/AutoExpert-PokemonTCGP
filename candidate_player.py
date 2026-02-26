@@ -996,13 +996,28 @@ def play(state, game):
                     if gs.my_active:
                         is_valuable = "ex" in gs.my_active.name.lower() or gs.my_active.energy_count >= 2
 
-                    bench_can_attack = target and target.energy_count >= 1 # Soft check
+                    bench_can_attack = False
+                    if target:
+                         for i in range(len(target.attacks)):
+                             if can_use_attack(target.attacks[i].get("cost", []), target.energy):
+                                 bench_can_attack = True
+                                 break
 
                     if (is_valuable and bench_is_safer):
                         action["score"] += 35000
 
                     if bench_can_attack:
                          action["score"] += 15000
+
+                    # Energy Economy Check for Retreat
+                    retreat_cost = gs.my_active.retreat_cost if gs.my_active else 0
+                    if retreat_cost > 0:
+                        has_energy_hand = any("Energy" in c.name or c.name in ["Water", "Fire", "Grass", "Lightning", "Psychic", "Fighting", "Darkness", "Metal"] for c in gs.my_hand)
+                        if not bench_can_attack and not has_energy_hand:
+                             # If we retreat to a sitting duck and can't power it up, it's usually bad
+                             # Unless it is to save the game (LETHAL_WIN_SCORE handles that above)
+                             if action["score"] < LETHAL_WIN_SCORE:
+                                 action["score"] -= 50000
 
                 # Strategic Switch
                 target_dmg = 0

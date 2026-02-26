@@ -1368,16 +1368,33 @@ def play(state, game):
 
                 # Strategic Switch
                 target_dmg = 0
+                bench_can_attack = False
                 for i in range(len(target.attacks)):
                      if can_use_attack(target.attacks[i].get("cost", []), target.energy):
                          d = calculate_damage(target, i, gs)
                          if d > target_dmg: target_dmg = d
+                         bench_can_attack = True
 
-                if target_dmg > active_dmg + 30:
-                     should_retreat = True
-                     # Boost to override current attack score (10000 + active_dmg)
-                     new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
-                     action["score"] = max(action["score"], new_score)
+                # Only consider switching if bench can actually attack
+                if bench_can_attack:
+                    # Check if Active is already lethal
+                    active_is_lethal = False
+                    if gs.opp_active and active_dmg >= gs.opp_active.hp:
+                        active_is_lethal = True
+
+                    # If active is lethal, don't switch unless bench is somehow better (e.g. EX vs non-EX?)
+                    # Generally, if we can KO, we take it.
+                    if not active_is_lethal:
+                        if target_dmg > active_dmg + 30:
+                             should_retreat = True
+                             # Boost to override current attack score (10000 + active_dmg)
+                             new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
+                             action["score"] = max(action["score"], new_score)
+                        elif target_dmg > active_dmg and gs.my_active and target.hp > (gs.my_active.hp + 40):
+                             # Switch to tank if damage is comparable
+                             should_retreat = True
+                             new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 2000
+                             action["score"] = max(action["score"], new_score)
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)
@@ -1427,6 +1444,31 @@ def play(state, game):
              # If DiscardOpponentSupporter, it's good!
              if "Opponent" in aname:
                  action["score"] += 2000
+
+        elif "ShufflePokemonIntoDeck" in aname:
+            action["type"] = "shuffle_back"
+            m = re.search(r"ShufflePokemonIntoDeck\((?:Some\()?(.*?)\)?\)", aname)
+            if m:
+                card_name_raw = m.group(1)
+                clean_name = Card._clean_name(card_name_raw)
+                action["card_name"] = clean_name
+
+                # Check utility
+                is_useful = False
+                n_lower = clean_name.lower()
+                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                elif n_lower in EVOLUTION_MAP:
+                    evolved = EVOLUTION_MAP[n_lower]
+                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+
+                # If we are forced to shuffle back (e.g. from hand or search fail),
+                # we prefer shuffling BAD cards (positive score) and avoiding GOOD cards (negative score).
+                if is_useful:
+                    action["score"] = -1000
+                else:
+                    action["score"] = 1000
+            else:
+                 action["score"] = 0
 
         elif "UseAbility" in aname:
             action["type"] = "ability"
@@ -1670,6 +1712,21 @@ def play(state, game):
 
             if is_useful:
                 a["score"] += CARRY_BONUS
+
+            # Starter Heuristic: Prioritize Tank/Mobile starters
+            if not gs.my_bench and a.get("pos") == 0:
+                 entry = None
+                 key = n_lower
+                 if key in CARD_DB_FULL: entry = CARD_DB_FULL[key][0]
+                 elif key in CARD_DB: entry = CARD_DB[key] if not isinstance(CARD_DB[key], list) else CARD_DB[key][0]
+
+                 if entry:
+                     hp = entry.get("hp", 0)
+                     retreat = entry.get("retreat", 1)
+
+                     if hp >= 70: a["score"] += 1000
+                     if retreat == 0: a["score"] += 1500
+                     elif retreat == 1: a["score"] += 500
 
             if any("misty" in c.name.lower() for c in gs.my_hand):
                  is_water = False

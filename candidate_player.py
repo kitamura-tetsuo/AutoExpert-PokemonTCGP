@@ -915,6 +915,14 @@ def play(state, game):
                     # If threatened, boost attack if it kills the threat
                     if threat_lethal and is_ko:
                         action["score"] += 20000
+                        # Aggressive Defense: If we can KO the threat, do it unless we lose significantly on prize trade
+                        is_my_ex = "ex" in gs.my_active.name.lower()
+                        is_opp_ex = "ex" in gs.opp_active.name.lower()
+                        points_gained = 2 if is_opp_ex else 1
+                        points_lost = 2 if is_my_ex else 1
+
+                        if points_gained >= points_lost:
+                             action["score"] = LETHAL_KO_SCORE + 500000 # 550,000 -> Beats Retreat (501k)
 
                     # Status Effect / Heal Bonus
                     if not is_ko and gs.my_active and idx < len(gs.my_active.attacks):
@@ -1051,7 +1059,7 @@ def play(state, game):
                          if can_use_attack(atk.get("cost", []), evolved_card.energy):
                              d = calculate_damage(evolved_card, i, gs)
                              if d >= gs.opp_active.hp:
-                                 action["score"] = LETHAL_KO_SCORE
+                                 action["score"] = LETHAL_KO_SCORE + 30000 # Boost to 80k (above base 75.5k)
                                  is_ex = "ex" in gs.opp_active.name.lower()
                                  points_gained = 2 if is_ex else 1
                                  if points_gained >= (3 - gs.my_points):
@@ -1230,7 +1238,7 @@ def play(state, game):
                                  break
 
                     if (is_valuable and bench_is_safer):
-                        action["score"] = DONK_SURVIVAL_SCORE + 1000
+                        action["score"] += 35000
 
                     if bench_can_attack:
                          action["score"] += 15000

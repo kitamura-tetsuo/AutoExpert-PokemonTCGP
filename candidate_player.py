@@ -444,9 +444,14 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
     # Hand Analysis
     hand_names = [c.name.lower() for c in opp_gs.my_hand]
     has_giovanni = any("giovanni" in n for n in hand_names)
-    has_gust = any(x in n for x in ["boss", "sabrina", "catcher", "gust"] for n in hand_names)
+    # Distinguish Gusts
+    has_item_gust = any("catcher" in n for n in hand_names)
+    has_supporter_gust = any(x in n for x in ["boss", "sabrina"] for n in hand_names)
+    has_gust = has_item_gust or has_supporter_gust
+
     has_energy_in_hand = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names)
     has_switch_card = any(x in n for x in ["switch", "rope", "escape"] for n in hand_names)
+    has_x_speed_hand = any("speed" in n for n in hand_names)
     has_misty = any("misty" in n for n in hand_names)
 
     # Resolve target
@@ -525,8 +530,10 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
                     missing += 1
 
             can_use = False
+            misty_used_for_attack = False
             if misty_active:
                 can_use = True # Assume Misty hits enough
+                misty_used_for_attack = True
             else:
                 total_available = len(available_base)
                 if manual_attach_available: total_available += 1
@@ -538,19 +545,34 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
             if can_use:
                  # Reachability Check
                  can_reach = True
-                 if is_bench_target and not has_gust:
-                      # If target is on bench and NO Gust, check if attack is a Snipe
+                 gust_needed = False
+
+                 if is_bench_target:
+                      # If target is on bench
                       text = (atk.get("text") or "").lower()
                       # Snipe keywords: "to 1 of your opponent's Benched Pokemon", "to each of your opponent's Pokemon"
-                      if "benched" in text and "opponent" in text:
-                           can_reach = True
-                      elif "to each of your opponent's pokemon" in text or "to 1 of your opponent's pokemon" in text:
-                           can_reach = True
-                      else:
-                           can_reach = False
+                      is_snipe = False
+                      if "benched" in text and "opponent" in text: is_snipe = True
+                      elif "to each of your opponent's pokemon" in text or "to 1 of your opponent's pokemon" in text: is_snipe = True
+
+                      if not is_snipe:
+                           if has_gust:
+                               gust_needed = True
+                           else:
+                               can_reach = False
 
                  if can_reach:
-                     extra = 10 if has_giovanni else 0
+                     # Calculate Extra Damage (Giovanni)
+                     # Giovanni is a Supporter. Can only use if NOT using another Supporter (Misty or Gust-Supporter).
+
+                     supporter_conflict = False
+                     if misty_used_for_attack: supporter_conflict = True
+                     if gust_needed and not has_item_gust: supporter_conflict = True # Must use Supporter Gust
+
+                     extra = 0
+                     if has_giovanni and not supporter_conflict:
+                         extra = 10
+
                      d = calculate_damage(attacker_card, i, opp_gs, extra_damage=extra, mode="max", target_override=final_target)
                      if d > local_max: local_max = d
 
@@ -565,6 +587,15 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None)
 
     if attacker:
         retreat_cost = attacker.retreat_cost
+
+        # Check for X Speed
+        has_x_speed = has_x_speed_hand
+        if attacker.attached_tool and "speed" in attacker.attached_tool.name.lower():
+             has_x_speed = True
+
+        if has_x_speed:
+             retreat_cost = max(0, retreat_cost - 1)
+
         if has_switch_card:
             can_switch = True
         elif attacker.energy_count >= retreat_cost:
@@ -1297,8 +1328,12 @@ def play(state, game):
     for a in actions:
         if a["type"] == "research":
             # Smart Research: Discard energy is bad, UNLESS we can accelerate it back (Gardevoir)
-            has_energy = any("Energy" in c.name for c in gs.my_hand)
+            hand_names_lower = [c.name.lower() for c in gs.my_hand]
+            has_energy = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names_lower)
             has_gardevoir_line = any("gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
+
+            # Check if we have any basic pokemon to play
+            has_basic_to_play = any(x["type"] == "place" for x in actions)
 
             if has_energy:
                  if has_gardevoir_line:
@@ -1307,6 +1342,11 @@ def play(state, game):
                      # Only penalize if we have a bench. If Donk risk, ignore penalty.
                      if not risk_of_donk:
                          a["score"] -= 10000 # Bad to discard
+
+            # Dead Hand Logic
+            if not has_energy and not has_basic_to_play:
+                 a["score"] += 5000 # Boost Research if hand is dead (no energy, no basics)
+
             elif len(gs.my_hand) >= 5:
                  a["score"] += 1000
             elif len(gs.my_hand) < 5:

@@ -33,9 +33,9 @@ if not CARD_DB_FULL and CARD_DB:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-DONK_PREVENTION_SCORE = 502000 # Prioritize placing basic immediately
-DONK_SEARCH_SCORE = 501000 # Prioritize items that find basics
-DONK_DRAW_SCORE = 500000 # Prioritize supporters that find basics
+DONK_PREVENTION_SCORE = 700000 # Prioritize placing basic immediately (higher than Aggressive Defense)
+DONK_SEARCH_SCORE = 590000 # Prioritize items that find basics
+DONK_DRAW_SCORE = 580000 # Prioritize supporters that find basics
 DONK_SURVIVAL_SCORE = 500500 # Prioritize staying alive if only one pokemon
 
 GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
@@ -1025,7 +1025,7 @@ def play(state, game):
                              # Check if losing this active means losing the game
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                             loses_game = (my_active_gives >= opp_points_needed)
+                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                              if loses_game:
                                  action["score"] = LETHAL_WIN_SCORE
@@ -1101,7 +1101,7 @@ def play(state, game):
                     if threat_lethal and (target.hp + 20) > opp_max_dmg:
                          opp_points_needed = 3 - gs.opp_points
                          my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                         loses_game = (my_active_gives >= opp_points_needed)
+                         loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                          if loses_game:
                              action["score"] = LETHAL_WIN_SCORE
@@ -1219,7 +1219,7 @@ def play(state, game):
                     # Check if losing active means losing the game
                     opp_points_needed = 3 - gs.opp_points
                     my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                    loses_game = (my_active_gives >= opp_points_needed)
+                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                     bench_is_safer = target and target.hp > bench_threat
@@ -1465,7 +1465,7 @@ def play(state, game):
                     has_safe_bench = False
                     opp_points_needed = 3 - gs.opp_points
                     my_active_gives = 2 if "ex" in target.name.lower() else 1
-                    loses_game = (my_active_gives >= opp_points_needed)
+                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     for b in gs.my_bench:
                         bench_threat = get_opponent_max_damage(gs, target=b, treat_as_active=True)
@@ -1562,12 +1562,15 @@ def play(state, game):
                  if is_water:
                      a["score"] = MISTY_PREP_SCORE
 
-            if gs.my_active and "pikachu ex" in gs.my_active.name.lower():
-                 a["score"] += 5000
-                 current_damage = calculate_damage(gs.my_active, 0, gs)
-                 if gs.opp_active:
-                     if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
-                         a["score"] = LETHAL_KO_SCORE + 1000
+            if gs.my_active:
+                 if "pikachu ex" in gs.my_active.name.lower():
+                     a["score"] += 5000
+                     current_damage = calculate_damage(gs.my_active, 0, gs)
+                     if gs.opp_active:
+                         if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
+                             a["score"] = LETHAL_KO_SCORE + 1000
+                 elif "pichu" in gs.my_active.name.lower() or gs.my_active.hp <= 40:
+                     a["score"] += 2000 # Prioritize bench for retreat
 
     for a in actions:
         if a["type"] == "research":

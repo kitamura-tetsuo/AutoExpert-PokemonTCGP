@@ -270,7 +270,7 @@ class Card:
 
         # Override for evolving basics regardless of DB presence
         n_lower = self.name.lower()
-        if n_lower == "froakie": max_cost = 3 # Greninja is 3 usually (Water Shuriken/Mist Slash is low but often needs more for retreat or abilities)
+        if n_lower == "froakie": max_cost = 2 # Greninja Mist Slash needs 2.
         elif n_lower == "ralts": max_cost = 3 # For Gardevoir
         elif n_lower == "gastly": max_cost = 3 # For Gengar
         elif n_lower == "dratini": max_cost = 4 # Dragonite
@@ -1408,7 +1408,8 @@ def play(state, game):
                                  a["score"] += ACTIVE_WEAK_ATTACH_BONUS
 
                          # Lethal Lookahead
-                         if target and target.db_entry:
+                         is_lethal_attachment = False
+                         if target and target.db_entry and gs.opp_active:
                              current_max_dmg = 0
                              potential_max_dmg = 0
                              new_energy = target.energy + [a["energy_type"]]
@@ -1422,18 +1423,26 @@ def play(state, game):
                                      d = calculate_damage(target, i, gs, extra_damage=10 if has_giovanni else 0)
                                      if d > potential_max_dmg: potential_max_dmg = d
 
-                             if gs.opp_active:
-                                 if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
-                                     a["score"] += 20000 # Boost significantly if it enables lethal
+                             if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
+                                 is_lethal_attachment = True
+                                 is_ex = "ex" in gs.opp_active.name.lower()
+                                 points_gained = 2 if is_ex else 1
+                                 points_needed = 3 - gs.my_points
+
+                                 if points_gained >= points_needed:
+                                     a["score"] = LETHAL_WIN_SCORE
+                                 else:
+                                     a["score"] = LETHAL_KO_SCORE + 50000 # Ensure it overrides defensive penalties (Total > 100k)
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
-                         if threat_lethal and a["score"] < 90000: # 75000 base + small bonuses < 90000 (lethal boost is +20000)
-                             a["score"] -= 10000 # Increased penalty
+                         if threat_lethal and not is_lethal_attachment:
+                             if a["score"] < 90000:
+                                 a["score"] -= 10000 # Increased penalty
 
                 else:
                      a["score"] -= 1000
             else:
-                a["score"] -= 100000
+                a["score"] -= 5000 # Relaxed penalty: if nothing else to do, attach.
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()

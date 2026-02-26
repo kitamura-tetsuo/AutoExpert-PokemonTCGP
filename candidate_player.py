@@ -171,7 +171,7 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^([A-Z0-9]+)?([A-Z][a-z].*)", raw_name)
+        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
         if m and m.group(1):
              prefix = m.group(1)
              name_part = m.group(2)
@@ -1036,6 +1036,17 @@ def play(state, game):
                           action["score"] += 30000 # Save bench from Gust KO
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
+            # Extract card name if possible
+            card_name_lower = ""
+            m_card = re.search(r"(?:Play|UseItem|UseSupporter)\((?:Some\()?(.*?)\)?\)", aname)
+            if m_card:
+                raw_name = m_card.group(1) # Keep case for cleaning
+                # Clean up if needed
+                card_name_clean = Card._clean_name(raw_name)
+                card_name_lower = card_name_clean.lower()
+                if logger.isEnabledFor(logging.DEBUG) and "red" in aname_lower:
+                    logger.debug(f"DEBUG RED PARSE: aname={aname} raw={raw_name} clean={card_name_clean} lower={card_name_lower}")
+
             # Specific Item Parsing
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
@@ -1129,7 +1140,10 @@ def play(state, game):
             elif "red card" in aname_lower:
                 action["type"] = "red_card"
                 action["score"] = RED_CARD_SCORE
-            elif "ball" in aname_lower or "search" in aname_lower or "slab" in aname_lower or "red" in aname_lower: # Mythical Slab, Red
+            elif card_name_lower == "red":
+                action["type"] = "red"
+                action["score"] = GIOVANNI_SCORE
+            elif "ball" in aname_lower or "search" in aname_lower or "slab" in aname_lower: # Mythical Slab
                 action["type"] = "search_item"
                 action["score"] = SEARCH_SCORE
                 if risk_of_donk:
@@ -1595,6 +1609,51 @@ def play(state, game):
                     a["score"] += 5000
                 else:
                     a["score"] -= 1000
+
+        elif a["type"] == "red":
+            needed = False
+            gives_win = False
+
+            # Red only works if opponent active is EX
+            is_opp_ex = False
+            if gs.opp_active and "ex" in gs.opp_active.name.lower():
+                is_opp_ex = True
+
+            if not is_opp_ex:
+                a["score"] -= 20000 # Useless if not facing EX
+            else:
+                # Check if Red (+20 dmg) makes any attack lethal
+                if gs.my_active and gs.opp_active:
+                    for idx in range(len(gs.my_active.attacks)):
+                        base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                        if base_dmg < gs.opp_active.hp and (base_dmg + 20) >= gs.opp_active.hp:
+                            needed = True
+                            points_gained = 2 # Always EX so 2 points
+                            if points_gained >= points_needed_to_win:
+                                gives_win = True
+                            break
+
+                if gives_win:
+                    a["score"] = LETHAL_WIN_SCORE
+                elif needed:
+                    a["score"] = GIOVANNI_NEEDED_SCORE
+                else:
+                    improved = False
+                    if gs.my_active and gs.opp_active:
+                         for idx in range(len(gs.my_active.attacks)):
+                            base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                            improved_dmg = base_dmg + 20
+                            hp = gs.opp_active.hp
+                            if base_dmg > 0:
+                                turns_base = (hp + base_dmg - 1) // base_dmg
+                                turns_imp = (hp + improved_dmg - 1) // improved_dmg
+                                if turns_imp < turns_base:
+                                    improved = True
+                                    break
+                    if improved:
+                        a["score"] += 5000
+                    else:
+                        a["score"] -= 1000
 
     for a in actions:
         is_x_speed = False

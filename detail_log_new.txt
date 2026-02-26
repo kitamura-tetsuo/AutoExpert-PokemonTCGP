@@ -1,0 +1,5699 @@
+2026-02-26 07:39:16,307 - INFO - Using candidate_player.play for Player 0.
+2026-02-26 07:39:16,308 - INFO - Using candidate_player.play from past_repo for Player 1.
+2026-02-26 07:39:16,311 - DEBUG - Turn: Hand=5, Bench=0
+2026-02-26 07:39:16,312 - DEBUG - Action: Place(Some(B1109Chingling), 0) Type: place Score: 502000 Dmg: 0
+2026-02-26 07:39:16,313 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,314 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,315 - DEBUG - ThreatCalc for None: MaxDmg=20
+2026-02-26 07:39:16,316 - DEBUG - Turn: Hand=5, Bench=0
+2026-02-26 07:39:16,316 - DEBUG - Action: Place(Some(B2127MegaKangaskhanEx), 0) Type: place Score: 504000 Dmg: 0
+2026-02-26 07:39:16,316 - DEBUG - Action: Place(Some(A4066Pichu), 0) Type: place Score: 502000 Dmg: 0
+
+--- STEP 0 (Player 0 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    5
+  ],
+  "my_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Chingling",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mars"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {8284: 'Place(Some(B1109Chingling), 0)'}
+Selected Action: 8284 - Place(Some(B1109Chingling), 0)
+
+--- STEP 1 (Player 0 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mars",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 2 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "my_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pichu",
+    "Serena",
+    "Professor's Research",
+    "Cyrus",
+    "Mega Kangaskhan ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Giovanni",
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Ilima",
+    "Ilima",
+    "Pichu",
+    "Copycat",
+    "Lucky Ice Pop",
+    "Starting Plains",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {5212: 'Place(Some(A4066Pichu), 0)', 10088: 'Place(Some(B2127MegaKangaskhanEx), 0)'}
+Selected Action: 10088 - Place(Some(B2127MegaKangaskhanEx), 0)
+
+--- STEP 3 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pichu",
+    "Serena",
+    "Professor's Research",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Giovanni",
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Ilima",
+    "Ilima",
+    "Pichu",
+    "Copycat",
+    "Lucky Ice Pop",
+    "Starting Plains",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}2026-02-26 07:39:16,318 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,318 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,318 - DEBUG - Action: Place(Some(A4066Pichu), 1) Type: place Score: 502000 Dmg: 0
+2026-02-26 07:39:16,319 - DEBUG - Action: EndTurn Type: end_turn Score: -110000 Dmg: 0
+2026-02-26 07:39:16,320 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,320 - DEBUG - Turn: Hand=3, Bench=1
+2026-02-26 07:39:16,321 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,323 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,324 - DEBUG - Turn: Hand=5, Bench=0
+2026-02-26 07:39:16,324 - DEBUG - Action: Play(Some(A2155Mars)) Type: draw_supporter Score: 500000 Dmg: 0
+2026-02-26 07:39:16,324 - DEBUG - Action: Play(Some(A1225Sabrina)) Type: gust Score: 74000 Dmg: 0
+2026-02-26 07:39:16,324 - DEBUG - Action: Play(Some(A2b071Red)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,324 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,324 - DEBUG - Action: Attack(0) Type: attack Score: 11000 Dmg: 10
+2026-02-26 07:39:16,326 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,326 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,327 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,327 - DEBUG - Action: Attack(0) Type: attack Score: 11000 Dmg: 10
+2026-02-26 07:39:16,327 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+
+Legal Actions: {5213: 'Place(Some(A4066Pichu), 1)', 0: 'EndTurn'}
+Selected Action: 5213 - Place(Some(A4066Pichu), 1)
+
+--- STEP 4 (Player 1 Turn) ---
+{
+  "turn": 0,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": true,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cyrus",
+    "Serena",
+    "Professor's Research"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Giovanni",
+    "Sabrina",
+    "Rocky Helmet",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Ilima",
+    "Ilima",
+    "Pichu",
+    "Copycat",
+    "Lucky Ice Pop",
+    "Starting Plains",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 5 (Player 0 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mars",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Sabrina"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 22682: 'Play(Some(A2155Mars))', 22901: 'Play(Some(A2b071Red))', 22380: 'Play(Some(A1225Sabrina))', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 22682 - Play(Some(A2155Mars))
+
+--- STEP 6 (Player 0 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Sabrina",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars"
+  ],
+  "opp_discard": []
+}
+Legal Actions: {0: 'EndTurn', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 7 (Player 0 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Sabrina",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Mega Altaria ex",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 15,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars"
+  ],
+  "opp_discard": []
+}2026-02-26 07:39:16,329 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,329 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,329 - DEBUG - Action: Attack(0) Type: attack Score: 11000 Dmg: 10
+2026-02-26 07:39:16,329 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,332 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,333 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,333 - DEBUG - Turn: Hand=4, Bench=1
+2026-02-26 07:39:16,333 - DEBUG - Action: Attach(Lightning, 0) Type: attach_energy Score: 86000 Dmg: 0
+2026-02-26 07:39:16,333 - DEBUG - Action: Attach(Lightning, 1) Type: attach_energy Score: 77000 Dmg: 0
+2026-02-26 07:39:16,333 - DEBUG - Action: Play(Some(PA007ProfessorsResearch)) Type: research Score: 75000 Dmg: 0
+2026-02-26 07:39:16,333 - DEBUG - Action: Play(Some(A3149Ilima)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,333 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,336 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,337 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,337 - DEBUG - Turn: Hand=4, Bench=1
+2026-02-26 07:39:16,337 - DEBUG - Action: Play(Some(PA007ProfessorsResearch)) Type: research Score: 75000 Dmg: 0
+2026-02-26 07:39:16,337 - DEBUG - Action: Play(Some(A3149Ilima)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,337 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,340 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,341 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,341 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,341 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 8 (Player 1 Turn) ---
+{
+  "turn": 2,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 169,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Giovanni",
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Ilima",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Lucky Ice Pop",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 23090: 'Play(Some(A3149Ilima))', 24789: 'Play(Some(PA007ProfessorsResearch))', 24936: 'Attach(Lightning, 0)', 24937: 'Attach(Lightning, 1)'}
+Selected Action: 24936 - Attach(Lightning, 0)
+
+--- STEP 9 (Player 1 Turn) ---
+{
+  "turn": 2,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 169,
+    "energy": {
+      "Lightning": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Giovanni",
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Ilima",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Lucky Ice Pop",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 23090: 'Play(Some(A3149Ilima))', 24789: 'Play(Some(PA007ProfessorsResearch))'}
+Selected Action: 24789 - Play(Some(PA007ProfessorsResearch))
+
+--- STEP 10 (Player 1 Turn) ---
+{
+  "turn": 2,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 169,
+    "energy": {
+      "Lightning": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Ilima",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 14,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 11 (Player 0 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 169,
+    "energy": {
+      "Lightning": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Sabrina",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Mars"
+  ],
+  "opp_discard": [
+    "Professor's Research"
+  ]
+}2026-02-26 07:39:16,344 - DEBUG - ThreatCalc for Chingling: MaxDmg=0
+2026-02-26 07:39:16,344 - DEBUG - Turn: Hand=5, Bench=0
+2026-02-26 07:39:16,344 - DEBUG - Action: Play(Some(A1225Sabrina)) Type: gust Score: 74000 Dmg: 0
+2026-02-26 07:39:16,345 - DEBUG - Action: Play(Some(A2b071Red)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,345 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,345 - DEBUG - Action: Attack(0) Type: attack Score: 11000 Dmg: 10
+2026-02-26 07:39:16,345 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,347 - DEBUG - ThreatCalc for Chingling: MaxDmg=0
+2026-02-26 07:39:16,347 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,348 - DEBUG - Action: Activate(1) Type: activate Score: 999700 Dmg: 0
+2026-02-26 07:39:16,350 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,350 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,350 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,350 - DEBUG - Action: Attack(0) Type: attack Score: 16000 Dmg: 10
+2026-02-26 07:39:16,350 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,352 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,353 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,353 - DEBUG - Action: Attack(0) Type: attack Score: 16000 Dmg: 10
+2026-02-26 07:39:16,353 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 22380: 'Play(Some(A1225Sabrina))', 22901: 'Play(Some(A2b071Red))', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 22380 - Play(Some(A1225Sabrina))
+
+--- STEP 12 (Player 0 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 169,
+    "energy": {
+      "Lightning": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Professor's Research"
+  ]
+}
+Legal Actions: {36037: 'Activate(1)'}
+Selected Action: 36037 - Activate(1)
+
+--- STEP 13 (Player 0 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": true,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 169,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Professor's Research"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 14 (Player 0 Turn) ---
+{
+  "turn": 3,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": true,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 30,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 169,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Professor's Research"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 15 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 169,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop",
+    "Ilima"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}2026-02-26 07:39:16,355 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,357 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,357 - DEBUG - Turn: Hand=6, Bench=1
+2026-02-26 07:39:16,357 - DEBUG - Action: Attach(Lightning, 1) Type: attach_energy Score: 80000 Dmg: 0
+2026-02-26 07:39:16,357 - DEBUG - Action: Play(Some(A3149Ilima)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,357 - DEBUG - Action: Play(Some(A3149Ilima)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,357 - DEBUG - Action: Attach(Lightning, 0) Type: attach_energy Score: 68000 Dmg: 0
+2026-02-26 07:39:16,357 - DEBUG - Action: Play(Some(A1223Giovanni)) Type: giovanni Score: 59000 Dmg: 0
+2026-02-26 07:39:16,360 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,361 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,361 - DEBUG - Turn: Hand=6, Bench=1
+2026-02-26 07:39:16,361 - DEBUG - Action: Play(Some(A3149Ilima)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,361 - DEBUG - Action: Play(Some(A3149Ilima)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,361 - DEBUG - Action: Play(Some(A1223Giovanni)) Type: giovanni Score: 59000 Dmg: 0
+2026-02-26 07:39:16,362 - DEBUG - Action: Attack(0) Type: attack Score: 15000 Dmg: 0
+2026-02-26 07:39:16,362 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,364 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,364 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,364 - DEBUG - Action: ReturnPokemonToHand(1) Type: unknown Score: 0 Dmg: 0
+2026-02-26 07:39:16,366 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,367 - DEBUG - Turn: Hand=6, Bench=0
+2026-02-26 07:39:16,367 - DEBUG - Action: Place(Some(B2127MegaKangaskhanEx), 1) Type: place Score: 504000 Dmg: 0
+2026-02-26 07:39:16,367 - DEBUG - Action: Attack(0) Type: attack Score: 15000 Dmg: 0
+2026-02-26 07:39:16,367 - DEBUG - Action: EndTurn Type: end_turn Score: -110000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 23090: 'Play(Some(A3149Ilima))', 22378: 'Play(Some(A1223Giovanni))', 24936: 'Attach(Lightning, 0)', 24937: 'Attach(Lightning, 1)', 5: 'Retreat(1)', 1: 'Attack(0)'}
+Selected Action: 24937 - Attach(Lightning, 1)
+
+--- STEP 16 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 169,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop",
+    "Ilima"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 23090: 'Play(Some(A3149Ilima))', 22378: 'Play(Some(A1223Giovanni))', 5: 'Retreat(1)', 1: 'Attack(0)'}
+Selected Action: 23090 - Play(Some(A3149Ilima))
+
+--- STEP 17 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 169,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {49950: 'ReturnPokemonToHand(1)'}
+Selected Action: 49950 - ReturnPokemonToHand(1)
+
+--- STEP 18 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop",
+    "Mega Kangaskhan ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 10089: 'Place(Some(B2127MegaKangaskhanEx), 1)', 1: 'Attack(0)'}
+Selected Action: 10089 - Place(Some(B2127MegaKangaskhanEx), 1)2026-02-26 07:39:16,369 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,370 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,370 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,370 - DEBUG - Action: Attack(0) Type: attack Score: 15000 Dmg: 0
+2026-02-26 07:39:16,371 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,371 - DEBUG - Action: Retreat(1) Type: retreat Score: -15000 Dmg: 0
+2026-02-26 07:39:16,373 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,373 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,373 - DEBUG - Action: Attach(Lightning, 1) Type: attach_energy Score: 80000 Dmg: 0
+2026-02-26 07:39:16,375 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,375 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,376 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+
+
+--- STEP 19 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 20 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {24937: 'Attach(Lightning, 1)'}
+Selected Action: 24937 - Attach(Lightning, 1)
+
+--- STEP 21 (Player 1 Turn) ---
+{
+  "turn": 4,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Serena",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 13,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 22 (Player 0 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Red",
+    "Mega Altaria ex",
+    "Cyrus",
+    "Rocky Helmet"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Ilima",
+    "Professor's Research"
+  ]
+}2026-02-26 07:39:16,378 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,379 - DEBUG - Turn: Hand=5, Bench=0
+2026-02-26 07:39:16,379 - DEBUG - Action: Play(Some(A2b071Red)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,379 - DEBUG - Action: Play(Some(A2148RockyHelmet)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,379 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,379 - DEBUG - Action: Attack(0) Type: attack Score: 16000 Dmg: 10
+2026-02-26 07:39:16,379 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,382 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,382 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,382 - DEBUG - Action: Play(Some(A2148RockyHelmet)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,382 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,382 - DEBUG - Action: Attack(0) Type: attack Score: 16000 Dmg: 10
+2026-02-26 07:39:16,382 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,384 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,385 - DEBUG - Turn: Hand=3, Bench=0
+2026-02-26 07:39:16,385 - DEBUG - Action: AttachTool(Some(A2148RockyHelmet), 0) Type: attach_tool Score: 72000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 22901: 'Play(Some(A2b071Red))', 22675: 'Play(Some(A2148RockyHelmet))', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 22901 - Play(Some(A2b071Red))
+
+--- STEP 23 (Player 0 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Rocky Helmet",
+    "Mega Altaria ex",
+    "Cyrus"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Ilima",
+    "Professor's Research"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 22675: 'Play(Some(A2148RockyHelmet))', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 22675 - Play(Some(A2148RockyHelmet))
+
+--- STEP 24 (Player 0 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Ilima",
+    "Professor's Research"
+  ]
+}
+Legal Actions: {27040: 'AttachTool(Some(A2148RockyHelmet), 0)'}
+Selected Action: 27040 - AttachTool(Some(A2148RockyHelmet), 0)
+
+--- STEP 25 (Player 0 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 2
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Ilima",
+    "Professor's Research"
+  ]
+}2026-02-26 07:39:16,387 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,387 - DEBUG - Turn: Hand=3, Bench=0
+2026-02-26 07:39:16,388 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,388 - DEBUG - Action: Attack(0) Type: attack Score: 16000 Dmg: 10
+2026-02-26 07:39:16,388 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,390 - DEBUG - ThreatCalc for Chingling: MaxDmg=10
+2026-02-26 07:39:16,390 - DEBUG - Turn: Hand=3, Bench=0
+2026-02-26 07:39:16,390 - DEBUG - Action: Attack(0) Type: attack Score: 16000 Dmg: 10
+2026-02-26 07:39:16,390 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,393 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,394 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,394 - DEBUG - Turn: Hand=6, Bench=1
+2026-02-26 07:39:16,394 - DEBUG - Action: Attach(Lightning, 1) Type: attach_energy Score: 80000 Dmg: 0
+2026-02-26 07:39:16,394 - DEBUG - Action: Play(Some(B1a069Serena)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,394 - DEBUG - Action: Attach(Lightning, 0) Type: attach_energy Score: 68000 Dmg: 0
+2026-02-26 07:39:16,394 - DEBUG - Action: Play(Some(A1223Giovanni)) Type: giovanni Score: 59000 Dmg: 0
+2026-02-26 07:39:16,394 - DEBUG - Action: Attack(0) Type: attack Score: 15000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 26 (Player 0 Turn) ---
+{
+  "turn": 5,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    3,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 20,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Guzma",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Ilima",
+    "Professor's Research"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 27 (Player 1 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    3
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop",
+    "Serena"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 22378: 'Play(Some(A1223Giovanni))', 24515: 'Play(Some(B1a069Serena))', 24936: 'Attach(Lightning, 0)', 24937: 'Attach(Lightning, 1)', 5: 'Retreat(1)', 1: 'Attack(0)'}
+Selected Action: 24937 - Attach(Lightning, 1)
+
+--- STEP 28 (Player 1 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    3
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop",
+    "Serena"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 22378: 'Play(Some(A1223Giovanni))', 24515: 'Play(Some(B1a069Serena))', 5: 'Retreat(1)', 1: 'Attack(0)'}2026-02-26 07:39:16,397 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,398 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,398 - DEBUG - Turn: Hand=6, Bench=1
+2026-02-26 07:39:16,398 - DEBUG - Action: Play(Some(B1a069Serena)) Type: item Score: 72000 Dmg: 0
+2026-02-26 07:39:16,398 - DEBUG - Action: Play(Some(A1223Giovanni)) Type: giovanni Score: 59000 Dmg: 0
+2026-02-26 07:39:16,398 - DEBUG - Action: Attack(0) Type: attack Score: 15000 Dmg: 0
+2026-02-26 07:39:16,398 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,398 - DEBUG - Action: Retreat(1) Type: retreat Score: -15000 Dmg: 0
+2026-02-26 07:39:16,401 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,402 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,402 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,402 - DEBUG - Action: Attack(0) Type: attack Score: 15000 Dmg: 0
+2026-02-26 07:39:16,402 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,402 - DEBUG - Action: Retreat(1) Type: retreat Score: -15000 Dmg: 0
+2026-02-26 07:39:16,404 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,405 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,405 - DEBUG - Action: Attach(Lightning, 1) Type: attach_energy Score: 80000 Dmg: 0
+2026-02-26 07:39:16,407 - DEBUG - ThreatCalc for Pichu: MaxDmg=20
+2026-02-26 07:39:16,407 - DEBUG - Turn: Hand=5, Bench=1
+2026-02-26 07:39:16,407 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+
+Selected Action: 24515 - Play(Some(B1a069Serena))
+
+--- STEP 29 (Player 1 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 5: 'Retreat(1)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 30 (Player 1 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {24937: 'Attach(Lightning, 1)'}
+Selected Action: 24937 - Attach(Lightning, 1)
+
+--- STEP 31 (Player 1 Turn) ---
+{
+  "turn": 6,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "my_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Pichu",
+    "Copycat",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 32 (Player 0 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex",
+    "Guzma"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ]
+}2026-02-26 07:39:16,409 - DEBUG - ThreatCalc for Chingling: MaxDmg=130
+2026-02-26 07:39:16,410 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,410 - DEBUG - Action: Attach(Psychic, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,410 - DEBUG - Action: Attack(0) Type: attack Score: 70000 Dmg: 10
+2026-02-26 07:39:16,410 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,412 - DEBUG - ThreatCalc for Chingling: MaxDmg=130
+2026-02-26 07:39:16,412 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,412 - DEBUG - Action: Attack(0) Type: attack Score: 70000 Dmg: 10
+2026-02-26 07:39:16,413 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+2026-02-26 07:39:16,414 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,414 - DEBUG - Action: Activate(1) Type: activate Score: 983200 Dmg: 0
+2026-02-26 07:39:16,416 - DEBUG - ThreatCalc for Chingling: MaxDmg=130
+2026-02-26 07:39:16,416 - DEBUG - Turn: Hand=4, Bench=0
+2026-02-26 07:39:16,417 - DEBUG - Action: EndTurn Type: end_turn Score: -10000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 24940: 'Attach(Psychic, 0)', 1: 'Attack(0)'}
+Selected Action: 24940 - Attach(Psychic, 0)
+
+--- STEP 33 (Player 0 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 4
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Pichu",
+    "hp": 10,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex",
+    "Guzma"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ]
+}
+Legal Actions: {0: 'EndTurn', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- STEP 34 (Player 0 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 4
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 180,
+      "energy": {
+        "Lightning": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex",
+    "Guzma"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Pichu",
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ]
+}
+Legal Actions: {36037: 'Activate(1)'}
+Selected Action: 36037 - Activate(1)
+
+--- STEP 35 (Player 0 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": true,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 4
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {
+      "Lightning": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Mega Altaria ex",
+    "Cyrus",
+    "Mega Altaria ex",
+    "Guzma"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Rocky Helmet",
+    "Chingling",
+    "Indeedee ex",
+    "Swablu",
+    "Swablu",
+    "Copycat",
+    "Lisia",
+    "Furfrou",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ],
+  "opp_discard": [
+    "Pichu",
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ]
+}
+Legal Actions: {0: 'EndTurn'}
+Selected Action: 0 - EndTurn
+
+--- STEP 36 (Player 1 Turn) ---
+{
+  "turn": 8,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Lightning": 1
+    },
+    "opp_next": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    6,
+    4
+  ],
+  "my_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 180,
+    "energy": {
+      "Lightning": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Chingling",
+    "hp": 30,
+    "energy": {
+      "Psychic": 4
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Pok\u00e9 Ball",
+    "Ilima",
+    "Pok\u00e9 Ball",
+    "Giovanni",
+    "Lucky Ice Pop",
+    "Pichu"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Sabrina",
+    "Rocky Helmet",
+    "Cyrus",
+    "Red",
+    "Oricorio",
+    "Oricorio",
+    "Copycat",
+    "Starting Plains",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 11,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Pichu",
+    "Serena",
+    "Ilima",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Red",
+    "Sabrina",
+    "Mars"
+  ]
+}2026-02-26 07:39:16,419 - DEBUG - ThreatCalc for Mega Kangaskhan ex: MaxDmg=20
+2026-02-26 07:39:16,419 - DEBUG - Turn: Hand=6, Bench=0
+2026-02-26 07:39:16,419 - DEBUG - Action: Attack(0) Type: attack Score: 1000000 Dmg: 120
+2026-02-26 07:39:16,420 - DEBUG - Action: Place(Some(A4066Pichu), 1) Type: place Score: 502000 Dmg: 0
+2026-02-26 07:39:16,420 - DEBUG - Action: Attach(Lightning, 0) Type: attach_energy Score: 70000 Dmg: 0
+2026-02-26 07:39:16,420 - DEBUG - Action: Play(Some(A1223Giovanni)) Type: giovanni Score: 59000 Dmg: 0
+2026-02-26 07:39:16,420 - DEBUG - Action: EndTurn Type: end_turn Score: -110000 Dmg: 0
+
+Legal Actions: {0: 'EndTurn', 22378: 'Play(Some(A1223Giovanni))', 5213: 'Place(Some(A4066Pichu), 1)', 24936: 'Attach(Lightning, 0)', 1: 'Attack(0)'}
+Selected Action: 1 - Attack(0)
+
+--- GAME OVER ---
+Winner: GameOutcome::Win(1)

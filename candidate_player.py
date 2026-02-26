@@ -33,9 +33,9 @@ if not CARD_DB_FULL and CARD_DB:
 
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
-DONK_PREVENTION_SCORE = 502000 # Prioritize placing basic immediately
-DONK_SEARCH_SCORE = 501000 # Prioritize items that find basics
-DONK_DRAW_SCORE = 500000 # Prioritize supporters that find basics
+DONK_PREVENTION_SCORE = 700000 # Prioritize placing basic immediately (higher than Aggressive Defense)
+DONK_SEARCH_SCORE = 590000 # Prioritize items that find basics
+DONK_DRAW_SCORE = 580000 # Prioritize supporters that find basics
 DONK_SURVIVAL_SCORE = 500500 # Prioritize staying alive if only one pokemon
 
 GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
@@ -43,10 +43,10 @@ POTION_CRITICAL_SCORE = 85000
 GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
-SEARCH_SCORE = 76000 # Increased from 74500 to prioritize search over attach
+SEARCH_SCORE = 82000 # Boosted slightly from 80000
 EVOLVE_SCORE = 75500 # Prioritize evolution over energy attach (75000)
 ATTACH_ENERGY_SCORE = 75000
-PLACE_BASIC_SCORE = 73000
+PLACE_BASIC_SCORE = 74000
 ITEM_SCORE = 72000
 RED_CARD_SCORE = 71000
 RESEARCH_SCORE = 70000
@@ -55,6 +55,7 @@ GIOVANNI_SCORE = 60000
 
 ABILITY_SCORE = 50000
 INFERNO_DANCE_SCORE = 20000
+AGGRESSIVE_DEFENSE_BONUS = 500000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
@@ -915,6 +916,14 @@ def play(state, game):
                     # If threatened, boost attack if it kills the threat
                     if threat_lethal and is_ko:
                         action["score"] += 20000
+                        # Aggressive Defense: If we can KO the threat, do it unless we lose significantly on prize trade
+                        is_my_ex = "ex" in gs.my_active.name.lower()
+                        is_opp_ex = "ex" in gs.opp_active.name.lower()
+                        points_gained = 2 if is_opp_ex else 1
+                        points_lost = 2 if is_my_ex else 1
+
+                        if points_gained >= points_lost:
+                             action["score"] = LETHAL_KO_SCORE + AGGRESSIVE_DEFENSE_BONUS # 550,000 -> Beats Retreat (501k)
 
                     # Status Effect / Heal Bonus
                     if not is_ko and gs.my_active and idx < len(gs.my_active.attacks):
@@ -1016,7 +1025,7 @@ def play(state, game):
                              # Check if losing this active means losing the game
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                             loses_game = (my_active_gives >= opp_points_needed)
+                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                              if loses_game:
                                  action["score"] = LETHAL_WIN_SCORE
@@ -1051,7 +1060,7 @@ def play(state, game):
                          if can_use_attack(atk.get("cost", []), evolved_card.energy):
                              d = calculate_damage(evolved_card, i, gs)
                              if d >= gs.opp_active.hp:
-                                 action["score"] = LETHAL_KO_SCORE
+                                 action["score"] = LETHAL_KO_SCORE + 30000 # Boost to 80k (above base 75.5k)
                                  is_ex = "ex" in gs.opp_active.name.lower()
                                  points_gained = 2 if is_ex else 1
                                  if points_gained >= (3 - gs.my_points):
@@ -1092,7 +1101,7 @@ def play(state, game):
                     if threat_lethal and (target.hp + 20) > opp_max_dmg:
                          opp_points_needed = 3 - gs.opp_points
                          my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                         loses_game = (my_active_gives >= opp_points_needed)
+                         loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                          if loses_game:
                              action["score"] = LETHAL_WIN_SCORE
@@ -1105,7 +1114,7 @@ def play(state, game):
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
-                    action["score"] = DONK_DRAW_SCORE
+                    action["score"] = DONK_DRAW_SCORE + 1000 # Prefer Research over Copycat
 
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
@@ -1122,7 +1131,9 @@ def play(state, game):
                  action["type"] = "draw_supporter"
                  action["score"] = DRAW_SUPPORTER_SCORE
                  if len(gs.my_hand) < 3:
-                     action["score"] += 3000
+                     action["score"] += 5000
+                 elif len(gs.my_hand) < 5:
+                     action["score"] += 2000
                  if risk_of_donk:
                      action["score"] = DONK_DRAW_SCORE
 
@@ -1208,7 +1219,7 @@ def play(state, game):
                     # Check if losing active means losing the game
                     opp_points_needed = 3 - gs.opp_points
                     my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                    loses_game = (my_active_gives >= opp_points_needed)
+                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                     bench_is_safer = target and target.hp > bench_threat
@@ -1454,7 +1465,7 @@ def play(state, game):
                     has_safe_bench = False
                     opp_points_needed = 3 - gs.opp_points
                     my_active_gives = 2 if "ex" in target.name.lower() else 1
-                    loses_game = (my_active_gives >= opp_points_needed)
+                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     for b in gs.my_bench:
                         bench_threat = get_opponent_max_damage(gs, target=b, treat_as_active=True)
@@ -1551,12 +1562,15 @@ def play(state, game):
                  if is_water:
                      a["score"] = MISTY_PREP_SCORE
 
-            if gs.my_active and "pikachu ex" in gs.my_active.name.lower():
-                 a["score"] += 5000
-                 current_damage = calculate_damage(gs.my_active, 0, gs)
-                 if gs.opp_active:
-                     if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
-                         a["score"] = LETHAL_KO_SCORE + 1000
+            if gs.my_active:
+                 if "pikachu ex" in gs.my_active.name.lower():
+                     a["score"] += 5000
+                     current_damage = calculate_damage(gs.my_active, 0, gs)
+                     if gs.opp_active:
+                         if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
+                             a["score"] = LETHAL_KO_SCORE + 1000
+                 elif "pichu" in gs.my_active.name.lower() or gs.my_active.hp <= 40:
+                     a["score"] += 2000 # Prioritize bench for retreat
 
     for a in actions:
         if a["type"] == "research":
@@ -1578,12 +1592,12 @@ def play(state, game):
 
             # Dead Hand Logic
             if not has_energy and not has_basic_to_play:
-                 a["score"] += 5000 # Boost Research if hand is dead (no energy, no basics)
+                 a["score"] += 8000 # Boost Research if hand is dead (no energy, no basics)
 
             elif len(gs.my_hand) >= 5:
                  a["score"] += 1000
             elif len(gs.my_hand) < 5:
-                a["score"] += 5000
+                a["score"] += 8000
 
         elif a["type"] == "copycat":
             if risk_of_donk:
@@ -1712,22 +1726,34 @@ def play(state, game):
 
     for a in actions:
         is_x_speed = False
+        is_switch = False
+
+        card_name = a.get("card_name", "").lower()
         if a["type"] == "x_speed":
             is_x_speed = True
         elif a["type"] == "attach_tool":
-            card_name = a.get("card_name", "").lower()
             if "speed" in card_name:
                 is_x_speed = True
+        elif a["type"] == "item":
+            # Check for Switch / Escape Rope / etc in name or action name
+            aname_lower = a["name"].lower()
+            if "switch" in aname_lower or "rope" in aname_lower or "escape" in aname_lower:
+                is_switch = True
+            elif "switch" in card_name or "rope" in card_name or "escape" in card_name:
+                is_switch = True
 
-        if is_x_speed:
+        if is_x_speed or is_switch:
             best_retreat = -100000
             for r in actions:
                 if r["type"] == "retreat" and r["score"] > best_retreat:
                     best_retreat = r["score"]
 
             if best_retreat > 0:
-                 a["score"] = best_retreat + 100
-                 a["score"] += 2000
+                 # Prioritize Switch/X Speed over manual retreat to save energy
+                 # X Speed attaches tool, Switch uses item. Both good.
+                 a["score"] = best_retreat + 2000
+                 if is_switch: # Switch is immediate
+                      a["score"] += 1000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

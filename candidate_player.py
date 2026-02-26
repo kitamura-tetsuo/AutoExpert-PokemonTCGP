@@ -790,14 +790,14 @@ def play(state, game):
                          if "poison barb" in tname: recoil = 10
                          elif "rocky helmet" in tname: recoil = 20
 
-                         if recoil > 0 and action["damage"] > 0:
+                         if recoil > 0 and action["damage"] > 0 and not action.get("is_lethal"):
                              surviving_hp = gs.my_active.hp - recoil
 
                              if surviving_hp <= 0:
                                  action["score"] -= 200000 # Lethal Self KO
                              elif gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
-                                  if not action.get("is_lethal") and not action.get("is_ko"):
-                                       action["score"] -= 50000 # Don't suicide if not KO/Lethal
+                                  if not action.get("is_ko"):
+                                       action["score"] -= 50000 # Don't risk lethal if not KO/Lethal
 
                 # Donk Avoidance for Attack
                 if risk_of_donk and not action.get("is_lethal") and not action.get("is_ko"):
@@ -818,6 +818,7 @@ def play(state, game):
                  action["type"] = "attach_tool"
                  action["score"] = ITEM_SCORE
                  action["pos"] = int(m.group(2))
+                 action["card_name"] = m.group(1)
 
         elif "Attach" in aname:
              m = re.search(r"Attach\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
@@ -1128,10 +1129,15 @@ def play(state, game):
                     n_lower = target.name.lower()
                     if "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
-                            if gs.my_active.hp > 20:
-                                action["score"] += 4000
-                                if gs.my_active.needs_energy():
-                                    action["score"] += 2000 # Boost significantly
+                            current_hp = gs.my_active.hp
+                            if current_hp > 20:
+                                new_hp = current_hp - 20
+                                if current_hp > opp_max_dmg and new_hp <= opp_max_dmg:
+                                    action["score"] -= 50000
+                                else:
+                                    action["score"] += 4000
+                                    if gs.my_active.needs_energy():
+                                        action["score"] += 2000 # Boost significantly
                             else:
                                 action["score"] -= 100000
 
@@ -1363,6 +1369,8 @@ def play(state, game):
         elif a["type"] == "red_card":
             if gs.opp_hand_count >= 4:
                 a["score"] += 2000
+            elif gs.opp_hand_count < 3:
+                a["score"] -= 20000
             else:
                 a["score"] -= 2000
         elif a["type"] == "potion":
@@ -1400,12 +1408,33 @@ def play(state, game):
             elif needed:
                 a["score"] = GIOVANNI_NEEDED_SCORE
             else:
-                is_attacking = any(x["type"] == "attack" for x in actions)
-                if is_attacking: a["score"] += 500
-                else: a["score"] -= 1000
+                improved = False
+                if gs.my_active and gs.opp_active:
+                     for idx in range(len(gs.my_active.attacks)):
+                        base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                        improved_dmg = base_dmg + 10
+                        hp = gs.opp_active.hp
+                        if base_dmg > 0:
+                            turns_base = (hp + base_dmg - 1) // base_dmg
+                            turns_imp = (hp + improved_dmg - 1) // improved_dmg
+                            if turns_imp < turns_base:
+                                improved = True
+                                break
+                if improved:
+                    a["score"] += 5000
+                else:
+                    a["score"] -= 1000
 
     for a in actions:
+        is_x_speed = False
         if a["type"] == "x_speed":
+            is_x_speed = True
+        elif a["type"] == "attach_tool":
+            card_name = a.get("card_name", "").lower()
+            if "speed" in card_name:
+                is_x_speed = True
+
+        if is_x_speed:
             best_retreat = -100000
             for r in actions:
                 if r["type"] == "retreat" and r["score"] > best_retreat:

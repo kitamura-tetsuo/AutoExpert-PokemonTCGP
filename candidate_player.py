@@ -1035,6 +1035,28 @@ def play(state, game):
                      if bench_card and bench_threat >= bench_card.hp and evol_hp > bench_threat:
                           action["score"] += 30000 # Save bench from Gust KO
 
+                # Status Cleanse (Defensive)
+                if target_pos == 0 and gs.my_active and gs.my_active.status:
+                     action["score"] += 5000
+
+                # Lethal Check (Offensive Evolution)
+                if target_pos == 0 and gs.opp_active:
+                     evolved_card = Card("Evolved", None)
+                     evolved_card.name = evolution_name
+                     evolved_card.db_entry = evolved_card._get_db_entry() # Refresh DB entry
+                     evolved_card.energy = gs.my_active.energy # Copy energy
+                     evolved_card.energy_count = len(evolved_card.energy)
+
+                     for i, atk in enumerate(evolved_card.attacks):
+                         if can_use_attack(atk.get("cost", []), evolved_card.energy):
+                             d = calculate_damage(evolved_card, i, gs)
+                             if d >= gs.opp_active.hp:
+                                 action["score"] = LETHAL_KO_SCORE
+                                 is_ex = "ex" in gs.opp_active.name.lower()
+                                 points_gained = 2 if is_ex else 1
+                                 if points_gained >= (3 - gs.my_points):
+                                      action["score"] = LETHAL_WIN_SCORE
+
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Extract card name if possible
             card_name_lower = ""
@@ -1335,6 +1357,17 @@ def play(state, game):
                         if gs.opp_active and not any("poison" in str(s).lower() for s in gs.opp_active.status):
                              action["score"] += 5000
 
+                    elif "pidgeot" in n_lower: # Drive Off
+                         # Defensive: If threatened, drive off active
+                         if threat_lethal:
+                             action["score"] = DONK_SURVIVAL_SCORE + 1000
+                         # Offensive/Disruption: If opponent active has energy >= 2, drive off
+                         elif gs.opp_active and gs.opp_active.energy_count >= 2:
+                             action["score"] += 10000
+                         # Don't help them switch if they have no energy
+                         elif gs.opp_active and gs.opp_active.energy_count <= 1:
+                             action["score"] -= 10000
+
         elif "ApplyDamage" in aname:
              # ApplyDamage(idx) usually from Greninja (20 dmg) or other selection effects
              m = re.search(r"ApplyDamage\((\d+)\)", aname)
@@ -1404,6 +1437,15 @@ def play(state, game):
             if not target:
                 a["score"] -= 10000
                 continue
+
+            # Lethal Win Prevention (Don't attach if we can already win)
+            if has_lethal_on_board:
+                 # Check if lethal is actually a WIN
+                 if gs.opp_active:
+                     is_ex = "ex" in gs.opp_active.name.lower()
+                     points_gained = 2 if is_ex else 1
+                     if points_gained >= (3 - gs.my_points):
+                         a["score"] -= 20000 # Deprioritize significantly
 
             # Emergency Retreat Logic: If Active is threatened and this energy allows retreat to safety
             if a["pos"] == 0 and threat_lethal:
@@ -1568,6 +1610,19 @@ def play(state, game):
                 a["score"] -= 50000
             elif can_ko_on_bench:
                 a["score"] = GUST_LETHAL_SCORE
+            elif threat_lethal:
+                 # Defensive Gust: Find safe target
+                 safe_target_found = False
+                 for b in gs.opp_bench:
+                     # Heuristic: Safe if low energy and not EX (unless weak EX)
+                     if b.energy_count < 2 and "ex" not in b.name.lower():
+                          safe_target_found = True
+                          break
+
+                 if safe_target_found:
+                      a["score"] = DONK_SURVIVAL_SCORE
+                 else:
+                      a["score"] = ITEM_SCORE
             elif gs.opp_active and gs.opp_active.hp > 80:
                 a["score"] += 2000
             else:

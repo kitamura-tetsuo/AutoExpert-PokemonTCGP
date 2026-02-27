@@ -235,6 +235,7 @@ def main():
     last_history = []
     
     draws = 0
+    last_seed = 0
     longest_loss = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
     shortest_loss = {"steps": float('inf'), "seed": None, "deck_a": None, "deck_b": None}
     longest_draw = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
@@ -297,6 +298,7 @@ def main():
             
         if i == args.num_matches - 1:
             last_history = history
+            last_seed = seed
 
     total_matches = sum(wins) + draws
     win_rate = wins[0] / total_matches if total_matches > 0 else 0
@@ -321,7 +323,7 @@ def main():
         print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
-    generate_html(last_history, args.output)
+    generate_html(last_history, args.output, last_seed)
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic

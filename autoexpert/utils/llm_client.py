@@ -2,6 +2,8 @@ import requests
 import json
 import time
 from typing import Dict, Any, Optional, List
+from urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter
 from autoexpert.config import settings
 
 class JulesClient:
@@ -13,13 +15,25 @@ class JulesClient:
             "X-Goog-Api-Key": self.api_key
         }
 
+        # Configure retry strategy
+        retry_strategy = Retry(
+            total=5,
+            backoff_factor=1,
+            status_forcelist=[429, 500, 502, 503, 504],
+            allowed_methods=["HEAD", "GET", "OPTIONS", "POST"]
+        )
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        self.session = requests.Session()
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
+
     def list_sources(self) -> List[Dict[str, Any]]:
-        response = requests.get(f"{self.base_url}/sources", headers=self.headers)
+        response = self.session.get(f"{self.base_url}/sources", headers=self.headers)
         response.raise_for_status()
         return response.json().get("sources", [])
 
     def list_sessions(self) -> List[Dict[str, Any]]:
-        response = requests.get(f"{self.base_url}/sessions", headers=self.headers)
+        response = self.session.get(f"{self.base_url}/sessions", headers=self.headers)
         response.raise_for_status()
         return response.json().get("sessions", [])
 
@@ -36,12 +50,12 @@ class JulesClient:
             "requirePlanApproval": False,
             "automationMode": "AUTO_CREATE_PR"
         }
-        response = requests.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
+        response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
         response.raise_for_status()
         return response.json()
 
     def get_session(self, session_id: str) -> Dict[str, Any]:
-        response = requests.get(f"{self.base_url}/sessions/{session_id}", headers=self.headers)
+        response = self.session.get(f"{self.base_url}/sessions/{session_id}", headers=self.headers)
         response.raise_for_status()
         return response.json()
 

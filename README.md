@@ -17,9 +17,10 @@ A Voyager-like expert system that automatically constructs and improves Pokemon 
 ## Installation
 1. Ensure `deckgym-core` is built:
    ```bash
+   git submodule update --init --recursive deckgym-core
    cd deckgym-core
    uv sync
-   maturin develop --features python
+   uvx maturin develop --features python
    ```
 2. Setup AutoExpert:
    ```bash

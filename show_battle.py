@@ -148,7 +148,7 @@ def extract_state_info(state: deckgym.State):
 
     return info
 
-def generate_html(history, output_path):
+def generate_html(history, output_path, seed):
     """
     Generates an interactive HTML file to visualize the battle history.
     Based on the reference battle.py.
@@ -161,7 +161,7 @@ def generate_html(history, output_path):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon TCGP Expert Battle Visualization</title>
+    <title>Pokemon TCGP Battle Visualization</title>
     <style>
         body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #e0e0e0; margin: 0; padding: 20px; }}
         .ptcg-symbol {{
@@ -185,14 +185,14 @@ def generate_html(history, output_path):
         .type-metal {{ background-color: #B8B8D0; color: black; text-shadow: none; }}
         .type-colorless {{ background-color: #A8A878; color: black; text-shadow: none; }}
 
-        .container {{ max-width: 1200px; margin: 0 auto; background: #2d2d2d; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }}
+        .container {{ max-width: 1400px; margin: 0 auto; background: rgba(45, 45, 45, 0.9); padding: 20px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.05); }}
         .header {{ text-align: center; margin-bottom: 20px; }}
         .controls {{ text-align: center; margin-bottom: 20px; background: #3d3d3d; padding: 15px; border-radius: 8px; }}
         button {{ padding: 10px 20px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; transition: background 0.2s; }}
         button:hover {{ background: #0056b3; }}
         .status-bar {{ display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; color: #aaa; }}
 
-        .board {{ display: flex; flex-direction: column; gap: 20px; }}
+        .board {{ display: flex; flex-direction: row; gap: 20px; justify-content: center; align-items: stretch; }}
         .player-area {{ border: 2px solid #444; padding: 15px; border-radius: 10px; flex: 1; transition: transform 0.2s; }}
         .player-area.current {{ border-color: #007bff; background-color: #333; transform: scale(1.01); }}
 
@@ -218,7 +218,8 @@ def generate_html(history, output_path):
     <div class="container">
         <div class="header">
             <h1>Expert Battle Simulation</h1>
-            <p id="expert-info">Current Expert Self-Match</p>
+            <p id="expert-info" style="margin: 5px 0;">Current Expert Self-Match</p>
+            <p id="seed-info" style="color: #888; font-family: monospace; font-size: 0.9em;">Seed: {seed}</p>
         </div>
 
         <div class="controls">
@@ -328,7 +329,7 @@ def generate_html(history, output_path):
             const p0Html = renderPlayerArea(0, state);
             const p1Html = renderPlayerArea(1, state);
 
-            document.getElementById('board').innerHTML = p1Html + p0Html;
+            document.getElementById('board').innerHTML = p0Html + p1Html;
 
             // Log entry
             const logDiv = document.getElementById('action-log');
@@ -466,7 +467,7 @@ def main():
     logging.info(f"Game finished in {step_count} steps. Winner: {winner_str}")
 
     # Generate HTML
-    generate_html(history, args.output)
+    generate_html(history, args.output, args.seed)
     print(f"\nBattle completed! Visualization saved to: {args.output}")
 
 if __name__ == "__main__":

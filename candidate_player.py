@@ -1167,6 +1167,10 @@ def play(state, game):
                         elif evol_hp > current_hp:
                              action["score"] += 2000 # Small boost for HP increase
 
+                    # Prevent evolution if it doesn't save from lethal and doesn't get a KO, and we have bench backup
+                    if evol_hp <= opp_max_dmg and not action.get("is_ko") and len(gs.my_bench) > 0:
+                        action["score"] -= 50000
+
                 # Check bench threats
                 if target_pos > 0 and (target_pos - 1) in bench_threats_indices:
                      # Evolving bench that is threatened
@@ -1196,6 +1200,32 @@ def play(state, game):
                                  points_gained = 2 if is_ex else 1
                                  if points_gained >= (3 - gs.my_points):
                                       action["score"] = LETHAL_WIN_SCORE
+
+        elif "DiscardOwnCard" in aname:
+            action["type"] = "discard_own"
+            m = re.search(r"DiscardOwnCard\((?:Some\()?(.*?)\)?\)", aname)
+            if m:
+                card_name_raw = m.group(1)
+                clean_name = Card._clean_name(card_name_raw)
+                action["card_name"] = clean_name
+
+                # Check utility
+                is_useful = False
+                n_lower = clean_name.lower()
+                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                elif n_lower in EVOLUTION_MAP:
+                    evolved = EVOLUTION_MAP[n_lower]
+                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                    elif evolved in EVOLUTION_MAP:
+                        stage2 = EVOLUTION_MAP[evolved]
+                        if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+
+                if is_useful:
+                    action["score"] = -50000 # Keep good cards
+                else:
+                    action["score"] = 50000 # Discard bad cards
+            else:
+                 action["score"] = 0
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Extract card name if possible
@@ -1270,7 +1300,10 @@ def play(state, game):
 
             elif "misty" in aname_lower:
                 action["type"] = "misty"
-                action["score"] = MISTY_SCORE + 2000 # Boost slightly above Attach (75000) -> 80000 base
+                action["score"] = MISTY_SCORE + 3000 # Boost slightly above Attach (75000) -> 81000 base
+
+                if has_lethal_on_board:
+                    action["score"] -= 20000 # Deprioritize if we can already win
 
                 # Helper to score targets
                 def score_misty_target(card):
@@ -1671,6 +1704,18 @@ def play(state, game):
                          else:
                              a["score"] = LETHAL_WIN_SCORE - 1000
 
+            # Check if already fully powered
+            is_fully_powered = True
+            for atk in target.attacks:
+                if not can_use_attack(atk.get("cost", []), target.energy):
+                    is_fully_powered = False
+                    break
+
+            # If fully powered, only attach if it's active and threatened (for retreat)
+            if is_fully_powered:
+                 if not (a["pos"] == 0 and threat_lethal):
+                      a["score"] -= 20000
+
             if target.needs_energy():
                 is_compatible = False
                 if target.energy_type == "Colorless": is_compatible = True
@@ -1730,6 +1775,20 @@ def play(state, game):
                              if a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
 
+                    # Weakness check for Active Pokemon
+                    if a["pos"] == 0 and gs.opp_active and not is_lethal_attachment:
+                        is_weak = False
+                        if target.weakness and gs.opp_active.energy_type in target.weakness:
+                            is_weak = True
+
+                        if is_weak:
+                             # Check if attachment allows retreat
+                             retreat_cost = target.retreat_cost
+                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
+
+                             if not allows_retreat:
+                                 a["score"] -= 15000 # Penalize attaching to weak active if it doesn't help retreat or kill
+
                 else:
                      a["score"] -= 1000
             else:
@@ -1768,7 +1827,7 @@ def play(state, game):
                      hp = entry.get("hp", 0)
                      retreat = entry.get("retreat", 1)
 
-                     if hp >= 70: a["score"] += 1000
+                     if hp >= 70: a["score"] += 2000
                      if retreat == 0: a["score"] += 1500
                      elif retreat == 1: a["score"] += 1200 # Increased from 500
 
@@ -1817,7 +1876,7 @@ def play(state, game):
 
             # Dead Hand Logic
             if not has_energy and not has_basic_to_play:
-                 a["score"] += 8000 # Boost Research if hand is dead (no energy, no basics)
+                 a["score"] += 15000 # Boost Research significantly if hand is dead (no energy, no basics)
 
             elif len(gs.my_hand) >= 5:
                  a["score"] += 1000
@@ -1833,7 +1892,9 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
         elif a["type"] == "red_card":
-            if gs.opp_hand_count >= 4:
+            if gs.opp_hand_count >= 5:
+                a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
+            elif gs.opp_hand_count >= 4:
                 a["score"] += 2000
             elif gs.opp_hand_count < 3:
                 a["score"] -= 20000
@@ -1887,20 +1948,34 @@ def play(state, game):
             elif needed:
                 a["score"] = GIOVANNI_NEEDED_SCORE
             else:
+                # General Pressure Boost
+                # If we are attacking this turn, playing Giovanni is almost always better than not,
+                # unless we need another supporter.
+                # Base score is 60k.
+
                 improved = False
+                attacking = False
+
                 if gs.my_active and gs.opp_active:
                      for idx in range(len(gs.my_active.attacks)):
-                        base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
-                        improved_dmg = base_dmg + 10
-                        hp = gs.opp_active.hp
-                        if base_dmg > 0:
-                            turns_base = (hp + base_dmg - 1) // base_dmg
-                            turns_imp = (hp + improved_dmg - 1) // improved_dmg
-                            if turns_imp < turns_base:
-                                improved = True
+                        # Check if we can actually use the attack
+                        atk = gs.my_active.attacks[idx]
+                        if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                            attacking = True
+                            base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                            if base_dmg > 0:
+                                improved_dmg = base_dmg + 10
+                                hp = gs.opp_active.hp
+                                turns_base = (hp + base_dmg - 1) // base_dmg
+                                turns_imp = (hp + improved_dmg - 1) // improved_dmg
+                                if turns_imp < turns_base:
+                                    improved = True
                                 break
+
                 if improved:
-                    a["score"] += 5000
+                    a["score"] += 15000 # Boost to 75k (match Attach)
+                elif attacking:
+                     a["score"] += 12000 # Boost to 72k (match Item) - Pressure
                 else:
                     a["score"] -= 1000
 

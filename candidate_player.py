@@ -48,7 +48,7 @@ EVOLVE_SCORE = 75500 # Prioritize evolution over energy attach (75000)
 ATTACH_ENERGY_SCORE = 75000
 PLACE_BASIC_SCORE = 74000
 ITEM_SCORE = 72000
-RED_CARD_SCORE = 71000
+RED_CARD_SCORE = 60000
 RESEARCH_SCORE = 70000
 DRAW_SUPPORTER_SCORE = 72000
 GIOVANNI_SCORE = 60000
@@ -1516,6 +1516,21 @@ def play(state, game):
                         if gs.opp_active and not any("poison" in str(s).lower() for s in gs.opp_active.status):
                              action["score"] += 5000
 
+                    elif "hydreigon" in n_lower: # Dark Hoard
+                        needs_dark = False
+                        # Check active
+                        if gs.my_active and "Darkness" in gs.my_active.energy_type and gs.my_active.needs_energy():
+                            needs_dark = True
+                        # Check bench
+                        if not needs_dark:
+                            for b in gs.my_bench:
+                                if "Darkness" in b.energy_type and b.needs_energy():
+                                    needs_dark = True
+                                    break
+
+                        if needs_dark:
+                            action["score"] += 30000
+
                     elif "pidgeot" in n_lower: # Drive Off
                          # Defensive: If threatened, drive off active
                          if threat_lethal:
@@ -1544,8 +1559,10 @@ def play(state, game):
                          target = gs.opp_bench[bench_idx]
 
                  if target:
-                     # Increased threshold and better scoring
-                     if target.hp <= 50:
+                     action["score"] = 15000 # Base score (lower than attach energy)
+
+                     # Lethal Logic (Guaranteed KO)
+                     if target.hp <= 20:
                          action["score"] = LETHAL_KO_SCORE + 10000
                          is_ex = "ex" in target.name.lower()
                          if is_ex: action["score"] += 5000
@@ -1553,14 +1570,12 @@ def play(state, game):
                          if points_gained >= points_needed_to_win:
                              action["score"] = LETHAL_WIN_SCORE
 
-                         # Prioritize lower HP targets to guarantee KO
-                         if target.hp <= 20:
+                     # Pressure Logic
+                     elif target.hp <= 50:
+                         if "ex" in target.name.lower():
                              action["score"] += 5000
                      else:
-                         # Prioritize EX or active if it helps KO
-                         if "ex" in target.name.lower():
-                             action["score"] += 2000
-
+                         # Setup Logic
                          if idx == 0 and gs.my_active: # Hitting active
                              # Check if this puts it in KO range for my active
                              current_dmg = 0
@@ -1568,8 +1583,9 @@ def play(state, game):
                                  d = calculate_damage(gs.my_active, i, gs)
                                  if d > current_dmg: current_dmg = d
 
-                             if current_dmg < target.hp and current_dmg >= (target.hp - 20):
-                                  action["score"] += 5000
+                             # If active attack + 20 damage is enough to KO
+                             if current_dmg < target.hp and (current_dmg + 20) >= target.hp:
+                                  action["score"] += 15000 # Combo bonus
 
         actions.append(action)
 

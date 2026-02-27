@@ -1167,8 +1167,8 @@ def play(state, game):
                         elif evol_hp > current_hp:
                              action["score"] += 2000 # Small boost for HP increase
 
-                    # Prevent evolution if it doesn't save from lethal and doesn't get a KO
-                    if evol_hp <= opp_max_dmg and not action.get("is_ko"):
+                    # Prevent evolution if it doesn't save from lethal and doesn't get a KO, and we have bench backup
+                    if evol_hp <= opp_max_dmg and not action.get("is_ko") and len(gs.my_bench) > 0:
                         action["score"] -= 50000
 
                 # Check bench threats
@@ -1301,6 +1301,9 @@ def play(state, game):
             elif "misty" in aname_lower:
                 action["type"] = "misty"
                 action["score"] = MISTY_SCORE + 2000 # Boost slightly above Attach (75000) -> 80000 base
+
+                if has_lethal_on_board:
+                    action["score"] -= 20000 # Deprioritize if we can already win
 
                 # Helper to score targets
                 def score_misty_target(card):
@@ -1877,7 +1880,9 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
         elif a["type"] == "red_card":
-            if gs.opp_hand_count >= 4:
+            if gs.opp_hand_count >= 5:
+                a["score"] = RESEARCH_SCORE + 2000 # Boost higher than Research
+            elif gs.opp_hand_count >= 4:
                 a["score"] += 2000
             elif gs.opp_hand_count < 3:
                 a["score"] -= 20000

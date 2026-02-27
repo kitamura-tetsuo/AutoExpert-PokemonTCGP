@@ -670,7 +670,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
         # 2.5 Hydreigon Extra Energy Simulation (Active)
         if "hydreigon" in attacker_card.name.lower() and is_active_now:
-             # Assume potential for +2 energy if ability wasn't explicitly checked above
+             # Assume potential for +2 energy if ability wasnt explicitly checked above
              # (It is checked above if DB exists, but let's double check for safety)
              if not (attacker_card.db_entry and attacker_card.db_entry.get("ability")):
                   extra_energy.extend(["Darkness", "Darkness"])
@@ -805,8 +805,8 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
             d = evaluate_attacker(b, True, manual_attach_for_bench)
             if d > max_dmg: max_dmg = d
 
-    # Add ability damage (e.g. Greninja)
-    max_dmg += ability_damage # Include Water Shuriken etc.
+    # Remove ability damage (causes false threat detection)
+    # max_dmg += ability_damage
 
     # Add buffer only if we didn't account for Giovanni
     if not has_giovanni:
@@ -1400,6 +1400,25 @@ def play(state, game):
 
                     if (is_valuable and bench_is_safer):
                         action["score"] = DONK_SURVIVAL_SCORE + 1000
+                    elif threat_lethal and not bench_is_safer:
+                        # If we are dead anyway, and bench dies too, don't retreat. Fight!
+                        action["score"] -= 50000
+
+                    # Aggressive Defense Override:
+                    # If we can KO the threat right now, DO NOT RETREAT.
+                    can_ko_active = False
+                    if gs.my_active and gs.opp_active:
+                         for atk_idx in range(len(gs.my_active.attacks)):
+                             if can_use_attack(gs.my_active.attacks[atk_idx].get("cost", []), gs.my_active.energy):
+                                  d = calculate_damage(gs.my_active, atk_idx, gs)
+                                  if d >= gs.opp_active.hp:
+                                      can_ko_active = True
+                                      break
+
+                    if can_ko_active:
+                         # Unless retreating guarantees a WIN, we attack.
+                         if action["score"] < LETHAL_WIN_SCORE:
+                              action["score"] -= 100000
 
                     if bench_can_attack:
                          action["score"] += 15000

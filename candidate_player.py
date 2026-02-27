@@ -1300,7 +1300,7 @@ def play(state, game):
 
             elif "misty" in aname_lower:
                 action["type"] = "misty"
-                action["score"] = MISTY_SCORE + 2000 # Boost slightly above Attach (75000) -> 80000 base
+                action["score"] = MISTY_SCORE + 3000 # Boost slightly above Attach (75000) -> 81000 base
 
                 if has_lethal_on_board:
                     action["score"] -= 20000 # Deprioritize if we can already win
@@ -1704,6 +1704,18 @@ def play(state, game):
                          else:
                              a["score"] = LETHAL_WIN_SCORE - 1000
 
+            # Check if already fully powered
+            is_fully_powered = True
+            for atk in target.attacks:
+                if not can_use_attack(atk.get("cost", []), target.energy):
+                    is_fully_powered = False
+                    break
+
+            # If fully powered, only attach if it's active and threatened (for retreat)
+            if is_fully_powered:
+                 if not (a["pos"] == 0 and threat_lethal):
+                      a["score"] -= 20000
+
             if target.needs_energy():
                 is_compatible = False
                 if target.energy_type == "Colorless": is_compatible = True
@@ -1815,7 +1827,7 @@ def play(state, game):
                      hp = entry.get("hp", 0)
                      retreat = entry.get("retreat", 1)
 
-                     if hp >= 70: a["score"] += 1000
+                     if hp >= 70: a["score"] += 2000
                      if retreat == 0: a["score"] += 1500
                      elif retreat == 1: a["score"] += 1200 # Increased from 500
 
@@ -1864,7 +1876,7 @@ def play(state, game):
 
             # Dead Hand Logic
             if not has_energy and not has_basic_to_play:
-                 a["score"] += 8000 # Boost Research if hand is dead (no energy, no basics)
+                 a["score"] += 15000 # Boost Research significantly if hand is dead (no energy, no basics)
 
             elif len(gs.my_hand) >= 5:
                  a["score"] += 1000

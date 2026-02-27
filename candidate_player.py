@@ -668,6 +668,13 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
         available_base = list(current_energy) + list(extra_energy)
 
+        # 2.5 Hydreigon Extra Energy Simulation (Active)
+        if "hydreigon" in attacker_card.name.lower() and is_active_now:
+             # Assume potential for +2 energy if ability wasn't explicitly checked above
+             # (It is checked above if DB exists, but let's double check for safety)
+             if not (attacker_card.db_entry and attacker_card.db_entry.get("ability")):
+                  extra_energy.extend(["Darkness", "Darkness"])
+
         # Misty Logic: If Misty is in hand and attacker is Water, assume infinite energy (worst case)
         misty_active = has_misty and "Water" in attacker_card.energy_type
 
@@ -753,10 +760,6 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
              if evolved_entry:
                  # Create a dummy card object.
-                 # We can reuse the Card class but we need to mock the internal obj or just manually set db_entry
-                 # Since Card class relies on obj for energy, we pass the original obj but override db_entry?
-                 # No, Card.db_entry is derived from name.
-                 # So we need a dummy obj with the evolved name.
                  class DummyObj:
                      def __init__(self, name, energy):
                          self.name = name
@@ -767,20 +770,8 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
                          self.attached_tool = attacker.attached_tool # Inherit tool
                          self.status = [] # Evolving heals status
 
-                 # Need to convert string energy back to objects? Card class handles strings in energy property
-                 # But we need to pass something that getattr(obj, "attached_energy") works on.
-                 # attacker.energy is a list of strings.
                  dummy_obj = DummyObj(evolved_entry["name"], attacker.energy)
-                 # But wait, Card class expects obj.attached_energy to be iterable of things that str() to energy name.
-                 # So strings work fine if we wrap them? No, str("Fire") is "Fire".
-
                  evolved_card = Card("EvolvedThreat", dummy_obj)
-                 # Force DB entry update if needed, but constructor does it based on name.
-
-                 # Calculate damage for evolved form
-                 # Evolution implies we used a card from hand, so we consumed a "Play" action?
-                 # But we can still attach energy manually if we haven't.
-                 # evaluate_attacker handles manual_attach_available.
 
                  d = evaluate_attacker(evolved_card, True, has_energy_in_hand)
                  if d > max_dmg: max_dmg = d
@@ -815,7 +806,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
             if d > max_dmg: max_dmg = d
 
     # Add ability damage (e.g. Greninja)
-    # max_dmg += ability_damage # Disabled: Too pessimistic, causes excessive retreats
+    max_dmg += ability_damage # Include Water Shuriken etc.
 
     # Add buffer only if we didn't account for Giovanni
     if not has_giovanni:

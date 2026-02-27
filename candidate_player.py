@@ -1881,7 +1881,7 @@ def play(state, game):
                      a["score"] -= 5000
         elif a["type"] == "red_card":
             if gs.opp_hand_count >= 5:
-                a["score"] = RESEARCH_SCORE + 2000 # Boost higher than Research
+                a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
             elif gs.opp_hand_count >= 4:
                 a["score"] += 2000
             elif gs.opp_hand_count < 3:
@@ -1936,20 +1936,34 @@ def play(state, game):
             elif needed:
                 a["score"] = GIOVANNI_NEEDED_SCORE
             else:
+                # General Pressure Boost
+                # If we are attacking this turn, playing Giovanni is almost always better than not,
+                # unless we need another supporter.
+                # Base score is 60k.
+
                 improved = False
+                attacking = False
+
                 if gs.my_active and gs.opp_active:
                      for idx in range(len(gs.my_active.attacks)):
-                        base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
-                        improved_dmg = base_dmg + 10
-                        hp = gs.opp_active.hp
-                        if base_dmg > 0:
-                            turns_base = (hp + base_dmg - 1) // base_dmg
-                            turns_imp = (hp + improved_dmg - 1) // improved_dmg
-                            if turns_imp < turns_base:
-                                improved = True
+                        # Check if we can actually use the attack
+                        atk = gs.my_active.attacks[idx]
+                        if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                            attacking = True
+                            base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
+                            if base_dmg > 0:
+                                improved_dmg = base_dmg + 10
+                                hp = gs.opp_active.hp
+                                turns_base = (hp + base_dmg - 1) // base_dmg
+                                turns_imp = (hp + improved_dmg - 1) // improved_dmg
+                                if turns_imp < turns_base:
+                                    improved = True
                                 break
+
                 if improved:
-                    a["score"] += 5000
+                    a["score"] += 15000 # Boost to 75k (match Attach)
+                elif attacking:
+                     a["score"] += 12000 # Boost to 72k (match Item) - Pressure
                 else:
                     a["score"] -= 1000
 

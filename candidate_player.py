@@ -1167,6 +1167,10 @@ def play(state, game):
                         elif evol_hp > current_hp:
                              action["score"] += 2000 # Small boost for HP increase
 
+                    # Prevent evolution if it doesn't save from lethal and doesn't get a KO
+                    if evol_hp <= opp_max_dmg and not action.get("is_ko"):
+                        action["score"] -= 50000
+
                 # Check bench threats
                 if target_pos > 0 and (target_pos - 1) in bench_threats_indices:
                      # Evolving bench that is threatened
@@ -1196,6 +1200,32 @@ def play(state, game):
                                  points_gained = 2 if is_ex else 1
                                  if points_gained >= (3 - gs.my_points):
                                       action["score"] = LETHAL_WIN_SCORE
+
+        elif "DiscardOwnCard" in aname:
+            action["type"] = "discard_own"
+            m = re.search(r"DiscardOwnCard\((?:Some\()?(.*?)\)?\)", aname)
+            if m:
+                card_name_raw = m.group(1)
+                clean_name = Card._clean_name(card_name_raw)
+                action["card_name"] = clean_name
+
+                # Check utility
+                is_useful = False
+                n_lower = clean_name.lower()
+                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                elif n_lower in EVOLUTION_MAP:
+                    evolved = EVOLUTION_MAP[n_lower]
+                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                    elif evolved in EVOLUTION_MAP:
+                        stage2 = EVOLUTION_MAP[evolved]
+                        if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+
+                if is_useful:
+                    action["score"] = -50000 # Keep good cards
+                else:
+                    action["score"] = 50000 # Discard bad cards
+            else:
+                 action["score"] = 0
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Extract card name if possible
@@ -1729,6 +1759,20 @@ def play(state, game):
                          if threat_lethal and not is_lethal_attachment:
                              if a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
+
+                    # Weakness check for Active Pokemon
+                    if a["pos"] == 0 and gs.opp_active and not is_lethal_attachment:
+                        is_weak = False
+                        if target.weakness and gs.opp_active.energy_type in target.weakness:
+                            is_weak = True
+
+                        if is_weak:
+                             # Check if attachment allows retreat
+                             retreat_cost = target.retreat_cost
+                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
+
+                             if not allows_retreat:
+                                 a["score"] -= 15000 # Penalize attaching to weak active if it doesn't help retreat or kill
 
                 else:
                      a["score"] -= 1000

@@ -379,6 +379,9 @@ class GameStateWrapper:
         self.my_points = state.points[self.me]
         self.opp_points = state.points[self.opp]
 
+        self.my_deck_count = 0
+        self.opp_deck_count = 0
+
     def get_card_in_hand(self, idx):
         if 0 <= idx < len(self.my_hand):
             return self.my_hand[idx]
@@ -830,6 +833,28 @@ def play(state, game):
         return 0
 
     gs = GameStateWrapper(state)
+
+    # Deck Count Tracking
+    obs = game.encode_observation(state.current_player)
+
+    # Extract My Deck Count (Indices 251-270, count values != -1.0)
+    my_deck_start = 251
+    my_deck_end = 271
+    my_deck_count = 0
+    if len(obs) >= my_deck_end:
+        for i in range(my_deck_start, my_deck_end):
+            if obs[i] != -1.0:
+                my_deck_count += 1
+    gs.my_deck_count = my_deck_count
+
+    # Extract Opponent Deck Count (Index 271)
+    opp_deck_idx = 271
+    if len(obs) > opp_deck_idx:
+        gs.opp_deck_count = int(obs[opp_deck_idx])
+
+    if logger.isEnabledFor(logging.DEBUG):
+        logger.debug(f"Deck Counts: My={gs.my_deck_count}, Opp={gs.opp_deck_count}")
+
     actions = []
 
     has_giovanni = any("giovanni" in c.name.lower() for c in gs.my_hand)
@@ -1262,7 +1287,10 @@ def play(state, game):
                 best_target_score = 0
                 if gs.my_active:
                      s = score_misty_target(gs.my_active)
-                     if s > 0: best_target_score = max(best_target_score, s)
+                     if s > 0:
+                         if gs.my_active.needs_energy():
+                             s += 10000 # Massive boost if Active Water needs energy
+                         best_target_score = max(best_target_score, s)
 
                 for b in gs.my_bench:
                      s = score_misty_target(b)
@@ -1742,7 +1770,11 @@ def play(state, game):
 
                      if hp >= 70: a["score"] += 1000
                      if retreat == 0: a["score"] += 1500
-                     elif retreat == 1: a["score"] += 500
+                     elif retreat == 1: a["score"] += 1200 # Increased from 500
+
+                     # Avoid fragile support starters if possible
+                     if n_lower in ["ralts", "dreepy", "pidgey"] and retreat > 0:
+                         a["score"] -= 500
 
             if any("misty" in c.name.lower() for c in gs.my_hand):
                  is_water = False

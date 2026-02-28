@@ -1174,6 +1174,12 @@ def play(state, game):
                 if target_pos == 0 and gs.my_active and gs.my_active.status:
                      action["score"] += 5000
 
+                # General Prioritization for EX and Stage 2
+                if "ex" in evolution_name.lower():
+                     action["score"] += 2000
+                elif evolution_name.lower() in EVOLUTION_MAP and EVOLUTION_MAP[evolution_name.lower()] in CARRY_LIST:
+                     action["score"] += 1000
+
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
                      evolved_card = Card("Evolved", None)
@@ -1482,14 +1488,39 @@ def play(state, game):
                 action["score"] = LETHAL_WIN_SCORE # Must activate to continue
 
                 if activating_for_opp:
-                    # Choosing for opponent (e.g. from Gust effect? No, usually that's automatic or different action)
-                    # If this happens, prioritize WORST opponent
+                    # Choosing opponent bench pokemon (Gust/Boss/Sabrina effect)
                     target = None
                     if target_idx < len(gs.opp_bench):
                         target = gs.opp_bench[target_idx]
                     if target:
-                        action["score"] -= target.hp * 10
-                        action["score"] -= target.energy_count * 5000
+                        # Find out if we can KO this target with our active
+                        can_ko = False
+                        is_win = False
+                        if gs.my_active:
+                            for idx in range(len(gs.my_active.attacks)):
+                                if can_use_attack(gs.my_active.attacks[idx].get("cost", []), gs.my_active.energy):
+                                    dmg = calculate_damage(gs.my_active, idx, gs, target_override=target)
+                                    if dmg >= target.hp:
+                                        can_ko = True
+                                        points_gained = 2 if "ex" in target.name.lower() else 1
+                                        if points_gained >= (3 - gs.my_points):
+                                            is_win = True
+                                        break
+
+                        if is_win:
+                            action["score"] += 500000 # Unbeatable priority
+                        elif can_ko:
+                            # Prioritize EX targets if we can KO them
+                            if "ex" in target.name.lower():
+                                action["score"] += 100000
+                            else:
+                                action["score"] += 50000
+                        else:
+                            # If we can't KO, try to trap a Pokemon with high retreat cost and low energy
+                            action["score"] -= target.energy_count * 10000
+                            action["score"] += target.retreat_cost * 5000
+                            # Also prefer higher HP so it gets stuck longer
+                            action["score"] += target.hp * 10
                 else:
                     # Choosing for self (after KO)
                     target = gs.get_bench_card(target_idx)
@@ -1802,7 +1833,10 @@ def play(state, game):
                 else:
                      a["score"] -= 1000
             else:
-                a["score"] -= 5000 # Relaxed penalty: if nothing else to do, attach.
+                # If we have nowhere else to put it, attaching to a benched EX or carry is better than nothing
+                a["score"] -= 5000
+                if target and target.name.lower() in CARRY_LIST:
+                    a["score"] += 1000
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()

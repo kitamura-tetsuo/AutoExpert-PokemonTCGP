@@ -1684,8 +1684,17 @@ def play(state, game):
                      # Pressure Logic
                      elif target.hp <= 50:
                          if "ex" in target.name.lower():
+                             action["score"] += 15000
+                         elif target.name.lower() in CARRY_LIST:
+                             action["score"] += 10000
+                         else:
                              action["score"] += 5000
                      else:
+                         if "ex" in target.name.lower():
+                             action["score"] += 8000
+                         elif target.name.lower() in CARRY_LIST:
+                             action["score"] += 6000
+
                          # Setup Logic
                          if idx == 0 and gs.my_active: # Hitting active
                              # Check if this puts it in KO range for my active
@@ -1959,10 +1968,11 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
         elif a["type"] == "red_card":
+            # Don't discard it with Research! Play it if hand size >= 4.
             if gs.opp_hand_count >= 5:
                 a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
-            elif gs.opp_hand_count >= 4:
-                a["score"] += 2000
+            elif gs.opp_hand_count == 4:
+                a["score"] = 72500 # Beat Research (70k) so we play it before discarding our hand
             elif gs.opp_hand_count < 3:
                 a["score"] -= 20000
             else:

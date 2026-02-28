@@ -1798,6 +1798,11 @@ def play(state, game):
 
                 if is_compatible:
                     a["score"] += 2000
+
+                    # Prioritize pokemon that already have energy, to finish powering them up!
+                    # A pokemon with 2 energy should get its 3rd before a 0 energy gets its 1st.
+                    a["score"] += (target.energy_count * 500)
+
                     if "ex" in target.name.lower():
                         a["score"] += 1000
                     if target.name.lower() in CARRY_LIST:
@@ -2128,9 +2133,12 @@ def play(state, game):
             if best_retreat > 0:
                  # Prioritize Switch/X Speed over manual retreat to save energy
                  # X Speed attaches tool, Switch uses item. Both good.
-                 a["score"] = best_retreat + 2000
+                 # Add back the manual retreat cost penalty, and then some, because these items save energy!
+                 retreat_cost_savings = gs.my_active.retreat_cost if gs.my_active else 0
+
+                 a["score"] = best_retreat + 2000 + (retreat_cost_savings * 2000)
                  if is_switch: # Switch is immediate
-                      a["score"] += 1000
+                      a["score"] += 1000 + (retreat_cost_savings * 3000) # Switch is even better because it's completely free
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

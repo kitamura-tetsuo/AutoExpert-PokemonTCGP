@@ -40,7 +40,7 @@ DONK_SURVIVAL_SCORE = 500500 # Prioritize staying alive if only one pokemon
 
 GIOVANNI_NEEDED_SCORE = 90000 # Boosted above Attach and Research
 POTION_CRITICAL_SCORE = 85000
-GUST_LETHAL_SCORE = 80000
+GUST_LETHAL_SCORE = 150000 # Boost above all standard items to ensure we take prizes
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
 SEARCH_SCORE = 82000 # Boosted slightly from 80000
@@ -379,8 +379,12 @@ class GameStateWrapper:
         self.my_points = state.points[self.me]
         self.opp_points = state.points[self.opp]
 
-        self.my_deck_count = 0
-        self.opp_deck_count = 0
+        self.my_deck_count = state.get_deck_size(self.me)
+        self.opp_deck_count = state.get_deck_size(self.opp)
+
+        # Gather discard pile strings
+        discard_objs = getattr(state, "get_discard_pile", lambda p: [])(self.me)
+        self.my_discard = [getattr(c, "name", str(c)) for c in discard_objs] if discard_objs else []
 
     def get_card_in_hand(self, idx):
         if 0 <= idx < len(self.my_hand):
@@ -1349,9 +1353,15 @@ def play(state, game):
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
                 action["score"] = ITEM_SCORE
-            elif "brock" in aname_lower:
+            elif "brock" in aname_lower or "retrieval" in aname_lower:
                 action["type"] = "energy_retrieval"
-                action["score"] = ITEM_SCORE
+
+                # Check discard pile for energy
+                has_discarded_energy = any("Energy" in c or c in ["Water", "Fire", "Grass", "Lightning", "Psychic", "Fighting", "Darkness", "Metal"] for c in gs.my_discard)
+                if not has_discarded_energy:
+                     action["score"] -= 50000
+                else:
+                     action["score"] = ITEM_SCORE + 2000 # Valuable if we have energy to get back
             else:
                 action["type"] = "item"
                 action["score"] = ITEM_SCORE
@@ -1422,9 +1432,16 @@ def play(state, game):
                                       break
 
                     if can_ko_active:
-                         # Unless retreating guarantees a WIN, we attack.
-                         if action["score"] < LETHAL_WIN_SCORE:
-                              action["score"] -= 100000
+                         # Unless retreating guarantees a WIN, we attack...
+                         # BUT, only if it's a favorable or neutral prize trade!
+                         is_my_ex = "ex" in gs.my_active.name.lower()
+                         is_opp_ex = "ex" in gs.opp_active.name.lower() if gs.opp_active else False
+                         points_gained = 2 if is_opp_ex else 1
+                         points_lost = 2 if is_my_ex else 1
+
+                         if points_gained >= points_lost:
+                              if action["score"] < LETHAL_WIN_SCORE:
+                                   action["score"] -= 100000
 
                     if bench_can_attack:
                          action["score"] += 15000
@@ -1519,8 +1536,8 @@ def play(state, game):
                             # If we can't KO, try to trap a Pokemon with high retreat cost and low energy
                             action["score"] -= target.energy_count * 10000
                             action["score"] += target.retreat_cost * 5000
-                            # Also prefer higher HP so it gets stuck longer
-                            action["score"] += target.hp * 10
+                            # Instead of higher HP, prefer lower HP so we can kill it soon
+                            action["score"] -= target.hp * 10
                 else:
                     # Choosing for self (after KO)
                     target = gs.get_bench_card(target_idx)
@@ -1588,17 +1605,9 @@ def play(state, game):
                     n_lower = target.name.lower()
                     if "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
-                            current_hp = gs.my_active.hp
-                            if current_hp > 20:
-                                new_hp = current_hp - 20
-                                if current_hp > opp_max_dmg and new_hp <= opp_max_dmg:
-                                    action["score"] -= 50000
-                                else:
-                                    action["score"] += 4000
-                                    if gs.my_active.needs_energy():
-                                        action["score"] += 2000 # Boost significantly
-                            else:
-                                action["score"] -= 100000
+                            action["score"] += 4000
+                            if gs.my_active.needs_energy():
+                                action["score"] += 15000 # Massive boost if we need energy!
 
                     elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower: # Draw
                         action["score"] += 3000
@@ -1725,7 +1734,17 @@ def play(state, game):
                          a["score"] -= 20000 # Deprioritize significantly
 
             # Emergency Retreat Logic: If Active is threatened and this energy allows retreat to safety
-            if a["pos"] == 0 and threat_lethal:
+            # Wait, do not retreat if we have guaranteed lethal KO!
+            can_ko_active = False
+            if gs.my_active and gs.opp_active:
+                 for atk_idx in range(len(gs.my_active.attacks)):
+                     if can_use_attack(gs.my_active.attacks[atk_idx].get("cost", []), gs.my_active.energy):
+                          d = calculate_damage(gs.my_active, atk_idx, gs)
+                          if d >= gs.opp_active.hp:
+                              can_ko_active = True
+                              break
+
+            if a["pos"] == 0 and threat_lethal and not can_ko_active:
                 retreat_cost = target.retreat_cost
                 if target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost:
                     has_safe_bench = False
@@ -1926,6 +1945,10 @@ def play(state, game):
                  a["score"] += 1000
             elif len(gs.my_hand) < 5:
                 a["score"] += 8000
+
+            # Deck out prevention
+            if gs.my_deck_count <= 2:
+                 a["score"] -= 100000
 
         elif a["type"] == "copycat":
             if risk_of_donk:

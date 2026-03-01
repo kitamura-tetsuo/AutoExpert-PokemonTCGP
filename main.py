@@ -1,5 +1,6 @@
 import argparse
 import sys
+import subprocess
 from pathlib import Path
 from autoexpert.autoexpert import AutoExpert
 from autoexpert.config import settings
@@ -48,16 +49,29 @@ def main():
     args = parser.parse_args()
     
     if args.command == "learn":
-        deck_a = Path(args.deck_a)
+        # Auto-detect deck based on branch name if default is used
+        deck_a_str = args.deck_a
+        if deck_a_str == "venusaur-exeggutor.txt":
+            try:
+                current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+                if current_branch and current_branch != "main":
+                    branch_deck = Path(f"train_data/{current_branch}.txt")
+                    if branch_deck.exists():
+                        print(f"Detected deck for branch '{current_branch}': {branch_deck}")
+                        deck_a_str = str(branch_deck)
+            except Exception:
+                pass
+
+        deck_a = Path(deck_a_str)
         if not deck_a.exists():
-            deck_a = settings.DECK_DIR / args.deck_a
+            deck_a = settings.DECK_DIR / deck_a_str
             
         deck_b = Path(args.deck_b)
         if not deck_b.exists():
             deck_b = settings.DECK_DIR / args.deck_b
         
         if not deck_a.exists():
-            print(f"Error: Deck file not found: {args.deck_a}")
+            print(f"Error: Deck file not found: {deck_a_str}")
             sys.exit(1)
         if not deck_b.exists():
             print(f"Error: Deck file not found: {args.deck_b}")
@@ -73,7 +87,6 @@ def main():
         print(library.get_all_skills_summary())
         
     elif args.command == "show-battle":
-        import subprocess
         cmd = ["uv", "run", "python3", "show_battle.py", 
                "--deck_a", args.deck_a, 
                "--deck_b", args.deck_b, 
@@ -84,7 +97,6 @@ def main():
         subprocess.run(cmd, check=True)
 
     elif args.command == "vs-past":
-        import subprocess
         cmd = ["uv", "run", "python3", "vs_past.py",
                "--past_dir", args.past_dir,
                "--deck_a", args.deck_a,
@@ -102,7 +114,6 @@ def main():
         subprocess.run(cmd, check=True)
 
     elif args.command == "vs-past-detail":
-        import subprocess
         cmd = ["uv", "run", "python3", "vs_past_detail.py",
                "--deck_a", args.deck_a,
                "--deck_b", args.deck_b,

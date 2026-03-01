@@ -1,4 +1,5 @@
 import time
+import subprocess
 from typing import Optional, List, Dict, Any
 from autoexpert.config import settings
 from autoexpert.env import PokemonEnv
@@ -31,6 +32,13 @@ class AutoExpert:
     def get_active_tasks(self) -> List[Dict[str, Any]]:
         """Returns a list of active or review-pending Jules sessions."""
         try:
+            current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+            if not current_branch:
+                current_branch = "main"
+        except Exception:
+            current_branch = "main"
+
+        try:
             sessions = client.list_sessions()
             # States that indicate the task is still occupying the repo or needs attention
             active_states = {
@@ -45,10 +53,15 @@ class AutoExpert:
             active = []
             for s in sessions:
                 state = s.get("state")
-                source = s.get("sourceContext", {}).get("source")
+                s_context = s.get("sourceContext", {})
+                source = s_context.get("source")
+                s_github = s_context.get("githubRepoContext", {})
+                starting_branch = s_github.get("startingBranch")
                 
-                # Filter by source and state
-                if source == self.source_name and state in active_states:
+                # Filter by source, state, AND starting branch
+                if (source == self.source_name and 
+                    state in active_states and 
+                    starting_branch == current_branch):
                     active.append(s)
             return active
         except Exception as e:
@@ -85,9 +98,24 @@ class AutoExpert:
             if best_skill:
                 previous_code = best_skill["code"]
             
+            # Load deck contents for context
+            deck_contents = None
+            try:
+                with open(self.deck_a, "r") as f:
+                    deck_contents = f.read()
+            except Exception as e:
+                print(f"Warning: Failed to read deck file {self.deck_a}: {e}")
+
             for retry in range(settings.MAX_RETRIES_PER_GOAL):
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
-                code = self.code_generator.generate(goal, previous_code, feedback, wait_completion=wait_completion)
+                code = self.code_generator.generate(
+                    goal, 
+                    previous_code, 
+                    feedback, 
+                    wait_completion=wait_completion,
+                    deck_path=self.deck_a,
+                    deck_contents=deck_contents
+                )
                 
                 if not wait_completion:
                     print("Jules task created successfully. Ending iteration as requested.")

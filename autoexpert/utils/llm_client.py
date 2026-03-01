@@ -46,6 +46,21 @@ class JulesClient:
         except Exception:
             current_branch = "main"
 
+        # Check for existing active sessions on the same branch
+        try:
+            active_sessions = self.list_sessions()
+            for s in active_sessions:
+                s_context = s.get("sourceContext", {})
+                s_github = s_context.get("githubRepoContext", {})
+                if (s_context.get("source") == source_name and 
+                    s_github.get("startingBranch") == current_branch and
+                    s.get("state") not in ["COMPLETED", "FAILED", "CANCELLED", "DONE"]):
+                    # If an active session already exists for this branch config, we should return it to avoid duplication.
+                    print(f"Active session found for source={source_name}, startingBranch={current_branch}. Reusing session {s['id']}.")
+                    return s
+        except Exception as e:
+            print(f"Warning: Failed to fetch active sessions during duplicate check: {e}")
+
         data = {
             "prompt": prompt,
             "sourceContext": {

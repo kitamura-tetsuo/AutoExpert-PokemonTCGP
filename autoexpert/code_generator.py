@@ -2,18 +2,19 @@ import os
 import re
 from typing import Optional, Tuple
 from autoexpert.utils.llm_client import client
-from autoexpert.prompts.code_generation_prompt import SYSTEM_PROMPT, get_task_prompt
+from autoexpert.prompts.code_generation_prompt import get_system_prompt, get_task_prompt
 from autoexpert.config import settings
 
 class CodeGenerator:
     def __init__(self, source_name: str):
         self.source_name = source_name
 
-    def generate(self, goal: str, previous_code: Optional[str] = None, feedback: Optional[str] = None, wait_completion: bool = True) -> str:
+    def generate(self, goal: str, previous_code: Optional[str] = None, feedback: Optional[str] = None, wait_completion: bool = True, deck_path: Optional[str] = None, deck_contents: Optional[str] = None) -> str:
         """Calls Jules to generate a Python play function."""
-        task_prompt = get_task_prompt(goal, previous_code, feedback)
+        task_prompt = get_task_prompt(goal, previous_code, feedback, deck_path, deck_contents)
         
-        full_prompt = f"{SYSTEM_PROMPT}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
+        system_prompt = get_system_prompt(deck_path)
+        full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
         # Create session
         session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")

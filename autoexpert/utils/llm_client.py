@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import subprocess
 from typing import Dict, Any, Optional, List
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
@@ -38,12 +39,19 @@ class JulesClient:
         return response.json().get("sessions", [])
 
     def create_session(self, prompt: str, source_name: str, title: str = "AutoExpert Task") -> Dict[str, Any]:
+        try:
+            current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+            if not current_branch:
+                current_branch = "main"
+        except Exception:
+            current_branch = "main"
+
         data = {
             "prompt": prompt,
             "sourceContext": {
                 "source": source_name,
                 "githubRepoContext": {
-                    "startingBranch": "main"
+                    "startingBranch": current_branch
                 }
             },
             "title": title,

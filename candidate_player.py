@@ -44,9 +44,9 @@ GUST_LETHAL_SCORE = 150000 # Boost above all standard items to ensure we take pr
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
 SEARCH_SCORE = 82000 # Boosted slightly from 80000
-EVOLVE_SCORE = 75500 # Prioritize evolution over energy attach (75000)
+EVOLVE_SCORE = 79000 # Prioritize evolution over energy attach (even with stack bonuses)
 ATTACH_ENERGY_SCORE = 75000
-PLACE_BASIC_SCORE = 74000
+PLACE_BASIC_SCORE = 80000 # Boosted above EVOLVE and ATTACH_ENERGY
 ITEM_SCORE = 72000
 RED_CARD_SCORE = 60000
 RESEARCH_SCORE = 70000
@@ -985,6 +985,9 @@ def play(state, game):
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10
 
+
+
+
                     is_ko = False
                     if action["damage"] >= gs.opp_active.hp:
                         is_ko = True
@@ -1029,7 +1032,10 @@ def play(state, game):
                              action["score"] += 5000
 
                     if is_ko:
-                        action["score"] = LETHAL_KO_SCORE
+                        # Differentiate KO attacks by making cheaper attacks slightly higher priority
+                        # (so we don't overkill and waste energy/discards if a 1-energy attack works)
+                        energy_cost = len(gs.my_active.attacks[idx].get("cost", []))
+                        action["score"] = LETHAL_KO_SCORE + (10 - energy_cost) * 1000
                         action["is_ko"] = True
 
                         is_ex = "ex" in gs.opp_active.name.lower()
@@ -1143,6 +1149,9 @@ def play(state, game):
 
                 if threat_lethal:
                     action["score"] += 2000
+                    # If this evolution gets us OUT of lethal range, boost it more
+                    if evol_hp > opp_max_dmg and (gs.my_active and gs.my_active.hp <= opp_max_dmg):
+                        action["score"] += 15000
 
                     if target_pos == 0: # Evolving active
                         current_hp = gs.my_active.hp if gs.my_active else 0
@@ -1257,8 +1266,13 @@ def play(state, game):
                 if target:
                     if target.hp >= target.max_hp:
                         action["score"] -= 50000 # Don't heal full HP
-                    elif target.hp <= 60 or threat_lethal:
-                        action["score"] = POTION_CRITICAL_SCORE
+                    else:
+                        # Add a small bonus based on missing health to prioritize the most wounded
+                        missing_hp = target.max_hp - target.hp
+                        action["score"] += (missing_hp * 10)
+
+                        if target.hp <= 60 or threat_lethal:
+                            action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
                     # If it puts us out of lethal range
                     if threat_lethal and (target.hp + 20) > opp_max_dmg:
                          opp_points_needed = 3 - gs.opp_points
@@ -1296,6 +1310,18 @@ def play(state, game):
                      action["score"] += 5000
                  elif len(gs.my_hand) < 5:
                      action["score"] += 2000
+
+                 # If we have no unpowered pokemon to attach to, draw first!
+                 has_unpowered = False
+                 for b in gs.my_bench:
+                     if b.needs_energy():
+                         has_unpowered = True
+                 if gs.my_active and gs.my_active.needs_energy():
+                     has_unpowered = True
+
+                 if not has_unpowered:
+                     action["score"] += 5000 # Boost above Attach Energy (75000)
+
                  if risk_of_donk:
                      action["score"] = DONK_DRAW_SCORE
 
@@ -1628,6 +1654,11 @@ def play(state, game):
                              action["score"] += 5000
 
                     elif "hydreigon" in n_lower: # Dark Hoard
+                        # Infinite loop prevention: Check if we actually have Darkness energy in discard
+                        has_dark_discard = any(c == "Darkness" or "Energy" in c for c in gs.my_discard)
+                        if not has_dark_discard:
+                             action["score"] -= 100000
+
                         needs_dark = False
                         # Check active
                         if gs.my_active and "Darkness" in gs.my_active.energy_type and gs.my_active.needs_energy():
@@ -1801,7 +1832,25 @@ def play(state, game):
 
                     # Prioritize pokemon that already have energy, to finish powering them up!
                     # A pokemon with 2 energy should get its 3rd before a 0 energy gets its 1st.
-                    a["score"] += (target.energy_count * 500)
+                    # HOWEVER, if it's already fully powered for its best attack, don't hog energy!
+                    is_ready_to_attack = False
+                    if target.attacks:
+                        # Check if we can use the most expensive attack
+                        best_atk = target.attacks[-1]
+                        if can_use_attack(best_atk.get("cost", []), target.energy):
+                            is_ready_to_attack = True
+
+                    if not is_ready_to_attack:
+                        # Add a small stacking bonus to finish building, but don't let it beat SEARCH (82000)
+                        stack_bonus = min(2000, target.energy_count * 1000)
+                        a["score"] += stack_bonus
+                    else:
+                        # If fully powered, check if it needs energy to retreat
+                        retreat_cost = target.retreat_cost
+                        if target.energy_count < retreat_cost:
+                            a["score"] -= 1000 # Small penalty, it might need to retreat later
+                        else:
+                            a["score"] -= 5000 # Heavy penalty, it has enough to attack AND retreat
 
                     if "ex" in target.name.lower():
                         a["score"] += 1000
@@ -1886,9 +1935,9 @@ def play(state, game):
                      stage2 = EVOLUTION_MAP[evolved]
                      if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
-            if len(gs.my_bench) >= 2:
+            if len(gs.my_bench) >= 1:
                 if not is_useful:
-                    a["score"] -= 10000 # Increase penalty for junk on full bench
+                    a["score"] -= 10000 # Increase penalty for junk to save precious bench space
 
             if is_useful:
                 a["score"] += CARRY_BONUS
@@ -1978,20 +2027,27 @@ def play(state, game):
                 a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
             elif gs.opp_hand_count == 4:
                 a["score"] = 72500 # Beat Research (70k) so we play it before discarding our hand
-            elif gs.opp_hand_count < 3:
-                a["score"] -= 20000
+            elif gs.opp_hand_count <= 3:
+                # NEVER play Red Card if they have 3 or fewer cards! You are just unbricking their hand!
+                a["score"] = -50000
             else:
-                a["score"] -= 2000
+                a["score"] -= 50000
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass
         elif a["type"] == "gust":
             if can_win_on_bench:
                 a["score"] = LETHAL_WIN_SCORE
-            elif has_lethal_on_board:
-                a["score"] -= 50000
             elif can_ko_on_bench:
-                a["score"] = GUST_LETHAL_SCORE
+                # If we can KO a bench EX, but active is NOT an EX, GUST IT!
+                # Even if we have lethal on the active, 2 prizes is better than 1.
+                is_active_ex = gs.opp_active and "ex" in gs.opp_active.name.lower()
+                if best_bench_ko_value == 2 and not is_active_ex:
+                    a["score"] = GUST_LETHAL_SCORE + 10000 # OVERRIDE has_lethal_on_board
+                elif has_lethal_on_board:
+                    a["score"] -= 50000
+                else:
+                    a["score"] = GUST_LETHAL_SCORE
             elif threat_lethal:
                  # Defensive Gust: Find safe target
                  safe_target_found = False
@@ -2130,7 +2186,16 @@ def play(state, game):
                 if r["type"] == "retreat" and r["score"] > best_retreat:
                     best_retreat = r["score"]
 
-            if best_retreat > 0:
+            # STATUS CURE LOGIC: If we are asleep or paralyzed, manual retreat is illegal, so best_retreat will be negative.
+            # But Switch CURES these conditions! (X Speed does not).
+            is_status_locked = False
+            if gs.my_active and gs.my_active.status:
+                if any(x in str(s).lower() for s in gs.my_active.status for x in ["sleep", "asleep", "paralyz"]):
+                    is_status_locked = True
+
+            if is_switch and is_status_locked:
+                a["score"] = 85000 # Play it immediately to wake up/cure paralysis!
+            elif best_retreat > 0:
                  # Prioritize Switch/X Speed over manual retreat to save energy
                  # X Speed attaches tool, Switch uses item. Both good.
                  # Add back the manual retreat cost penalty, and then some, because these items save energy!

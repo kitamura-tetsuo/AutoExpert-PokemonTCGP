@@ -23,8 +23,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Battle between Current Expert and Past Expert.")
     parser.add_argument("--past_dir", type=str, default="past_repo", help="Path to the past repository.")
     parser.add_argument("--repo_url", type=str, default="https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP", help="URL of the past repository to clone.")
-    parser.add_argument("--deck_a", type=str, default="mewtwoex.txt", help="Path to deck 1 file.")
-    parser.add_argument("--deck_b", type=str, default="mewtwoex.txt", help="Path to deck 2 file.")
+    parser.add_argument("--deck_a", type=str, help="Path to deck 1 file.")
+    parser.add_argument("--deck_b", type=str, help="Path to deck 2 file.")
     parser.add_argument("--output", type=str, default="vs_past_battle.html", help="Path to output HTML file.")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()), help="Random seed.")
     parser.add_argument("--num_matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
@@ -33,46 +33,59 @@ def parse_args():
     parser.add_argument("--league_decks_teacher", type=str, default="train_data/teacher.csv", help="CSV file for teacher league decks")
     return parser.parse_args()
 
-def ensure_past_repo(past_dir: str, repo_url: str):
-    path = Path(past_dir)
-    if not path.exists():
-        logging.info(f"Past repository not found at {past_dir}. Downloading from {repo_url}...")
-        import subprocess
-        import shutil
-        try:
-            # zip_url is like https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP/archive/refs/heads/main.zip
-            zip_url = f"{repo_url.rstrip('/')}/archive/refs/heads/main.zip"
-            zip_path = Path("repo_temp.zip")
+def get_past_repo_path(base_dir: str, branch: str) -> Path:
+    return Path(f"{base_dir}_{branch.replace('/', '_')}")
+
+def ensure_past_repo(base_dir: str, repo_url: str, branch: str = "main") -> Path:
+    past_dir = get_past_repo_path(base_dir, branch)
+    if past_dir.exists():
+        logging.info(f"Using existing past repository at {past_dir}")
+        return past_dir
+        
+    logging.info(f"Past repository for branch '{branch}' not found at {past_dir}. Downloading from {repo_url}...")
+    import subprocess
+    import shutil
+    try:
+        zip_url = f"{repo_url.rstrip('/')}/archive/refs/heads/{branch}.zip"
+        zip_path = Path(f"repo_temp_{branch.replace('/', '_')}.zip")
+        
+        logging.info(f"Downloading ZIP from {zip_url}...")
+        res = subprocess.run(["curl", "-s", "-L", "-w", "%{http_code}", "-o", str(zip_path), zip_url], capture_output=True, text=True, check=True)
+        if res.stdout.strip() == "404":
+            if zip_path.exists():
+                zip_path.unlink()
+            raise Exception(f"Branch {branch} not found (404)")
             
-            logging.info(f"Downloading ZIP from {zip_url}...")
-            subprocess.run(["curl", "-L", "-o", str(zip_path), zip_url], check=True)
-            
-            logging.info("Extracting ZIP...")
-            subprocess.run(["unzip", "-q", str(zip_path)], check=True)
-            
-            # The unzipped folder name is usually {repo_name}-{branch}
-            repo_name = repo_url.rstrip("/").split("/")[-1]
-            # Try main branch first
-            unzipped_dirs = list(Path(".").glob(f"{repo_name}-*"))
+        logging.info("Extracting ZIP...")
+        subprocess.run(["unzip", "-q", str(zip_path)], check=True)
+        
+        repo_name = repo_url.rstrip("/").split("/")[-1]
+        unzipped_dirs = list(Path(".").glob(f"{repo_name}-{branch.replace('/', '-')}*"))
+        if not unzipped_dirs:
+            unzipped_dirs = list(Path(".").glob(f"*-{branch.replace('/', '-')}*"))
             if not unzipped_dirs:
-                raise Exception(f"Could not find unzipped directory starting with {repo_name}-")
-            
-            unzipped_dir = unzipped_dirs[0]
-            unzipped_dir.rename(past_dir)
+                raise Exception(f"Could not find unzipped directory for branch {branch}")
+        
+        unzipped_dir = unzipped_dirs[0]
+        unzipped_dir.rename(past_dir)
+        if zip_path.exists():
             zip_path.unlink()
-            logging.info("Download and extraction successful.")
-        except Exception as e:
-            logging.error(f"Failed to download repository: {e}")
-            # Fallback to depth 1 clone if download fails
+        logging.info(f"Download and extraction successful for branch {branch}.")
+        return past_dir
+    except Exception as e:
+        logging.error(f"Failed to download repository for branch {branch}: {e}")
+        if branch != "main":
+            logging.info("Falling back to main branch...")
+            return ensure_past_repo(base_dir, repo_url, "main")
+        else:
             logging.info("Falling back to shallow clone...")
             try:
-                subprocess.run(["git", "clone", "--depth", "1", repo_url, past_dir], check=True)
+                subprocess.run(["git", "clone", "--depth", "1", "-b", branch, repo_url, str(past_dir)], check=True)
                 logging.info("Shallow clone successful.")
+                return past_dir
             except subprocess.CalledProcessError as e2:
                 logging.error(f"Failed to clone repository: {e2}")
                 sys.exit(1)
-    else:
-        logging.info(f"Using existing past repository at {past_dir}")
 
 def get_play_func(skill_data: Optional[Dict[str, Any]]):
     if not skill_data:
@@ -94,6 +107,48 @@ def get_play_func(skill_data: Optional[Dict[str, Any]]):
         def play_func(state, game):
             return random.choice(game.legal_actions())
         return play_func
+
+past_funcs_cache = {}
+
+def get_past_func_for_branch(base_dir: str, repo_url: str, branch: str):
+    if branch in past_funcs_cache:
+        return past_funcs_cache[branch]
+
+    past_dir = ensure_past_repo(base_dir, repo_url, branch)
+    
+    past_candidate_path = past_dir / "candidate_player.py"
+    past_best_func = None
+
+    if past_candidate_path.exists():
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location(f"past_candidate_player_{branch.replace('/', '_')}", str(past_candidate_path))
+            past_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(past_module)
+            past_best_func = past_module.play
+            logging.info(f"Using candidate_player.play from branch {branch} for Player 1.")
+        except Exception as e:
+            logging.error(f"Error loading past candidate player for branch {branch}: {e}")
+
+    if not past_best_func:
+        past_skill_dir = past_dir / "skill_library"
+        if past_skill_dir.exists():
+            past_library = SkillLibrary(directory=past_skill_dir)
+            past_best = past_library.get_best_skill()
+            if past_best:
+                logging.info(f"Past Best Skill from library ({branch}): {past_best['name']} (Win Rate: {past_best.get('win_rate', 0):.2%})")
+                past_best_func = get_play_func(past_best)
+            else:
+                logging.info(f"Past Library ({past_skill_dir}) is empty.")
+        else:
+            logging.info(f"Past Library ({past_skill_dir}) not found.")
+
+    if not past_best_func:
+        logging.info(f"Using random strategy for Player 1 (branch {branch}).")
+        past_best_func = get_play_func(None)
+
+    past_funcs_cache[branch] = past_best_func
+    return past_best_func
 
 def run_match(game, play_funcs, record_history=False):
     history = []
@@ -171,8 +226,22 @@ def load_league_decks(csv_path: str):
 def main():
     args = parse_args()
     
-    # Ensure past repository exists
-    ensure_past_repo(args.past_dir, args.repo_url)
+    # Check if deck_a exists
+    deck_a_resolved = False
+    if args.deck_a:
+        for base in [Path("."), settings.DECK_DIR, Path("train_data")]:
+            if (base / args.deck_a).exists():
+                deck_a_resolved = True
+                break
+
+    if deck_a_resolved:
+        logging.info(f"deck_a ({args.deck_a}) exists. Ignoring league_decks_student.")
+        student_decks, student_weights = None, None
+    else:
+        logging.info(f"deck_a ({args.deck_a}) does not exist. Using league_decks_student.")
+        student_decks, student_weights = load_league_decks(args.league_decks_student)
+
+    teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
     
     # 1. Load Current Best Skill (Use candidate_player directly)
     try:
@@ -186,46 +255,8 @@ def main():
         def current_best_func(state, game):
             return random.choice(game.legal_actions())
 
-    # 2. Load Past Best Skill
-    past_candidate_path = Path(args.past_dir) / "candidate_player.py"
-    past_best_func = None
+    # Past best func will be loaded dynamically per match based on deck
 
-    if past_candidate_path.exists():
-        try:
-            import importlib.util
-            spec = importlib.util.spec_from_file_location("past_candidate_player", str(past_candidate_path))
-            past_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(past_module)
-            past_best_func = past_module.play
-            logging.info(f"Using candidate_player.play from {args.past_dir} for Player 1.")
-        except Exception as e:
-            logging.error(f"Error loading past candidate player: {e}")
-
-    if not past_best_func:
-        past_skill_dir = Path(args.past_dir) / "skill_library"
-        if past_skill_dir.exists():
-            past_library = SkillLibrary(directory=past_skill_dir)
-            past_best = past_library.get_best_skill()
-            if past_best:
-                logging.info(f"Past Best Skill from library: {past_best['name']} (Win Rate: {past_best['win_rate']:.2%})")
-                past_best_func = get_play_func(past_best)
-            else:
-                logging.info(f"Past Library ({past_skill_dir}) is empty.")
-        else:
-            logging.info(f"Past Library ({past_skill_dir}) not found.")
-
-    if not past_best_func:
-        logging.info("Using random strategy for Player 1.")
-        past_best_func = get_play_func(None)
-
-    play_funcs = [
-        current_best_func,
-        past_best_func
-    ]
-
-    # Handle League Decks
-    student_decks, student_weights = load_league_decks(args.league_decks_student)
-    teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
 
     # Silence player logs during bulk matches to prevent CI timeout/log overflow
     logging.getLogger("player").setLevel(logging.WARNING)
@@ -268,6 +299,15 @@ def main():
 
         deck_a_path = str(deck_a_path)
         deck_b_path = str(deck_b_path)
+
+        # Get past func for deck_b branch
+        branch_name = Path(deck_b).stem  # Removes .txt and gets filename only
+        past_best_func = get_past_func_for_branch(args.past_dir, args.repo_url, branch_name)
+
+        play_funcs = [
+            current_best_func,
+            past_best_func
+        ]
 
         logging.info(f"Starting Match {i+1}/{args.num_matches} (Seed: {seed})")
         logging.info(f"Decks: P0: {deck_a} vs P1: {deck_b}")

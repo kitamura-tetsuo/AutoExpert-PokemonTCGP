@@ -1,5 +1,11 @@
-def get_system_prompt(deck_path=None):
+def get_system_prompt(deck_path=None, opponent_deck_path=None):
     cmd_suffix = f" --deck-a {deck_path}" if deck_path else ""
+    if opponent_deck_path:
+        cmd_suffix += f" --deck-b {opponent_deck_path}"
+    
+    target_win_rate = "51%"
+    target_matches = "1000"
+    
     return f"""
 Read AGENTS.md for the overall agent architecture.
 You are an expert Pokemon TCG Pocket player and a Python programmer.
@@ -30,21 +36,25 @@ Actions usually look like:
 Requirements:
 1. The function MUST return a valid integer action ID from `game.legal_actions()`.
 2. Keep the logic efficient.
-3. Your ultimate goal is to achieve a win rate of at least 51% over at least 1000 matches against the past version of yourself using the following command:
-   `python main.py vs-past --matches 1000{cmd_suffix}`
+3. Your ultimate goal is to achieve a win rate of at least {target_win_rate} over at least {target_matches} matches against the version of the opponent using the following command:
+   `python main.py vs-past --matches {target_matches}{cmd_suffix}`
 4. If you want to analyze a specific match in detail (e.g., to debug an error or see why you lost), use the following command:
    `python main.py vs-past-detail --deck-a [FAILING_DECK] --deck-b [OPPONENT_DECK] --seed [FAIL_SEED]`
 
 You can change this prompt if you think it is useful.
 """
 
-def get_task_prompt(goal, previous_code=None, feedback=None, deck_path=None, deck_contents=None):
+def get_task_prompt(goal, previous_code=None, feedback=None, deck_path=None, deck_contents=None, opponent_deck_path=None, opponent_deck_contents=None):
     prompt = f"""
 GOAL: {goal}
 """
     if deck_path and deck_contents:
         prompt += f"\nTARGET DECK ({deck_path}):\n```\n{deck_contents}\n```\n"
-        prompt += "Please take a strategy specifically tuned to win with this deck.\n"
+        if opponent_deck_path and opponent_deck_contents:
+            prompt += f"\nOPPONENT DECK ({opponent_deck_path}):\n```\n{opponent_deck_contents}\n```\n"
+            prompt += f"Please take a strategy specifically tuned to win with {deck_path} against {opponent_deck_path}.\n"
+        else:
+            prompt += "Please take a strategy specifically tuned to win with this deck.\n"
 
     if previous_code:
         prompt += f"\nPREVIOUS CODE:\n```python\n{previous_code}\n```"

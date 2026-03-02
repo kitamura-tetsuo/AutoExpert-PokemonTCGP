@@ -7,6 +7,7 @@ on:
 
 jobs:
   vs-past-deck-check:
+    if: "!startsWith(github.head_ref, 'student_vs_teacher/')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

@@ -31,6 +31,24 @@ if not CARD_DB_FULL and CARD_DB:
         else:
             CARD_DB_FULL[k] = [v]
 
+# Inject missing DB entries for B2/B2a specific to this deck
+if "greavard" not in CARD_DB_FULL:
+    CARD_DB_FULL["greavard"] = [{
+        "name": "Greavard", "hp": 70, "energy_type": "Psychic", "retreat": 2,
+        "attacks": [{"cost": ["Psychic"], "dmg": 30, "text": "Discard a card from your hand. If you can't, this attack does nothing."}],
+        "ability": None
+    }]
+if "houndstone" not in CARD_DB_FULL:
+    CARD_DB_FULL["houndstone"] = [{
+        "name": "Houndstone", "hp": 130, "energy_type": "Psychic", "retreat": 3,
+        "attacks": [{"cost": ["Psychic", "Colorless"], "dmg": 50, "text": "This attack does 20 more damage for each [P] Pokémon in your discard pile."}],
+        "ability": None
+    }]
+if "peculiar plaza" not in CARD_DB_FULL:
+    CARD_DB_FULL["peculiar plaza"] = [{
+        "name": "Peculiar Plaza", "hp": 0, "energy_type": "None", "retreat": 0, "attacks": [], "ability": None
+    }]
+
 # --- Constants ---
 LETHAL_WIN_SCORE = 1000000
 DONK_PREVENTION_SCORE = 700000 # Prioritize placing basic immediately (higher than Aggressive Defense)
@@ -140,7 +158,10 @@ EVOLUTION_MAP = {
     "staryu": "starmie",
     "magikarp": "gyarados",
     "omanyte": "omastar",
-    "kabuto": "kabutops"
+    "kabuto": "kabutops",
+    "greavard": "houndstone",
+    "yamask": "cofagrigus",
+    "morelull": "shiinotic"
 }
 
 BIRDS = [
@@ -268,6 +289,7 @@ class Card:
     def is_useful(self):
         if self.is_ex or self.is_carry: return True
         n = self.name.lower()
+        if n in ["greavard", "houndstone", "yamask", "cofagrigus", "shiinotic", "morelull"]: return True
         if n in EVOLUTION_MAP:
             evolved = EVOLUTION_MAP[n]
             if evolved in CARRY_LIST or "ex" in evolved: return True
@@ -521,6 +543,20 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                 damage += bonus
 
     # 4. Specific Card Overrides (Fallback)
+    if "houndstone" in name_lower and attack_idx == 0:
+        # Damage is dynamically calculated in C++ backend now, but EV scoring needs to know.
+        try:
+             discard_pile = state.state.get_discard_pile(state.me)
+             psychic_pokemon_count = 0
+             for card_name in discard_pile:
+                 card_name_clean = Card._clean_name(card_name)
+                 c_lower = card_name_clean.lower()
+                 if c_lower in ["greavard", "houndstone", "yamask", "cofagrigus", "comfey", "klefki", "gothita", "gothorita", "gothitelle", "ralts", "kirlia", "gardevoir", "morelull", "shiinotic"]:
+                     psychic_pokemon_count += 1
+             damage = 50 + (20 * psychic_pokemon_count)
+        except Exception:
+             damage = 50
+
     if "pikachu ex" in name_lower and attack_idx == 0 and damage < 30:
          count = 0
          for b in state.my_bench:
@@ -1011,7 +1047,22 @@ def play(state, game):
                          if fire_needs > 0:
                              action["score"] = INFERNO_DANCE_SCORE + (fire_needs * 5000)
 
-                    if action["damage"] == 0:
+                    # Cofagrigus logic - if we have fodder, Soul Shot is amazing
+                    if "cofagrigus" in gs.my_active.name.lower() and idx == 0:
+                        if len(gs.my_hand) >= 2:
+                            if is_ko:
+                                action["score"] += 50000
+                            else:
+                                action["score"] += 20000
+                        else:
+                            action["score"] = -100000
+
+                    # Houndstone logic - Last Respects can do massive damage
+                    if "houndstone" in gs.my_active.name.lower() and idx == 0:
+                        if is_ko:
+                            action["score"] += 50000
+
+                    if action["damage"] == 0 and idx < len(gs.my_active.attacks):
                          atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
                          if "deck" in atk_text and "bench" in atk_text:
                               if len(gs.my_bench) < 3:
@@ -1088,9 +1139,18 @@ def play(state, game):
                      # Score is already decent (ATTACK_BASE_SCORE), but ensure it doesn't override Place Basic.
                      pass
 
-        elif "AttachEnergy" in aname:
+        elif "AttachEnergy" in aname or "Attach" in aname and "Energy" not in aname and "Tool" not in aname and "Energy" not in aname:
             m = re.search(r"AttachEnergy\((\d+), (.*?)\)", aname)
-            if m:
+            if not m:
+                m = re.search(r"Attach\((.*?), (\d+)\)", aname)
+                if m:
+                     obj = m.group(1)
+                     if obj in ["Lightning", "Water", "Fire", "Grass", "Fighting", "Psychic", "Darkness", "Metal"]:
+                         action["type"] = "attach_energy"
+                         action["pos"] = int(m.group(2))
+                         action["energy_type"] = obj
+                         action["score"] = ATTACH_ENERGY_SCORE
+            if m and action["type"] != "attach_energy":
                 action["type"] = "attach_energy"
                 action["pos"] = int(m.group(1))
                 action["energy_type"] = m.group(2)
@@ -1220,17 +1280,26 @@ def play(state, game):
                         stage2 = EVOLUTION_MAP[evolved]
                         if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
-                if is_useful:
-                    action["score"] = -50000 # Keep good cards
+                is_psychic_pokemon = n_lower in ["greavard", "houndstone", "yamask", "cofagrigus", "comfey", "klefki", "morelull", "shiinotic"]
+
+                if is_psychic_pokemon:
+                    if n_lower in ["comfey", "klefki", "yamask", "morelull"]:
+                        action["score"] = 60000
+                    elif n_lower in ["cofagrigus", "shiinotic"]:
+                        action["score"] = 55000
+                    else:
+                        action["score"] = 40000
+                elif not is_useful:
+                    action["score"] = 50000
                 else:
-                    action["score"] = 50000 # Discard bad cards
+                    action["score"] = 10000
             else:
                  action["score"] = 0
 
-        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
+        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname or "Use" in aname:
             # Extract card name if possible
             card_name_lower = ""
-            m_card = re.search(r"(?:Play|UseItem|UseSupporter)\((?:Some\()?(.*?)\)?\)", aname)
+            m_card = re.search(r"(?:Play|UseItem|UseSupporter|Use)\((?:Some\()?(.*?)\)?\)", aname)
             if m_card:
                 raw_name = m_card.group(1) # Keep case for cleaning
                 # Clean up if needed
@@ -1562,6 +1631,9 @@ def play(state, game):
                     elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower: # Draw
                         action["score"] += 3000
 
+                    elif "shiinotic" in n_lower: # Illuminate
+                        action["score"] += 85000
+
                     elif "greninja" in n_lower: # Water Shuriken
                         action["score"] += 1000
                         # Check for bench sniping lethal
@@ -1863,14 +1935,18 @@ def play(state, game):
             has_energy = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names_lower)
             has_gardevoir_line = any("gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
 
+            psychic_fodder_count = sum(1 for n in hand_names_lower if n in ["greavard", "houndstone", "yamask", "cofagrigus", "comfey", "klefki", "morelull", "shiinotic"])
+
             # Check if we have any basic pokemon to play
             has_basic_to_play = any(x["type"] == "place" for x in actions)
+
+            if psychic_fodder_count >= 2:
+                 a["score"] += (psychic_fodder_count * 5000)
 
             if has_energy:
                  if has_gardevoir_line:
                      a["score"] += 1000 # Good to discard for Psy Shadow
-                 else:
-                     # Only penalize if we have a bench. If Donk risk, ignore penalty.
+                 elif psychic_fodder_count == 0:
                      if not risk_of_donk:
                          a["score"] -= 10000 # Bad to discard
 

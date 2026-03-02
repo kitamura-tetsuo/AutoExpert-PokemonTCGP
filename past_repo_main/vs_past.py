@@ -41,31 +41,31 @@ def ensure_past_repo(base_dir: str, repo_url: str, branch: str = "main") -> Path
     if past_dir.exists():
         logging.info(f"Using existing past repository at {past_dir}")
         return past_dir
-        
+
     logging.info(f"Past repository for branch '{branch}' not found at {past_dir}. Downloading from {repo_url}...")
     import subprocess
     import shutil
     try:
         zip_url = f"{repo_url.rstrip('/')}/archive/refs/heads/{branch}.zip"
         zip_path = Path(f"repo_temp_{branch.replace('/', '_')}.zip")
-        
+
         logging.info(f"Downloading ZIP from {zip_url}...")
         res = subprocess.run(["curl", "-s", "-L", "-w", "%{http_code}", "-o", str(zip_path), zip_url], capture_output=True, text=True, check=True)
         if res.stdout.strip() == "404":
             if zip_path.exists():
                 zip_path.unlink()
             raise Exception(f"Branch {branch} not found (404)")
-            
+
         logging.info("Extracting ZIP...")
         subprocess.run(["unzip", "-q", str(zip_path)], check=True)
-        
+
         repo_name = repo_url.rstrip("/").split("/")[-1]
         unzipped_dirs = list(Path(".").glob(f"{repo_name}-{branch.replace('/', '-')}*"))
         if not unzipped_dirs:
             unzipped_dirs = list(Path(".").glob(f"*-{branch.replace('/', '-')}*"))
             if not unzipped_dirs:
                 raise Exception(f"Could not find unzipped directory for branch {branch}")
-        
+
         unzipped_dir = unzipped_dirs[0]
         unzipped_dir.rename(past_dir)
         if zip_path.exists():
@@ -93,7 +93,7 @@ def get_play_func(skill_data: Optional[Dict[str, Any]]):
         def play_func(state, game):
             return random.choice(game.legal_actions())
         return play_func
-    
+
     code = skill_data["code"]
     namespace = {"deckgym": deckgym}
     try:
@@ -115,7 +115,7 @@ def get_past_func_for_branch(base_dir: str, repo_url: str, branch: str):
         return past_funcs_cache[branch]
 
     past_dir = ensure_past_repo(base_dir, repo_url, branch)
-    
+
     past_candidate_path = past_dir / "candidate_player.py"
     past_best_func = None
 
@@ -154,49 +154,38 @@ def run_match(game, play_funcs, record_history=False):
     history = []
     max_steps = 300
     step_count = 0
-    
+
     while not game.get_state().is_game_over() and step_count < max_steps:
         state = game.get_state()
         current_player = state.current_player
-        
+
         if record_history:
             info = extract_state_info(state)
             info["acting_player"] = current_player
-        
+
         # Get action from the corresponding player's play_func
         try:
             action_id = play_funcs[current_player](state, game)
             action_name = game.action_name(action_id)
-        except BaseException as e:
+        except Exception as e:
             logging.error(f"Error during play_func: {e}")
-            # Try to get legal actions to fall back, but if legal_actions itself panics, we must catch it
-            try:
-                 action_id = random.choice(game.legal_actions())
-                 action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
-            except BaseException as e_inner:
-                 logging.error(f"Error getting legal_actions during fallback: {e_inner}")
-                 # Force a tie outcome if we can't even get legal actions
-                 return -1, history, step_count
-            
+            action_id = random.choice(game.legal_actions())
+            action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
+
         if record_history:
             info["action_name"] = action_name
             history.append(info)
-        
-        try:
-            game.step_with_id(action_id)
-        except BaseException as e:
-            logging.error(f"Simulator panic during step_with_id: {e}")
-            return -1, history, step_count
 
+        game.step_with_id(action_id)
         step_count += 1
-        
+
     final_state = game.get_state()
     if record_history:
         final_info = extract_state_info(final_state)
         final_info["acting_player"] = final_state.current_player
         final_info["action_name"] = "Game Over"
         history.append(final_info)
-    
+
     # winner is a PyGameOutcome or similar
     winner_val = -1
     outcome = final_state.winner
@@ -207,17 +196,17 @@ def run_match(game, play_funcs, record_history=False):
         match = re.search(r"Win\((\d+)\)", str(outcome))
         if match:
             winner_val = int(match.group(1))
-            
+
     return winner_val, history, step_count
 
 def load_league_decks(csv_path: str):
     if not csv_path:
         return None, None
-    
+
     import csv
     decks = []
     weights = []
-    
+
     try:
         with open(csv_path, mode='r', encoding='utf-8') as f:
             reader = csv.DictReader(f)
@@ -231,12 +220,12 @@ def load_league_decks(csv_path: str):
     except Exception as e:
         logging.error(f"Error loading league decks from {csv_path}: {e}")
         return None, None
-        
+
     return decks, weights
 
 def main():
     args = parse_args()
-    
+
     # Check if deck_a exists
     deck_a_resolved = False
     if args.deck_a:
@@ -253,7 +242,7 @@ def main():
         student_decks, student_weights = load_league_decks(args.league_decks_student)
 
     teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
-    
+
     # 1. Load Current Best Skill (Use candidate_player directly)
     try:
         import candidate_player
@@ -275,22 +264,22 @@ def main():
 
     wins = [0, 0]
     last_history = []
-    
+
     draws = 0
     longest_loss = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
     shortest_loss = {"steps": float('inf'), "seed": None, "deck_a": None, "deck_b": None}
     longest_draw = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
-    
+
     for i in range(args.num_matches):
         seed = args.seed + i
         random.seed(seed)
-        
+
         # Select decks
         if student_decks and student_weights:
             deck_a = random.choices(student_decks, weights=student_weights, k=1)[0]
         else:
             deck_a = args.deck_a
-            
+
         if teacher_decks and teacher_weights:
             deck_b = random.choices(teacher_decks, weights=teacher_weights, k=1)[0]
         else:
@@ -301,7 +290,7 @@ def main():
             deck_a_path = settings.DECK_DIR / deck_a
         if not deck_a_path.exists():
             deck_a_path = Path("train_data") / deck_a
-            
+
         deck_b_path = Path(deck_b)
         if not deck_b_path.exists():
             deck_b_path = settings.DECK_DIR / deck_b
@@ -322,18 +311,18 @@ def main():
 
         logging.info(f"Starting Match {i+1}/{args.num_matches} (Seed: {seed})")
         logging.info(f"Decks: P0: {deck_a} vs P1: {deck_b}")
-        
+
         try:
             game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
             winner, history, steps = run_match(game, play_funcs, record_history=(i == args.num_matches - 1))
         except Exception as e:
             logging.error(f"Failed to start match: {e}")
             continue
-        
+
         if winner is not None and winner != -1:
             wins[winner] += 1
             logging.info(f"Match {i+1} Winner: Player {winner} ({'Current' if winner == 0 else 'Past'}) in {steps} steps")
-            
+
             # Track loss (Player 1 won)
             if winner == 1:
                 if steps > longest_loss["steps"]:
@@ -345,7 +334,7 @@ def main():
             logging.info(f"Match {i+1} ended in a draw/limit after {steps} steps.")
             if steps > longest_draw["steps"]:
                 longest_draw = {"steps": steps, "seed": seed, "deck_a": deck_a, "deck_b": deck_b}
-            
+
         if i == args.num_matches - 1:
             last_history = history
 
@@ -372,23 +361,18 @@ def main():
         print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
-    try:
-        generate_html(last_history, args.output, "last_seed")
-        print(f"\nLast match visualization saved to: {args.output}")
-    except TypeError:
-        # Fallback if signature doesn't require seed (e.g. from different past_repo branch)
-        generate_html(last_history, args.output)
-        print(f"\nLast match visualization saved to: {args.output}")
+    generate_html(last_history, args.output)
+    print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic
     if args.num_matches < 1000:
         logging.error(f"Number of matches ({args.num_matches}) is less than 1000. Failing CI.")
         sys.exit(1)
-    
+
     if win_rate < args.threshold:
         logging.error(f"Win rate ({win_rate:.2%}) is below threshold ({args.threshold:.2%}). Failing CI.")
         sys.exit(1)
-    
+
     logging.info("CI check passed.")
 
 if __name__ == "__main__":

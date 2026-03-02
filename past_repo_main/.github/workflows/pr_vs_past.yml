@@ -1,0 +1,38 @@
+name: PR Win Rate Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  vs-past-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv pip install -e ./deckgym-core
+
+      - name: Run VS Past Check
+        run: |
+          uv run python main.py vs-past --past-dir past_repo --deck-a train_data/${{ github.head_ref || github.ref_name }}.txt --matches 1000 --league-student train_data/teacher.csv --league-teacher train_data/teacher.csv

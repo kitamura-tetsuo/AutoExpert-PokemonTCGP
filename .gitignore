@@ -4,6 +4,7 @@
 **/*.pyc
 **/*.html
 
+past_repo_main/*
 past_repo/*
 expert_battle.html
 player.log

@@ -987,17 +987,12 @@ def play(state, game):
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
                 action["score"] = ATTACK_BASE_SCORE + (effective_damage * 100)
 
-                # Heavily penalize attacks that do 0 damage and don't have setup effects
-                if effective_damage == 0:
-                     action["score"] -= 200000 # Increased penalty to make sure we don't accidentally attack with 0 dmg
-
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10
 
                     is_ko = False
                     if action["damage"] >= gs.opp_active.hp:
                         is_ko = True
-                        action["score"] += 50000
 
                     can_be_lethal_with_giovanni = False
                     if not is_ko and has_giovanni and dmg_with_giovanni >= gs.opp_active.hp:
@@ -1020,21 +1015,17 @@ def play(state, game):
                          atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
                          if "deck" in atk_text and "bench" in atk_text:
                               if len(gs.my_bench) < 3:
-                                   action["score"] += 205000 # Offset penalty
+                                   action["score"] += 5000
 
                          # Energy Absorption / Acceleration
                          if "attach" in atk_text and ("discard" in atk_text or "deck" in atk_text or "hand" in atk_text):
                               # Basic score boost
-                              action["score"] += 205000 # Offset penalty
+                              action["score"] += 5000
                               # Contextual boost
                               if gs.my_active.energy_count < 2:
                                    action["score"] += 8000
                               if "mewtwo ex" in gs.my_active.name.lower():
                                    action["score"] += 10000
-
-                         # Fix for "Mewtwo" attack: Give 0 dmg attack huge penalty if it has no text to avoid looping
-                         if not atk_text:
-                              action["score"] -= 500000
 
                     # Setup Kill Bonus (2HKO)
                     if not is_ko and gs.opp_active:
@@ -1043,25 +1034,15 @@ def play(state, game):
                              action["score"] += 5000
 
                     if is_ko:
-                        action["score"] = LETHAL_KO_SCORE + (effective_damage * 100) # Give higher score for bigger hit KOs
+                        action["score"] = LETHAL_KO_SCORE
                         action["is_ko"] = True
 
                         is_ex = "ex" in gs.opp_active.name.lower()
                         points_gained = 2 if is_ex else 1
 
-                        if is_ex:
-                             action["score"] += 10000
-
-                        # Massive boost to make absolutely sure we take the KO instead of passing or useless attaching
-                        action["score"] += 150000
-
                         if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
                             action["score"] = LETHAL_WIN_SCORE
                             action["is_lethal"] = True
-
-                        # Break infinite loops of waiting to attack by forcing any attack that is a KO
-                        if action["score"] < 500000:
-                            action["score"] = 500000
 
                     # If threatened, boost attack if it kills the threat
                     if threat_lethal and is_ko:
@@ -1114,25 +1095,6 @@ def play(state, game):
                 action["pos"] = int(m.group(1))
                 action["energy_type"] = m.group(2)
                 action["score"] = ATTACH_ENERGY_SCORE
-
-                # Check if it gives lethal
-                if action["pos"] == 0 and gs.my_active and gs.opp_active:
-                     is_lethal_attachment = False
-                     current_max_dmg = 0
-                     potential_max_dmg = 0
-                     new_energy = gs.my_active.energy + [action["energy_type"]]
-
-                     for i, atk in enumerate(gs.my_active.attacks):
-                         if can_use_attack(atk.get("cost", []), gs.my_active.energy):
-                             d = calculate_damage(gs.my_active, i, gs, extra_damage=10 if has_giovanni else 0)
-                             if d > current_max_dmg: current_max_dmg = d
-
-                         if can_use_attack(atk.get("cost", []), new_energy):
-                             d = calculate_damage(gs.my_active, i, gs, extra_damage=10 if has_giovanni else 0)
-                             if d > potential_max_dmg: potential_max_dmg = d
-
-                     if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
-                         action["score"] += 150000 # Make sure this overrides setup KOs
 
         elif "AttachTool" in aname:
              m = re.search(r"AttachTool\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
@@ -1585,40 +1547,17 @@ def play(state, game):
                     n_lower = target.name.lower()
                     if "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
-                             # Psy Shadow does NOT do damage in TCG Pocket, memory confirms it.
-                             action["score"] += 4000
-                             if gs.my_active.needs_energy():
-                                 action["score"] += 25000 # Boost significantly to fuel the engine (above retreat)
-
-                             # Stacking logic for Psy Shadow
-                             is_fully_powered = True
-                             for atk in gs.my_active.attacks:
-                                 if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
-                                     is_fully_powered = False
-                                     break
-
-                             if not is_fully_powered:
-                                 action["score"] += gs.my_active.energy_count * 5000
-
-                             # Guard against massive infinite loops in specific game situations:
-                             # Since TCG Pocket Gardevoir ability doesn't self-damage, it can be used infinitely if we are not careful.
-                             # BUT in actual physical games it can only be used once per turn per Gardevoir.
-                             # If we have fully powered Mewtwo, don't spam Psy Shadow just for points.
-                             if is_fully_powered:
-                                  action["score"] -= 50000
-
-                             # Add a massive boost if we can secure lethal with this extra energy!
-                             for atk in gs.my_active.attacks:
-                                 if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
-                                     new_energy = gs.my_active.energy + ["Psychic"]
-                                     if can_use_attack(atk.get("cost", []), new_energy):
-                                         # This ability makes the attack usable
-                                         action["score"] += 30000 # strong boost
-                                         if gs.opp_active:
-                                              idx = gs.my_active.attacks.index(atk)
-                                              dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
-                                              if dmg >= gs.opp_active.hp:
-                                                   action["score"] += 100000 # Secure lethal
+                            current_hp = gs.my_active.hp
+                            if current_hp > 20:
+                                new_hp = current_hp - 20
+                                if current_hp > opp_max_dmg and new_hp <= opp_max_dmg:
+                                    action["score"] -= 50000
+                                else:
+                                    action["score"] += 4000
+                                    if gs.my_active.needs_energy():
+                                        action["score"] += 2000 # Boost significantly
+                            else:
+                                action["score"] -= 100000
 
                     elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower: # Draw
                         action["score"] += 3000
@@ -1664,21 +1603,6 @@ def play(state, game):
                          elif gs.opp_active and gs.opp_active.energy_count <= 1:
                              action["score"] -= 10000
 
-        elif "Heal" in aname:
-            m = re.search(r"Heal\((\d+)\)", aname)
-            if m:
-                idx = int(m.group(1))
-                action["type"] = "heal_select"
-                action["score"] = 50000 # default
-                target = gs.my_active if idx == 0 else gs.get_bench_card(idx - 1)
-                if target:
-                     missing_hp = target.max_hp - target.hp
-                     action["score"] += missing_hp * 100
-                     if target.hp <= opp_max_dmg and (target.hp + 20) > opp_max_dmg:
-                         action["score"] += 30000 # Save from lethal
-                     if target.name.lower() in CARRY_LIST or "ex" in target.name.lower():
-                         action["score"] += 5000
-
         elif "ApplyDamage" in aname:
              # ApplyDamage(idx) usually from Greninja (20 dmg) or other selection effects
              m = re.search(r"ApplyDamage\((\d+)\)", aname)
@@ -1700,7 +1624,7 @@ def play(state, game):
 
                      # Lethal Logic (Guaranteed KO)
                      if target.hp <= 20:
-                         action["score"] = LETHAL_KO_SCORE + 150000
+                         action["score"] = LETHAL_KO_SCORE + 10000
                          is_ex = "ex" in target.name.lower()
                          if is_ex: action["score"] += 5000
                          points_gained = 2 if is_ex else 1

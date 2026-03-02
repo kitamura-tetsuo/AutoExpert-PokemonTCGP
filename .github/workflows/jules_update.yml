@@ -3,7 +3,7 @@ name: Jules Algorithm Update Task
 on:
   push:
     branches:
-      - main
+      - "**"
   workflow_dispatch:
 
 jobs:

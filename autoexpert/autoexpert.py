@@ -99,12 +99,20 @@ class AutoExpert:
                 previous_code = best_skill["code"]
             
             # Load deck contents for context
-            deck_contents = None
+            deck_a_contents = None
             try:
                 with open(self.deck_a, "r") as f:
-                    deck_contents = f.read()
+                    deck_a_contents = f.read()
             except Exception as e:
                 print(f"Warning: Failed to read deck file {self.deck_a}: {e}")
+
+            deck_b_contents = None
+            try:
+                if self.deck_b:
+                    with open(self.deck_b, "r") as f:
+                        deck_b_contents = f.read()
+            except Exception as e:
+                print(f"Warning: Failed to read deck file {self.deck_b}: {e}")
 
             for retry in range(settings.MAX_RETRIES_PER_GOAL):
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
@@ -114,7 +122,9 @@ class AutoExpert:
                     feedback, 
                     wait_completion=wait_completion,
                     deck_path=self.deck_a,
-                    deck_contents=deck_contents
+                    deck_contents=deck_a_contents,
+                    opponent_deck_path=self.deck_b,
+                    opponent_deck_contents=deck_b_contents
                 )
                 
                 if not wait_completion:

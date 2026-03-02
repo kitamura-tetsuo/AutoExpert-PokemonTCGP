@@ -49,18 +49,44 @@ def main():
     args = parser.parse_args()
     
     if args.command == "learn":
-        # Auto-detect deck based on branch name if default is used
+        # Auto-detect deck based on branch name
+        current_branch = ""
+        try:
+            current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+        except Exception:
+            pass
+
         deck_a_str = args.deck_a
-        if deck_a_str == "venusaur-exeggutor.txt":
-            try:
-                current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
-                if current_branch and current_branch != "main":
-                    branch_deck = Path(f"train_data/{current_branch}.txt")
-                    if branch_deck.exists():
-                        print(f"Detected deck for branch '{current_branch}': {branch_deck}")
-                        deck_a_str = str(branch_deck)
-            except Exception:
-                pass
+        deck_b_str = args.deck_b
+
+        if current_branch.startswith("student_vs_teacher/"):
+            # Format: student_vs_teacher/DeckA_vs_DeckB
+            decks_part = current_branch[len("student_vs_teacher/"):]
+            if "_vs_" in decks_part:
+                student, teacher = decks_part.split("_vs_", 1)
+                
+                # Ensure .txt suffix
+                if not student.endswith(".txt"): student += ".txt"
+                if not teacher.endswith(".txt") and not teacher.endswith(".csv"): teacher += ".txt"
+                
+                deck_a_str = f"train_data/{student}"
+                deck_b_str = f"train_data/{teacher}"
+                print(f"Specialized matchup detected from branch '{current_branch}':")
+                print(f"  Student: {deck_a_str}")
+                print(f"  Teacher: {deck_b_str}")
+            else:
+                # Fallback: use the branch name for student, and default teacher
+                student = decks_part
+                if not student.endswith(".txt"): student += ".txt"
+                deck_a_str = f"train_data/{student}"
+                print(f"Branch '{current_branch}' detected. Using student deck: {deck_a_str}")
+        elif deck_a_str == "venusaur-exeggutor.txt":
+            # Original auto-detection for simple branch decks
+            if current_branch and current_branch != "main":
+                branch_deck = Path(f"train_data/{current_branch}.txt")
+                if branch_deck.exists():
+                    print(f"Detected deck for branch '{current_branch}': {branch_deck}")
+                    deck_a_str = str(branch_deck)
 
         deck_a = Path(deck_a_str)
         if not deck_a.exists():

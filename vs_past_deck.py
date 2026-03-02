@@ -51,6 +51,8 @@ def parse_args():
                         help="Minimum win rate improvement (new - old) to pass CI (default: 0.01 = 1%%).")
     parser.add_argument("--league_decks_teacher", type=str, default="train_data/teacher.csv",
                         help="CSV file for teacher league decks.")
+    parser.add_argument("--deck_b", type=str, default=None,
+                        help="Path to a specific teacher deck file (optional, overrides league).")
     return parser.parse_args()
 
 
@@ -323,11 +325,16 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
 def main():
     args = parse_args()
 
-    # Load teacher league decks
-    teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
-    if not teacher_decks:
-        logging.error("Teacher league decks could not be loaded. Aborting.")
-        sys.exit(1)
+    # Load teacher league decks or specific deck
+    if args.deck_b:
+        teacher_decks = [args.deck_b]
+        teacher_weights = [1.0]
+        logging.info(f"Using specific teacher deck: {args.deck_b}")
+    else:
+        teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
+        if not teacher_decks:
+            logging.error("Teacher league decks could not be loaded. Aborting.")
+            sys.exit(1)
 
     # Load new AI
     try:

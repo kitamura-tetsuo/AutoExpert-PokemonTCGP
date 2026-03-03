@@ -260,7 +260,7 @@ def resolve_deck_path(deck: str) -> str:
     if train_data_path.exists():
         return str(train_data_path)
 
-    return str(deck_path) # Fallback to original if none found
+    return None # Return None if the deck doesn't exist
 
 
 # ---------------------------------------------------------------------------
@@ -359,6 +359,13 @@ def main():
 
     # Load old AI (1 commit before = past_repo_main worktree prepared by CI)
     old_func = load_past_func(args.past_dir, args.repo_url, branch="main")
+
+    # Validate the student deck exists
+    deck_a_path = resolve_deck_path(args.deck_a)
+    if not deck_a_path:
+        logging.warning(f"Student deck '{args.deck_a}' not found. Skipping deck-specialized evaluation.")
+        print(f"Student deck '{args.deck_a}' not found. Skipping deck-specialized evaluation.")
+        sys.exit(0) # Exit with 0 to gracefully pass CI on non-deck PRs
 
     # Silence per-step logs during bulk matches
     logging.getLogger("player").setLevel(logging.WARNING)

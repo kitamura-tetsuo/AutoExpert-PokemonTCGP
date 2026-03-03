@@ -194,7 +194,7 @@ def run_match(game, play_funcs, record_history=False):
         try:
             action_id = play_funcs[current_player](state, game)
             action_name = game.action_name(action_id)
-        except Exception as e:
+        except BaseException as e:
             logging.error(f"Error during play_func: {e}")
             action_id = random.choice(game.legal_actions())
             action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
@@ -249,11 +249,18 @@ def load_league_decks(csv_path: str):
 
 def resolve_deck_path(deck: str) -> str:
     deck_path = Path(deck)
-    if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck
-    if not deck_path.exists():
-        deck_path = Path("train_data") / deck
-    return str(deck_path)
+    if deck_path.exists():
+        return str(deck_path)
+
+    deck_dir_path = settings.DECK_DIR / deck
+    if deck_dir_path.exists():
+        return str(deck_dir_path)
+
+    train_data_path = Path("train_data") / deck
+    if train_data_path.exists():
+        return str(train_data_path)
+
+    return str(deck_path) # Fallback to original if none found
 
 
 # ---------------------------------------------------------------------------
@@ -275,6 +282,7 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
     draws = 0
     completed = 0
     last_history = []
+    last_seed = base_seed
 
     for i in range(num_matches):
         seed = base_seed + i
@@ -299,7 +307,7 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
 
             play_funcs = [play_func, make_teacher_func(rng)]
             winner, history, steps = run_match(game, play_funcs, record_history=record)
-        except Exception as e:
+        except BaseException as e:
             logging.error(f"[{label}] Match {i+1} failed: {e}")
             continue
 
@@ -311,11 +319,12 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
 
         if record:
             last_history = history
+            last_seed = seed
 
         if (i + 1) % 100 == 0:
             logging.warning(f"[{label}] {i+1}/{num_matches} done, wins={wins}")
 
-    return wins, draws, completed, last_history
+    return wins, draws, completed, last_history, last_seed
 
 
 # ---------------------------------------------------------------------------
@@ -358,13 +367,13 @@ def main():
     base_seed = args.seed
 
     # Run new AI series
-    new_wins, new_draws, new_total, new_last = run_league_series(
+    new_wins, new_draws, new_total, new_last, new_last_seed = run_league_series(
         new_func, args.deck_a, teacher_decks, teacher_weights,
         args.num_matches, base_seed, "NEW"
     )
 
     # Run old AI series (same seeds = same opponents)
-    old_wins, old_draws, old_total, old_last = run_league_series(
+    old_wins, old_draws, old_total, old_last, old_last_seed = run_league_series(
         old_func, args.deck_a, teacher_decks, teacher_weights,
         args.num_matches, base_seed, "OLD"
     )
@@ -384,7 +393,7 @@ def main():
     print(f"Improvement  : {improvement:+.2%}  (threshold: {args.threshold:+.2%})")
 
     # Generate HTML for the last match of the new AI
-    generate_html(new_last, args.output)
+    generate_html(new_last, args.output, new_last_seed)
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check

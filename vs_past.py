@@ -315,9 +315,10 @@ def main():
         try:
             game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
             winner, history, steps = run_match(game, play_funcs, record_history=(i == args.num_matches - 1))
-        except Exception as e:
-            logging.error(f"Failed to start match: {e}")
-            continue
+        except BaseException as e:
+            logging.error(f"Failed to run match (Panic or Error): {e}")
+            winner = -1
+            steps = 0
         
         if winner is not None and winner != -1:
             wins[winner] += 1
@@ -337,6 +338,7 @@ def main():
             
         if i == args.num_matches - 1:
             last_history = history
+            last_seed = seed
 
     total_matches = sum(wins) + draws
     win_rate = wins[0] / total_matches if total_matches > 0 else 0
@@ -361,7 +363,7 @@ def main():
         print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
-    generate_html(last_history, args.output)
+    generate_html(last_history, args.output, last_seed)
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic

@@ -71,7 +71,8 @@ CARRY_LIST = [
     "weezing", "arbok", "zapdos ex", "articuno ex", "moltres ex",
     "machamp ex", "gengar ex", "wigglytuff ex", "nidoqueen", "nidoking",
     "mega altaria ex", "greninja ex", "greninja", "mega kangaskhan ex",
-    "moltres ex", "zapdos ex", "articuno ex", "exeggutor ex", "arcanine ex"
+    "moltres ex", "zapdos ex", "articuno ex", "exeggutor ex", "arcanine ex",
+    "houndstone", "cofagrigus", "mismagius", "mismagius ex"
 ]
 
 WEAKNESS_MAP = {
@@ -116,6 +117,9 @@ EVOLUTION_MAP = {
     "clefairy": "clefable",
     "vulpix": "ninetales",
     "jigglypuff": "wigglytuff",
+    "greavard": "houndstone",
+    "yamask": "cofagrigus",
+    "misdreavus": "mismagius",
     "paras": "parasect",
     "venonat": "venomoth",
     "diglett": "dugtrio",
@@ -1221,9 +1225,27 @@ def play(state, game):
                         if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
                 if is_useful:
-                    action["score"] = -50000 # Keep good cards
+                    action["score"] = 20000 # Still assign positive score to guarantee discard when forced, but less than bad cards
                 else:
                     action["score"] = 50000 # Discard bad cards
+
+                # Try to avoid discarding Supporters and Items
+                if "research" in n_lower or "giovanni" in n_lower or "boss" in n_lower or "sabrina" in n_lower or "potion" in n_lower or "poke ball" in n_lower:
+                    action["score"] -= 10000
+
+                # Penalize discarding Pokemon that we only have one of in hand, unless we already have one on bench/active
+                hand_count = sum(1 for c in gs.my_hand if c.name.lower() == n_lower)
+                if hand_count == 1:
+                    action["score"] -= 5000
+                elif hand_count > 1:
+                    action["score"] += 10000 # Good to discard duplicates
+
+                # If the discard action is available but the base score for the best attack is super high (e.g. Cofagrigus 120 dmg)
+                # The DiscardOwnCard action might need a massive boost to be selected over doing nothing (EndTurn is -10000,
+                # but we MUST select a valid discard action to proceed with the attack).
+                # DiscardOwnCard actions are usually the ONLY actions available when an attack asks for discard,
+                # so ensuring they have > 0 score is usually enough, but let's make it robust.
+                action["score"] += 100000 # Ensure DiscardOwnCard is always picked over EndTurn (-10000) when prompted
             else:
                  action["score"] = 0
 

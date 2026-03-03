@@ -1,0 +1,18 @@
+
+--- Battle Results ---
+Current (P0) Wins: 5
+Past (P1) Wins: 55
+Draws: 40
+Current Win Rate: 5.00%
+
+--- Loss Analysis (P1 Victory) ---
+Longest Loss:  98 steps (Seed: 1772520720)
+  Decks: P0: train_data/b7162a87.txt vs P1: 28ea6099.txt
+Shortest Loss: 36 steps (Seed: 1772520707)
+  Decks: P0: train_data/b7162a87.txt vs P1: d4735d04.txt
+
+--- Draw Analysis ---
+Longest Draw: 0 steps (Seed: 1772520696)
+  Decks: P0: train_data/b7162a87.txt vs P1: 28ea6099.txt
+
+Last match visualization saved to: vs_past.html

@@ -1,9 +1,0 @@
-.env
-**/__pycache__/*
-
-**/*.pyc
-**/*.html
-
-past_repo/*
-expert_battle.html
-player.log

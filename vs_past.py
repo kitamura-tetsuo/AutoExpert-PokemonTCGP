@@ -167,27 +167,16 @@ def run_match(game, play_funcs, record_history=False):
         try:
             action_id = play_funcs[current_player](state, game)
             action_name = game.action_name(action_id)
-        except BaseException as e:
+        except Exception as e:
             logging.error(f"Error during play_func: {e}")
-            # Try to get legal actions to fall back, but if legal_actions itself panics, we must catch it
-            try:
-                 action_id = random.choice(game.legal_actions())
-                 action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
-            except BaseException as e_inner:
-                 logging.error(f"Error getting legal_actions during fallback: {e_inner}")
-                 # Force a tie outcome if we can't even get legal actions
-                 return -1, history, step_count
+            action_id = random.choice(game.legal_actions())
+            action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
             
         if record_history:
             info["action_name"] = action_name
             history.append(info)
         
-        try:
-            game.step_with_id(action_id)
-        except BaseException as e:
-            logging.error(f"Simulator panic during step_with_id: {e}")
-            return -1, history, step_count
-
+        game.step_with_id(action_id)
         step_count += 1
         
     final_state = game.get_state()
@@ -372,13 +361,8 @@ def main():
         print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
-    try:
-        generate_html(last_history, args.output, "last_seed")
-        print(f"\nLast match visualization saved to: {args.output}")
-    except TypeError:
-        # Fallback if signature doesn't require seed (e.g. from different past_repo branch)
-        generate_html(last_history, args.output)
-        print(f"\nLast match visualization saved to: {args.output}")
+    generate_html(last_history, args.output, seed)
+    print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic
     if args.num_matches < 1000:

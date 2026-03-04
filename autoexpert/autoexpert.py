@@ -10,9 +10,10 @@ from autoexpert.verifier import Verifier
 from autoexpert.utils.llm_client import client
 
 class AutoExpert:
-    def __init__(self, deck_a: str, deck_b: str):
+    def __init__(self, deck_a: str, deck_b: str, workflow_type: str = "pr_vs_past"):
         self.deck_a = deck_a
         self.deck_b = deck_b
+        self.workflow_type = workflow_type
         self.skill_library = SkillLibrary()
         self.curriculum = Curriculum(self.skill_library)
         
@@ -127,7 +128,8 @@ class AutoExpert:
                     deck_contents=deck_a_contents,
                     opponent_deck_path=self.deck_b,
                     opponent_deck_contents=deck_b_contents,
-                    evaluation_log=evaluation_log
+                    evaluation_log=evaluation_log,
+                    workflow_type=self.workflow_type
                 )
                 
                 if not wait_completion:

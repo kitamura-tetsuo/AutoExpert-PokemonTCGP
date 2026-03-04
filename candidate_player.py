@@ -830,7 +830,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 def play(state, game):
     legal_actions = game.legal_actions()
     if not legal_actions:
-        return 0
+        raise ValueError("No legal actions available for the current player.")
 
     gs = GameStateWrapper(state)
 
@@ -1003,7 +1003,7 @@ def play(state, game):
                     if not is_ko and gs.opp_active and max_damage >= gs.opp_active.hp:
                         action["score"] += POTENTIAL_LETHAL_BONUS
 
-                    if "moltres ex" in gs.my_active.name.lower() and idx == 0:
+                    if gs.my_active and "moltres ex" in gs.my_active.name.lower() and idx == 0:
                          fire_needs = 0
                          for b in gs.my_bench:
                              if "Fire" in b.energy_type and b.needs_energy():
@@ -1011,7 +1011,7 @@ def play(state, game):
                          if fire_needs > 0:
                              action["score"] = INFERNO_DANCE_SCORE + (fire_needs * 5000)
 
-                    if action["damage"] == 0:
+                    if action["damage"] == 0 and gs.my_active and idx < len(gs.my_active.attacks):
                          atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
                          if "deck" in atk_text and "bench" in atk_text:
                               if len(gs.my_bench) < 3:
@@ -1024,7 +1024,7 @@ def play(state, game):
                               # Contextual boost
                               if gs.my_active.energy_count < 2:
                                    action["score"] += 8000
-                              if "mewtwo ex" in gs.my_active.name.lower():
+                              if gs.my_active and "mewtwo ex" in gs.my_active.name.lower():
                                    action["score"] += 10000
 
                     # Setup Kill Bonus (2HKO)
@@ -1048,7 +1048,7 @@ def play(state, game):
                     if threat_lethal and is_ko:
                         action["score"] += 20000
                         # Aggressive Defense: If we can KO the threat, do it unless we lose significantly on prize trade
-                        is_my_ex = "ex" in gs.my_active.name.lower()
+                        is_my_ex = gs.my_active and "ex" in gs.my_active.name.lower()
                         is_opp_ex = "ex" in gs.opp_active.name.lower()
                         points_gained = 2 if is_opp_ex else 1
                         points_lost = 2 if is_my_ex else 1
@@ -1398,7 +1398,7 @@ def play(state, game):
                     # AND the bench card isn't going to die immediately either
                     is_valuable = False
                     if gs.my_active:
-                        is_valuable = "ex" in gs.my_active.name.lower() or gs.my_active.energy_count >= 2
+                        is_valuable = gs.my_active and ("ex" in gs.my_active.name.lower() or gs.my_active.energy_count >= 2)
 
                     bench_can_attack = False
                     if target:
@@ -1847,13 +1847,13 @@ def play(state, game):
                      a["score"] = MISTY_PREP_SCORE
 
             if gs.my_active:
-                 if "pikachu ex" in gs.my_active.name.lower():
+                 if gs.my_active and "pikachu ex" in gs.my_active.name.lower():
                      a["score"] += 5000
                      current_damage = calculate_damage(gs.my_active, 0, gs)
                      if gs.opp_active:
                          if current_damage < gs.opp_active.hp and (current_damage + 30) >= gs.opp_active.hp:
                              a["score"] = LETHAL_KO_SCORE + 1000
-                 elif "pichu" in gs.my_active.name.lower() or gs.my_active.hp <= 40:
+                 elif gs.my_active and ("pichu" in gs.my_active.name.lower() or gs.my_active.hp <= 40):
                      a["score"] += 2000 # Prioritize bench for retreat
 
     for a in actions:

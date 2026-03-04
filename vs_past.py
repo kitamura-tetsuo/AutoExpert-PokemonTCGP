@@ -1,4 +1,5 @@
 import argparse
+import re
 import sys
 import os
 import random
@@ -50,10 +51,10 @@ def parse_args():
     parser.add_argument("--deck_b", type=str, help="Path to deck 2 file.")
     parser.add_argument("--output", type=str, default="vs_past_battle.html", help="Path to output HTML file.")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()), help="Random seed.")
-    parser.add_argument("--num_matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
+    parser.add_argument("--matches", type=int, default=1, help="Number of matches to run (only last one visualized).")
     parser.add_argument("--threshold", type=float, default=0.51, help="Win rate threshold to pass.")
-    parser.add_argument("--league_decks_student", type=str, default="train_data/teacher.csv", help="CSV file for student league decks")
-    parser.add_argument("--league_decks_teacher", type=str, default="train_data/teacher.csv", help="CSV file for teacher league decks")
+    parser.add_argument("--league_decks_student", type=str, help="CSV file for student league decks")
+    parser.add_argument("--league_decks_teacher", type=str, help="CSV file for teacher league decks")
     return parser.parse_args()
 
 def get_past_repo_path(base_dir: str, branch: str) -> Path:
@@ -149,6 +150,33 @@ def get_play_func(skill_data: Optional[Dict[str, Any]]):
 
 past_funcs_cache = {}
 
+def patch_past_candidate_player(file_path: Path):
+    """Apply critical bug fixes to past candidate_player.py files before importing."""
+    if not file_path.exists():
+        return
+    
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    original_content = content
+
+    # 1. Fix IndexError at line 1015 (attacks[idx] access)
+    # Search for: if action["damage"] == 0:
+    #             atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+    buggy_pattern = r'if action\["damage"\] == 0:\n\s+atk_text = \(gs\.my_active\.attacks\[idx\]\.get\("text"\) or ""\)\.lower\(\)'
+    fixed_pattern = 'if action["damage"] == 0 and gs.my_active and idx < len(gs.my_active.attacks):\n                         atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()'
+    content = re.sub(buggy_pattern, fixed_pattern, content)
+
+    # 2. Fix empty legal_actions returning 0
+    buggy_play_start = r'def play\(state, game\):\n\s+legal_actions = game\.legal_actions\(\)\n\s+if not legal_actions:\n\s+return 0'
+    fixed_play_start = 'def play(state, game):\n    legal_actions = game.legal_actions()\n    if not legal_actions:\n        raise ValueError("No legal actions available for the current player.")'
+    content = re.sub(buggy_play_start, fixed_play_start, content)
+
+    if content != original_content:
+        logging.info(f"Patched critical bugs in {file_path}")
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+
 def get_past_func_for_branch(base_dir: str, repo_url: str, branch: str):
     if branch in past_funcs_cache:
         return past_funcs_cache[branch]
@@ -156,6 +184,9 @@ def get_past_func_for_branch(base_dir: str, repo_url: str, branch: str):
     past_dir = ensure_past_repo(base_dir, repo_url, branch)
     
     past_candidate_path = past_dir / "candidate_player.py"
+    if past_candidate_path.exists():
+        patch_past_candidate_player(past_candidate_path)
+
     past_best_func = None
 
     if past_candidate_path.exists():
@@ -231,11 +262,26 @@ def run_match(game, play_funcs, record_history=False):
         
         # Get action from the corresponding player's play_func
         try:
+            legal_actions = game.legal_actions()
+            if not legal_actions:
+                logging.error(f"Player {current_player} has NO legal actions!")
+                if record_history:
+                    info["action_name"] = "ERROR: NO LEGAL ACTIONS"
+                    history.append(info)
+                break
+
             action_id = play_funcs[current_player](state, game)
             action_name = game.action_name(action_id)
         except Exception as e:
-            logging.error(f"Error during play_func: {e}")
-            action_id = random.choice(game.legal_actions())
+            logging.error(f"Error during play_func for Player {current_player}: {e}")
+            logging.error(traceback.format_exc())
+            
+            legal_actions = game.legal_actions()
+            if not legal_actions:
+                logging.error("Additionally, no legal actions were found during error recovery.")
+                break
+            
+            action_id = random.choice(legal_actions)
             action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
             
         if record_history:
@@ -292,7 +338,13 @@ def load_league_decks(csv_path: str):
 def main():
     args = parse_args()
     
-    # Check if deck_a exists
+    # Prioritize specialized student league if provided
+    student_decks, student_weights = None, None
+    if args.league_decks_student:
+        logging.info(f"Using student league from {args.league_decks_student}")
+        student_decks, student_weights = load_league_decks(args.league_decks_student)
+    
+    # Check if deck_a exists or was explicitly provided
     deck_a_resolved = False
     if args.deck_a:
         for base in [Path("."), settings.DECK_DIR, Path("train_data")]:
@@ -301,13 +353,25 @@ def main():
                 break
 
     if deck_a_resolved:
-        logging.info(f"deck_a ({args.deck_a}) exists. Ignoring league_decks_student.")
-        student_decks, student_weights = None, None
-    else:
-        logging.info(f"deck_a ({args.deck_a}) does not exist. Using league_decks_student.")
-        student_decks, student_weights = load_league_decks(args.league_decks_student)
+        if student_decks:
+            logging.info(f"deck_a ({args.deck_a}) exists. Prioritizing it over league_decks_student.")
+        else:
+            logging.info(f"Using deck_a: {args.deck_a}")
+    elif not student_decks:
+        # Fallback if nothing at all is provided
+        args.deck_a = "mewtwoex.txt"
+        logging.info(f"No student deck or league provided. Falling back to default: {args.deck_a}")
+        deck_a_resolved = True
 
-    teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
+    # Teacher league resolution
+    teacher_decks, teacher_weights = None, None
+    if args.league_decks_teacher:
+        logging.info(f"Using teacher league from {args.league_decks_teacher}")
+        teacher_decks, teacher_weights = load_league_decks(args.league_decks_teacher)
+    
+    if not teacher_decks and not args.deck_b:
+        args.deck_b = "mewtwoex.txt"
+        logging.info(f"No teacher deck or league provided. Falling back to default: {args.deck_b}")
     
     # 1. Load Current Best Skill (Use candidate_player directly)
     try:
@@ -325,8 +389,8 @@ def main():
 
 
     # Silence player logs during bulk matches to prevent CI timeout/log overflow
-    logging.getLogger("player").setLevel(logging.WARNING)
-    logging.getLogger().setLevel(logging.WARNING)
+    logging.getLogger("player").setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.INFO)
 
     wins = [0, 0]
     last_history = []
@@ -336,7 +400,7 @@ def main():
     shortest_loss = {"steps": float('inf'), "seed": None, "deck_a": None, "deck_b": None}
     longest_draw = {"steps": -1, "seed": None, "deck_a": None, "deck_b": None}
     
-    for i in range(args.num_matches):
+    for i in range(args.matches):
         seed = args.seed + i
         random.seed(seed)
         
@@ -374,14 +438,16 @@ def main():
             past_best_func
         ]
 
-        logging.info(f"Starting Match {i+1}/{args.num_matches} (Seed: {seed})")
+        logging.info(f"Starting Match {i+1}/{args.matches} (Seed: {seed})")
         logging.info(f"Decks: P0: {deck_a} vs P1: {deck_b}")
         
         try:
             game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
-            winner, history, steps = run_match(game, play_funcs, record_history=(i == args.num_matches - 1))
+            winner, history, steps = run_match(game, play_funcs, record_history=(i == args.matches - 1))
         except Exception as e:
-            logging.error(f"Failed to start match: {e}")
+            logging.error(f"Failed to start/complete match {i+1} (Seed: {seed}): {e}")
+            logging.error(f"  Decks: P0: {deck_a} vs P1: {deck_b}")
+            logging.error(traceback.format_exc())
             continue
         
         if winner is not None and winner != -1:
@@ -400,7 +466,7 @@ def main():
             if steps > longest_draw["steps"]:
                 longest_draw = {"steps": steps, "seed": seed, "deck_a": deck_a, "deck_b": deck_b}
             
-        if i == args.num_matches - 1:
+        if i == args.matches - 1:
             last_history = history
 
     total_matches = sum(wins) + draws
@@ -426,13 +492,16 @@ def main():
         print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
-    generate_html(last_history, args.output)
+    generate_html(last_history, args.output, args.seed + args.matches - 1)
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic
-    if args.num_matches < 1000:
-        logging.error(f"Number of matches ({args.num_matches}) is less than 1000. Failing CI.")
-        sys.exit(1)
+    if args.matches < 1000:
+        if os.getenv("CI") == "true":
+            logging.error(f"Number of matches ({args.matches}) is less than 1000. Failing CI.")
+            sys.exit(1)
+        else:
+            logging.warning(f"Number of matches ({args.matches}) is less than 1000. This would fail in CI.")
     
     if win_rate < args.threshold:
         logging.error(f"Win rate ({win_rate:.2%}) is below threshold ({args.threshold:.2%}). Failing CI.")

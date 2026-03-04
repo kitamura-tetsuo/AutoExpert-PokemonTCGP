@@ -29,8 +29,8 @@ def main():
     # VS Past command
     vs_past_parser = subparsers.add_parser("vs-past", help="Match current expert against past code expert")
     vs_past_parser.add_argument("--past-dir", type=str, default="past_repo", help="Path to past repository")
-    vs_past_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
-    vs_past_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
+    vs_past_parser.add_argument("--deck-a", type=str, default=None, help="Deck file for Player 0")
+    vs_past_parser.add_argument("--deck-b", type=str, default=None, help="Deck file for Player 1")
     vs_past_parser.add_argument("--output", type=str, default="vs_past.html", help="Path to output HTML file")
     vs_past_parser.add_argument("--matches", type=int, default=1000, help="Number of matches to run")
     vs_past_parser.add_argument("--threshold", type=float, default=0.51, help="Win rate threshold to pass")
@@ -40,8 +40,8 @@ def main():
 
     # VS Past Detail command
     vs_past_detail_parser = subparsers.add_parser("vs-past-detail", help="Show step-by-step detailed observation and actions against past expert")
-    vs_past_detail_parser.add_argument("--deck-a", type=str, default="mewtwoex.txt", help="Deck file for Player 0")
-    vs_past_detail_parser.add_argument("--deck-b", type=str, default="mewtwoex.txt", help="Deck file for Player 1")
+    vs_past_detail_parser.add_argument("--deck-a", type=str, default=None, help="Deck file for Player 0")
+    vs_past_detail_parser.add_argument("--deck-b", type=str, default=None, help="Deck file for Player 1")
     vs_past_detail_parser.add_argument("--seed", type=int, required=True, help="Random seed")
     vs_past_detail_parser.add_argument("--past-dir", type=str, default="past_repo", help="Path to past repository")
     vs_past_detail_parser.add_argument("--repo-url", type=str, default="https://github.com/kitamura-tetsuo/AutoExpert-PokemonTCGP", help="URL of the past repository")
@@ -134,13 +134,13 @@ def main():
     elif args.command == "vs-past":
         cmd = ["uv", "run", "python3", "vs_past.py",
                "--past_dir", args.past_dir,
-               "--deck_a", args.deck_a,
-               "--deck_b", args.deck_b,
-               "--output", args.output,
-               "--num_matches", str(args.matches),
-               "--threshold", str(args.threshold)]
-        if args.seed is not None:
-            cmd.extend(["--seed", str(args.seed)])
+                "--threshold", str(args.threshold)]
+        if args.deck_a:
+            cmd.extend(["--deck_a", args.deck_a])
+        if args.deck_b:
+            cmd.extend(["--deck_b", args.deck_b])
+        if args.matches:
+            cmd.extend(["--matches", str(args.matches)])
         if args.league_student:
             cmd.extend(["--league_decks_student", args.league_student])
         if args.league_teacher:
@@ -150,11 +150,15 @@ def main():
 
     elif args.command == "vs-past-detail":
         cmd = ["uv", "run", "python3", "vs_past_detail.py",
-               "--deck_a", args.deck_a,
-               "--deck_b", args.deck_b,
                "--seed", str(args.seed),
                "--past_dir", args.past_dir,
                "--repo_url", args.repo_url]
+        if args.deck_a:
+            cmd.extend(["--deck_a", args.deck_a])
+        if args.deck_b:
+            cmd.extend(["--deck_b", args.deck_b])
+        if args.matches:
+            cmd.extend(["--matches", str(args.matches)])
         
         subprocess.run(cmd, check=True)
         

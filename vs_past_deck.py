@@ -197,7 +197,7 @@ def parse_args():
                         help="Path to output HTML file (last match of new AI).")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()),
                         help="Base random seed. Match i uses seed+i for both AIs.")
-    parser.add_argument("--num_matches", type=int, default=1000,
+    parser.add_argument("--matches", type=int, default=1000,
                         help="Number of matches per AI.")
     parser.add_argument("--threshold", type=float, default=0.01,
                         help="Minimum win rate improvement (new - old) to pass CI (default: 0.01 = 1%%).")
@@ -431,8 +431,8 @@ def resolve_deck_path(deck: str) -> str:
 # ---------------------------------------------------------------------------
 
 def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teacher_weights,
-                       num_matches: int, base_seed: int, label: str, card_mapping=None):
-    """Run num_matches games: play_func (student, P0) vs teacher_func (teacher, P1).
+                       matches: int, base_seed: int, label: str, card_mapping=None):
+    """Run matches games: play_func (student, P0) vs teacher_func (teacher, P1).
 
     For match i:
       - seed = base_seed + i
@@ -453,7 +453,7 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
         "longest_draw": (0, [])
     }
 
-    for i in range(num_matches):
+    for i in range(matches):
         seed = base_seed + i
         rng = random.Random(seed)
 
@@ -463,7 +463,7 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
         deck_a_path = resolve_deck_path(deck_a)
         deck_b_path = resolve_deck_path(deck_b)
 
-        record = (i == num_matches - 1)
+        record = (i == matches - 1)
 
         try:
             game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
@@ -492,7 +492,7 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
             last_history = history
 
         if (i + 1) % 100 == 0:
-            logging.warning(f"[{label}] {i+1}/{num_matches} done, wins={wins}")
+            logging.warning(f"[{label}] {i+1}/{matches} done, wins={wins}")
 
     return wins, draws, completed, last_history, extreme_matches
 
@@ -543,13 +543,13 @@ def main():
     # Run new AI series
     new_wins, new_draws, new_total, new_last, new_extreme = run_league_series(
         new_func, teacher_func, args.deck_a, teacher_decks, teacher_weights,
-        args.num_matches, base_seed, "NEW", card_mapping=card_mapping
+        args.matches, base_seed, "NEW", card_mapping=card_mapping
     )
 
     # Run old AI series (same seeds = same opponents)
     old_wins, old_draws, old_total, old_last, old_extreme = run_league_series(
         old_func, teacher_func, args.deck_a, teacher_decks, teacher_weights,
-        args.num_matches, base_seed, "OLD", card_mapping=card_mapping
+        args.matches, base_seed, "OLD", card_mapping=card_mapping
     )
 
     new_win_rate = new_wins / new_total if new_total > 0 else 0
@@ -561,7 +561,7 @@ def main():
 
     print("\n--- Deck-Specialized AI Evaluation Results ---")
     print(f"Student deck : {args.deck_a}")
-    print(f"Matches / AI : {args.num_matches}")
+    print(f"Matches / AI : {args.matches}")
     print(f"\nNew AI  wins : {new_wins} / {new_total}  ({new_win_rate:.2%})")
     print(f"Old AI  wins : {old_wins} / {old_total}  ({old_win_rate:.2%})")
     print(f"Improvement  : {improvement:+.2%}  (threshold: {args.threshold:+.2%})")
@@ -593,9 +593,12 @@ def main():
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check
-    if args.num_matches < 1000:
-        logging.error(f"Number of matches ({args.num_matches}) is less than 1000. Failing CI.")
-        sys.exit(1)
+    if args.matches < 1000:
+        if os.getenv("CI") == "true":
+            logging.error(f"Number of matches ({args.matches}) is less than 1000. Failing CI.")
+            sys.exit(1)
+        else:
+            logging.warning(f"Number of matches ({args.matches}) is less than 1000. This would fail in CI.")
 
     if improvement < args.threshold:
         logging.error(

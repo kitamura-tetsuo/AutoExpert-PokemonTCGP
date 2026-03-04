@@ -92,15 +92,15 @@ def main():
         if not deck_a.exists():
             deck_a = settings.DECK_DIR / deck_a_str
             
-        deck_b = Path(args.deck_b)
+        deck_b = Path(deck_b_str)
         if not deck_b.exists():
-            deck_b = settings.DECK_DIR / args.deck_b
+            deck_b = settings.DECK_DIR / deck_b_str
         
         if not deck_a.exists():
             print(f"Error: Deck file not found: {deck_a_str}")
             sys.exit(1)
         if not deck_b.exists():
-            print(f"Error: Deck file not found: {args.deck_b}")
+            print(f"Error: Deck file not found: {deck_b_str}")
             sys.exit(1)
             
         expert = AutoExpert(str(deck_a), str(deck_b))

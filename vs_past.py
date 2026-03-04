@@ -19,6 +19,29 @@ from show_battle import extract_state_info, generate_html
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+class MajorityVotePlayer:
+    def __init__(self, play_funcs: List[Any], branch_names: List[str]):
+        self.play_funcs = play_funcs
+        self.branch_names = branch_names
+
+    def __call__(self, state, game):
+        votes = {}
+        for func in self.play_funcs:
+            try:
+                action_id = func(state, game)
+                votes[action_id] = votes.get(action_id, 0) + 1
+            except Exception as e:
+                logging.error(f"Error in one of the voting players: {e}")
+
+        if not votes:
+            return random.choice(game.legal_actions())
+
+        max_votes = max(votes.values())
+        top_actions = [action for action, count in votes.items() if count == max_votes]
+        
+        selected_action = random.choice(top_actions)
+        return selected_action
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Battle between Current Expert and Past Expert.")
     parser.add_argument("--past_dir", type=str, default="past_repo", help="Path to the past repository.")
@@ -35,6 +58,22 @@ def parse_args():
 
 def get_past_repo_path(base_dir: str, branch: str) -> Path:
     return Path(f"{base_dir}_{branch.replace('/', '_')}")
+
+def list_remote_branches(repo_url: str) -> List[str]:
+    import subprocess
+    try:
+        result = subprocess.run(["git", "ls-remote", "--heads", repo_url], capture_output=True, text=True, check=True)
+        branches = []
+        for line in result.stdout.splitlines():
+            # line is like: hash\trefs/heads/branch_name
+            parts = line.split("\t")
+            if len(parts) == 2:
+                branch = parts[1].replace("refs/heads/", "")
+                branches.append(branch)
+        return branches
+    except Exception as e:
+        logging.error(f"Failed to list remote branches: {e}")
+        return []
 
 def ensure_past_repo(base_dir: str, repo_url: str, branch: str = "main") -> Path:
     past_dir = get_past_repo_path(base_dir, branch)
@@ -149,6 +188,33 @@ def get_past_func_for_branch(base_dir: str, repo_url: str, branch: str):
 
     past_funcs_cache[branch] = past_best_func
     return past_best_func
+
+def get_prioritized_past_func(base_dir: str, repo_url: str, student_deck: str):
+    deck_stem = Path(student_deck).stem
+    remote_branches = list_remote_branches(repo_url)
+    
+    # Priority 1: student_vs_teacher/*_vs_{deck_stem}
+    p1_branches = [b for b in remote_branches if b.startswith("student_vs_teacher/") and b.endswith(f"_vs_{deck_stem}")]
+    if p1_branches:
+        logging.info(f"Found priority 1 branches: {p1_branches}")
+        funcs = [get_past_func_for_branch(base_dir, repo_url, b) for b in p1_branches]
+        return MajorityVotePlayer(funcs, p1_branches)
+
+    # Priority 2: student_vs_teacher/{deck_stem}_vs_* or student_vs_teacher/{deck_stem}
+    p2_branches = [b for b in remote_branches if b == f"student_vs_teacher/{deck_stem}" or (b.startswith(f"student_vs_teacher/{deck_stem}_vs_"))]
+    if p2_branches:
+        logging.info(f"Found priority 2 branches: {p2_branches}")
+        funcs = [get_past_func_for_branch(base_dir, repo_url, b) for b in p2_branches]
+        return MajorityVotePlayer(funcs, p2_branches)
+
+    # Priority 3: student branch
+    if "student" in remote_branches:
+        logging.info("Falling back to student branch.")
+        return get_past_func_for_branch(base_dir, repo_url, "student")
+    
+    # Priority 4: main branch (always should exist but handle just in case)
+    logging.info("Falling back to main branch.")
+    return get_past_func_for_branch(base_dir, repo_url, "main")
 
 def run_match(game, play_funcs, record_history=False):
     history = []
@@ -300,9 +366,8 @@ def main():
         deck_a_path = str(deck_a_path)
         deck_b_path = str(deck_b_path)
 
-        # Get past func for deck_b branch
-        branch_name = Path(deck_b).stem  # Removes .txt and gets filename only
-        past_best_func = get_past_func_for_branch(args.past_dir, args.repo_url, branch_name)
+        # Get past func based on priority
+        past_best_func = get_prioritized_past_func(args.past_dir, args.repo_url, deck_a)
 
         play_funcs = [
             current_best_func,

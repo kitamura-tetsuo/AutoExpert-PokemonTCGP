@@ -71,7 +71,7 @@ CARRY_LIST = [
     "weezing", "arbok", "zapdos ex", "articuno ex", "moltres ex",
     "machamp ex", "gengar ex", "wigglytuff ex", "nidoqueen", "nidoking",
     "mega altaria ex", "greninja ex", "greninja", "mega kangaskhan ex",
-    "moltres ex", "zapdos ex", "articuno ex", "exeggutor ex", "arcanine ex"
+    "moltres ex", "zapdos ex", "articuno ex", "exeggutor ex", "arcanine ex", "bellibolt ex", "mismagius", "cofagrigus", "houndstone"
 ]
 
 WEAKNESS_MAP = {
@@ -90,6 +90,7 @@ WEAKNESS_MAP = {
 EVOLUTION_MAP = {
     "charmander": "charmeleon", "charmeleon": "charizard ex",
     "squirtle": "wartortle", "wartortle": "blastoise ex",
+    "greavard": "houndstone", "yamask": "cofagrigus", "misdreavus": "mismagius", "tadbulb": "bellibolt ex",
     "bulbasaur": "ivysaur", "ivysaur": "venusaur ex",
     "dratini": "dragonair", "dragonair": "dragonite",
     "deino": "zweilous", "zweilous": "hydreigon",
@@ -413,7 +414,7 @@ POTENTIAL_LETHAL_BONUS = 5000
 def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev", target_override=None, energy_override: Optional[List[str]] = None):
     if not attacker: return 0
     attacks = attacker.attacks
-    if attack_idx >= len(attacks): return 0
+    if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
     damage = float(atk.get("dmg", 0))
@@ -1012,7 +1013,9 @@ def play(state, game):
                              action["score"] = INFERNO_DANCE_SCORE + (fire_needs * 5000)
 
                     if action["damage"] == 0:
-                         atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+                         atk_text = ""
+                         if idx < len(gs.my_active.attacks):
+                             atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
                          if "deck" in atk_text and "bench" in atk_text:
                               if len(gs.my_bench) < 3:
                                    action["score"] += 5000

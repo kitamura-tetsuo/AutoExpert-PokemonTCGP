@@ -231,7 +231,11 @@ def run_match(game, play_funcs, record_history=False):
         
         # Get action from the corresponding player's play_func
         try:
-            action_id = play_funcs[current_player](state, game)
+            try:
+                action_id = play_funcs[current_player](state, game)
+            except BaseException as e:
+                import traceback; logging.error(f"Play func exception: {e}\n{traceback.format_exc()}")
+                return -1, history, step_count
             action_name = game.action_name(action_id)
         except Exception as e:
             logging.error(f"Error during play_func: {e}")
@@ -242,7 +246,14 @@ def run_match(game, play_funcs, record_history=False):
             info["action_name"] = action_name
             history.append(info)
         
-        game.step_with_id(action_id)
+        try:
+            game.step_with_id(action_id)
+        except Exception as e:
+            logging.error(f"Simulator Panic: {e}")
+            return -1, history, step_count
+        except BaseException as e:
+            logging.error(f"Simulator BaseException: {e}")
+            return -1, history, step_count
         step_count += 1
         
     final_state = game.get_state()
@@ -426,7 +437,7 @@ def main():
         print(f"  Decks: P0: {longest_draw['deck_a']} vs P1: {longest_draw['deck_b']}")
 
     # Generate HTML for the last match
-    generate_html(last_history, args.output)
+    generate_html(last_history, args.output, getattr(args, 'seed', 42))
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check logic

@@ -17,6 +17,26 @@
                 "1",
                 "--no-wait-completion"
             ]
+        },
+        {
+            "name": "Python Debugger: main.py vs_past_deck",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "vs_past_deck",
+            "console": "integratedTerminal",
+            "python": "${workspaceFolder}/.venv/bin/python",
+            "args": [
+                "--past_dir",
+                "past_repo",
+                "--deck_a",
+                "cacc7f16.txt",
+                "--deck_b",
+                "4ff0d50e.txt",
+                "--num_matches",
+                "10",
+                "--threshold",
+                "0.01"
+            ]
         }
     ]
 }

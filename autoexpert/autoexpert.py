@@ -114,6 +114,8 @@ class AutoExpert:
             except Exception as e:
                 print(f"Warning: Failed to read deck file {self.deck_b}: {e}")
 
+            evaluation_log = None
+
             for retry in range(settings.MAX_RETRIES_PER_GOAL):
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
                 code = self.code_generator.generate(
@@ -124,7 +126,8 @@ class AutoExpert:
                     deck_path=self.deck_a,
                     deck_contents=deck_a_contents,
                     opponent_deck_path=self.deck_b,
-                    opponent_deck_contents=deck_b_contents
+                    opponent_deck_contents=deck_b_contents,
+                    evaluation_log=evaluation_log
                 )
                 
                 if not wait_completion:
@@ -139,6 +142,29 @@ class AutoExpert:
                 print("Verifying code performance...")
                 results = self.verifier.verify(code)
                 
+                # Run vs_past_deck.py to get detailed evaluation log
+                print("Running 1000-match evaluation against past deck...")
+                try:
+                    # We use the current candidate_player.py which was just written by CodeGenerator
+                    cmd = [
+                        "uv", "run", "python3", "vs_past_deck.py",
+                        "--deck_a", self.deck_a,
+                        "--deck_b", self.deck_b,
+                        "--num_matches", "1000",
+                        "--threshold", "0.01"
+                    ]
+                    process = subprocess.run(cmd, capture_output=True, text=True)
+                    stdout = process.stdout
+                    
+                    if "--- Deck-Specialized AI Evaluation Results ---" in stdout:
+                        evaluation_log = stdout.split("--- Deck-Specialized AI Evaluation Results ---")[-1]
+                        evaluation_log = "--- Deck-Specialized AI Evaluation Results ---" + evaluation_log
+                    else:
+                        evaluation_log = stdout
+                except Exception as e:
+                    print(f"Warning: Failed to run vs_past_deck.py: {e}")
+                    evaluation_log = f"Error running vs_past_deck.py: {e}"
+
                 if results["success"]:
                     win_rate = results["win_rate"]
                     print(f"Success! Win rate: {win_rate:.2%}")

@@ -286,7 +286,7 @@ def main():
         state = game.get_state()
         curr_p = state.current_player
         
-        obs_vec = game.encode_observation(player_id=curr_p)
+        obs_vec = game.encode_observation(player_id=0)
         decoded = decode_observation(obs_vec, card_mapping)
         
         # Use stderr for "STEP" labels if you want clean JSON output, 

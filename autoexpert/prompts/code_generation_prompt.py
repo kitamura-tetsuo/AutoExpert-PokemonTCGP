@@ -44,7 +44,7 @@ Requirements:
 You can change this prompt if you think it is useful.
 """
 
-def get_task_prompt(goal, previous_code=None, feedback=None, deck_path=None, deck_contents=None, opponent_deck_path=None, opponent_deck_contents=None):
+def get_task_prompt(goal, previous_code=None, feedback=None, deck_path=None, deck_contents=None, opponent_deck_path=None, opponent_deck_contents=None, evaluation_log=None):
     prompt = f"""
 GOAL: {goal}
 """
@@ -60,6 +60,9 @@ GOAL: {goal}
         prompt += f"\nPREVIOUS CODE:\n```python\n{previous_code}\n```"
     if feedback:
         prompt += f"\nFEEDBACK (Errors or Performance): {feedback}\nPlease improve the code based on this feedback."
+    
+    if evaluation_log:
+        prompt += f"\nEVALUATION LOG (1000 matches results):\n```\n{evaluation_log}\n```"
         
     prompt += "\n\nWrite the `play(state, game)` function now."
     return prompt

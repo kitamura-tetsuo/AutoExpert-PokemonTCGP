@@ -29,6 +29,158 @@ from show_battle import extract_state_info, generate_html
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+import json
+
+def get_cards_mapping():
+    cards = deckgym.get_all_cards()
+    return {i: card.name for i, card in enumerate(cards)}
+
+ENERGY_TYPES = ["Grass", "Fire", "Water", "Lightning", "Psychic", "Fighting", "Darkness", "Metal", "Dragon", "Colorless"]
+
+def decode_pokemon(obs, start_idx, card_mapping):
+    hp = obs[start_idx] * 300.0
+    energies = obs[start_idx+1 : start_idx+11]
+    card_id_idx = int(obs[start_idx+11])
+    card_name = card_mapping.get(card_id_idx, "Empty") if card_id_idx >= 0 else "Empty"
+    
+    status = []
+    if obs[start_idx+12] > 0.5: status.append("Poisoned")
+    if obs[start_idx+13] > 0.5: status.append("Asleep")
+    if obs[start_idx+14] > 0.5: status.append("Paralyzed")
+    if obs[start_idx+15] > 0.5: status.append("Confused")
+    if obs[start_idx+16] > 0.5: status.append("Burned")
+    
+    played_this_turn = obs[start_idx+17] > 0.5
+    ability_used = obs[start_idx+18] > 0.5
+    
+    tool_idx = int(obs[start_idx+19])
+    tool_name = card_mapping.get(tool_idx, "None") if tool_idx >= 0 else "None"
+    
+    effects = []
+    if obs[start_idx+20] > 0.5: effects.append("NoRetreat")
+    if obs[start_idx+21] > 0.5: effects.append("CannotAttack")
+    if obs[start_idx+22] > 0.5: effects.append("ReducedDamage")
+    if obs[start_idx+23] > 0.5: effects.append("PreventDamage")
+    
+    res = {
+        "name": card_name,
+        "hp": int(hp),
+        "energy": {ENERGY_TYPES[i]: int(energies[i]) for i in range(10) if energies[i] > 0},
+        "status": status,
+        "played_this_turn": played_this_turn,
+        "ability_used": ability_used,
+        "tool": tool_name,
+        "effects": effects
+    }
+    return res
+
+def decode_observation(obs, card_mapping):
+    ptr = 0
+    turn_count = int(obs[ptr]); ptr += 1
+    my_points = int(obs[ptr]); ptr += 1
+    opp_points = int(obs[ptr]); ptr += 1
+    is_my_turn = obs[ptr] > 0.5; ptr += 1
+    
+    has_played_support = obs[ptr] > 0.5; ptr += 1
+    has_retreated = obs[ptr] > 0.5; ptr += 1
+    ko_last_turn = obs[ptr] > 0.5; ptr += 1
+    
+    current_energy = {ENERGY_TYPES[i]: 1 for i in range(10) if obs[ptr+i] > 0.5}; ptr += 10
+    my_next_energy = {ENERGY_TYPES[i]: 1 for i in range(10) if obs[ptr+i] > 0.5}; ptr += 10
+    opp_next_energy = {ENERGY_TYPES[i]: 1 for i in range(10) if obs[ptr+i] > 0.5}; ptr += 10
+    
+    my_hand_count = int(obs[ptr]); ptr += 1
+    opp_hand_count = int(obs[ptr]); ptr += 1
+    
+    my_active = decode_pokemon(obs, ptr, card_mapping); ptr += 24
+    my_bench = [decode_pokemon(obs, ptr + i*24, card_mapping) for i in range(3)]; ptr += 72
+    opp_active = decode_pokemon(obs, ptr, card_mapping); ptr += 24
+    opp_bench = [decode_pokemon(obs, ptr + i*24, card_mapping) for i in range(3)]; ptr += 72
+    
+    my_hand = []
+    for _ in range(10):
+        idx = int(obs[ptr])
+        if idx >= 0: my_hand.append(card_mapping.get(idx, f"Unknown({idx})"))
+        ptr += 1
+        
+    opp_hand_known = []
+    for _ in range(10):
+        idx = int(obs[ptr])
+        if idx >= 0: opp_hand_known.append(card_mapping.get(idx, f"Unknown({idx})"))
+        ptr += 1
+        
+    my_deck = []
+    for _ in range(20):
+        idx = int(obs[ptr])
+        if idx >= 0: my_deck.append(card_mapping.get(idx, f"Unknown({idx})"))
+        ptr += 1
+        
+    opp_deck_count = int(obs[ptr]); ptr += 1
+    opp_deck_known = []
+    for _ in range(20):
+        idx = int(obs[ptr])
+        if idx >= 0: opp_deck_known.append(card_mapping.get(idx, f"Unknown({idx})"))
+        ptr += 1
+        
+    my_discard = []
+    for _ in range(10):
+        idx = int(obs[ptr])
+        if idx >= 0: my_discard.append(card_mapping.get(idx, f"Unknown({idx})"))
+        ptr += 1
+        
+    opp_discard = []
+    for _ in range(10):
+        idx = int(obs[ptr])
+        if idx >= 0: opp_discard.append(card_mapping.get(idx, f"Unknown({idx})"))
+        ptr += 1
+        
+    return {
+        "turn": turn_count,
+        "points": [my_points, opp_points],
+        "is_my_turn": is_my_turn,
+        "flags": {"support": has_played_support, "retreat": has_retreated, "ko_last_turn": ko_last_turn},
+        "energy": {"current": current_energy, "my_next": my_next_energy, "opp_next": opp_next_energy},
+        "hand_counts": [my_hand_count, opp_hand_count],
+        "my_active": my_active,
+        "my_bench": my_bench,
+        "opp_active": opp_active,
+        "opp_bench": opp_bench,
+        "my_hand": my_hand,
+        "opp_hand_known": opp_hand_known,
+        "my_deck_contents": my_deck,
+        "opp_deck_count": opp_deck_count,
+        "opp_deck_known": opp_deck_known,
+        "my_discard": my_discard,
+        "opp_discard": opp_discard
+    }
+
+def json_diff(old_val, new_val):
+    """
+    Returns a dictionary representing the differences between two JSON-like objects.
+    Only includes keys that have changed.
+    """
+    if old_val == new_val:
+        return None
+    
+    if not isinstance(old_val, dict) or not isinstance(new_val, dict):
+        return new_val
+    
+    diff = {}
+    for key in new_val:
+        if key not in old_val:
+            diff[key] = new_val[key]
+        else:
+            d = json_diff(old_val[key], new_val[key])
+            if d is not None:
+                diff[key] = d
+    
+    # Also check for keys removed
+    for key in old_val:
+        if key not in new_val:
+            diff[key] = "<REMOVED>"
+            
+    return diff if diff else None
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -178,8 +330,9 @@ def load_past_func(base_dir: str, repo_url: str, branch: str = "main"):
 # Game helpers
 # ---------------------------------------------------------------------------
 
-def run_match(game, play_funcs, record_history=False):
+def run_match(game, play_funcs, record_history=False, record_detail=False, card_mapping=None):
     history = []
+    detail_history = []
     max_steps = 300
     step_count = 0
 
@@ -190,6 +343,15 @@ def run_match(game, play_funcs, record_history=False):
         if record_history:
             info = extract_state_info(state)
             info["acting_player"] = current_player
+
+        if record_detail:
+            obs_vec = game.encode_observation(player_id=0)
+            decoded = decode_observation(obs_vec, card_mapping)
+            detail_history.append({
+                "step": step_count,
+                "player": current_player,
+                "obs": decoded
+            })
 
         try:
             action_id = play_funcs[current_player](state, game)
@@ -202,6 +364,10 @@ def run_match(game, play_funcs, record_history=False):
         if record_history:
             info["action_name"] = action_name
             history.append(info)
+
+        if record_detail:
+            detail_history[-1]["action_id"] = action_id
+            detail_history[-1]["action_name"] = action_name
 
         game.step_with_id(action_id)
         step_count += 1
@@ -223,7 +389,11 @@ def run_match(game, play_funcs, record_history=False):
         if m:
             winner_val = int(m.group(1))
 
-    return winner_val, history, step_count
+    # Keep only the last 10 steps for detail_history
+    if record_detail:
+        detail_history = detail_history[-10:]
+
+    return winner_val, history, step_count, detail_history
 
 
 def load_league_decks(csv_path: str):
@@ -260,21 +430,28 @@ def resolve_deck_path(deck: str) -> str:
 # League series runner
 # ---------------------------------------------------------------------------
 
-def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
-                      num_matches: int, base_seed: int, label: str):
-    """Run num_matches games: play_func (student, P0) vs teacher league (P1).
+def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teacher_weights,
+                       num_matches: int, base_seed: int, label: str, card_mapping=None):
+    """Run num_matches games: play_func (student, P0) vs teacher_func (teacher, P1).
 
     For match i:
       - seed = base_seed + i
       - Teacher deck selected via Random(seed) (same RNG state for new and old AI)
       - Game initialized with the same seed
 
-    Returns (wins, draws, completed, last_history).
+    Returns (wins, draws, completed, last_history, extreme_matches).
     """
     wins = 0
     draws = 0
     completed = 0
     last_history = []
+    
+    # extreme_matches = { "shortest_loss": (steps, history), "longest_loss": (steps, history), "longest_draw": (steps, history) }
+    extreme_matches = {
+        "shortest_loss": (float('inf'), []),
+        "longest_loss": (0, []),
+        "longest_draw": (0, [])
+    }
 
     for i in range(num_matches):
         seed = base_seed + i
@@ -291,14 +468,8 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
         try:
             game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
 
-            # Teacher (P1) plays randomly with the same RNG so both series are identical
-            def make_teacher_func(r):
-                def teacher_func(state, g):
-                    return r.choice(g.legal_actions())
-                return teacher_func
-
-            play_funcs = [play_func, make_teacher_func(rng)]
-            winner, history, steps = run_match(game, play_funcs, record_history=record)
+            play_funcs = [play_func, teacher_func]
+            winner, history, steps, detail_history = run_match(game, play_funcs, record_history=record, record_detail=True, card_mapping=card_mapping)
         except Exception as e:
             logging.error(f"[{label}] Match {i+1} failed: {e}")
             continue
@@ -306,8 +477,16 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
         completed += 1
         if winner == 0:
             wins += 1
+        elif winner == 1:
+            # Loss for student (P0)
+            if steps < extreme_matches["shortest_loss"][0]:
+                extreme_matches["shortest_loss"] = (steps, detail_history)
+            if steps > extreme_matches["longest_loss"][0]:
+                extreme_matches["longest_loss"] = (steps, detail_history)
         elif winner == -1:
             draws += 1
+            if steps > extreme_matches["longest_draw"][0]:
+                extreme_matches["longest_draw"] = (steps, detail_history)
 
         if record:
             last_history = history
@@ -315,7 +494,7 @@ def run_league_series(play_func, deck_a: str, teacher_decks, teacher_weights,
         if (i + 1) % 100 == 0:
             logging.warning(f"[{label}] {i+1}/{num_matches} done, wins={wins}")
 
-    return wins, draws, completed, last_history
+    return wins, draws, completed, last_history, extreme_matches
 
 
 # ---------------------------------------------------------------------------
@@ -356,17 +535,21 @@ def main():
     logging.getLogger().setLevel(logging.WARNING)
 
     base_seed = args.seed
+    card_mapping = get_cards_mapping()
+
+    # Load teacher (baseline) AI
+    teacher_func = load_past_func(args.past_dir, args.repo_url, branch="main")
 
     # Run new AI series
-    new_wins, new_draws, new_total, new_last = run_league_series(
-        new_func, args.deck_a, teacher_decks, teacher_weights,
-        args.num_matches, base_seed, "NEW"
+    new_wins, new_draws, new_total, new_last, new_extreme = run_league_series(
+        new_func, teacher_func, args.deck_a, teacher_decks, teacher_weights,
+        args.num_matches, base_seed, "NEW", card_mapping=card_mapping
     )
 
     # Run old AI series (same seeds = same opponents)
-    old_wins, old_draws, old_total, old_last = run_league_series(
-        old_func, args.deck_a, teacher_decks, teacher_weights,
-        args.num_matches, base_seed, "OLD"
+    old_wins, old_draws, old_total, old_last, old_extreme = run_league_series(
+        old_func, teacher_func, args.deck_a, teacher_decks, teacher_weights,
+        args.num_matches, base_seed, "OLD", card_mapping=card_mapping
     )
 
     new_win_rate = new_wins / new_total if new_total > 0 else 0
@@ -383,8 +566,30 @@ def main():
     print(f"Old AI  wins : {old_wins} / {old_total}  ({old_win_rate:.2%})")
     print(f"Improvement  : {improvement:+.2%}  (threshold: {args.threshold:+.2%})")
 
+    # Output detailed steps for extreme cases in NEW AI
+    for case_name, (steps, history) in new_extreme.items():
+        if not history:
+            continue
+        print(f"\n=== {case_name.upper()} ({steps} steps) ===")
+        prev_obs = None
+        for i, step_info in enumerate(history):
+            print(f"\n--- STEP {step_info['step']} (Player {step_info['player']} Turn) ---")
+            curr_obs = step_info['obs']
+            if i == 0:
+                # Full JSON for the first step in the window
+                print(json.dumps(curr_obs, indent=2))
+            else:
+                # Diff for subsequent steps
+                diff = json_diff(prev_obs, curr_obs)
+                if diff:
+                    print(f"Diff from prev step: {json.dumps(diff, indent=2)}")
+                else:
+                    print("(No changes in observation)")
+            print(f"Selected Action: {step_info.get('action_id')} - {step_info.get('action_name')}")
+            prev_obs = curr_obs
+
     # Generate HTML for the last match of the new AI
-    generate_html(new_last, args.output)
+    generate_html(new_last, args.output, base_seed + new_total - 1)
     print(f"\nLast match visualization saved to: {args.output}")
 
     # CI check

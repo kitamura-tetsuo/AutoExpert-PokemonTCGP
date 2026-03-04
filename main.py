@@ -103,7 +103,16 @@ def main():
             print(f"Error: Deck file not found: {deck_b_str}")
             sys.exit(1)
             
-        expert = AutoExpert(str(deck_a), str(deck_b))
+        # Detect workflow type
+        workflow_type = "pr_vs_past"
+        if current_branch.startswith("student_vs_teacher/"):
+            workflow_type = "student_deck_vs_teacher_deck"
+        elif current_branch and current_branch != "main":
+            workflow_type = "pr_vs_past_deck"
+            
+        print(f"Workflow Pattern Detected: {workflow_type}")
+            
+        expert = AutoExpert(str(deck_a), str(deck_b), workflow_type=workflow_type)
         expert.learn(max_iterations=args.max_iter, wait_completion=not args.no_wait_completion)
         
     elif args.command == "skills":

@@ -1,10 +1,21 @@
-def get_system_prompt(deck_path=None, opponent_deck_path=None):
+def get_system_prompt(deck_path=None, opponent_deck_path=None, workflow_type="pr_vs_past"):
     cmd_suffix = f" --deck-a {deck_path}" if deck_path else ""
     if opponent_deck_path:
         cmd_suffix += f" --deck-b {opponent_deck_path}"
     
-    target_win_rate = "51%"
     target_matches = "1000"
+    
+    if workflow_type == "pr_vs_past_deck":
+        target_win_rate = "at least 1% higher than the previous version"
+        validation_cmd = f"python vs_past_deck.py --deck_a {deck_path} --num_matches {target_matches} --league_decks_teacher train_data/teacher.csv"
+    elif workflow_type == "student_deck_vs_teacher_deck":
+        target_win_rate = "at least 1% higher than the previous version"
+        # We assume deck_b is the teacher deck or league
+        teacher_arg = f"--league_decks_teacher {opponent_deck_path}" if opponent_deck_path and opponent_deck_path.endswith(".csv") else f"--deck_b {opponent_deck_path}"
+        validation_cmd = f"python vs_past_deck.py --deck_a {deck_path} {teacher_arg} --num_matches {target_matches} --threshold 0.01"
+    else: # pr_vs_past
+        target_win_rate = "51%"
+        validation_cmd = f"python main.py vs-past --matches {target_matches}{cmd_suffix}"
     
     return f"""
 Read AGENTS.md for the overall agent architecture.
@@ -36,8 +47,8 @@ Actions usually look like:
 Requirements:
 1. The function MUST return a valid integer action ID from `game.legal_actions()`.
 2. Keep the logic efficient.
-3. Your ultimate goal is to achieve a win rate of at least {target_win_rate} over at least {target_matches} matches against the version of the opponent using the following command:
-   `python main.py vs-past --matches {target_matches}{cmd_suffix}`
+3. Your ultimate goal is to achieve a win rate of {target_win_rate} over at least {target_matches} matches against the version of the opponent using the following command:
+   `{validation_cmd}`
 4. If you want to analyze a specific match in detail (e.g., to debug an error or see why you lost), use the following command:
    `python main.py vs-past-detail --deck-a [FAILING_DECK] --deck-b [OPPONENT_DECK] --seed [FAIL_SEED]`
 

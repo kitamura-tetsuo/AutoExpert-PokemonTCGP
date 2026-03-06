@@ -368,6 +368,9 @@ class GameStateWrapper:
         self.opp_bench_objs = state.get_bench_pokemon(self.opp)
         self.opp_hand_objs = state.get_hand(self.opp)
 
+        self.my_discard_objs = state.get_discard_pile(self.me)
+        self.opp_discard_objs = state.get_discard_pile(self.opp)
+
         self.my_active = Card("Active", self.my_active_obj) if self.my_active_obj else None
         self.my_bench = [Card(f"Bench_{i}", b) for i, b in enumerate(self.my_bench_objs) if b]
         self.my_hand = [Card(f"Hand_{i}", h) for i, h in enumerate(self.my_hand_objs)]
@@ -539,6 +542,13 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     if "marowak ex" in name_lower and attack_idx == 0:
          damage = 80 # EV is 80 (2 * 0.5 * 80)
+
+    if "houndstone" in name_lower and attack_idx == 0 and damage < 50:
+        damage = 50
+        if hasattr(state, "my_discard_objs"):
+            for c in state.my_discard_objs:
+                if getattr(c, "is_pokemon", False) and "Psychic" in str(getattr(c, "energy_type", "")):
+                    damage += 20
 
     damage += extra_damage
 
@@ -1223,8 +1233,17 @@ def play(state, game):
                         stage2 = EVOLUTION_MAP[evolved]
                         if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
-                if is_useful:
-                    action["score"] = -50000 # Keep good cards
+                # Specific Houndstone Synergy
+                is_psychic_pokemon = n_lower in ["greavard", "yamask", "cofagrigus", "mismagius", "misdreavus", "comfey", "klefki", "houndstone"]
+
+                # If we are playing Houndstone deck, discarding psychic pokemon is good
+                # But don't discard our only houndstone if we don't have others
+                if is_psychic_pokemon:
+                    action["score"] = 60000 # Better to discard psychic mons than random useless cards
+                    if "houndstone" in n_lower or "cofagrigus" in n_lower:
+                        action["score"] = 40000 # Less good to discard our carries, but still okay if needed
+                elif is_useful:
+                    action["score"] = -50000 # Keep good non-psychic cards
                 else:
                     action["score"] = 50000 # Discard bad cards
             else:

@@ -34,10 +34,11 @@ jobs:
 
       - name: Allocate Swap Space
         run: |
-          sudo fallocate -l 4G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
+          sudo fallocate -l 4G /swapfile-extra
+          sudo chmod 600 /swapfile-extra
+          sudo mkswap /swapfile-extra
+          sudo swapon /swapfile-extra
+          sudo systemctl stop systemd-oomd || true
           free -h
 
       - name: Install dependencies

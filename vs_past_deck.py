@@ -489,7 +489,8 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
         try:
             try:
                 game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
-            except Exception as parse_err:
+            except BaseException as parse_err:
+                # Catch BaseException because pyo3_runtime.PanicException (Rust panics/errors) might not inherit from standard Exception
                 # If PyGameState fails to parse the deck_a_path (could be a malformed file in PR)
                 logging.warning(f"[{label}] Failed to parse deck {deck_a_path}: {parse_err}. Falling back to default deck.")
                 deck_a_path = str(settings.DECK_DIR / "venusaur-exeggutor.txt")
@@ -497,7 +498,7 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
 
             play_funcs = [play_func, teacher_func]
             winner, history, steps, detail_history = run_match(game, play_funcs, record_history=record, record_detail=True, card_mapping=card_mapping)
-        except Exception as e:
+        except BaseException as e:
             logging.error(f"[{label}] Match {i+1} failed: {e}")
             continue
 

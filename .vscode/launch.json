@@ -32,7 +32,7 @@
                 "cacc7f16.txt",
                 "--deck_b",
                 "4ff0d50e.txt",
-                "--num_matches",
+                "--matches",
                 "10",
                 "--threshold",
                 "0.01"

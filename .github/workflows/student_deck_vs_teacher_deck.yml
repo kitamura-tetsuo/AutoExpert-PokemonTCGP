@@ -10,7 +10,7 @@ on:
 
 jobs:
   explore-specialized-strategy:
-    if: "startsWith(github.base_ref, 'student_vs_teacher/')"
+    if: "startsWith(github.head_ref, 'student_vs_teacher/')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -44,9 +44,12 @@ jobs:
 
       - name: Run Deck-Specialized VS Past Check
         run: |
-          BRANCH_NAME="${{ github.base_ref }}"
+          BRANCH_NAME="${{ github.head_ref }}"
           DECKS_PART="${BRANCH_NAME#student_vs_teacher/}"
           
+          # Remove UUID/timestamp suffix if present (e.g. -8427737067298463983)
+          DECKS_PART=$(echo "$DECKS_PART" | sed -E 's/-[0-9]+$//')
+
           if [[ "$DECKS_PART" == *"_vs_"* ]]; then
             STUDENT="${DECKS_PART%_vs_*}"
             TEACHER="${DECKS_PART#*_vs_}"

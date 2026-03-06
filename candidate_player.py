@@ -81,7 +81,7 @@ WEAKNESS_MAP = {
     "Lightning": ["Fighting"],
     "Psychic": ["Darkness"],
     "Fighting": ["Psychic"],
-    "Darkness": ["Fighting", "Grass", "Fire"],
+    "Darkness": ["Fighting"],
     "Metal": ["Fire"],
     "Dragon": ["Fairy"],
     "Colorless": ["Fighting"]
@@ -1037,7 +1037,19 @@ def play(state, game):
                              action["score"] += 5000
 
                     if is_ko:
-                        action["score"] = LETHAL_KO_SCORE
+                        # Base KO score, but keep higher scores for higher damage and healing
+                        # to break ties between multiple lethal attacks
+                        base_ko_score = LETHAL_KO_SCORE
+
+                        # Apply heal bonus even if it's a KO, as it helps for next turn survival
+                        if gs.my_active and idx < len(gs.my_active.attacks):
+                             atk_data = gs.my_active.attacks[idx]
+                             atk_text = (atk_data.get("text") or "").lower()
+                             if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
+                                 missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                                 base_ko_score += missing_hp * 10
+
+                        action["score"] = max(action["score"], base_ko_score) + action["damage"]
                         action["is_ko"] = True
 
                         is_ex = "ex" in gs.opp_active.name.lower()
@@ -1066,7 +1078,8 @@ def play(state, game):
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                            action["score"] += 1000
+                            missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                            action["score"] += missing_hp * 10
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:

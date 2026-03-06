@@ -126,7 +126,8 @@ class AutoExpert:
                     opponent_deck_path=self.deck_b,
                     opponent_deck_contents=deck_b_contents,
                     evaluation_log=evaluation_log,
-                    workflow_type=self.workflow_type
+                    workflow_type=self.workflow_type,
+                    wait_completion=wait_completion
                 )
                 
                 if not wait_completion:

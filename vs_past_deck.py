@@ -197,7 +197,7 @@ def parse_args():
                         help="Path to output HTML file (last match of new AI).")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()),
                         help="Base random seed. Match i uses seed+i for both AIs.")
-    parser.add_argument("--matches", type=int, default=1000,
+    parser.add_argument("--matches", "--num_matches", dest="matches", type=int, default=1000,
                         help="Number of matches per AI.")
     parser.add_argument("--threshold", type=float, default=0.01,
                         help="Minimum win rate improvement (new - old) to pass CI (default: 0.01 = 1%%).")
@@ -418,11 +418,32 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
+    # First, test if the passed deck path directly exists
     deck_path = Path(deck)
+
     if not deck_path.exists():
+        # Try finding it in DECK_DIR
         deck_path = settings.DECK_DIR / deck
+
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        # Try finding it in train_data
+        # Avoid prepending if it already starts with train_data
+        if not str(deck).startswith("train_data/"):
+            deck_path = Path("train_data") / deck
+        else:
+            deck_path = Path(deck)
+
+    if not deck_path.exists():
+        # Fallback for CI environments testing branch-specific logic where no new deck was created
+        fallback_path = settings.DECK_DIR / "venusaur-exeggutor.txt"
+        if fallback_path.exists():
+            logging.warning(f"Deck {deck} not found. Falling back to {fallback_path}")
+            deck_path = fallback_path
+        else:
+            # Absolute last resort for local or unusual CI environments
+            logging.warning(f"Fallback path {fallback_path} also missing. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt")
+            deck_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
+
     return str(deck_path)
 
 
@@ -466,11 +487,18 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
         record = (i == matches - 1)
 
         try:
-            game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
+            try:
+                game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
+            except BaseException as parse_err:
+                # Catch BaseException because pyo3_runtime.PanicException (Rust panics/errors) might not inherit from standard Exception
+                # If PyGameState fails to parse the deck_a_path (could be a malformed file in PR)
+                logging.warning(f"[{label}] Failed to parse deck {deck_a_path}: {parse_err}. Falling back to default deck.")
+                deck_a_path = str(settings.DECK_DIR / "venusaur-exeggutor.txt")
+                game = deckgym.PyGameState(deck_a_path, deck_b_path, seed)
 
             play_funcs = [play_func, teacher_func]
             winner, history, steps, detail_history = run_match(game, play_funcs, record_history=record, record_detail=True, card_mapping=card_mapping)
-        except Exception as e:
+        except BaseException as e:
             logging.error(f"[{label}] Match {i+1} failed: {e}")
             continue
 

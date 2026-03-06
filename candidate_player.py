@@ -1246,7 +1246,7 @@ def play(state, game):
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
-            elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower:
+            elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
                 target = gs.my_active
@@ -1259,10 +1259,15 @@ def play(state, game):
                 if target:
                     if target.hp >= target.max_hp:
                         action["score"] -= 50000 # Don't heal full HP
-                    elif target.hp <= 60 or threat_lethal:
-                        action["score"] = POTION_CRITICAL_SCORE
+                    else:
+                        missing_hp = target.max_hp - target.hp
+                        action["score"] += missing_hp * 10
+                        if target.hp <= 60 or threat_lethal:
+                            action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
+
+                    heal_amount = 50 if "erika" in aname_lower else 20
                     # If it puts us out of lethal range
-                    if threat_lethal and (target.hp + 20) > opp_max_dmg:
+                    if threat_lethal and (target.hp + heal_amount) > opp_max_dmg:
                          opp_points_needed = 3 - gs.opp_points
                          my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
                          loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
@@ -1899,8 +1904,8 @@ def play(state, game):
                 a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
             elif gs.opp_hand_count >= 4:
                 a["score"] += 2000
-            elif gs.opp_hand_count < 3:
-                a["score"] -= 20000
+            elif gs.opp_hand_count <= 3:
+                a["score"] -= 50000
             else:
                 a["score"] -= 2000
         elif a["type"] == "potion":
@@ -2055,8 +2060,15 @@ def play(state, game):
                  # Prioritize Switch/X Speed over manual retreat to save energy
                  # X Speed attaches tool, Switch uses item. Both good.
                  a["score"] = best_retreat + 2000
+                 if gs.my_active:
+                      a["score"] += (gs.my_active.retreat_cost * 1000)
                  if is_switch: # Switch is immediate
                       a["score"] += 1000
+                      # Status Cure via Switch Items
+                      if gs.my_active and gs.my_active.status and any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis"]):
+                           a["score"] = max(a["score"], 85000)
+            else:
+                 a["score"] = -10000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

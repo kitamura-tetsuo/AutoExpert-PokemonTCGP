@@ -44,9 +44,9 @@ GUST_LETHAL_SCORE = 80000
 MISTY_SCORE = 78000
 MISTY_PREP_SCORE = 77000
 SEARCH_SCORE = 82000 # Boosted slightly from 80000
-EVOLVE_SCORE = 75500 # Prioritize evolution over energy attach (75000)
+EVOLVE_SCORE = 79000 # Prioritize evolution over energy attach (75000)
 ATTACH_ENERGY_SCORE = 75000
-PLACE_BASIC_SCORE = 74000
+PLACE_BASIC_SCORE = 80000
 ITEM_SCORE = 72000
 RED_CARD_SCORE = 60000
 RESEARCH_SCORE = 70000
@@ -58,7 +58,7 @@ INFERNO_DANCE_SCORE = 20000
 AGGRESSIVE_DEFENSE_BONUS = 500000
 
 CARRY_BONUS = 2000
-ACTIVE_WEAK_ATTACH_BONUS = 5000
+ACTIVE_WEAK_ATTACH_BONUS = 1000
 LETHAL_KO_SCORE = 50000
 STRATEGIC_SWITCH_SCORE = 30000
 ATTACK_BASE_SCORE = 10000
@@ -91,6 +91,7 @@ EVOLUTION_MAP = {
     "charmander": "charmeleon", "charmeleon": "charizard ex",
     "squirtle": "wartortle", "wartortle": "blastoise ex",
     "greavard": "houndstone", "yamask": "cofagrigus", "misdreavus": "mismagius", "tadbulb": "bellibolt ex",
+    "exeggcute": "exeggutor ex",
     "bulbasaur": "ivysaur", "ivysaur": "venusaur ex",
     "dratini": "dragonair", "dragonair": "dragonite",
     "deino": "zweilous", "zweilous": "hydreigon",
@@ -352,6 +353,12 @@ class Card:
     def status(self):
         if self.obj and hasattr(self.obj, "status"):
              return self.obj.status
+        return []
+
+    @property
+    def effects(self):
+        if self.obj and hasattr(self.obj, "effects"):
+             return self.obj.effects
         return []
 
 class GameStateWrapper:
@@ -1183,8 +1190,9 @@ def play(state, game):
                           action["score"] += 30000 # Save bench from Gust KO
 
                 # Status Cleanse (Defensive)
-                if target_pos == 0 and gs.my_active and gs.my_active.status:
-                     action["score"] += 5000
+                if target_pos == 0 and gs.my_active:
+                     if gs.my_active.status or "NoRetreat" in gs.my_active.effects:
+                          action["score"] += 30000
 
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
@@ -1383,6 +1391,10 @@ def play(state, game):
 
                 if has_lethal_on_board:
                     # If we have lethal, generally don't retreat.
+                    action["score"] = -100000
+                    continue
+
+                if gs.my_active and "NoRetreat" in gs.my_active.effects:
                     action["score"] = -100000
                     continue
 

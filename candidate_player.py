@@ -164,8 +164,8 @@ class Card:
         self.max_hp = getattr(obj, "total_hp", 0) if obj else 0
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
-        self.db_entry = self._get_db_entry()
         self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
+        self.db_entry = self._get_db_entry()
         self.energy_count = len(self.energy)
         self.effects = getattr(obj, "effects", []) if obj else []
 
@@ -223,35 +223,22 @@ class Card:
             return None
 
         # Logic to match variant
-        # Try to match by HP and energy_type if possible
         best_match = None
 
         # In TCG Pocket, actual energy type from object (if available and attached) doesn't perfectly reflect card type,
-        # but we can try matching by HP first, then fallback to first entry.
-        # Wait, if we know the opponent's energy pool or something?
-        # Actually, in the object we don't have the card's printed energy type, only attached energy.
-        # So we can't reliably match variants of same HP.
-        # Let's check for any matching ability instead!
+        # but if we have energy attached, we can use it to guess the variant.
+        attached_types = []
+        if self.energy:
+             attached_types = list(set(self.energy))
 
-        if self.max_hp > 0:
-            # For Oricorio (HP 70 for all variants), we might misidentify.
-            # We can't easily know if they have the Safeguard ability unless we see it used,
-            # or we can just assume the worst-case variant.
-            pass
-
-        # If there are multiple entries and they have the same HP, we might need a better heuristic.
-        # For now, let's just return the first entry that matches HP,
-        # but in `calculate_damage` we can check ALL variants of the target to see if ANY prevents damage!
         if self.max_hp > 0:
             for e in entries:
                 if e.get("hp") == self.max_hp:
-                    # Keep looking for better matches if we had more info, but we don't
-                    best_match = e
-                    break
-
-        if best_match:
-            # We will still return the first match by HP, but we should make sure we're aware of the variants
-            pass
+                    # If we have attached energy, see if it matches the variant's type
+                    if attached_types and e.get("energy_type") in attached_types:
+                         return e
+                    if not best_match:
+                         best_match = e
 
         return best_match if best_match else entries[0]
 
@@ -582,35 +569,22 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     target = target_override if target_override else state.opp_active
 
-    if target:
-        # Check all possible variants for immunity abilities, since we might misidentify variants of the same HP (e.g., Oricorio)
-        all_entries = target.get_all_db_entries()
-        has_immunity = False
-
-        for entry in all_entries:
-             ability = entry.get("ability")
-             if ability:
-                 effect = ability.get("effect", "").lower()
-                 if "prevent all damage" in effect and "pokémon ex" in effect:
-                     if attacker.name.lower().endswith(" ex"):
-                         has_immunity = True
-                         break
-
-        if has_immunity:
-             damage = 0
-        elif target.db_entry:
-             # Other ability defenses
-             ability = target.db_entry.get("ability")
-             if ability:
-                 effect = ability.get("effect", "").lower()
-                 if "takes -20 damage" in effect:
-                     damage -= 20
-                 elif "takes -10 damage" in effect:
-                     damage -= 10
-                 elif "takes -30 damage" in effect:
-                     damage -= 30
-                 elif "takes -40 damage" in effect and target.hp == target.max_hp: # Ice Face
-                     damage -= 40
+    if target and target.db_entry:
+        # Ability Defense (e.g., Hard Coat, Fur Coat)
+        ability = target.db_entry.get("ability")
+        if ability:
+            effect = ability.get("effect", "").lower()
+            if "prevent all damage" in effect and "pokémon ex" in effect:
+                if attacker.name.lower().endswith(" ex"):
+                    damage = 0
+            elif "takes -20 damage" in effect:
+                damage -= 20
+            elif "takes -10 damage" in effect:
+                damage -= 10
+            elif "takes -30 damage" in effect:
+                damage -= 30
+            elif "takes -40 damage" in effect and target.hp == target.max_hp: # Ice Face
+                damage -= 40
 
     # 5. Weakness Logic
     if target:
@@ -1783,7 +1757,7 @@ def play(state, game):
                       a["score"] -= 20000
                  # Hard penalize over-attaching (e.g. attaching 41 energy) to prevent infinite stall
                  if target.energy_count >= 5:
-                      a["score"] -= 50000
+                      a["score"] = -200000
 
             if target.needs_energy():
                 is_compatible = False
@@ -2095,16 +2069,14 @@ def play(state, game):
 
     # Also penalize EndTurn and Attack if opponent is immune to damage, to favor retreating or something else if trapped
     if gs.opp_active and gs.my_active:
-        all_entries = gs.opp_active.get_all_db_entries()
         has_immunity = False
-        for entry in all_entries:
-             ability = entry.get("ability")
+        if gs.opp_active.db_entry:
+             ability = gs.opp_active.db_entry.get("ability")
              if ability:
                  effect = ability.get("effect", "").lower()
                  if "prevent all damage" in effect and "pokémon ex" in effect:
                      if gs.my_active.name.lower().endswith(" ex"):
                          has_immunity = True
-                         break
 
         if has_immunity:
              for a in actions:

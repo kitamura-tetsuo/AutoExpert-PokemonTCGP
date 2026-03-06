@@ -1086,7 +1086,12 @@ def play(state, game):
                                  action["score"] -= 200000 # Lethal Self KO
                              elif gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
                                   if not action.get("is_ko"):
-                                       action["score"] -= 50000 # Don't risk lethal if not KO/Lethal
+                                       action["score"] -= 5000 # Reduced penalty to avoid stall looping
+
+                # Limit attack score if attaching to bench endlessly while stalling
+                if action["score"] < 0 and action["type"] == "attack":
+                    # If all attacks are penalized heavily due to recoil, we should still attack over EndTurn if there is no other good play, except self-KO
+                    action["score"] = max(action["score"], -5000)
 
                 # Donk Avoidance for Attack
                 if risk_of_donk and not action.get("is_lethal") and not action.get("is_ko"):
@@ -1727,6 +1732,9 @@ def play(state, game):
             if is_fully_powered:
                  if not (a["pos"] == 0 and threat_lethal):
                       a["score"] -= 20000
+                 # Hard penalize over-attaching (e.g. attaching 41 energy) to prevent infinite stall
+                 if target.energy_count >= 5:
+                      a["score"] -= 50000
 
             if target.needs_energy():
                 is_compatible = False

@@ -9,7 +9,7 @@ class CodeGenerator:
     def __init__(self, source_name: str):
         self.source_name = source_name
 
-    def generate(self, goal: str, feedback: Optional[str] = None, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past") -> str:
+    def generate(self, goal: str, feedback: Optional[str] = None, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past", wait_completion: bool = True) -> str:
         """Calls Jules to generate a Python play function."""
         task_prompt = get_task_prompt(goal, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, evaluation_log)
         

@@ -62,6 +62,11 @@ def main():
         if current_branch.startswith("student_vs_teacher/"):
             # Format: student_vs_teacher/DeckA_vs_DeckB
             decks_part = current_branch[len("student_vs_teacher/"):]
+
+            # Remove UUID part if it exists (e.g., -8427737067298463983)
+            import re
+            decks_part = re.sub(r"-\d+$", "", decks_part)
+
             if "_vs_" in decks_part:
                 student, teacher = decks_part.split("_vs_", 1)
                 

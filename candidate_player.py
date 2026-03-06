@@ -111,7 +111,7 @@ EVOLUTION_MAP = {
     "blitzle": "zebstrika",
     "weedle": "kakuna", "kakuna": "beedrill",
     "caterpie": "metapod", "metapod": "butterfree",
-    "zubat": "golbat",
+    "zubat": "golbat", "exeggcute": "exeggutor", "exeggutor": "exeggutor ex",
     "ekans": "arbok",
     "sandshrew": "sandslash",
     "clefairy": "clefable",
@@ -311,6 +311,7 @@ class Card:
         elif "venusaur ex" in n_lower: max_cost = 4
         elif "mewtwo ex" in n_lower: max_cost = 4
         elif "dragonite" in n_lower: max_cost = 4
+        elif "exeggutor ex" in n_lower: max_cost = 1
         elif "machamp ex" in n_lower: max_cost = 3
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
@@ -1403,6 +1404,10 @@ def play(state, game):
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
 
+                if gs.my_active and gs.my_active.status and any("poison" in str(s).lower() for s in gs.my_active.status):
+                     if gs.my_active.hp <= 30: # 10 hp per turn, 3 turns
+                         action["score"] += 15000
+
                 if threat_lethal:
                     # Check if losing active means losing the game
                     opp_points_needed = 3 - gs.opp_points
@@ -2078,8 +2083,11 @@ def play(state, game):
                  if is_switch: # Switch is immediate
                       a["score"] += 1000
                       # Status Cure via Switch Items
-                      if gs.my_active and gs.my_active.status and any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis"]):
+                      if gs.my_active and gs.my_active.status and any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis", "poisoned"]):
                            a["score"] = max(a["score"], 85000)
+                 elif is_x_speed: # X Speed helps retreat
+                      if gs.my_active and gs.my_active.status and any("poison" in str(s).lower() for s in gs.my_active.status):
+                           a["score"] += 10000
             else:
                  a["score"] = -10000
 

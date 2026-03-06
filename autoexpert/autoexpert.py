@@ -121,6 +121,7 @@ class AutoExpert:
                 code = self.code_generator.generate(
                     goal, 
                     feedback, 
+                    wait_completion,
                     deck_path=self.deck_a,
                     deck_contents=deck_a_contents,
                     opponent_deck_path=self.deck_b,

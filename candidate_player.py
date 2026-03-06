@@ -1755,9 +1755,6 @@ def play(state, game):
             if is_fully_powered:
                  if not (a["pos"] == 0 and threat_lethal):
                       a["score"] -= 20000
-                 # Hard penalize over-attaching (e.g. attaching 41 energy) to prevent infinite stall
-                 if target.energy_count >= 5:
-                      a["score"] = -200000
 
             if target.needs_energy():
                 is_compatible = False
@@ -1836,6 +1833,10 @@ def play(state, game):
                      a["score"] -= 1000
             else:
                 a["score"] -= 5000 # Relaxed penalty: if nothing else to do, attach.
+
+            # Hard penalize over-attaching (e.g. attaching 41 energy) to prevent infinite stall
+            if target.energy_count >= 5:
+                 a["score"] = -200000
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()
@@ -2091,7 +2092,9 @@ def play(state, game):
                          elif "to each of your opponent's pokemon" in text or "to 1 of your opponent's pokemon" in text: is_snipe = True
 
                      if not is_snipe:
-                         a["score"] -= 50000
+                         # Use a massive penalty, stronger than EndTurn
+                         # Do not use a max() function after this point for attack!
+                         a["score"] = -200000
                          a["is_ko"] = False
                  # If we are immune, boost retreat / item switch
                  # But only if the bench has something that CAN attack and is NOT an EX, or we have something better
@@ -2099,9 +2102,12 @@ def play(state, game):
                      target_idx = a.get("target_idx", -1)
                      target = gs.get_bench_card(target_idx)
                      if target and not target.name.lower().endswith(" ex"):
-                         a["score"] += 50000
+                         a["score"] += 150000 # Boost massively above everything else to break the lock
                  if a["type"] == "x_speed" or (a["type"] == "item" and ("switch" in a["name"].lower() or "rope" in a["name"].lower())):
-                     a["score"] += 60000
+                     a["score"] += 150000
+
+             # In addition to penalizing attacks, if we are completely locked out (no non-EX to switch to, no gust),
+             # passing turn repeatedly is fine, but we MUST NOT attach energy endlessly. This is already handled by the 5 energy cap.
 
     for a in actions:
         is_x_speed = False

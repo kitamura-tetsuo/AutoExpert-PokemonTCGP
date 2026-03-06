@@ -223,13 +223,49 @@ class Card:
             return None
 
         # Logic to match variant
+        # Try to match by HP and energy_type if possible
+        best_match = None
+
+        # In TCG Pocket, actual energy type from object (if available and attached) doesn't perfectly reflect card type,
+        # but we can try matching by HP first, then fallback to first entry.
+        # Wait, if we know the opponent's energy pool or something?
+        # Actually, in the object we don't have the card's printed energy type, only attached energy.
+        # So we can't reliably match variants of same HP.
+        # Let's check for any matching ability instead!
+
+        if self.max_hp > 0:
+            # For Oricorio (HP 70 for all variants), we might misidentify.
+            # We can't easily know if they have the Safeguard ability unless we see it used,
+            # or we can just assume the worst-case variant.
+            pass
+
+        # If there are multiple entries and they have the same HP, we might need a better heuristic.
+        # For now, let's just return the first entry that matches HP,
+        # but in `calculate_damage` we can check ALL variants of the target to see if ANY prevents damage!
         if self.max_hp > 0:
             for e in entries:
-                # Basic matching: HP
                 if e.get("hp") == self.max_hp:
-                    return e
+                    # Keep looking for better matches if we had more info, but we don't
+                    best_match = e
+                    break
 
-        return entries[0]
+        if best_match:
+            # We will still return the first match by HP, but we should make sure we're aware of the variants
+            pass
+
+        return best_match if best_match else entries[0]
+
+    def get_all_db_entries(self):
+        key = self.name.lower()
+        if key in CARD_DB_FULL:
+            return CARD_DB_FULL[key]
+        elif key in CARD_DB:
+            entry = CARD_DB[key]
+            return entry if isinstance(entry, list) else [entry]
+        for k in CARD_DB_FULL:
+            if k in key:
+                return CARD_DB_FULL[k]
+        return []
 
     @property
     def energy_type(self):
@@ -258,7 +294,7 @@ class Card:
 
     @property
     def is_ex(self):
-        return "ex" in self.name.lower()
+        return self.name.lower().endswith(" ex")
 
     @property
     def is_carry(self):
@@ -546,22 +582,35 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     target = target_override if target_override else state.opp_active
 
-    if target and target.db_entry:
-        # Ability Defense (e.g., Hard Coat, Fur Coat)
-        ability = target.db_entry.get("ability")
-        if ability:
-            effect = ability.get("effect", "").lower()
-            if "prevent all damage" in effect and "pokémon ex" in effect:
-                if "ex" in attacker.name.lower():
-                    damage = 0
-            elif "takes -20 damage" in effect:
-                damage -= 20
-            elif "takes -10 damage" in effect:
-                damage -= 10
-            elif "takes -30 damage" in effect:
-                damage -= 30
-            elif "takes -40 damage" in effect and target.hp == target.max_hp: # Ice Face
-                damage -= 40
+    if target:
+        # Check all possible variants for immunity abilities, since we might misidentify variants of the same HP (e.g., Oricorio)
+        all_entries = target.get_all_db_entries()
+        has_immunity = False
+
+        for entry in all_entries:
+             ability = entry.get("ability")
+             if ability:
+                 effect = ability.get("effect", "").lower()
+                 if "prevent all damage" in effect and "pokémon ex" in effect:
+                     if attacker.name.lower().endswith(" ex"):
+                         has_immunity = True
+                         break
+
+        if has_immunity:
+             damage = 0
+        elif target.db_entry:
+             # Other ability defenses
+             ability = target.db_entry.get("ability")
+             if ability:
+                 effect = ability.get("effect", "").lower()
+                 if "takes -20 damage" in effect:
+                     damage -= 20
+                 elif "takes -10 damage" in effect:
+                     damage -= 10
+                 elif "takes -30 damage" in effect:
+                     damage -= 30
+                 elif "takes -40 damage" in effect and target.hp == target.max_hp: # Ice Face
+                     damage -= 40
 
     # 5. Weakness Logic
     if target:
@@ -1089,7 +1138,7 @@ def play(state, game):
                                        action["score"] -= 5000 # Reduced penalty to avoid stall looping
 
                 # Limit attack score if attaching to bench endlessly while stalling
-                if action["score"] < 0 and action["type"] == "attack":
+                if action["score"] < 0 and action["type"] == "attack" and action["score"] != -200000:
                     # If all attacks are penalized heavily due to recoil, we should still attack over EndTurn if there is no other good play, except self-KO
                     action["score"] = max(action["score"], -5000)
 
@@ -2043,6 +2092,44 @@ def play(state, game):
                         a["score"] += 5000
                     else:
                         a["score"] -= 1000
+
+    # Also penalize EndTurn and Attack if opponent is immune to damage, to favor retreating or something else if trapped
+    if gs.opp_active and gs.my_active:
+        all_entries = gs.opp_active.get_all_db_entries()
+        has_immunity = False
+        for entry in all_entries:
+             ability = entry.get("ability")
+             if ability:
+                 effect = ability.get("effect", "").lower()
+                 if "prevent all damage" in effect and "pokémon ex" in effect:
+                     if gs.my_active.name.lower().endswith(" ex"):
+                         has_immunity = True
+                         break
+
+        if has_immunity:
+             for a in actions:
+                 if a["type"] == "attack":
+                     # Don't penalize attacks that hit the bench, if any
+                     is_snipe = False
+                     idx = a.get("idx", -1)
+                     if idx >= 0 and idx < len(gs.my_active.attacks):
+                         atk = gs.my_active.attacks[idx]
+                         text = (atk.get("text") or "").lower()
+                         if "benched" in text and "opponent" in text: is_snipe = True
+                         elif "to each of your opponent's pokemon" in text or "to 1 of your opponent's pokemon" in text: is_snipe = True
+
+                     if not is_snipe:
+                         a["score"] -= 50000
+                         a["is_ko"] = False
+                 # If we are immune, boost retreat / item switch
+                 # But only if the bench has something that CAN attack and is NOT an EX, or we have something better
+                 if a["type"] == "retreat":
+                     target_idx = a.get("target_idx", -1)
+                     target = gs.get_bench_card(target_idx)
+                     if target and not target.name.lower().endswith(" ex"):
+                         a["score"] += 50000
+                 if a["type"] == "x_speed" or (a["type"] == "item" and ("switch" in a["name"].lower() or "rope" in a["name"].lower())):
+                     a["score"] += 60000
 
     for a in actions:
         is_x_speed = False

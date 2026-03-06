@@ -422,7 +422,11 @@ def resolve_deck_path(deck: str) -> str:
     if not deck_path.exists():
         deck_path = settings.DECK_DIR / deck
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        # Avoid prepending if it already starts with train_data
+        if not str(deck).startswith("train_data/"):
+            deck_path = Path("train_data") / deck
+        else:
+            deck_path = Path(deck)
     return str(deck_path)
 
 

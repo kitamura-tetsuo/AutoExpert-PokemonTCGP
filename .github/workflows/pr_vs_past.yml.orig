@@ -1,13 +1,12 @@
-name: PR Deck-Specialized Win Rate Check
+name: PR Win Rate Check
 
 on:
   pull_request:
-    branches-ignore:
+    branches:
       - main
 
 jobs:
-  vs-past-deck-check:
-    if: "!startsWith(github.base_ref, 'student_vs_teacher/')"
+  vs-past-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -30,21 +29,10 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install dependencies
-        env:
-          CARGO_HTTP_MULTIPLEXING: "false"
         run: |
           uv sync
           uv pip install -e ./deckgym-core
 
-      - name: Prepare past AI (1 commit before HEAD)
+      - name: Run VS Past Check
         run: |
-          git worktree add past_repo_main HEAD~1
-
-      - name: Run Deck-Specialized VS Past Check
-        run: |
-          uv run python vs_past_deck.py \
-            --past_dir past_repo \
-            --deck_a train_data/${{ github.base_ref || github.ref_name }}.txt \
-            --num_matches 1000 \
-            --threshold 0.01 \
-            --league_decks_teacher train_data/teacher.csv
+          uv run python main.py vs-past --past-dir past_repo --deck-a train_data/${{ github.head_ref || github.ref_name }}.txt --matches 1000 --league-student train_data/teacher.csv --league-teacher train_data/teacher.csv

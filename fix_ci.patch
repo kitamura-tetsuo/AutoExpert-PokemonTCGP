@@ -1,0 +1,44 @@
+--- .github/workflows/jules_update.yml
++++ .github/workflows/jules_update.yml
+@@ -18,6 +18,8 @@
+         uses: dtolnay/rust-toolchain@stable
+
+       - name: Install dependencies
++        env:
++          CARGO_HTTP_MULTIPLEXING: "false"
+         run: |
+           uv sync
+           uv pip install -e ./deckgym-core
+--- .github/workflows/student_deck_vs_teacher_deck.yml
++++ .github/workflows/student_deck_vs_teacher_deck.yml
+@@ -21,6 +21,8 @@
+         uses: dtolnay/rust-toolchain@stable
+
+       - name: Install dependencies
++        env:
++          CARGO_HTTP_MULTIPLEXING: "false"
+         run: |
+           uv sync
+           uv pip install -e ./deckgym-core
+--- .github/workflows/pr_vs_past.yml
++++ .github/workflows/pr_vs_past.yml
+@@ -19,6 +19,8 @@
+         uses: dtolnay/rust-toolchain@stable
+
+       - name: Install dependencies
++        env:
++          CARGO_HTTP_MULTIPLEXING: "false"
+         run: |
+           uv sync
+           uv pip install -e ./deckgym-core
+--- .github/workflows/pr_vs_past_deck.yml
++++ .github/workflows/pr_vs_past_deck.yml
+@@ -21,6 +21,8 @@
+         uses: dtolnay/rust-toolchain@stable
+
+       - name: Install dependencies
++        env:
++          CARGO_HTTP_MULTIPLEXING: "false"
+         run: |
+           uv sync
+           uv pip install -e ./deckgym-core

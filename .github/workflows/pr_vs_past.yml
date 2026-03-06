@@ -29,9 +29,10 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install dependencies
+        env:
+          CARGO_BUILD_JOBS: 1
         run: |
           uv sync
-          uv pip install -e ./deckgym-core
 
       - name: Run VS Past Check
         run: |

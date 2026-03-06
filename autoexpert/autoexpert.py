@@ -1,4 +1,4 @@
-import time
+import os
 import subprocess
 from typing import Optional, List, Dict, Any
 from autoexpert.config import settings
@@ -92,12 +92,6 @@ class AutoExpert:
             best_code = None
             best_win_rate = -1.0
             feedback = None
-            previous_code = None
-            
-            # Use current best skill as baseline if applicable
-            best_skill = self.skill_library.get_best_skill()
-            if best_skill:
-                previous_code = best_skill["code"]
             
             # Load deck contents for context
             deck_a_contents = None
@@ -116,14 +110,17 @@ class AutoExpert:
                 print(f"Warning: Failed to read deck file {self.deck_b}: {e}")
 
             evaluation_log = None
+            
+            # Baseline evaluation: Run before the first attempt if we have a baseline
+            if evaluation_log is None:
+                print("Running baseline 100-match evaluation...")
+                evaluation_log = self._run_evaluation()
 
             for retry in range(settings.MAX_RETRIES_PER_GOAL):
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
                 code = self.code_generator.generate(
                     goal, 
-                    previous_code, 
                     feedback, 
-                    wait_completion=wait_completion,
                     deck_path=self.deck_a,
                     deck_contents=deck_a_contents,
                     opponent_deck_path=self.deck_b,
@@ -145,27 +142,7 @@ class AutoExpert:
                 results = self.verifier.verify(code)
                 
                 # Run vs_past_deck.py to get detailed evaluation log
-                print("Running 1000-match evaluation against past deck...")
-                try:
-                    # We use the current candidate_player.py which was just written by CodeGenerator
-                    cmd = [
-                        "uv", "run", "python3", "vs_past_deck.py",
-                        "--deck_a", self.deck_a,
-                        "--deck_b", self.deck_b,
-                        "--num_matches", "1000",
-                        "--threshold", "0.01"
-                    ]
-                    process = subprocess.run(cmd, capture_output=True, text=True)
-                    stdout = process.stdout
-                    
-                    if "--- Deck-Specialized AI Evaluation Results ---" in stdout:
-                        evaluation_log = stdout.split("--- Deck-Specialized AI Evaluation Results ---")[-1]
-                        evaluation_log = "--- Deck-Specialized AI Evaluation Results ---" + evaluation_log
-                    else:
-                        evaluation_log = stdout
-                except Exception as e:
-                    print(f"Warning: Failed to run vs_past_deck.py: {e}")
-                    evaluation_log = f"Error running vs_past_deck.py: {e}"
+                evaluation_log = self._run_evaluation()
 
                 if results["success"]:
                     win_rate = results["win_rate"]
@@ -198,3 +175,26 @@ class AutoExpert:
             self.code_generator.clean_up()
             
         print("\nLearning process completed.")
+
+    def _run_evaluation(self) -> str:
+        """Runs the 100-match evaluation and returns the log string."""
+        print("Running 100-match evaluation against past deck...")
+        try:
+            # We use the current candidate_player.py which was just written by CodeGenerator or baseline setup
+            cmd = [
+                "uv", "run", "python3", "vs_past_deck.py",
+                "--deck_a", self.deck_a,
+                "--deck_b", self.deck_b,
+                "--matches", "100",
+                "--threshold", "0.01"
+            ]
+            process = subprocess.run(cmd, capture_output=True, text=True)
+            stdout = process.stdout
+            
+            if "--- Deck-Specialized AI Evaluation Results ---" in stdout:
+                log = stdout.split("--- Deck-Specialized AI Evaluation Results ---")[-1]
+                return "--- Deck-Specialized AI Evaluation Results ---" + log
+            return stdout
+        except Exception as e:
+            print(f"Warning: Failed to run vs_past_deck.py: {e}")
+            return f"Error running vs_past_deck.py: {e}"

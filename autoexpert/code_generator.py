@@ -9,9 +9,9 @@ class CodeGenerator:
     def __init__(self, source_name: str):
         self.source_name = source_name
 
-    def generate(self, goal: str, previous_code: Optional[str] = None, feedback: Optional[str] = None, wait_completion: bool = True, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past") -> str:
+    def generate(self, goal: str, feedback: Optional[str] = None, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past") -> str:
         """Calls Jules to generate a Python play function."""
-        task_prompt = get_task_prompt(goal, previous_code, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, evaluation_log)
+        task_prompt = get_task_prompt(goal, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, evaluation_log)
         
         system_prompt = get_system_prompt(deck_path, opponent_deck_path, workflow_type=workflow_type)
         full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."

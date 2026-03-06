@@ -102,6 +102,7 @@ EVOLUTION_MAP = {
     "nidoran\u2642": "nidorino", "nidorino": "nidoking",
     "oddish": "gloom", "gloom": "vileplume",
     "bellsprout": "weepinbell", "weepinbell": "victreebel",
+    "exeggcute": "exeggutor ex",
     "abra": "kadabra", "kadabra": "alakazam",
     "geodude": "graveler", "graveler": "golem",
     "poliwag": "poliwhirl", "poliwhirl": "poliwrath",
@@ -166,6 +167,7 @@ class Card:
         self.db_entry = self._get_db_entry()
         self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
         self.energy_count = len(self.energy)
+        self.effects = getattr(obj, "effects", []) if obj else []
 
     @staticmethod
     def _clean_name(raw_name):
@@ -1183,8 +1185,8 @@ def play(state, game):
                           action["score"] += 30000 # Save bench from Gust KO
 
                 # Status Cleanse (Defensive)
-                if target_pos == 0 and gs.my_active and gs.my_active.status:
-                     action["score"] += 5000
+                if target_pos == 0 and gs.my_active and (gs.my_active.status or "NoRetreat" in gs.my_active.effects):
+                     action["score"] += 15000
 
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
@@ -1389,6 +1391,8 @@ def play(state, game):
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
+                    if "NoRetreat" in gs.my_active.effects:
+                         action["score"] -= 100000
 
                 if threat_lethal:
                     # Check if losing active means losing the game
@@ -2065,10 +2069,15 @@ def play(state, game):
                  if is_switch: # Switch is immediate
                       a["score"] += 1000
                       # Status Cure via Switch Items
-                      if gs.my_active and gs.my_active.status and any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis"]):
-                           a["score"] = max(a["score"], 85000)
+                      if gs.my_active:
+                           if any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis"]) or "NoRetreat" in gs.my_active.effects:
+                                a["score"] = max(a["score"], 85000)
             else:
-                 a["score"] = -10000
+                 # If we are trapped, we might still want to switch with Item
+                 if is_switch and gs.my_active and ("NoRetreat" in gs.my_active.effects or any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis"])):
+                      a["score"] = 85000
+                 else:
+                      a["score"] = -10000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

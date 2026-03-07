@@ -1113,13 +1113,21 @@ def play(state, game):
                              action["score"] = LETHAL_KO_SCORE + AGGRESSIVE_DEFENSE_BONUS # 550,000 -> Beats Retreat (501k)
 
                     # Status Effect / Heal Bonus
+                    # Status Effect / Heal Bonus
                     if gs.my_active and idx < len(gs.my_active.attacks):
                         atk_data = gs.my_active.attacks[idx]
                         atk_text = (atk_data.get("text") or "").lower()
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                            action["score"] += 1000
+                            heal_amount = 0
+                            m_heal = re.search(r"heal (\d+)", atk_text)
+                            if m_heal:
+                                heal_amount = int(m_heal.group(1))
+                            else:
+                                heal_amount = 20
+                            heal_amount = min(heal_amount, gs.my_active.max_hp - gs.my_active.hp)
+                            action["score"] += (heal_amount * 100)
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:

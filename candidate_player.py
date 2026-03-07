@@ -174,12 +174,7 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
-        if m and m.group(1):
-             prefix = m.group(1)
-             name_part = m.group(2)
-             if len(prefix) <= 6:
-                 raw_name = name_part
+        raw_name = re.sub(r"^(?:[A-Za-z]+_?-?[A-Za-z]*\d+\s*)?", "", raw_name)
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
@@ -428,7 +423,13 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    damage = float(atk.get("dmg", 0))
+
+    raw_dmg = atk.get("dmg", 0)
+    cleaned_dmg = re.sub(r'[^0-9.]', '', str(raw_dmg))
+    if cleaned_dmg == "":
+        cleaned_dmg = 0
+    damage = float(cleaned_dmg)
+
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
@@ -1213,6 +1214,13 @@ def play(state, game):
                 if key in CARD_DB_FULL: evol_entry = CARD_DB_FULL[key][0]
                 elif key in CARD_DB: evol_entry = CARD_DB[key] if not isinstance(CARD_DB[key], list) else CARD_DB[key][0]
 
+                if evol_entry is None:
+                    # Retry with stripping spaces / prefixes just in case
+                    for db_k in CARD_DB_FULL:
+                        if db_k in key or key in db_k:
+                            evol_entry = CARD_DB_FULL[db_k][0]
+                            break
+
                 evol_hp = evol_entry.get("hp", 0) if evol_entry else 0
 
                 if threat_lethal:
@@ -1607,7 +1615,7 @@ def play(state, game):
                                 if dmg > best_immediate_dmg:
                                     best_immediate_dmg = dmg
 
-                        action["score"] += best_immediate_dmg * 10
+                        action["score"] += best_immediate_dmg * 100
 
                         if not target.needs_energy():
                              action["score"] += 15000 # Memory suggested +15000
@@ -1629,7 +1637,7 @@ def play(state, game):
                         # Apply a severe score penalty proportional to its HP deficit against the opponent's combined lethal threat
                         threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                         if target.hp <= threat:
-                            action['score'] -= (threat - target.hp) * 1000
+                            action['score'] -= 50000 + (threat - target.hp) * 1000
 
         elif "Discard" in aname:
              action["type"] = "discard"

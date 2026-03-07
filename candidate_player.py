@@ -218,6 +218,22 @@ class Card:
                      break
 
         if not entries:
+            # Fallback for missing entries if we know them
+            name_lower = self.name.lower()
+            if "houndstone" in name_lower:
+                return {"hp": 130, "energy_type": "Psychic", "retreat": 3, "attacks": [{"dmg": 50, "text": "This attack does 20 more damage for each [P] Pokémon in your discard pile.", "cost": ["Psychic", "Colorless"]}]}
+            if "cofagrigus" in name_lower:
+                return {"hp": 120, "energy_type": "Psychic", "retreat": 2, "attacks": [{"dmg": 120, "text": "Discard 2 cards from your hand.", "cost": ["Psychic", "Psychic"]}]}
+            if "greavard" in name_lower:
+                return {"hp": 70, "energy_type": "Psychic", "retreat": 2, "attacks": [{"dmg": 20, "cost": ["Psychic"]}]}
+            if "yamask" in name_lower:
+                return {"hp": 70, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 10, "cost": ["Psychic"]}]}
+            if "mismagius" in name_lower:
+                return {"hp": 90, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 70, "cost": ["Psychic", "Psychic"]}]}
+            if "misdreavus" in name_lower:
+                return {"hp": 60, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 10, "cost": ["Psychic"]}]}
+            if "klefki" in name_lower:
+                return {"hp": 50, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 10, "cost": ["Colorless"]}]}
             return None
 
         # Logic to match variant
@@ -422,12 +438,31 @@ POTENTIAL_LETHAL_BONUS = 5000
 def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, extra_damage=0, mode="ev", target_override=None, energy_override: Optional[List[str]] = None):
     if not attacker: return 0
     attacks = attacker.attacks
+    name_lower = attacker.name.lower()
+
+    # Fallbacks if attacks are missing from db
+    if not attacks:
+        if "houndstone" in name_lower and attack_idx == 0:
+            # Fake the Last Respects attack to allow EV calculation
+            attacks = [{"dmg": 50, "text": "This attack does 20 more damage for each [P] Pokémon in your discard pile.", "cost": ["Psychic", "Colorless"]}]
+            attacker.db_entry = {"attacks": attacks, "hp": 130, "retreat": 3}
+        elif "cofagrigus" in name_lower and attack_idx == 0:
+            attacks = [{"dmg": 120, "text": "Discard 2 cards from your hand.", "cost": ["Psychic", "Psychic"]}]
+            attacker.db_entry = {"attacks": attacks, "hp": 120, "retreat": 2}
+        elif "mismagius" in name_lower:
+            if "ex" in name_lower:
+                attacks = [{"dmg": 70, "text": "Confused", "cost": ["Psychic", "Psychic"]}]
+                attacker.db_entry = {"attacks": attacks, "hp": 140, "retreat": 1}
+            else:
+                # Assuming 90 HP variant
+                attacks = [{"dmg": 70, "cost": ["Psychic", "Psychic"]}]
+                attacker.db_entry = {"attacks": attacks, "hp": 90, "retreat": 1}
+
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
     damage = float(atk.get("dmg", 0))
     text = (atk.get("text") or "").lower()
-    name_lower = attacker.name.lower()
 
     # 1. Coin Flips EV
     num_coins = atk.get("coin_flips", 0)
@@ -1269,13 +1304,18 @@ def play(state, game):
                         stage2 = EVOLUTION_MAP[evolved]
                         if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
-                # Houndstone synergy
-                is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
+                # Cofagrigus / Houndstone synergy
+                has_houndstone_threat = False
+                for p in ([gs.my_active] + gs.my_bench):
+                    if p and "houndstone" in p.name.lower():
+                        has_houndstone_threat = True
+                        break
+
                 is_psychic_pokemon = any(x in n_lower for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"])
 
-                if is_houndstone_active and is_psychic_pokemon and not is_useful:
+                if has_houndstone_threat and is_psychic_pokemon and not is_useful:
                     action["score"] = 60000 # Prioritize discarding psychic pokemon for Houndstone
-                elif is_houndstone_active and is_psychic_pokemon and is_useful:
+                elif has_houndstone_threat and is_psychic_pokemon and is_useful:
                     action["score"] = 10000 # Discarding carry psychic pokemon is OK but not ideal
                 elif is_useful:
                     action["score"] = -50000 # Keep good cards
@@ -1841,10 +1881,18 @@ def play(state, game):
 
                 if is_compatible:
                     a["score"] += 2000
-                    if "ex" in target.name.lower():
+
+                    target_name = target.name.lower()
+                    if "ex" in target_name:
                         a["score"] += 1000
-                    if target.name.lower() in CARRY_LIST:
+                    if target_name in CARRY_LIST:
                         a["score"] += CARRY_BONUS
+
+                    # Specific deck logic: Houndstone is our primary attacker
+                    if "houndstone" in target_name:
+                        a["score"] += 10000
+                    elif "cofagrigus" in target_name or "mismagius" in target_name:
+                        a["score"] += 5000
 
                     if a["pos"] == 0:
                          a["score"] += 1000
@@ -1968,6 +2016,14 @@ def play(state, game):
                  elif gs.my_active and ("pichu" in gs.my_active.name.lower() or gs.my_active.hp <= 40):
                      a["score"] += 2000 # Prioritize bench for retreat
 
+            # Klefki is a great stall starter, so prioritize placing it first if we don't have Houndstone/Cofagrigus basics ready
+            if not gs.my_bench and a.get("pos") == 0:
+                 if "klefki" in n_lower:
+                      a["score"] += 5000
+            # Hide important basics on bench
+            if a.get("pos", 0) > 0 and ("greavard" in n_lower or "yamask" in n_lower):
+                 a["score"] += 5000
+
     for a in actions:
         if a["type"] == "research":
             # Smart Research: Discard energy is bad, UNLESS we can accelerate it back (Gardevoir)
@@ -1976,7 +2032,12 @@ def play(state, game):
             has_gardevoir_line = any("gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
 
             # Houndstone Synergy Check: Discarding psychic pokemon is good
-            is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
+            has_houndstone_threat = False
+            for p in ([gs.my_active] + gs.my_bench):
+                if p and "houndstone" in p.name.lower():
+                    has_houndstone_threat = True
+                    break
+
             psychic_pokemon_in_hand = 0
             for c in gs.my_hand:
                 if getattr(c.obj, "is_pokemon", False) and getattr(c.obj, "energy_type", None) == "Psychic":
@@ -1994,14 +2055,14 @@ def play(state, game):
             if has_energy:
                  if has_gardevoir_line:
                      a["score"] += 1000 # Good to discard for Psy Shadow
-                 elif is_houndstone_active and psychic_pokemon_in_hand >= 1:
+                 elif has_houndstone_threat and psychic_pokemon_in_hand >= 1:
                      a["score"] += (psychic_pokemon_in_hand * 3000) # Good to discard psychic pokemon for Houndstone
                  else:
                      # Only penalize if we have a bench. If Donk risk, ignore penalty.
                      if not risk_of_donk:
                          a["score"] -= 10000 # Bad to discard
 
-            if is_houndstone_active and not has_energy and psychic_pokemon_in_hand >= 1:
+            if has_houndstone_threat and not has_energy and psychic_pokemon_in_hand >= 1:
                  a["score"] += (psychic_pokemon_in_hand * 5000)
 
             # Dead Hand Logic

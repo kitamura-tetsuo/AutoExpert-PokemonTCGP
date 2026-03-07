@@ -1079,7 +1079,9 @@ def play(state, game):
                             atk_text = (atk_data.get("text") or "").lower()
                             if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
                                 missing_hp = gs.my_active.max_hp - gs.my_active.hp
-                                action["score"] += (missing_hp * 10)
+                                heal_amount = 30 if "venusaur" in gs.my_active.name.lower() else 20
+                                actual_heal = min(missing_hp, heal_amount)
+                                action["score"] += (actual_heal * 100)
 
                     # If threatened, boost attack if it kills the threat
                     if threat_lethal and is_ko:
@@ -1101,7 +1103,9 @@ def play(state, game):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
                             missing_hp = gs.my_active.max_hp - gs.my_active.hp
-                            action["score"] += (missing_hp * 10)
+                            heal_amount = 30 if "venusaur" in gs.my_active.name.lower() else 20
+                            actual_heal = min(missing_hp, heal_amount)
+                            action["score"] += (actual_heal * 100)
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:
@@ -1297,8 +1301,14 @@ def play(state, game):
                     action["score"] -= 50000 # Don't heal full HP
                 else:
                     action["score"] += (missing_hp * 100)
+
+                    if "ex" in target.name.lower():
+                        action["score"] += 15000
+                        if poison_dmg > 0 or ("poisoned" in [str(s).lower() for s in target.status]):
+                             action["score"] += 10000
+
                     if target.hp <= 60 or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg):
-                        action["score"] = POTION_CRITICAL_SCORE
+                        action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
                     # If it puts us out of lethal range
                     if threat_lethal and (target.hp + heal_amount) > (opp_max_dmg + poison_dmg):
                          opp_points_needed = 3 - gs.opp_points
@@ -1345,8 +1355,14 @@ def play(state, game):
                         action["score"] -= 50000 # Don't heal full HP
                     else:
                         action["score"] += (missing_hp * 100)
+
+                        if "ex" in target.name.lower():
+                            action["score"] += 15000
+                            if poison_dmg > 0 or ("poisoned" in [str(s).lower() for s in target.status]):
+                                 action["score"] += 10000
+
                         if target.hp <= 80 or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg) or ("poisoned" in [str(s).lower() for s in target.status]):
-                            action["score"] = POTION_CRITICAL_SCORE
+                            action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
                         # If it puts us out of lethal range
                         if threat_lethal and (target.hp + heal_amount) > (opp_max_dmg + poison_dmg):
                              opp_points_needed = 3 - gs.opp_points
@@ -1591,7 +1607,10 @@ def play(state, game):
                         # Prioritize ready attacker
                         action["score"] += target.hp
                         if not target.needs_energy():
-                             action["score"] += 5000
+                             action["score"] += 15000
+                        elif target.energy_count > 0:
+                             action["score"] += target.energy_count * 2000
+
                         if "ex" in target.name.lower():
                             action["score"] += 1000
 

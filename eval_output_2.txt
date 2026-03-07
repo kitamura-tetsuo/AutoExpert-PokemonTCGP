@@ -1,0 +1,1250 @@
+2026-03-07 18:30:24,595 - INFO - Using candidate_player.play for new AI.
+2026-03-07 18:30:24,595 - INFO - Using existing past repository at past_repo_main
+2026-03-07 18:30:24,596 - INFO - Using candidate_player.play from branch 'main' for old AI.
+2026-03-07 18:30:47,553 - WARNING - [NEW] 100/500 done, wins=33
+2026-03-07 18:31:11,069 - WARNING - [NEW] 200/500 done, wins=65
+2026-03-07 18:31:40,262 - WARNING - [NEW] 300/500 done, wins=97
+2026-03-07 18:32:04,177 - WARNING - [NEW] 400/500 done, wins=138
+2026-03-07 18:32:30,726 - WARNING - [NEW] 500/500 done, wins=173
+2026-03-07 18:32:43,810 - WARNING - [OLD] 100/500 done, wins=29
+2026-03-07 18:32:57,782 - WARNING - [OLD] 200/500 done, wins=55
+2026-03-07 18:33:10,991 - WARNING - [OLD] 300/500 done, wins=89
+2026-03-07 18:33:23,282 - WARNING - [OLD] 400/500 done, wins=128
+2026-03-07 18:33:38,603 - WARNING - [OLD] 500/500 done, wins=156
+
+--- Deck-Specialized AI Evaluation Results ---
+Student deck : deckgym-core/example_decks/venusaur-exeggutor.txt
+Matches / AI : 500
+
+New AI  wins : 173 / 500  (34.60%)
+Old AI  wins : 156 / 500  (31.20%)
+Improvement  : +3.40%  (threshold: +1.00%)
+
+=== SHORTEST_LOSS (17 steps) ===
+
+--- STEP 7 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Darkness": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_active": {
+    "name": "Bulbasaur",
+    "hp": 70,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Deino",
+    "hp": 60,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Poison Barb",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Venusaur ex",
+    "X Speed",
+    "Erika",
+    "Exeggutor ex"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Bulbasaur",
+    "Ivysaur",
+    "Ivysaur",
+    "Venusaur ex",
+    "Exeggcute",
+    "Exeggcute",
+    "Exeggutor ex",
+    "Erika",
+    "Sabrina",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Red Card",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 8 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 2,
+  "is_my_turn": true,
+  "flags": {
+    "support": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    5
+  ],
+  "my_hand": [
+    "Venusaur ex",
+    "X Speed",
+    "Erika",
+    "Exeggutor ex",
+    "Ivysaur"
+  ],
+  "my_deck_contents": [
+    "Bulbasaur",
+    "Ivysaur",
+    "Venusaur ex",
+    "Exeggcute",
+    "Exeggcute",
+    "Exeggutor ex",
+    "Erika",
+    "Sabrina",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Red Card",
+    "Professor's Research",
+    "Professor's Research"
+  ]
+}
+Selected Action: 26112 - Attach(Grass, 0)
+
+--- STEP 9 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "energy": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 25972 - Play(Some(PA002XSpeed))
+
+--- STEP 10 (Player 0 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    4,
+    5
+  ],
+  "my_hand": [
+    "Venusaur ex",
+    "Ivysaur",
+    "Erika",
+    "Exeggutor ex"
+  ],
+  "my_discard": [
+    "X Speed"
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 11 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 3,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Darkness": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    6
+  ],
+  "opp_deck_count": 11
+}
+Selected Action: 4277 - Place(Some(A3a042Nihilego), 1)
+
+--- STEP 12 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    4,
+    5
+  ],
+  "opp_bench": [
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 26136 - Attach(Darkness, 0)
+
+--- STEP 13 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Darkness": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Darkness": 1
+    }
+  }
+}
+Selected Action: 24141 - Play(Some(A3144RareCandy))
+
+--- STEP 14 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    4,
+    4
+  ],
+  "opp_discard": [
+    "Rare Candy",
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 20076 - Evolve(Some(B1157Hydreigon), 0)
+
+--- STEP 15 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    4,
+    3
+  ],
+  "opp_active": {
+    "name": "Hydreigon",
+    "hp": 150,
+    "played_this_turn": true
+  }
+}
+Selected Action: 8 - UseAbility(0)
+
+--- STEP 16 (Player 1 Turn) ---
+Diff from prev step: {
+  "opp_active": {
+    "hp": 120,
+    "energy": {
+      "Darkness": 3
+    },
+    "ability_used": true
+  }
+}
+Selected Action: 1 - Attack(0)
+
+=== LONGEST_LOSS (146 steps) ===
+
+--- STEP 136 (Player 0 Turn) ---
+{
+  "turn": 23,
+  "points": [
+    2,
+    2
+  ],
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    },
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Water": 1
+    }
+  },
+  "hand_counts": [
+    0,
+    1
+  ],
+  "my_active": {
+    "name": "Exeggutor ex",
+    "hp": 160,
+    "energy": {
+      "Grass": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 90,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 130,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Suicune ex",
+    "hp": 60,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Giant Cape",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Greninja",
+      "hp": 80,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Greninja ex",
+      "hp": 169,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [],
+  "opp_hand_known": [],
+  "my_deck_contents": [],
+  "opp_deck_count": 0,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Exeggutor ex",
+    "Exeggcute",
+    "Erika",
+    "Red Card",
+    "X Speed",
+    "X Speed",
+    "Professor's Research",
+    "Sabrina",
+    "Erika",
+    "Pok\u00e9 Ball"
+  ],
+  "opp_discard": [
+    "Copycat",
+    "Cyrus",
+    "Suicune ex",
+    "Irida",
+    "Cyrus",
+    "Giant Cape",
+    "Pok\u00e9 Ball",
+    "Rare Candy",
+    "Mars",
+    "Rare Candy"
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 137 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 24,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Water": 1,
+      "Grass": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "hp": 20
+  }
+}
+Selected Action: 26122 - Attach(Water, 2)
+
+--- STEP 138 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Water": "<REMOVED>"
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Greninja",
+      "hp": 80,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Water": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Greninja ex",
+      "hp": 169,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 9 - UseAbility(1)
+
+--- STEP 139 (Player 1 Turn) ---
+Diff from prev step: {
+  "opp_bench": [
+    {
+      "name": "Greninja",
+      "hp": 80,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": true,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Water": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Greninja ex",
+      "hp": 169,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 52320 - ApplyDamage(3)
+
+--- STEP 140 (Player 1 Turn) ---
+Diff from prev step: {
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 90,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 110,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 11 - UseAbility(3)
+
+--- STEP 141 (Player 1 Turn) ---
+Diff from prev step: {
+  "opp_bench": [
+    {
+      "name": "Greninja",
+      "hp": 80,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": true,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Water": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Greninja ex",
+      "hp": 169,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": true,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 37755 - Activate(3)
+
+--- STEP 142 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "opp_active": {
+    "name": "Greninja ex",
+    "hp": 169,
+    "energy": {
+      "Water": 2
+    },
+    "ability_used": true,
+    "tool": "None"
+  },
+  "opp_bench": [
+    {
+      "name": "Greninja",
+      "hp": 80,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": true,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Water": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Suicune ex",
+      "hp": 20,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 143 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 25,
+  "is_my_turn": true,
+  "flags": {
+    "retreat": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  },
+  "my_active": {
+    "hp": 60
+  },
+  "opp_active": {
+    "ability_used": false
+  },
+  "opp_bench": [
+    {
+      "name": "Greninja",
+      "hp": 80,
+      "energy": {
+        "Water": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Indeedee ex",
+      "hp": 130,
+      "energy": {
+        "Water": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Suicune ex",
+      "hp": 20,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 26114 - Attach(Grass, 2)
+
+--- STEP 144 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 90,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 110,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 145 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 26,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Water": 1
+    }
+  },
+  "opp_active": {
+    "hp": 130
+  }
+}
+Selected Action: 1 - Attack(0)
+
+=== LONGEST_DRAW (215 steps) ===
+
+--- STEP 205 (Player 1 Turn) ---
+{
+  "turn": 93,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    1
+  ],
+  "my_active": {
+    "name": "Venusaur ex",
+    "hp": 189,
+    "energy": {
+      "Grass": 5
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Exeggutor ex",
+      "hp": 160,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Exeggutor ex",
+      "hp": 160,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Oricorio",
+    "hp": 90,
+    "energy": {
+      "Lightning": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Giant Cape",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 44
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Erika",
+    "Erika"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [],
+  "opp_deck_count": 0,
+  "opp_deck_known": [],
+  "my_discard": [
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "X Speed",
+    "Professor's Research",
+    "Sabrina",
+    "Red Card",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Copycat",
+    "Professor's Research",
+    "Copycat",
+    "Oricorio",
+    "Red Card",
+    "Pok\u00e9mon Center Lady",
+    "Professor's Research",
+    "Giant Cape",
+    "Clemont",
+    "Giant Cape"
+  ]
+}2026-03-07 18:33:38,617 - INFO - HTML visualization saved to vs_past_deck_battle.html
+2026-03-07 18:33:38,617 - WARNING - Number of matches (500) is less than 1000. This would fail in CI.
+2026-03-07 18:33:38,617 - INFO - CI check passed. New AI improved by +3.40%.
+
+Selected Action: 0 - EndTurn
+
+--- STEP 206 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 94,
+  "is_my_turn": true,
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 2 - Attack(1)
+
+--- STEP 207 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 95,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1,
+      "Grass": "<REMOVED>"
+    }
+  }
+}
+Selected Action: 26126 - Attach(Lightning, 2)
+
+--- STEP 208 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 45
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 209 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 96,
+  "is_my_turn": true,
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 2 - Attack(1)
+
+--- STEP 210 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 97,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1,
+      "Grass": "<REMOVED>"
+    }
+  }
+}
+Selected Action: 26126 - Attach(Lightning, 2)
+
+--- STEP 211 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 46
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 212 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 98,
+  "is_my_turn": true,
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 2 - Attack(1)
+
+--- STEP 213 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 99,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1,
+      "Grass": "<REMOVED>"
+    }
+  }
+}
+Selected Action: 26126 - Attach(Lightning, 2)
+
+--- STEP 214 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 47
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 0 - EndTurn
+
+Last match visualization saved to: vs_past_deck_battle.html

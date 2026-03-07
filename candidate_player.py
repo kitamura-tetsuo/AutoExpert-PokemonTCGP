@@ -165,7 +165,14 @@ class Card:
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
         self.db_entry = self._get_db_entry()
-        self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
+        self.energy = []
+        if obj and hasattr(obj, "attached_energy"):
+            ae = obj.attached_energy
+            if isinstance(ae, dict):
+                for k, v in ae.items():
+                    self.energy.extend([str(k)] * int(v))
+            else:
+                self.energy = [str(e) for e in ae]
         self.energy_count = len(self.energy)
 
     @staticmethod
@@ -2014,10 +2021,7 @@ def play(state, game):
                 a["score"] = -200000
 
             # Bench Setup Priority for multi-stage attackers
-            if target and "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
-                # Exeggutor ex fully powered with 1 energy. Do not attach more.
-                a["score"] -= 50000
-            elif target and target.name.lower() in ["bulbasaur", "ivysaur", "venusaur ex"]:
+            if target and target.name.lower() in ["bulbasaur", "ivysaur", "venusaur ex"]:
                 # If we have an early game attacker with its required energy, heavily prioritize setting up Venusaur ex
                 early_attacker_ready = False
                 for p in [gs.my_active] + gs.my_bench:

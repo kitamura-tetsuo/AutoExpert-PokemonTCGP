@@ -940,6 +940,7 @@ def play(state, game):
     bench_threats_indices = []
     if opp_has_gust:
         for i, b in enumerate(gs.my_bench):
+            if not b: continue
             dmg = get_opponent_max_damage(gs, target=b)
             if dmg >= b.hp:
                 bench_threats_indices.append(i)
@@ -1204,7 +1205,7 @@ def play(state, game):
                              # Check if losing this active means losing the game
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                             loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                              if loses_game:
                                  action["score"] = LETHAL_WIN_SCORE
@@ -1332,7 +1333,7 @@ def play(state, game):
                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                             loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                              if loses_game:
                                  action["score"] = LETHAL_WIN_SCORE
@@ -1466,7 +1467,7 @@ def play(state, game):
                     # Check if losing active means losing the game
                     opp_points_needed = 3 - gs.opp_points
                     my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                    loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                     bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                     bench_is_safer = target and target.hp > bench_threat

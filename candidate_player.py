@@ -1911,10 +1911,12 @@ def play(state, game):
             if gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
                 active_can_attack = any(can_use_attack(atk.get("cost", []), gs.my_active.energy) for atk in gs.my_active.attacks)
                 if active_can_attack:
-                    if a["pos"] == 0:
+                    allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                    if a["pos"] == 0 and not allows_retreat:
                         a["score"] -= 50000
                     elif target and any(n in target.name.lower() for n in ["bulbasaur", "ivysaur", "venusaur ex"]):
-                        a["score"] += 15000
+                        if target.needs_energy():
+                             a["score"] += 15000
                     elif target and any(n in target.name.lower() for n in ["exeggcute"]):
                         a["score"] -= 5000
 

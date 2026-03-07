@@ -1619,6 +1619,11 @@ def play(state, game):
                          if d > target_dmg: target_dmg = d
                          bench_can_attack = True
 
+
+                if not bench_can_attack and active_dmg == 0 and not threat_lethal:
+                    # Prevent endless retreat loops if neither can attack
+                    action["score"] -= 200000
+
                 # Only consider switching if bench can actually attack
                 if bench_can_attack:
                     # Check if Active is already lethal
@@ -1975,7 +1980,16 @@ def play(state, game):
                  if not allows_retreat:
                       a["score"] -= 20000
 
-            if target.energy_count >= 5:
+            max_allowed = 4
+            if target and target.db_entry:
+                cost_max = 0
+                for atk in target.attacks:
+                    c = len(atk.get("cost", []))
+                    if c > cost_max: cost_max = c
+                max_allowed = max(cost_max, target.retreat_cost, 1) + 1 # Allowance for retreat + 1 extra
+
+            # Hard cap to prevent infinite attach/retreat loops causing draws
+            if target.energy_count >= max_allowed:
                 a["score"] = -200000
 
             # Venusaur / Exeggutor Setup Heuristic
@@ -1989,7 +2003,12 @@ def play(state, game):
 
             if is_multi_stage_deck:
                 if any(x in target.name.lower() for x in ["exeggutor ex", "exeggcute"]) and target.energy_count >= 1:
-                    a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
+                    # Do not over-penalize if we have no valid bench targets
+                    valid_bench_targets = any(b for b in gs.my_bench if b and b.needs_energy())
+                    if valid_bench_targets:
+                        a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
+                    else:
+                        a["score"] -= 1000 # Mild penalty, better than doing nothing and stalling
                 elif gs.my_active and any(x in gs.my_active.name.lower() for x in ["exeggutor ex", "exeggcute"]) and gs.my_active.energy_count >= 1:
                     if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
                         a["score"] += 20000 # Boost attaching to late-game bench targets

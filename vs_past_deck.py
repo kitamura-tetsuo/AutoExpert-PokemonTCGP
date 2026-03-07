@@ -423,11 +423,14 @@ def resolve_deck_path(deck: str) -> str:
     if deck_clean.startswith("train_data/train_data/"):
         deck_clean = deck_clean.replace("train_data/train_data/", "train_data/", 1)
 
+    # Sometimes it passes just the filename with prefix, sometimes it needs searching
+    deck_name = Path(deck_clean).name
+
     deck_path = Path(deck_clean)
     if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck_clean
+        deck_path = settings.DECK_DIR / deck_name
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck_clean
+        deck_path = Path("train_data") / deck_name
     if not deck_path.exists():
          deck_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
     return str(deck_path)

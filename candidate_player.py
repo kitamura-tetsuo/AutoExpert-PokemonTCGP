@@ -1189,12 +1189,6 @@ def play(state, game):
 
                     if target_pos == 0: # Evolving active
                         current_hp = gs.my_active.hp if gs.my_active else 0
-                        active_status = [str(s).lower() for s in gs.my_active.status] if gs.my_active else []
-                        has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if gs.my_active and hasattr(gs.my_active, "effects") else False
-
-                        # Evolve to escape Arbok's lock or Weezing's poison
-                        if has_no_retreat or "poisoned" in active_status:
-                            action["score"] += 85000
 
                         # If evolution saves us from lethal
                         if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
@@ -1232,7 +1226,11 @@ def play(state, game):
                      if has_no_retreat:
                           action["score"] += 85000 # Massive boost to break lock
                      elif "poisoned" in active_status:
-                          action["score"] += 85000 # Good boost to clear poison
+                          # Only cure poison if HP is low to avoid wasting evolutions
+                          if gs.my_active.hp <= (opp_max_dmg + poison_dmg + 30):
+                              action["score"] += 30000
+                          else:
+                              action["score"] += 15000
                      elif gs.my_active.status:
                           action["score"] += 5000
 
@@ -1345,7 +1343,10 @@ def play(state, game):
                         action["score"] -= 50000 # Don't heal full HP
                     else:
                         action["score"] += (missing_hp * 100)
-                        if target.hp <= 80 or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg) or ("poisoned" in [str(s).lower() for s in target.status]):
+                        is_poisoned = "poisoned" in [str(s).lower() for s in target.status]
+                        is_critical_hp = target.hp <= 60
+
+                        if is_critical_hp or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg) or (is_poisoned and target.hp <= 80):
                             action["score"] = POTION_CRITICAL_SCORE
                         # If it puts us out of lethal range
                         if threat_lethal and (target.hp + heal_amount) > (opp_max_dmg + poison_dmg):
@@ -2058,8 +2059,9 @@ def play(state, game):
 
             # Also use Gust to snipe Koffing/Ekans/Weezing/Arbok before they setup
             elif gs.opp_bench and any("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower() for b in gs.opp_bench):
-                if not threat_lethal:
-                    a["score"] += 30000
+                # Don't gust if we can't do meaningful damage
+                if active_dmg >= 30 and not threat_lethal:
+                    a["score"] += 15000
 
             elif threat_lethal:
                  # Defensive Gust: Find safe target
@@ -2231,7 +2233,9 @@ def play(state, game):
                  # X Speed attaches tool, Switch uses item. Both good.
                  if not (is_x_speed and getattr(gs.my_active, "effects", None) and any("noretreat" in str(e).lower() for e in gs.my_active.effects)):
                      active_status = [str(s).lower() for s in gs.my_active.status] if gs.my_active else []
-                     if "poisoned" in active_status:
+                     is_critical_poison = "poisoned" in active_status and gs.my_active and gs.my_active.hp <= (opp_max_dmg + poison_dmg + 30)
+
+                     if is_critical_poison:
                          a["score"] = 85000
                      else:
                          a["score"] = best_retreat + 2000

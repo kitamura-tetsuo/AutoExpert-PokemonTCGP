@@ -1206,8 +1206,10 @@ def play(state, game):
                 # Status Cleanse (Defensive)
                 if target_pos == 0 and gs.my_active:
                      has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
-                     if has_no_retreat or gs.my_active.status:
-                         action["score"] += 15000
+                     if has_no_retreat:
+                         action["score"] = max(action["score"], 85000)
+                     elif gs.my_active.status:
+                         action["score"] = max(action["score"], 85000)
 
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
@@ -1451,9 +1453,12 @@ def play(state, game):
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
                     # Poison Status Cure Logic
                     active_status = [str(s).lower() for s in gs.my_active.status]
-                    if "poisoned" in active_status:
+                    has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
+                    if has_no_retreat:
+                        action["score"] -= 100000
+                    elif "poisoned" in active_status:
                         if gs.my_active.hp <= 30:
-                            action["score"] += 15000
+                            action["score"] = max(action["score"], 15000)
                         else:
                             # Prioritize retreat if poisoned and bench is ready
                             action["score"] += 5000

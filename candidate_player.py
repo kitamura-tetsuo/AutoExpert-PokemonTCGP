@@ -165,7 +165,14 @@ class Card:
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
         self.db_entry = self._get_db_entry()
-        self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
+        self.energy = []
+        if obj and hasattr(obj, "attached_energy"):
+             attached = obj.attached_energy
+             if isinstance(attached, dict):
+                  for k, v in attached.items():
+                       self.energy.extend([str(k)] * v)
+             else:
+                  self.energy = [str(e) for e in attached]
         self.energy_count = len(self.energy)
 
     @staticmethod
@@ -316,6 +323,8 @@ class Card:
         elif "machamp ex" in n_lower: max_cost = 3
         elif "gengar ex" in n_lower: max_cost = 3
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif n_lower == "exeggcute": max_cost = 1
+        elif n_lower == "ivysaur": max_cost = 4 # Pre-evolve for Venusaur ex
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
 
         if not self.db_entry:
@@ -353,9 +362,16 @@ class Card:
 
     @property
     def status(self):
-        if self.obj and hasattr(self.obj, "status"):
-             return self.obj.status
-        return []
+        status_list = []
+        if self.obj:
+            if hasattr(self.obj, "status") and self.obj.status:
+                 return self.obj.status
+            if getattr(self.obj, "poisoned", False): status_list.append("Poisoned")
+            if getattr(self.obj, "asleep", False): status_list.append("Asleep")
+            if getattr(self.obj, "paralyzed", False): status_list.append("Paralyzed")
+            if getattr(self.obj, "confused", False): status_list.append("Confused")
+            if getattr(self.obj, "burned", False): status_list.append("Burned")
+        return status_list
 
     @property
     def effects(self):
@@ -1903,7 +1919,7 @@ def play(state, game):
                          a["score"] -= 20000 # Deprioritize significantly
 
             # Infinite Stall Prevention (Over-attachment)
-            if target.energy_count >= 5:
+            if not target.needs_energy() and target.energy_count >= target.retreat_cost:
                 a["score"] = -200000
                 continue
 
@@ -1918,7 +1934,10 @@ def play(state, game):
                         if target.needs_energy():
                              a["score"] += 15000
                     elif target and any(n in target.name.lower() for n in ["exeggcute"]):
-                        a["score"] -= 5000
+                        if target.energy_count >= 1:
+                            a["score"] -= 50000
+                        else:
+                            a["score"] -= 5000
 
             # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
             if a["pos"] == 0:

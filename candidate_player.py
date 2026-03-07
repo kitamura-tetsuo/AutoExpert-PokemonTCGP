@@ -2252,7 +2252,7 @@ def play(state, game):
 
             # Additional logic to not use Red Card if we can kill and don't need to disrupt
             if has_lethal_on_board:
-                 a["score"] -= 50000
+                 a["score"] = -50000
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass

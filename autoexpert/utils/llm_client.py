@@ -71,7 +71,7 @@ class JulesClient:
             },
             "title": title,
             "requirePlanApproval": False,
-            "automationMode": "AUTOMATION_MODE_AUTO_CREATE_PR"
+            "automationMode": "AUTO_CREATE_PR"
         }
         response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
         response.raise_for_status()

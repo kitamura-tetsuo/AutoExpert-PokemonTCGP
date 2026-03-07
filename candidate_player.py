@@ -945,8 +945,10 @@ def play(state, game):
     active_dmg = 0
     if gs.my_active:
          for i in range(len(gs.my_active.attacks)):
-             d = calculate_damage(gs.my_active, i, gs)
-             if d > active_dmg: active_dmg = d
+             atk = gs.my_active.attacks[i]
+             if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                 d = calculate_damage(gs.my_active, i, gs)
+                 if d > active_dmg: active_dmg = d
 
     risk_of_donk = (len(gs.my_bench) == 0)
 
@@ -1262,7 +1264,7 @@ def play(state, game):
                 heal_amount = 50 if "erika" in str(target.obj).lower() else 20 # Approximation if obj doesn't have source
                 missing_hp = target.max_hp - target.hp
                 if target.hp >= target.max_hp:
-                    action["score"] -= 50000 # Don't heal full HP
+                    action["score"] = -50000 # Don't heal full HP
                 else:
                     action["score"] += (missing_hp * 100)
                     if target.hp <= 60 or threat_lethal:
@@ -1298,35 +1300,34 @@ def play(state, game):
                 action["score"] = ITEM_SCORE
             elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
-                action["score"] = ITEM_SCORE
-                target = gs.my_active
-                m_p = re.search(r", (\d+)\)", aname)
-                if m_p:
-                    t_idx = int(m_p.group(1))
-                    if t_idx == 0: target = gs.my_active
-                    else: target = gs.get_bench_card(t_idx - 1)
+                heal_amount = 50 if "erika" in aname_lower else 20
+                best_target = None
+                best_score = -50000
+                for p in [gs.my_active] + gs.my_bench:
+                    if p and p.hp < p.max_hp:
+                        missing_hp = p.max_hp - p.hp
+                        score = ITEM_SCORE + (missing_hp * 100)
+                        if p == gs.my_active:
+                            if p.hp <= 60 or threat_lethal:
+                                score = POTION_CRITICAL_SCORE
+                            if threat_lethal and (p.hp + heal_amount) > opp_max_dmg:
+                                opp_points_needed = 3 - gs.opp_points
+                                my_active_gives = 2 if ("ex" in p.name.lower()) else 1
+                                loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                                if loses_game:
+                                    score = LETHAL_WIN_SCORE
+                                elif risk_of_donk:
+                                    score = DONK_SURVIVAL_SCORE
+                                else:
+                                    score += 10000
+                        if score > best_score:
+                            best_score = score
+                            best_target = p
 
-                if target:
-                    heal_amount = 50 if "erika" in aname_lower else 20
-                    missing_hp = target.max_hp - target.hp
-                    if target.hp >= target.max_hp:
-                        action["score"] -= 50000 # Don't heal full HP
-                    else:
-                        action["score"] += (missing_hp * 100)
-                        if target.hp <= 60 or threat_lethal:
-                            action["score"] = POTION_CRITICAL_SCORE
-                        # If it puts us out of lethal range
-                        if threat_lethal and (target.hp + heal_amount) > opp_max_dmg:
-                             opp_points_needed = 3 - gs.opp_points
-                             my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
-
-                             if loses_game:
-                                 action["score"] = LETHAL_WIN_SCORE
-                             elif risk_of_donk:
-                                 action["score"] = DONK_SURVIVAL_SCORE
-                             else:
-                                 action["score"] += 10000
+                if best_target:
+                    action["score"] = best_score
+                else:
+                    action["score"] = -50000
 
             elif "research" in aname_lower or "professor" in aname_lower or "sightseer" in aname_lower:
                 action["type"] = "research"
@@ -1440,8 +1441,12 @@ def play(state, game):
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
                     # Poison Status Cure Logic
                     active_status = [str(s).lower() for s in gs.my_active.status]
-                    if "poisoned" in active_status and gs.my_active.hp <= 30:
-                        action["score"] += 15000
+                    if "poisoned" in active_status:
+                        if gs.my_active.hp <= 30:
+                            action["score"] += 15000
+                        else:
+                            # Prioritize retreat if poisoned and bench is ready
+                            action["score"] += 5000
 
                 if threat_lethal:
                     # Check if losing active means losing the game
@@ -1512,11 +1517,18 @@ def play(state, game):
                              # Boost to override current attack score (10000 + active_dmg)
                              new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
                              action["score"] = max(action["score"], new_score)
-                        elif target_dmg > active_dmg and gs.my_active and target.hp > (gs.my_active.hp + 40):
+                        elif target_dmg >= active_dmg and gs.my_active and target.hp > (gs.my_active.hp + 40):
                              # Switch to tank if damage is comparable
                              should_retreat = True
                              new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 2000
                              action["score"] = max(action["score"], new_score)
+
+                        # Added check: If active is poisoned and bench does equal or more damage, switch!
+                        if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
+                             if target_dmg >= active_dmg:
+                                  should_retreat = True
+                                  new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 25000
+                                  action["score"] = max(action["score"], new_score)
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)

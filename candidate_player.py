@@ -528,8 +528,30 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                 damage += bonus
 
     # 4. Specific Card Overrides (Fallback)
+    if "cofagrigus" in name_lower and attack_idx == 0:
+        # Soul Shot 120 damage, discards 2 cards from hand
+        if len(state.my_hand) >= 2:
+            damage = 120
+        else:
+            damage = 0 # Cannot use
+
+    if "mismagius" in name_lower:
+        if damage == 0:
+            if attack_idx == 0:
+                damage = 70
+            elif attack_idx == 1:
+                damage = 60
+
     if "houndstone" in name_lower and attack_idx == 0:
-        psychic_in_discard = sum(1 for d in state.my_discard if getattr(d.obj, "is_pokemon", False) and getattr(d.obj, "energy_type", None) == "Psychic")
+        psychic_in_discard = 0
+        for d in state.my_discard:
+            if d.db_entry and getattr(d.db_entry, "get", lambda x, y: y)("is_pokemon", False) and d.energy_type == "Psychic":
+                psychic_in_discard += 1
+            elif d.db_entry is None:
+                # Fallback: check names for known psychic pokemon
+                n = d.name.lower()
+                if any(x in n for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"]):
+                    psychic_in_discard += 1
         damage = 50 + (20 * psychic_in_discard)
 
     if "pikachu ex" in name_lower and attack_idx == 0 and damage < 30:
@@ -848,20 +870,11 @@ def play(state, game):
     # Deck Count Tracking
     obs = game.encode_observation(state.current_player)
 
-    # Extract My Deck Count (Indices 251-270, count values != -1.0)
-    my_deck_start = 251
-    my_deck_end = 271
-    my_deck_count = 0
-    if len(obs) >= my_deck_end:
-        for i in range(my_deck_start, my_deck_end):
-            if obs[i] != -1.0:
-                my_deck_count += 1
-    gs.my_deck_count = my_deck_count
+    # Extract My Deck Count
+    gs.my_deck_count = state.get_deck_size(state.current_player)
 
-    # Extract Opponent Deck Count (Index 271)
-    opp_deck_idx = 271
-    if len(obs) > opp_deck_idx:
-        gs.opp_deck_count = int(obs[opp_deck_idx])
+    # Extract Opponent Deck Count
+    gs.opp_deck_count = state.get_deck_size(1 - state.current_player)
 
     if logger.isEnabledFor(logging.DEBUG):
         logger.debug(f"Deck Counts: My={gs.my_deck_count}, Opp={gs.opp_deck_count}")
@@ -1026,12 +1039,16 @@ def play(state, game):
                          atk_text = ""
                          if idx < len(gs.my_active.attacks):
                              atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+
+                         is_setup_attack = False
                          if "deck" in atk_text and "bench" in atk_text:
+                              is_setup_attack = True
                               if len(gs.my_bench) < 3:
                                    action["score"] += 5000
 
                          # Energy Absorption / Acceleration
                          if "attach" in atk_text and ("discard" in atk_text or "deck" in atk_text or "hand" in atk_text):
+                              is_setup_attack = True
                               # Basic score boost
                               action["score"] += 5000
                               # Contextual boost
@@ -1039,6 +1056,17 @@ def play(state, game):
                                    action["score"] += 8000
                               if gs.my_active and "mewtwo ex" in gs.my_active.name.lower():
                                    action["score"] += 10000
+
+                         if not is_setup_attack:
+                             # Strongly penalize 0 damage attacks that don't do anything useful
+                             action["score"] -= 200000
+
+                    if action["damage"] > 0 and action["damage"] <= 30 and gs.my_active:
+                        n = gs.my_active.name.lower()
+                        if "houndstone" in n or "cofagrigus" in n:
+                             if not is_ko:
+                                 # We prefer using our items / attaching over a low damage attack that doesn't kill
+                                 action["score"] -= 50000
 
                     # Setup Kill Bonus (2HKO)
                     if not is_ko and gs.opp_active:
@@ -1930,7 +1958,14 @@ def play(state, game):
 
             # Houndstone Synergy Check: Discarding psychic pokemon is good
             is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
-            psychic_pokemon_in_hand = sum(1 for c in gs.my_hand if getattr(c.obj, "is_pokemon", False) and getattr(c.obj, "energy_type", None) == "Psychic")
+            psychic_pokemon_in_hand = 0
+            for c in gs.my_hand:
+                if c.db_entry and getattr(c.db_entry, "get", lambda x, y: y)("is_pokemon", False) and c.energy_type == "Psychic":
+                    psychic_pokemon_in_hand += 1
+                elif c.db_entry is None:
+                    n = c.name.lower()
+                    if any(x in n for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"]):
+                        psychic_pokemon_in_hand += 1
 
             # Check if we have any basic pokemon to play
             has_basic_to_play = any(x["type"] == "place" for x in actions)

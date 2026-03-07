@@ -304,6 +304,7 @@ class Card:
         elif n_lower == "charmander": max_cost = 4 # Charizard ex
         elif n_lower == "squirtle": max_cost = 5 # Blastoise ex (needs extra)
         elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
+        elif n_lower == "ivysaur": max_cost = 4 # Venusaur ex
         elif n_lower == "abra": max_cost = 3 # Alakazam
         elif n_lower == "machop": max_cost = 3 # Machamp
         elif "blastoise ex" in n_lower: max_cost = 5
@@ -316,6 +317,7 @@ class Card:
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif "exeggcute" in n_lower: max_cost = 1
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -1155,6 +1157,7 @@ def play(state, game):
                      action["pos"] = int(m.group(2))
                      action["energy_type"] = obj
                      action["score"] = ATTACH_ENERGY_SCORE
+
                  else:
                      action["type"] = "attach_tool"
                      action["score"] = ITEM_SCORE
@@ -1229,7 +1232,10 @@ def play(state, game):
                      if has_no_retreat:
                           action["score"] += 85000 # Massive boost to break lock
                      elif "poisoned" in active_status:
-                          action["score"] += 15000 # Good boost to clear poison
+                          if gs.my_active.hp <= 60 and not has_lethal_on_board:
+                              action["score"] += 35000 # Good boost to clear poison
+                          else:
+                              action["score"] += 15000
                      elif gs.my_active.status:
                           action["score"] += 5000
 
@@ -1472,9 +1478,9 @@ def play(state, game):
                     if "poisoned" in active_status:
                         # Improved poison retreat: retreat if HP is low enough that we might die
                         if gs.my_active.hp <= (opp_max_dmg + poison_dmg + 10) and not has_lethal_on_board:
-                            action["score"] += 20000 # Save it
-                        elif gs.my_active.hp <= 40 and not has_lethal_on_board:
-                            action["score"] += 15000
+                            action["score"] += 35000 # Save it
+                        elif gs.my_active.hp <= 60 and not has_lethal_on_board:
+                            action["score"] += 35000
 
                 if threat_lethal:
                     # Check if losing active means losing the game
@@ -1591,8 +1597,19 @@ def play(state, game):
                     if target:
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        max_valid_dmg = 0
+                        for i, atk in enumerate(target.attacks):
+                            if can_use_attack(atk.get("cost", []), target.energy):
+                                dmg = calculate_damage(target, i, gs)
+                                if dmg > max_valid_dmg:
+                                    max_valid_dmg = dmg
+                        action["score"] += max_valid_dmg * 100
+
+                        action["score"] += target.energy_count * 2000
                         if not target.needs_energy():
-                             action["score"] += 5000
+                             action["score"] += 15000
+
                         if "ex" in target.name.lower():
                             action["score"] += 1000
 
@@ -1612,6 +1629,7 @@ def play(state, game):
                             # If everything dies, we want to sacrifice the LEAST valuable Pokemon.
                             # So we apply severe penalties based on its value.
                             action["score"] -= 50000 # Base doomed penalty
+                            action["score"] -= (threat - target.hp) * 1000 # Scaling penalty based on HP deficit
                             action["score"] -= target.energy_count * 5000
                             if "ex" in target.name.lower():
                                 action["score"] -= 50000
@@ -2247,7 +2265,7 @@ def play(state, game):
                  active_status = [str(s).lower() for s in gs.my_active.status]
                  has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
 
-                 is_critical_poison = "poisoned" in active_status and gs.my_active.hp <= (opp_max_dmg + poison_dmg + 10)
+                 is_critical_poison = "poisoned" in active_status and gs.my_active.hp <= 60
                  needs_cure = any(s in active_status for s in ["asleep", "paralyzed"]) or has_no_retreat or is_critical_poison
 
                  if is_critical_poison or any(s in active_status for s in ["asleep", "paralyzed"]):
@@ -2262,10 +2280,15 @@ def play(state, game):
                          a["score"] = max(a["score"], 85000)
                          wants_to_retreat = True
 
-                 # X Speed cannot bypass NoRetreat lock
-                 if has_no_retreat and is_x_speed:
-                     a["score"] = -10000
+                 # X Speed cannot bypass NoRetreat lock or Asleep/Paralyzed
+                 if (has_no_retreat or any(s in active_status for s in ["asleep", "paralyzed"])) and is_x_speed:
+                     a["score"] = -100000
                      wants_to_retreat = False
+                     continue
+
+                 # Explicit check: If X Speed and no valid retreat option exists, severely penalize to prevent wasting
+                 if is_x_speed and best_retreat <= 0 and not wants_to_retreat:
+                     a["score"] = -100000
                      continue
 
             if best_retreat > 0:

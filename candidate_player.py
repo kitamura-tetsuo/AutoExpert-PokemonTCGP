@@ -1538,23 +1538,31 @@ def play(state, game):
                         active_is_lethal = True
 
                     # Evasion: If opponent can lock retreat, and our active is weak or setup pokemon
-                    if gs.opp_active:
-                        can_lock = False
-                        for atk in gs.opp_active.attacks:
-                            if "can't retreat" in (atk.get("effect", "") or "").lower() or "can't retreat" in (atk.get("text", "") or "").lower():
-                                # Check if they have energy to use it or are close
-                                if gs.opp_active.energy_count >= len(atk.get("cost", [])) - 1:
-                                    can_lock = True
-                                    break
-                        if can_lock and (target_dmg > active_dmg or (gs.my_active and gs.my_active.hp <= 70)):
-                            should_retreat = True
-                            new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 10000
-                            action["score"] = max(action["score"], new_score)
+                    try:
+                        if gs.opp_active:
+                            can_lock = False
+                            if hasattr(gs.opp_active, "attacks") and gs.opp_active.attacks:
+                                for atk in gs.opp_active.attacks:
+                                    text_to_check = str(atk.get("effect", "")) + " " + str(atk.get("text", ""))
+                                    if "can't retreat" in text_to_check.lower():
+                                        cost_len = len(atk.get("cost", []))
+                                        e_count = getattr(gs.opp_active, "energy_count", 0)
+                                        if e_count >= max(0, cost_len - 1):
+                                            can_lock = True
+                                            break
+                            if can_lock and (target_dmg > active_dmg or (gs.my_active and gs.my_active.hp <= 70)):
+                                should_retreat = True
+                                new_score = 80000
+                                action["score"] = max(action["score"], new_score)
+                    except Exception as e:
+                        if logger.isEnabledFor(logging.DEBUG):
+                            logger.debug(f"Evasion check failed: {e}")
 
                     # Evasion: If active is critically poisoned
                     if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60:
                         should_retreat = True
-                        new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 15000
+                        # Boost retreat score to override basic actions
+                        new_score = 85000
                         action["score"] = max(action["score"], new_score)
 
                     # If active is lethal, don't switch unless bench is somehow better (e.g. EX vs non-EX?)

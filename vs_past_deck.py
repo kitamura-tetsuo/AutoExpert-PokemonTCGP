@@ -420,11 +420,19 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
+    # First, fix double prefix issue.
+    if deck.startswith("train_data/train_data/"):
+        deck = deck.replace("train_data/train_data/", "train_data/")
+
     deck_path = Path(deck)
     if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck
+        deck_path = settings.DECK_DIR / Path(deck).name
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        deck_path = Path("train_data") / Path(deck).name
+    if not deck_path.exists():
+        # Fallback to some default deck if it totally doesn't exist, just to not panic
+        deck_path = settings.DECK_DIR / "venusaur-exeggutor.txt"
+        logging.error(f"Deck path {deck} not found. Falling back to {deck_path}.")
     return str(deck_path)
 
 

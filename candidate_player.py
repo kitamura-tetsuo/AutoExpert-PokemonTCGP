@@ -165,7 +165,14 @@ class Card:
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
         self.db_entry = self._get_db_entry()
-        self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
+        self.energy = []
+        if obj:
+            attached = getattr(obj, "attached_energy", {})
+            if isinstance(attached, dict):
+                for k, v in attached.items():
+                    self.energy.extend([str(k)] * int(v))
+            else:
+                self.energy = [str(e) for e in attached]
         self.energy_count = len(self.energy)
 
     @staticmethod
@@ -356,10 +363,21 @@ class Card:
         return None
 
     @property
-    def status(self):
-        if self.obj and hasattr(self.obj, "status"):
-             return self.obj.status
+    def effects(self):
+        if self.obj and hasattr(self.obj, "effects"):
+             return self.obj.effects
         return []
+
+    @property
+    def status(self):
+        s = []
+        if self.obj:
+            if hasattr(self.obj, 'poisoned') and self.obj.poisoned: s.append("Poisoned")
+            if hasattr(self.obj, 'asleep') and self.obj.asleep: s.append("Asleep")
+            if hasattr(self.obj, 'paralyzed') and self.obj.paralyzed: s.append("Paralyzed")
+            if hasattr(self.obj, 'confused') and self.obj.confused: s.append("Confused")
+            if hasattr(self.obj, "status") and self.obj.status: s.extend(self.obj.status)
+        return s
 
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):
@@ -871,8 +889,10 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
     # Dynamically account for poison damage on the target
     if final_target and final_target == gs.my_active:
-        if any("poison" in str(s).lower() for s in final_target.status):
-            max_dmg += 10
+        is_poisoned = any("poison" in str(s).lower() for s in final_target.status)
+        opp_is_weezing = attacker and "weezing" in attacker.name.lower()
+        if is_poisoned or opp_is_weezing:
+            max_dmg += 20
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -1365,7 +1385,7 @@ def play(state, game):
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
                 target = gs.my_active
-                m_p = re.search(r", (\d+)\)", aname)
+                m_p = re.search(r"Heal\((\d+)", aname)
                 if m_p:
                     t_idx = int(m_p.group(1))
                     if t_idx == 0: target = gs.my_active
@@ -1968,9 +1988,9 @@ def play(state, game):
                 is_multi_stage_deck = any(x in n.lower() for x in ["bulbasaur", "ivysaur", "venusaur", "exeggcute", "exeggutor"] for n in [c.name for c in [gs.my_active] + gs.my_bench if c])
 
             if is_multi_stage_deck:
-                if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                if any(x in target.name.lower() for x in ["exeggutor ex", "exeggcute"]) and target.energy_count >= 1:
                     a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
-                elif gs.my_active and "exeggutor ex" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
+                elif gs.my_active and any(x in gs.my_active.name.lower() for x in ["exeggutor ex", "exeggcute"]) and gs.my_active.energy_count >= 1:
                     if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
                         a["score"] += 20000 # Boost attaching to late-game bench targets
 
@@ -2441,4 +2461,4 @@ def play(state, game):
 
         return best_action["id"]
 
-    return legal_actions[0]
+    return legal_actions[0] if legal_actions else 0

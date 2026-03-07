@@ -353,15 +353,29 @@ class Card:
 
     @property
     def status(self):
-        if self.obj and hasattr(self.obj, "status"):
-             return self.obj.status
-        return []
+        s = []
+        if self.obj:
+            if hasattr(self.obj, "poisoned") and self.obj.poisoned: s.append("poisoned")
+            if hasattr(self.obj, "paralyzed") and self.obj.paralyzed: s.append("paralyzed")
+            if hasattr(self.obj, "asleep") and self.obj.asleep: s.append("asleep")
+            if hasattr(self.obj, "status"):
+                 try:
+                     for x in self.obj.status:
+                         s.append(str(x))
+                 except TypeError:
+                     pass
+        return s
 
     @property
     def effects(self):
+        e = []
         if self.obj and hasattr(self.obj, "effects"):
-             return self.obj.effects
-        return []
+             try:
+                 for x in self.obj.effects:
+                     e.append(str(x))
+             except TypeError:
+                 pass
+        return e
 
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):

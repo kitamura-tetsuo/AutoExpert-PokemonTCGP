@@ -418,30 +418,41 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
-    # Just aggressively strip prefixes to find the file
-    filename = Path(deck).name
+    # Fix duplicate paths caused by earlier script
+    if deck.startswith("train_data/train_data/"):
+        deck = deck.replace("train_data/train_data/", "train_data/")
 
-    candidates = [
-        Path(deck),
-        Path("train_data") / deck,
-        Path("train_data/fix") / filename,
-        Path("train_data") / filename,
-        Path(filename),
-        Path("deckgym-core/example_decks/venusaur-exeggutor.txt"),
-    ]
+    deck_path = Path(deck)
+    if not deck_path.exists():
+        try:
+            from autoexpert.config import settings
+            deck_path = settings.DECK_DIR / deck
+        except ImportError:
+            pass
 
-    try:
-        from autoexpert.config import settings
-        candidates.insert(1, settings.DECK_DIR / deck)
-    except ImportError:
-        pass
+    if not deck_path.exists():
+        deck_path = Path("train_data") / deck
 
-    for c in candidates:
-        if c.exists():
-            return str(c)
+    # Also try just the filename in train_data/fix/
+    if not deck_path.exists() and "fix" in str(deck):
+        deck_path = Path("train_data/fix") / Path(deck).name
 
-    # If all fails, let Rust panic or handle it
-    return deck
+    if not deck_path.exists():
+        deck_path = Path(deck).name
+        if Path(deck_path).exists():
+            return str(deck_path)
+
+    # And relative to root in case we are deep
+    if not deck_path.exists():
+         deck_path = Path("train_data") / "fix" / Path(deck).name
+
+    # Fallback to known default deck if invalid
+    if not deck_path.exists():
+        fallback_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
+        if fallback_path.exists():
+            return str(fallback_path)
+
+    return str(deck_path)
 
 
 # ---------------------------------------------------------------------------

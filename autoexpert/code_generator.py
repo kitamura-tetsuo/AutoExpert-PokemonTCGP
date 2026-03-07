@@ -16,8 +16,13 @@ class CodeGenerator:
         system_prompt = get_system_prompt(deck_path, opponent_deck_path, workflow_type=workflow_type)
         full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
+        # Sanitize Title to prevent 400 Bad Request errors caused by newlines
+        title = "Generate TCG Strategy"
+
         # Create session
-        session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")
+        # Ensure safe text string for Title to prevent 400 Bad Request
+        safe_title = "Generate_TCG_Strategy_Session"
+        session = client.create_session(full_prompt, self.source_name, title=safe_title)
         session_id = session["id"]
         
         print(f"Jules session created: {session_id}.")

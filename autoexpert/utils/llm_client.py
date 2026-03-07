@@ -61,6 +61,9 @@ class JulesClient:
         except Exception as e:
             print(f"Warning: Failed to fetch active sessions during duplicate check: {e}")
 
+        # Ensure title does not contain newline characters which could cause 400 Bad Request
+        title = title.replace("\n", " ").strip()
+
         data = {
             "prompt": prompt,
             "sourceContext": {
@@ -73,8 +76,14 @@ class JulesClient:
             "requirePlanApproval": False,
             "automationMode": "AUTO_CREATE_PR"
         }
-        response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
-        response.raise_for_status()
+        try:
+            response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
+            response.raise_for_status()
+        except Exception as e:
+            print(f"Error creating session: {e}")
+            if hasattr(e, 'response') and e.response is not None:
+                print(f"Response text: {e.response.text}")
+            raise
         return response.json()
 
     def get_session(self, session_id: str) -> Dict[str, Any]:

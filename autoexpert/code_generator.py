@@ -17,10 +17,11 @@ class CodeGenerator:
         full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
         # Enforce max prompt length to prevent Jules API 400 Bad Request (FAILED_PRECONDITION)
-        if len(full_prompt) > 25000:
-            print(f"Warning: Prompt length ({len(full_prompt)}) exceeds 25,000 characters. Truncating.")
-            # We want to keep the system prompt and the start of the task, but truncate the middle (likely the huge eval log)
-            half_allowed = 12000
+        # Enforce max prompt length to prevent Jules API 400 Bad Request (FAILED_PRECONDITION)
+        # Even 25,000 might be too large. Let's truncate to 9000 characters to be absolutely safe.
+        if len(full_prompt) > 9000:
+            print(f"Warning: Prompt length ({len(full_prompt)}) exceeds 9,000 characters. Truncating.")
+            half_allowed = 4500
             full_prompt = full_prompt[:half_allowed] + "\n\n...[TRUNCATED TO PREVENT API ERROR]...\n\n" + full_prompt[-half_allowed:]
 
         # Create session

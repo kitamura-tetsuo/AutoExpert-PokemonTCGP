@@ -1909,7 +1909,12 @@ def play(state, game):
 
             # Bench Setup Priority
             if gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
-                active_can_attack = any(can_use_attack(atk.get("cost", []), gs.my_active.energy) for atk in gs.my_active.attacks)
+                active_can_attack = False
+                for atk in gs.my_active.attacks:
+                    if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                        active_can_attack = True
+                        break
+
                 if active_can_attack:
                     allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
                     if a["pos"] == 0 and not allows_retreat:
@@ -1918,7 +1923,8 @@ def play(state, game):
                         if target.needs_energy():
                              a["score"] += 15000
                     elif target and any(n in target.name.lower() for n in ["exeggcute"]):
-                        a["score"] -= 5000
+                        if not target.needs_energy():
+                            a["score"] -= 50000
 
             # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
             if a["pos"] == 0:

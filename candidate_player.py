@@ -1958,6 +1958,20 @@ def play(state, game):
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 
+                    # Venusaur/Exeggutor deck specific heuristic
+                    if a["pos"] == 0:
+                        n_lower = target.name.lower()
+                        if "exeggutor" in n_lower and target.energy_count >= 1:
+                            # Drastically penalize over-attaching to Exeggutor ex
+                            allows_retreat = target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                            if not allows_retreat:
+                                a["score"] -= 50000
+                    elif a["pos"] > 0:
+                        n_lower = target.name.lower()
+                        if n_lower in ["bulbasaur", "ivysaur", "venusaur ex"]:
+                            if gs.my_active and "exeggutor" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
+                                a["score"] += 15000
+
                     if a["pos"] == 0:
                          a["score"] += 1000
 

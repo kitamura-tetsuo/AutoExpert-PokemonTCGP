@@ -316,6 +316,8 @@ class Card:
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif "arbok" in n_lower: max_cost = 2
+        elif "weezing" in n_lower: max_cost = 2
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -1187,6 +1189,13 @@ def play(state, game):
 
                     if target_pos == 0: # Evolving active
                         current_hp = gs.my_active.hp if gs.my_active else 0
+                        active_status = [str(s).lower() for s in gs.my_active.status] if gs.my_active else []
+                        has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if gs.my_active and hasattr(gs.my_active, "effects") else False
+
+                        # Evolve to escape Arbok's lock or Weezing's poison
+                        if has_no_retreat or "poisoned" in active_status:
+                            action["score"] += 85000
+
                         # If evolution saves us from lethal
                         if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
                              # Check if losing this active means losing the game
@@ -1223,7 +1232,7 @@ def play(state, game):
                      if has_no_retreat:
                           action["score"] += 85000 # Massive boost to break lock
                      elif "poisoned" in active_status:
-                          action["score"] += 15000 # Good boost to clear poison
+                          action["score"] += 85000 # Good boost to clear poison
                      elif gs.my_active.status:
                           action["score"] += 5000
 
@@ -1319,7 +1328,7 @@ def play(state, game):
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
-            elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
+            elif ("ice" in aname_lower and "pop" in aname_lower) or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
                 target = gs.my_active
@@ -1336,7 +1345,7 @@ def play(state, game):
                         action["score"] -= 50000 # Don't heal full HP
                     else:
                         action["score"] += (missing_hp * 100)
-                        if target.hp <= 60 or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg):
+                        if target.hp <= 80 or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg) or ("poisoned" in [str(s).lower() for s in target.status]):
                             action["score"] = POTION_CRITICAL_SCORE
                         # If it puts us out of lethal range
                         if threat_lethal and (target.hp + heal_amount) > (opp_max_dmg + poison_dmg):
@@ -1512,7 +1521,7 @@ def play(state, game):
                                  # Don't penalize if we are saving a valuable card from death
                                  # Or if we are switching to a Tank (High HP) to stall
                                  is_tank = target and gs.my_active and target.hp >= (gs.my_active.hp + 40)
-                                 if not ((is_valuable or is_tank) and threat_lethal):
+                                 if not ((is_valuable or is_tank) and (threat_lethal or "poisoned" in [str(s).lower() for s in gs.my_active.status])):
                                      action["score"] -= 50000
 
                 # Strategic Switch
@@ -2046,6 +2055,12 @@ def play(state, game):
             elif gs.my_active and (hasattr(gs.my_active, "effects") and any("noretreat" in str(e).lower() for e in gs.my_active.effects)):
                  # Break Arbok Lock
                  a["score"] = 85000
+
+            # Also use Gust to snipe Koffing/Ekans/Weezing/Arbok before they setup
+            elif gs.opp_bench and any("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower() for b in gs.opp_bench):
+                if not threat_lethal:
+                    a["score"] += 30000
+
             elif threat_lethal:
                  # Defensive Gust: Find safe target
                  safe_target_found = False
@@ -2215,9 +2230,13 @@ def play(state, game):
                  # Prioritize Switch/X Speed over manual retreat to save energy
                  # X Speed attaches tool, Switch uses item. Both good.
                  if not (is_x_speed and getattr(gs.my_active, "effects", None) and any("noretreat" in str(e).lower() for e in gs.my_active.effects)):
-                     a["score"] = best_retreat + 2000
-                     if is_switch: # Switch is immediate
-                          a["score"] += 1000
+                     active_status = [str(s).lower() for s in gs.my_active.status] if gs.my_active else []
+                     if "poisoned" in active_status:
+                         a["score"] = 85000
+                     else:
+                         a["score"] = best_retreat + 2000
+                         if is_switch: # Switch is immediate
+                              a["score"] += 1000
 
             if not wants_to_retreat:
                 a["score"] = -10000

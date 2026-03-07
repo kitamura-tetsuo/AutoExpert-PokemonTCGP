@@ -70,10 +70,11 @@ class JulesClient:
                 }
             },
             "title": title,
-            "requirePlanApproval": False,
-            "automationMode": "AUTOMATION_MODE_AUTO_CREATE_PR"
+            "requirePlanApproval": False
         }
         response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
+        if not response.ok:
+            print(f"API Error Response: {response.text}")
         response.raise_for_status()
         return response.json()
 

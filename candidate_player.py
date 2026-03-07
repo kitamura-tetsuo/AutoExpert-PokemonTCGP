@@ -553,8 +553,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "starmie ex" in name_lower and attack_idx == 0 and damage < 90:
         damage = 90
 
+
     if "charizard ex" in name_lower and attack_idx == 1 and damage < 200:
         damage = 200
+
 
     # Better Exeggutor ex EV logic depending on the mode
     if "exeggutor ex" in name_lower and attack_idx == 0 and damage < 40:

@@ -316,8 +316,6 @@ class Card:
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "exeggutor ex" in n_lower: max_cost = 1
-        elif "arbok" in n_lower: max_cost = 2
-        elif "weezing" in n_lower: max_cost = 2
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -1868,8 +1866,14 @@ def play(state, game):
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 
+                    is_lethal_attachment = False
+
                     if a["pos"] == 0:
                          a["score"] += 1000
+
+                         # High priority to get the first energy on Exeggutor ex
+                         if "exeggutor ex" in target.name.lower() and target.energy_count == 0:
+                              a["score"] += 15000
 
                          retreat_cost = target.retreat_cost
                          # Only boost weak attach if not threatened OR if attachment allows retreat
@@ -1878,7 +1882,6 @@ def play(state, game):
                                  a["score"] += ACTIVE_WEAK_ATTACH_BONUS
 
                          # Lethal Lookahead
-                         is_lethal_attachment = False
                          if target and target.db_entry and gs.opp_active:
                              current_max_dmg = 0
                              potential_max_dmg = 0
@@ -2058,10 +2061,23 @@ def play(state, game):
                  a["score"] = 85000
 
             # Also use Gust to snipe Koffing/Ekans/Weezing/Arbok before they setup
+            # Aggressive Gust: if we can KO a bench EX, and we aren't dying
+            elif can_ko_on_bench and not threat_lethal:
+                best_target_score = 0
+                for b in gs.opp_bench:
+                    if "ex" in b.name.lower() and active_dmg >= b.hp:
+                         best_target_score = 25000
+                if best_target_score > 0:
+                    a["score"] += best_target_score
+
             elif gs.opp_bench and any("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower() for b in gs.opp_bench):
-                # Don't gust if we can't do meaningful damage
-                if active_dmg >= 30 and not threat_lethal:
-                    a["score"] += 15000
+                # Only gust if we can kill it or it has energy
+                for b in gs.opp_bench:
+                    if ("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower()):
+                         if active_dmg >= b.hp or b.energy_count > 0:
+                             if not threat_lethal:
+                                 a["score"] += 15000
+                             break
 
             elif threat_lethal:
                  # Defensive Gust: Find safe target

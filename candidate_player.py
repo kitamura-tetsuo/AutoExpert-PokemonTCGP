@@ -870,8 +870,22 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
     # Dynamically account for poison damage on the target
     if final_target and final_target == gs.my_active:
-        if any("poison" in str(s).lower() for s in final_target.status):
-            max_dmg += 10
+        # Check if already poisoned
+        is_poisoned = any("poison" in str(s).lower() for s in final_target.status)
+        # Check if opponent active has Gas Leak (e.g., Weezing)
+        will_be_poisoned = False
+        if gs.opp_active and treat_as_active:
+            # Check abilities
+            if gs.opp_active.db_entry:
+                ab = gs.opp_active.db_entry.get("ability")
+                if ab and "poison" in str(ab).lower() and "active" in str(ab).lower():
+                    will_be_poisoned = True
+            # Also fallback to name
+            if "weezing" in gs.opp_active.name.lower():
+                will_be_poisoned = True
+
+        if is_poisoned or will_be_poisoned:
+            max_dmg += 20  # Double checkup (end of turn + end of opp turn)
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -950,13 +964,11 @@ def play(state, game):
                  break
 
     # Opponent Lethal Check
-    opp_max_dmg = get_opponent_max_damage(gs)
+    opp_max_dmg = get_opponent_max_damage(gs, treat_as_active=True)
     threat_lethal = False
 
     # Calculate effective max damage combining active poison
     opp_max_dmg_effective = opp_max_dmg
-    if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
-         opp_max_dmg_effective += 10
 
     if gs.my_active and opp_max_dmg_effective >= gs.my_active.hp:
         threat_lethal = True
@@ -1259,7 +1271,10 @@ def play(state, game):
                 # Status Cleanse (Defensive)
                 if target_pos == 0 and gs.my_active:
                      if gs.my_active.status:
-                         action["score"] += 5000
+                         if any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60 and not threat_lethal:
+                             action["score"] += 35000
+                         else:
+                             action["score"] += 5000
                      # Look for NoRetreat effect
                      has_noretreat = False
                      if hasattr(gs.my_active, "effects") and gs.my_active.effects:
@@ -1530,10 +1545,23 @@ def play(state, game):
                         action["score"] -= 100000
 
                     if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
-                        if gs.my_active.hp <= 40:
+                        if gs.my_active.hp <= 60 and not threat_lethal:
                             action["score"] += 35000
                         else:
                             action["score"] += 5000 # Give a smaller boost if not critically low HP
+
+                    # Proactive evasion of Lockdown Mechanics
+                    if gs.my_active and gs.opp_active:
+                        is_vulnerable = not gs.my_active.is_ex and gs.my_active.needs_energy()
+                        opp_has_lockdown = False
+                        if hasattr(gs.opp_active, 'attacks') and gs.opp_active.attacks:
+                            for atk in gs.opp_active.attacks:
+                                text = str(atk.get("text", "")).lower()
+                                if "retreat" in text:
+                                    opp_has_lockdown = True
+                                    break
+                        if is_vulnerable and opp_has_lockdown and not threat_lethal:
+                            action["score"] += 15000
 
                     if retreat_cost > 0:
                         has_energy_hand = any("Energy" in c.name or c.name in ["Water", "Fire", "Grass", "Lightning", "Psychic", "Fighting", "Darkness", "Metal"] for c in gs.my_hand)

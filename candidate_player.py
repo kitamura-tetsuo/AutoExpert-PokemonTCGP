@@ -1552,6 +1552,10 @@ def play(state, game):
                              new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 15000
                              action["score"] = max(action["score"], new_score)
 
+                # Always use HP as a tie-breaker for retreating
+                if target:
+                     action["score"] += target.hp
+
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)
             if m:

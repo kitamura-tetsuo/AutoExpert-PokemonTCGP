@@ -174,7 +174,12 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        raw_name = re.sub(r"^(?:[A-Za-z]+_?-?[A-Za-z]*\d+\s*)?", "", raw_name)
+        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
+        if m and m.group(1):
+             prefix = m.group(1)
+             name_part = m.group(2)
+             if len(prefix) <= 6:
+                 raw_name = name_part
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
@@ -1993,8 +1998,29 @@ def play(state, game):
                  if not allows_retreat:
                       a["score"] -= 50000
 
-            # Bench Setup Priority: If active is fully powered, boost bench attachments
-            if a["pos"] > 0 and gs.my_active:
+            # Bench Setup Priority: In multi-stage attacker decks (e.g., Venusaur/Exeggutor),
+            # once the active early-game attacker (e.g., Exeggutor ex) has its required minimum energy to attack,
+            # drastically penalize further energy attachments to it (e.g., -50000) and instead apply a massive score boost (e.g., +15000)
+            # to attaching energy to the late-game bench targets
+            if gs.my_active and target:
+                 # Check if active is early game attacker (Exeggutor ex) and has enough energy
+                 active_is_exeggutor = "exeggutor ex" in gs.my_active.name.lower()
+
+                 active_has_min_energy = False
+                 for atk in gs.my_active.attacks:
+                     if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                         active_has_min_energy = True
+                         break
+
+                 if active_is_exeggutor and active_has_min_energy:
+                      if a["pos"] == 0:
+                           a["score"] -= 50000 # Penalize attaching to active
+                      else:
+                           target_name = target.name.lower()
+                           if target_name in ["bulbasaur", "ivysaur", "venusaur ex"] and not is_fully_powered:
+                               a["score"] += 15000 # Boost bench setup
+
+            elif a["pos"] > 0 and gs.my_active: # General fallback
                 active_fully_powered = True
                 for atk in gs.my_active.attacks:
                     if not can_use_attack(atk.get("cost", []), gs.my_active.energy):

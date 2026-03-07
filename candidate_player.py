@@ -538,6 +538,9 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                 damage += bonus
 
     # 4. Specific Card Overrides (Fallback)
+    if "exeggutor ex" in name_lower and attack_idx == 0:
+        damage = 60 if mode == "ev" else 80
+
     if "houndstone" in name_lower and attack_idx == 0:
         psychic_in_discard = sum(1 for d in state.my_discard if getattr(d.obj, "is_pokemon", False) and getattr(d.obj, "energy_type", None) == "Psychic")
         damage = 50 + (20 * psychic_in_discard)
@@ -805,6 +808,10 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
                  d = evaluate_attacker(evolved_card, True, has_energy_in_hand)
                  if d > max_dmg: max_dmg = d
+
+    # Add potential Weezing poison threat if opponent active is Weezing
+    if attacker and "weezing" in attacker.name.lower():
+        max_dmg += 20
 
     # 2. Bench Threats (Retreat/Switch)
     can_switch = False
@@ -1489,6 +1496,11 @@ def play(state, game):
                     action["score"] = -100000
                     continue
 
+                # Arbok Lock Check
+                if gs.my_active and hasattr(gs.my_active, "effects") and any("noretreat" in str(e).lower() for e in gs.my_active.effects):
+                    action["score"] = -100000
+                    continue
+
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
@@ -1613,7 +1625,7 @@ def play(state, game):
                         # Prioritize ready attacker
                         action["score"] += target.hp
                         if not target.needs_energy():
-                             action["score"] += 5000
+                             action["score"] += 15000
                         if "ex" in target.name.lower():
                             action["score"] += 1000
 
@@ -1629,7 +1641,7 @@ def play(state, game):
                         # In activate, we are about to face the active opponent.
                         threat = opp_max_dmg + poison_dmg
                         if target.hp <= threat:
-                            action["score"] -= (threat - target.hp) * 1000
+                            action["score"] -= 50000 + ((threat - target.hp) * 1000)
 
         elif "Discard" in aname:
              action["type"] = "discard"

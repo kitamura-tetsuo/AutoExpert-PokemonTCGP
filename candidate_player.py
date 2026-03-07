@@ -1958,6 +1958,22 @@ def play(state, game):
             if target.energy_count >= 5:
                 a["score"] = -200000
 
+            # Venusaur / Exeggutor Setup Heuristic
+            is_multi_stage_deck = False
+            if hasattr(gs, 'my_deck_contents') and gs.my_deck_contents:
+                # `my_deck_contents` is a list of strings, so we can just check directly.
+                is_multi_stage_deck = any(x in str(n).lower() for x in ["bulbasaur", "ivysaur", "venusaur", "exeggcute", "exeggutor"] for n in gs.my_deck_contents)
+            # If we couldn't determine from deck (empty), fallback to checking our active/bench
+            if not is_multi_stage_deck:
+                is_multi_stage_deck = any(x in n.lower() for x in ["bulbasaur", "ivysaur", "venusaur", "exeggcute", "exeggutor"] for n in [c.name for c in [gs.my_active] + gs.my_bench if c])
+
+            if is_multi_stage_deck:
+                if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                    a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
+                elif gs.my_active and "exeggutor ex" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
+                    if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
+                        a["score"] += 20000 # Boost attaching to late-game bench targets
+
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()
             if a["pos"] == 0 and target.energy_count < target.retreat_cost:

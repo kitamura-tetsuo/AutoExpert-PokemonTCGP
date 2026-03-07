@@ -1465,7 +1465,7 @@ def play(state, game):
                     continue
 
                 if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
-                    if gs.my_active.hp <= 40:
+                    if gs.my_active.hp <= 60:
                         # Prioritize retreat if critically poisoned and low HP
                         action["score"] += 35000
                     else:
@@ -1536,6 +1536,26 @@ def play(state, game):
                     active_is_lethal = False
                     if gs.opp_active and active_dmg >= gs.opp_active.hp:
                         active_is_lethal = True
+
+                    # Evasion: If opponent can lock retreat, and our active is weak or setup pokemon
+                    if gs.opp_active:
+                        can_lock = False
+                        for atk in gs.opp_active.attacks:
+                            if "can't retreat" in (atk.get("effect", "") or "").lower() or "can't retreat" in (atk.get("text", "") or "").lower():
+                                # Check if they have energy to use it or are close
+                                if gs.opp_active.energy_count >= len(atk.get("cost", [])) - 1:
+                                    can_lock = True
+                                    break
+                        if can_lock and (target_dmg > active_dmg or (gs.my_active and gs.my_active.hp <= 70)):
+                            should_retreat = True
+                            new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 10000
+                            action["score"] = max(action["score"], new_score)
+
+                    # Evasion: If active is critically poisoned
+                    if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60:
+                        should_retreat = True
+                        new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 15000
+                        action["score"] = max(action["score"], new_score)
 
                     # If active is lethal, don't switch unless bench is somehow better (e.g. EX vs non-EX?)
                     # Generally, if we can KO, we take it.
@@ -2260,12 +2280,12 @@ def play(state, game):
 
             if gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects):
                 if is_x_speed:
-                    a["score"] = -10000 # X Speed doesn't bypass NoRetreat
+                    a["score"] -= 100000 # X Speed doesn't bypass NoRetreat
                 elif is_switch:
                     a["score"] = 85000 # Switch does! Bypass normal scoring to save active
                     wants_to_retreat = True
-            elif gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 40:
-                # Increased HP threshold to 40 for poison to prevent dying between turns (Weezing is 10 dmg poison, Arbok hits for 60-70)
+            elif gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60:
+                # Increased HP threshold to 60 for poison to prevent dying between turns (Weezing is 10 dmg poison, Arbok hits for 60-70)
                 a["score"] = 85000
                 wants_to_retreat = True
             elif gs.my_active and any(status in str(gs.my_active.status).lower() for status in ["asleep", "paralyzed"]):

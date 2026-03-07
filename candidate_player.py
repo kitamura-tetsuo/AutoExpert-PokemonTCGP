@@ -1249,8 +1249,22 @@ def play(state, game):
                           action["score"] += 30000 # Save bench from Gust KO
 
                 # Status Cleanse (Defensive)
-                if target_pos == 0 and gs.my_active and gs.my_active.status:
-                     action["score"] += 5000
+                if target_pos == 0 and gs.my_active:
+                     if gs.my_active.status:
+                         action["score"] += 5000
+                     # Look for NoRetreat effect
+                     has_noretreat = False
+                     if hasattr(gs.my_active, "effects") and gs.my_active.effects:
+                         for ef in gs.my_active.effects:
+                             if "noretreat" in str(ef).lower():
+                                 has_noretreat = True
+                     elif hasattr(gs.my_active.obj, "effects") and getattr(gs.my_active.obj, "effects", None):
+                         for ef in getattr(gs.my_active.obj, "effects", []):
+                             if "noretreat" in str(ef).lower():
+                                 has_noretreat = True
+
+                     if has_noretreat:
+                         action["score"] += 85000
 
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
@@ -1493,8 +1507,25 @@ def play(state, game):
                     # Energy Economy Check for Retreat
                     retreat_cost = gs.my_active.retreat_cost if gs.my_active else 0
 
+                    has_noretreat = False
+                    if gs.my_active:
+                        if hasattr(gs.my_active, "effects") and gs.my_active.effects:
+                            for ef in gs.my_active.effects:
+                                if "noretreat" in str(ef).lower():
+                                    has_noretreat = True
+                        elif hasattr(gs.my_active.obj, "effects") and getattr(gs.my_active.obj, "effects", None):
+                            for ef in getattr(gs.my_active.obj, "effects", []):
+                                if "noretreat" in str(ef).lower():
+                                    has_noretreat = True
+
+                    if has_noretreat:
+                        action["score"] -= 100000
+
                     if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
-                        action["score"] += 35000
+                        if gs.my_active.hp <= 40:
+                            action["score"] += 35000
+                        else:
+                            action["score"] += 5000 # Give a smaller boost if not critically low HP
 
                     if retreat_cost > 0:
                         has_energy_hand = any("Energy" in c.name or c.name in ["Water", "Fire", "Grass", "Lightning", "Psychic", "Fighting", "Darkness", "Metal"] for c in gs.my_hand)

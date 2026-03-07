@@ -1066,7 +1066,7 @@ def play(state, game):
                                 action["score"] += min(missing_hp, 30) * 100
                             # If it can get us out of lethal range, heavily prioritize
                             if threat_lethal and (gs.my_active.hp + 30) > opp_max_dmg_effective:
-                                action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
+                                action["score"] = max(action["score"], 35000) # Do not override LETHAL_KO_SCORE
 
                     if gs.my_active and "moltres ex" in gs.my_active.name.lower() and idx == 0:
                          fire_needs = 0
@@ -2034,16 +2034,29 @@ def play(state, game):
                                      if "noretreat" in str(ef).lower():
                                          active_has_noretreat = True
 
-                             if has_bench and ((target.hp <= 30 and any("poison" in str(s).lower() for s in target.status)) or active_has_noretreat):
+                             is_doomed = False
+                             if target.hp <= 30 and any("poison" in str(s).lower() for s in target.status):
+                                 is_doomed = True
+
+                             # If active is facing lethal and trapped by NoRetreat
+                             if target.hp <= opp_max_dmg_effective and active_has_noretreat:
+                                 is_doomed = True
+
+                             if has_bench and is_doomed:
                                  a["score"] -= 500000 # Memory says strongly penalize
                              elif a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
 
                              # Furthermore, heavily penalize if active HP is <= opp_max_dmg_effective
                              # and this attach energy does not give lethal, nor let it retreat.
+                             # But don't do this if we can heal out of lethal range (e.g. Venusaur ex)
                              retreat_cost = target.retreat_cost
                              allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
-                             if not allows_retreat and target.hp <= opp_max_dmg_effective:
+                             can_heal_out_of_lethal = False
+                             if "venusaur ex" in target.name.lower() and (target.hp + 30) > opp_max_dmg_effective:
+                                 can_heal_out_of_lethal = True
+
+                             if not allows_retreat and not can_heal_out_of_lethal and target.hp <= opp_max_dmg_effective:
                                  # We are just attaching to a pokemon that dies next turn
                                  a["score"] -= 50000
 

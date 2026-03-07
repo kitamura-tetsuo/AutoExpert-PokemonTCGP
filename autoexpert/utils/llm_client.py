@@ -7,7 +7,7 @@ from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from autoexpert.config import settings
 
-class LLMClient:
+class JulesClient:
     def __init__(self):
         self.api_key = settings.JULES_API_KEY
         self.base_url = settings.JULES_API_URL
@@ -71,7 +71,7 @@ class LLMClient:
             },
             "title": title,
             "requirePlanApproval": False,
-            "automationMode": "AUTO_CREATE_PR"
+            "automationMode": "AUTOMATION_MODE_AUTO_CREATE_PR"
         }
         response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
         response.raise_for_status()
@@ -115,4 +115,4 @@ class LLMClient:
         
         return json.dumps(output, indent=2)
 
-client = LLMClient()
+client = JulesClient()

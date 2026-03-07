@@ -2296,28 +2296,17 @@ def play(state, game):
                 is_switch = True
 
         if is_x_speed or is_switch:
-            is_locked = gs.my_active and (any("NoRetreat" in str(e) for e in gs.my_active.effects) or any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed"]))
-            if is_locked:
-                if is_x_speed:
-                    a["score"] = -100000 # X Speed doesn't bypass NoRetreat/Asleep/Paralyzed
-                elif is_switch:
-                    a["score"] = 85000 # Switch does! Bypass normal scoring to save active
+            is_locked = False
+            if gs.my_active:
+                is_locked = any("NoRetreat" in str(e) for e in gs.my_active.effects) or any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed"])
+
+            if is_locked and is_switch:
+                a["score"] = max(a["score"], 85000) # Switch breaks locks
+            elif is_locked and is_x_speed:
+                # X Speed is just an item here, don't give it a boost to retreat, but don't heavily penalize it to allow hand thinning
+                pass
             else:
-                # X speed should only be used if active pokemon has reason to retreat
-                wants_to_retreat = False
-                if threat_lethal or (gs.my_active and gs.my_active.hp <= 60 and any("poison" in str(s).lower() for s in gs.my_active.status)):
-                    wants_to_retreat = True
-                else:
-                    # check if we actually have a retreat planned
-                    for r in actions:
-                        if r["type"] == "retreat" and r["score"] > RETREAT_SCORE:
-                            wants_to_retreat = True
-                            break
-
-                if not wants_to_retreat:
-                     a["score"] = -100000
-                     continue
-
+                # We are not locked. Check if we want to retreat.
                 best_retreat = -100000
                 for r in actions:
                     if r["type"] == "retreat" and r["score"] > best_retreat:
@@ -2325,8 +2314,7 @@ def play(state, game):
 
                 if best_retreat > 0:
                      # Prioritize Switch/X Speed over manual retreat to save energy
-                     # X Speed attaches tool, Switch uses item. Both good.
-                     a["score"] = best_retreat + 2000
+                     a["score"] = max(a["score"], best_retreat + 2000)
                      if is_switch: # Switch is immediate
                           a["score"] += 1000
 

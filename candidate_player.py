@@ -165,7 +165,14 @@ class Card:
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
         self.db_entry = self._get_db_entry()
-        self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
+        self.energy = []
+        if obj and hasattr(obj, "attached_energy"):
+             ae = obj.attached_energy
+             if isinstance(ae, dict):
+                  for k, v in ae.items():
+                       self.energy.extend([str(k)] * int(v))
+             else:
+                  self.energy = [str(e) for e in ae]
         self.energy_count = len(self.energy)
 
     @staticmethod
@@ -174,7 +181,7 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
+        m = re.match(r"^([A-Za-z0-9\-]+)?([A-Z][a-z].*)", raw_name)
         if m and m.group(1):
              prefix = m.group(1)
              name_part = m.group(2)
@@ -232,8 +239,10 @@ class Card:
 
     @property
     def energy_type(self):
-        if self.db_entry:
-            return self.db_entry.get("energy_type", "Colorless")
+        if self.obj and hasattr(self.obj, 'energy_type'):
+            try: return str(self.obj.energy_type)
+            except AttributeError: pass
+        if self.db_entry: return self.db_entry.get("energy_type", "Colorless")
         n = self.name.lower()
         if "pikachu" in n or "zapdos" in n or "magneton" in n: return "Lightning"
         if "mewtwo" in n or "gardevoir" in n or "gengar" in n: return "Psychic"
@@ -310,7 +319,9 @@ class Card:
         elif n_lower == "lapras": max_cost = 4
         elif "charizard ex" in n_lower: max_cost = 4
         elif "venusaur ex" in n_lower: max_cost = 4
-        elif n_lower == "ivysaur": max_cost = 3
+        elif n_lower == "ivysaur": max_cost = 4
+        elif n_lower == "exeggcute": max_cost = 1
+        elif "exeggutor ex" in n_lower: max_cost = 1
         elif "mewtwo ex" in n_lower: max_cost = 4
         elif "dragonite" in n_lower: max_cost = 4
         elif "machamp ex" in n_lower: max_cost = 3
@@ -353,15 +364,25 @@ class Card:
 
     @property
     def status(self):
-        if self.obj and hasattr(self.obj, "status"):
-             return self.obj.status
-        return []
+        status_list = []
+        if self.obj:
+             if hasattr(self.obj, 'poisoned') and self.obj.poisoned: status_list.append("Poisoned")
+             if hasattr(self.obj, 'asleep') and self.obj.asleep: status_list.append("Asleep")
+             if hasattr(self.obj, 'paralyzed') and self.obj.paralyzed: status_list.append("Paralyzed")
+             if hasattr(self.obj, 'confused') and self.obj.confused: status_list.append("Confused")
+             if hasattr(self.obj, 'burned') and self.obj.burned: status_list.append("Burned")
+        return status_list
 
     @property
     def effects(self):
-        if self.obj and hasattr(self.obj, "effects"):
-             return self.obj.effects
-        return []
+        effects_list = []
+        if self.obj:
+             if hasattr(self.obj, "effects"):
+                  val = self.obj.effects
+                  if isinstance(val, list): effects_list.extend([str(e) for e in val])
+             if hasattr(self.obj, 'no_retreat') and self.obj.no_retreat:
+                  effects_list.append("NoRetreat")
+        return effects_list
 
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):
@@ -933,7 +954,7 @@ def play(state, game):
                  dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0, target_override=b)
                  if dmg >= b.hp:
                      can_ko_on_bench = True
-                     is_ex = b.name.lower().endswith(" ex")
+                     is_ex = b.name.lower().endswith(" ex") or b.name.lower() == "ex"
                      points_gained = 2 if is_ex else 1
                      if points_gained > best_bench_ko_value:
                          best_bench_ko_value = points_gained
@@ -1115,7 +1136,7 @@ def play(state, game):
                              action["score"] = LETHAL_KO_SCORE + AGGRESSIVE_DEFENSE_BONUS # 550,000 -> Beats Retreat (501k)
 
                     # Status Effect / Heal Bonus
-                    if not is_ko and gs.my_active and idx < len(gs.my_active.attacks):
+                    if gs.my_active and idx < len(gs.my_active.attacks):
                         atk_data = gs.my_active.attacks[idx]
                         atk_text = (atk_data.get("text") or "").lower()
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
@@ -1332,10 +1353,10 @@ def play(state, game):
 
                     potential_targets = []
                     if gs.my_active:
-                        if "erika" not in aname_lower or "Grass" in gs.my_active.energy_type:
+                        if "erika" not in aname_lower or gs.my_active.name.lower() in ["bulbasaur", "ivysaur", "venusaur ex", "exeggcute", "exeggutor ex", "pinsir", "tangela", "scyther", "weedle", "kakuna", "beedrill", "oddish", "gloom", "vileplume", "paras", "parasect", "venonat", "venomoth", "bellsprout", "weepinbell", "victreebel"]:
                             potential_targets.append(gs.my_active)
                     for b in gs.my_bench:
-                        if "erika" not in aname_lower or "Grass" in b.energy_type:
+                        if "erika" not in aname_lower or b.name.lower() in ["bulbasaur", "ivysaur", "venusaur ex", "exeggcute", "exeggutor ex", "pinsir", "tangela", "scyther", "weedle", "kakuna", "beedrill", "oddish", "gloom", "vileplume", "paras", "parasect", "venonat", "venomoth", "bellsprout", "weepinbell", "victreebel"]:
                             potential_targets.append(b)
 
                     for t in potential_targets:
@@ -1510,6 +1531,9 @@ def play(state, game):
                     if gs.my_active.hp <= 60 and not threat_lethal:
                          action["score"] += 35000
 
+                if gs.my_active and gs.my_active.hp == 0:
+                     action["score"] += 50000
+
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
@@ -1533,11 +1557,13 @@ def play(state, game):
                         is_valuable = gs.my_active and (gs.my_active.name.lower().endswith(" ex") or gs.my_active.energy_count >= 2)
 
                     bench_can_attack = False
+                    bench_best_dmg = 0
                     if target:
                          for i in range(len(target.attacks)):
                              if can_use_attack(target.attacks[i].get("cost", []), target.energy):
                                  bench_can_attack = True
-                                 break
+                                 d = calculate_damage(target, i, gs)
+                                 if d > bench_best_dmg: bench_best_dmg = d
 
                     if (is_valuable and bench_is_safer):
                         action["score"] = DONK_SURVIVAL_SCORE + 1000
@@ -1567,6 +1593,12 @@ def play(state, game):
                          d = calculate_damage(target, i, gs)
                          if d > target_dmg: target_dmg = d
                          bench_can_attack = True
+
+                if gs.my_active and gs.my_active.retreat_cost > 0:
+                     if target_dmg < 40 and active_dmg == 0 and not threat_lethal and not is_critically_poisoned:
+                          # "Do not waste energy manually retreating a 0-damage active Pokemon merely to escape minor chip damage"
+                          should_retreat = False
+                          bench_can_attack = False # Cancel strategic switch consideration
 
                 # Only consider switching if bench can actually attack
                 if bench_can_attack:
@@ -1903,20 +1935,48 @@ def play(state, game):
                          a["score"] -= 20000 # Deprioritize significantly
 
             # Infinite Stall Prevention (Over-attachment)
-            if target.energy_count >= 5:
+            max_cap = 5
+            target_name = target.name.lower()
+            if "exeggutor ex" in target_name: max_cap = 3
+            elif "exeggcute" in target_name: max_cap = 2
+            elif "venusaur ex" in target_name: max_cap = 5
+            elif "ivysaur" in target_name: max_cap = 4
+            elif "bulbasaur" in target_name: max_cap = 4
+            elif "arbok" in target_name: max_cap = 3
+            elif "weezing" in target_name: max_cap = 4
+            elif target_name in ["ekans", "koffing"]: max_cap = 3
+
+            if target.energy_count >= max_cap:
                 a["score"] = -200000
                 continue
+
+            # Additional penalty if they don't need energy, to prevent stalls
+            if not target.needs_energy():
+                 a["score"] -= 10000
+
+                 # Extra stall prevention if we have carry attackers ready
+                 if target.energy_count >= max_cap - 1:
+                     a["score"] -= 50000
 
             # Bench Setup Priority
             if gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
                 active_can_attack = any(can_use_attack(atk.get("cost", []), gs.my_active.energy) for atk in gs.my_active.attacks)
-                if active_can_attack:
+                allows_retreat = False
+                if a["pos"] == 0 and target:
+                     # Calculate retreat cost checking for effects like NoRetreat
+                     can_actually_retreat = not any("NoRetreat" in str(e) for e in target.effects)
+                     if can_actually_retreat:
+                          allows_retreat = target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+
+                if active_can_attack and not allows_retreat:
                     if a["pos"] == 0:
                         a["score"] -= 50000
                     elif target and any(n in target.name.lower() for n in ["bulbasaur", "ivysaur", "venusaur ex"]):
-                        a["score"] += 15000
+                        if target.needs_energy():
+                             a["score"] += 15000
                     elif target and any(n in target.name.lower() for n in ["exeggcute"]):
-                        a["score"] -= 5000
+                        if not target.needs_energy():
+                             a["score"] -= 50000
 
             # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
             if a["pos"] == 0:
@@ -2051,7 +2111,12 @@ def play(state, game):
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
                          if threat_lethal and not is_lethal_attachment:
                              if a["score"] < 90000:
-                                 a["score"] -= 10000 # Increased penalty
+                                 # Severely penalize attaching to doomed active unless it allows retreat
+                                 allows_retreat = False
+                                 if not any("NoRetreat" in str(e) for e in target.effects):
+                                     allows_retreat = target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                                 if not allows_retreat:
+                                     a["score"] -= 50000
 
                     # Weakness check for Active Pokemon
                     if a["pos"] == 0 and gs.opp_active and not is_lethal_attachment:
@@ -2357,6 +2422,10 @@ def play(state, game):
                 if threat_lethal or is_critically_poisoned:
                      wants_to_retreat = True
 
+                # Manual retreat advantage
+                if best_retreat > 0:
+                     wants_to_retreat = True
+
                 opp_has_noretreat_lock = False
                 if gs.opp_active and gs.opp_active.attacks:
                     for atk in gs.opp_active.attacks:
@@ -2379,7 +2448,10 @@ def play(state, game):
                           if is_switch:
                                a["score"] += 1000
                      else:
-                          a["score"] = STRATEGIC_SWITCH_SCORE + 20000
+                          if is_switch:
+                               a["score"] = -100000 # No good target to switch to
+                          else:
+                               a["score"] -= 1000 # X Speed still unpenalized to thin hand but no target
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

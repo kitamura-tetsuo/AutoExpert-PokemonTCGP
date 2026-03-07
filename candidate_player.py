@@ -1131,11 +1131,22 @@ def play(state, game):
                          elif "rocky helmet" in tname: recoil = 20
 
                          if recoil > 0 and action["damage"] > 0 and not action.get("is_lethal"):
-                             surviving_hp = gs.my_active.hp - recoil
+                             heal_amount = 0
+                             if idx < len(gs.my_active.attacks):
+                                 atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+                                 if "heal" in atk_text:
+                                     m_heal = re.search(r"heal (\d+)", atk_text)
+                                     if m_heal:
+                                         heal_amount = int(m_heal.group(1))
+                                     else:
+                                         heal_amount = 20
+                                     heal_amount = min(heal_amount, gs.my_active.max_hp - gs.my_active.hp)
+
+                             surviving_hp = gs.my_active.hp + heal_amount - recoil
 
                              if surviving_hp <= 0:
                                  action["score"] -= 200000 # Lethal Self KO
-                             elif gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
+                             elif (gs.my_active.hp + heal_amount) > opp_max_dmg and surviving_hp <= opp_max_dmg:
                                   if not action.get("is_ko"):
                                        action["score"] -= 50000 # Don't risk lethal if not KO/Lethal
 

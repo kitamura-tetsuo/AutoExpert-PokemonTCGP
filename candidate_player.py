@@ -1313,6 +1313,8 @@ def play(state, game):
                      if gs.my_active.status:
                          if any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60 and not threat_lethal:
                              action["score"] += 35000
+                         elif any("poison" in str(s).lower() for s in gs.my_active.status):
+                             action["score"] += 20000 # Increased priority to cure Weezing's poison
                          else:
                              action["score"] += 5000
                      # Look for NoRetreat effect
@@ -2174,6 +2176,9 @@ def play(state, game):
                      if hp >= 70: a["score"] += 2000
                      if retreat == 0: a["score"] += 1500
                      elif retreat == 1: a["score"] += 1200 # Increased from 500
+
+                     # Prioritize Exeggcute as active to evolve to Exeggutor ex
+                     if n_lower == "exeggcute": a["score"] += 5000
 
                      # Avoid fragile support starters if possible
                      if n_lower in ["ralts", "dreepy", "pidgey"] and retreat > 0:

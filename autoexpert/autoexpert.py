@@ -120,7 +120,8 @@ class AutoExpert:
                 print(f"Generating code (Attempt {retry+1}/{settings.MAX_RETRIES_PER_GOAL})...")
                 code = self.code_generator.generate(
                     goal, 
-                    feedback, 
+                    feedback,
+                    wait_completion=wait_completion,
                     deck_path=self.deck_a,
                     deck_contents=deck_a_contents,
                     opponent_deck_path=self.deck_b,

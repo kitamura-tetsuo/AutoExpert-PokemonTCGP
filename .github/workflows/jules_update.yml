@@ -28,10 +28,22 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install dependencies
+      - name: Allocate Swap Space
         run: |
-          uv sync
-          uv pip install -e ./deckgym-core
+          sudo fallocate -l 4G /swapfile-extra
+          sudo chmod 600 /swapfile-extra
+          sudo mkswap /swapfile-extra
+          sudo swapon /swapfile-extra
+          sudo systemctl stop systemd-oomd || true
+          free -h
+
+      - name: Install dependencies
+        env:
+          CARGO_BUILD_JOBS: 1
+          UV_CONCURRENCY: 1
+          UV_HTTP_TIMEOUT: 300
+        run: |
+          uv sync --verbose
 
       - name: Run learn command
         env:

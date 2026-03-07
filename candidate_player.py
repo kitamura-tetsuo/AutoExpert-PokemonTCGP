@@ -383,6 +383,12 @@ class GameStateWrapper:
         self.my_deck_count = 0
         self.opp_deck_count = 0
 
+        # Discard piles
+        self.my_discard_objs = state.get_discard_pile(self.me)
+        self.opp_discard_objs = state.get_discard_pile(self.opp)
+        self.my_discard = [Card(f"MyDiscard_{i}", d) for i, d in enumerate(self.my_discard_objs)]
+        self.opp_discard = [Card(f"OppDiscard_{i}", d) for i, d in enumerate(self.opp_discard_objs)]
+
     def get_card_in_hand(self, idx):
         if 0 <= idx < len(self.my_hand):
             return self.my_hand[idx]
@@ -522,6 +528,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                 damage += bonus
 
     # 4. Specific Card Overrides (Fallback)
+    if "houndstone" in name_lower and attack_idx == 0:
+        psychic_in_discard = sum(1 for d in state.my_discard if getattr(d.obj, "is_pokemon", False) and getattr(d.obj, "energy_type", None) == "Psychic")
+        damage = 50 + (20 * psychic_in_discard)
+
     if "pikachu ex" in name_lower and attack_idx == 0 and damage < 30:
          count = 0
          for b in state.my_bench:
@@ -1274,7 +1284,7 @@ def play(state, game):
                          else:
                              action["score"] += 10000
 
-            elif "research" in aname_lower or "professor" in aname_lower:
+            elif "research" in aname_lower or "professor" in aname_lower or "sightseer" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
@@ -1866,16 +1876,25 @@ def play(state, game):
             has_energy = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names_lower)
             has_gardevoir_line = any("gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
 
+            # Houndstone Synergy Check: Discarding psychic pokemon is good
+            is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
+            psychic_pokemon_in_hand = sum(1 for c in gs.my_hand if getattr(c.obj, "is_pokemon", False) and getattr(c.obj, "energy_type", None) == "Psychic")
+
             # Check if we have any basic pokemon to play
             has_basic_to_play = any(x["type"] == "place" for x in actions)
 
             if has_energy:
                  if has_gardevoir_line:
                      a["score"] += 1000 # Good to discard for Psy Shadow
+                 elif is_houndstone_active and psychic_pokemon_in_hand >= 1:
+                     a["score"] += (psychic_pokemon_in_hand * 3000) # Good to discard psychic pokemon for Houndstone
                  else:
                      # Only penalize if we have a bench. If Donk risk, ignore penalty.
                      if not risk_of_donk:
                          a["score"] -= 10000 # Bad to discard
+
+            if is_houndstone_active and not has_energy and psychic_pokemon_in_hand >= 1:
+                 a["score"] += (psychic_pokemon_in_hand * 5000)
 
             # Dead Hand Logic
             if not has_energy and not has_basic_to_play:

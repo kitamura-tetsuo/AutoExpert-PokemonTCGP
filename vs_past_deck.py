@@ -197,7 +197,7 @@ def parse_args():
                         help="Path to output HTML file (last match of new AI).")
     parser.add_argument("--seed", type=int, default=int(datetime.datetime.now().timestamp()),
                         help="Base random seed. Match i uses seed+i for both AIs.")
-    parser.add_argument("--matches", type=int, default=1000,
+    parser.add_argument("--matches", "--num_matches", type=int, default=1000,
                         help="Number of matches per AI.")
     parser.add_argument("--threshold", type=float, default=0.01,
                         help="Minimum win rate improvement (new - old) to pass CI (default: 0.01 = 1%%).")

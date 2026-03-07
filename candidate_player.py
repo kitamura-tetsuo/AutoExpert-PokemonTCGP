@@ -1871,9 +1871,9 @@ def play(state, game):
                     if a["pos"] == 0:
                          a["score"] += 1000
 
-                         # High priority to get the first energy on Exeggutor ex
+                         # Give a solid priority to attaching to Exeggutor ex if it needs it
                          if "exeggutor ex" in target.name.lower() and target.energy_count == 0:
-                              a["score"] += 15000
+                              a["score"] += 10000
 
                          retreat_cost = target.retreat_cost
                          # Only boost weak attach if not threatened OR if attachment allows retreat
@@ -2059,23 +2059,6 @@ def play(state, game):
             elif gs.my_active and (hasattr(gs.my_active, "effects") and any("noretreat" in str(e).lower() for e in gs.my_active.effects)):
                  # Break Arbok Lock
                  a["score"] = 85000
-
-
-
-            # Aggressive Gust: if we can KO a bench EX, and we aren't dying
-            elif can_ko_on_bench and not threat_lethal:
-                best_target_score = 0
-                for b in gs.opp_bench:
-                    if "ex" in b.name.lower() and active_dmg >= b.hp:
-                         # Ensure we aren't completely breaking generic logic - only boost if it's an EX we can KO
-                         best_target_score = 15000
-                if best_target_score > 0:
-                    a["score"] += best_target_score
-
-            elif gs.opp_bench and any("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower() for b in gs.opp_bench):
-                if active_dmg >= 30 and not threat_lethal:
-                    a["score"] += 15000
-
             elif threat_lethal:
                  # Defensive Gust: Find safe target
                  safe_target_found = False

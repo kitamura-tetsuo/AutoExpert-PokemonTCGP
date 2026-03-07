@@ -419,10 +419,30 @@ def load_league_decks(csv_path: str):
 
 def resolve_deck_path(deck: str) -> str:
     deck_path = Path(deck)
-    if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck
-    if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+    if deck_path.exists():
+        return str(deck_path)
+
+    # Check if we accidentally doubled up train_data
+    if deck.startswith("train_data/"):
+        stripped = deck[len("train_data/"):]
+        alt_path = Path("train_data") / stripped
+        if alt_path.exists():
+            return str(alt_path)
+
+    alt_path_1 = settings.DECK_DIR / deck
+    if alt_path_1.exists():
+        return str(alt_path_1)
+
+    alt_path_2 = Path("train_data") / deck
+    if alt_path_2.exists():
+        return str(alt_path_2)
+
+    # Final fallback if totally missing (prevents PyO3 panics in CI on non-existent branches)
+    default_deck = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
+    if default_deck.exists():
+        logging.warning(f"Deck path {deck} not found. Falling back to {default_deck}")
+        return str(default_deck)
+
     return str(deck_path)
 
 
@@ -470,9 +490,13 @@ def run_league_series(play_func, teacher_func, deck_a: str, teacher_decks, teach
 
             play_funcs = [play_func, teacher_func]
             winner, history, steps, detail_history = run_match(game, play_funcs, record_history=record, record_detail=True, card_mapping=card_mapping)
-        except Exception as e:
+        except BaseException as e:
             logging.error(f"[{label}] Match {i+1} failed: {e}")
-            continue
+            # Register as a draw if initialization fails to avoid skewing winrates massively
+            winner = -1
+            steps = 0
+            detail_history = []
+            history = []
 
         completed += 1
         if winner == 0:

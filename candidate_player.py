@@ -1113,7 +1113,7 @@ def play(state, game):
                              action["score"] = LETHAL_KO_SCORE + AGGRESSIVE_DEFENSE_BONUS # 550,000 -> Beats Retreat (501k)
 
                     # Status Effect / Heal Bonus
-                    if not is_ko and gs.my_active and idx < len(gs.my_active.attacks):
+                    if gs.my_active and idx < len(gs.my_active.attacks):
                         atk_data = gs.my_active.attacks[idx]
                         atk_text = (atk_data.get("text") or "").lower()
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):

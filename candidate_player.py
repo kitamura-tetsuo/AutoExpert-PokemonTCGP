@@ -1606,8 +1606,10 @@ def play(state, game):
 
                         # Active poison is cleared when KO'd, so the NEW active won't be poisoned immediately
                         # but we still need to survive the opponent's raw attack damage.
+
+                        # Soften penalty to prevent infinite loops when all bench options are doomed
                         if threat >= target.hp:
-                             action["score"] -= 50000 + ((threat - target.hp) * 1000)
+                             action["score"] -= 20000 + ((threat - target.hp) * 50)
 
                         # Prioritize ready attacker
                         action["score"] += target.hp

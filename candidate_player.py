@@ -2014,20 +2014,23 @@ def play(state, game):
 
                  if active_is_exeggutor and active_has_min_energy:
                       if a["pos"] == 0:
-                           a["score"] -= 50000 # Penalize attaching to active
-                      else:
+                           # Do not penalize if it is a strictly necessary retreat under lethal threat
+                           allows_retreat = target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                           is_trapped = target.effects and any("NoRetreat" in str(e) for e in target.effects)
+                           if not (allows_retreat and threat_lethal and not is_trapped):
+                               a["score"] -= 50000
+                      elif a["pos"] > 0:
                            target_name = target.name.lower()
                            if target_name in ["bulbasaur", "ivysaur", "venusaur ex"] and not is_fully_powered:
                                a["score"] += 15000 # Boost bench setup
-
-            elif a["pos"] > 0 and gs.my_active: # General fallback
-                active_fully_powered = True
-                for atk in gs.my_active.attacks:
-                    if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
-                        active_fully_powered = False
-                        break
-                if active_fully_powered and not is_fully_powered:
-                    a["score"] += 15000
+                 elif a["pos"] > 0: # General fallback
+                      active_fully_powered = True
+                      for atk in gs.my_active.attacks:
+                          if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                              active_fully_powered = False
+                              break
+                      if active_fully_powered and not is_fully_powered:
+                          a["score"] += 15000
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()

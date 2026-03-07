@@ -81,7 +81,7 @@ WEAKNESS_MAP = {
     "Lightning": ["Fighting"],
     "Psychic": ["Darkness"],
     "Fighting": ["Psychic"],
-    "Darkness": ["Fighting", "Grass", "Fire"],
+    "Darkness": ["Fighting"],
     "Metal": ["Fire"],
     "Dragon": ["Fairy"],
     "Colorless": ["Fighting"]
@@ -92,6 +92,7 @@ EVOLUTION_MAP = {
     "squirtle": "wartortle", "wartortle": "blastoise ex",
     "greavard": "houndstone", "yamask": "cofagrigus", "misdreavus": "mismagius", "tadbulb": "bellibolt ex",
     "bulbasaur": "ivysaur", "ivysaur": "venusaur ex",
+    "exeggcute": "exeggutor ex",
     "dratini": "dragonair", "dragonair": "dragonite",
     "deino": "zweilous", "zweilous": "hydreigon",
     "gastly": "haunter", "haunter": "gengar ex",
@@ -296,6 +297,7 @@ class Card:
 
         # Override for evolving basics regardless of DB presence
         n_lower = self.name.lower()
+        if n_lower == "exeggutor ex": return self.energy_count < 1
         if n_lower == "froakie": max_cost = 2 # Greninja Mist Slash needs 2.
         elif n_lower == "ralts": max_cost = 3 # For Gardevoir
         elif n_lower == "gastly": max_cost = 3 # For Gengar
@@ -316,6 +318,7 @@ class Card:
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "bellibolt ex" in n_lower: max_cost = 4
         elif n_lower == "tadbulb": max_cost = 4
+        elif "exeggutor ex" in n_lower: max_cost = 1
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -569,6 +572,12 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
     if "starmie ex" in name_lower and attack_idx == 0 and damage < 90:
         damage = 90
+
+    if "exeggutor ex" in name_lower and attack_idx == 0:
+        if mode == "max":
+            damage = 80
+        else:
+            damage = 60
 
     if "charizard ex" in name_lower and attack_idx == 1 and damage < 200:
         damage = 200
@@ -1472,6 +1481,10 @@ def play(state, game):
 
                     # Energy Economy Check for Retreat
                     retreat_cost = gs.my_active.retreat_cost if gs.my_active else 0
+
+                    if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
+                        action["score"] += 35000
+
                     if retreat_cost > 0:
                         has_energy_hand = any("Energy" in c.name or c.name in ["Water", "Fire", "Grass", "Lightning", "Psychic", "Fighting", "Darkness", "Metal"] for c in gs.my_hand)
                         if not bench_can_attack and not has_energy_hand:

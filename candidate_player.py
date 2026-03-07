@@ -359,6 +359,12 @@ class Card:
              return self.obj.status
         return []
 
+    @property
+    def effects(self):
+        if self.obj and hasattr(self.obj, "effects"):
+             return self.obj.effects
+        return []
+
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):
         self.state = state
@@ -867,6 +873,9 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     if not has_giovanni:
         max_dmg += 10
 
+    if final_target and any("poison" in str(s).lower() for s in final_target.status):
+        max_dmg += 10
+
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
         logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg}")
@@ -1238,8 +1247,11 @@ def play(state, game):
                           action["score"] += 30000 # Save bench from Gust KO
 
                 # Status Cleanse (Defensive)
-                if target_pos == 0 and gs.my_active and gs.my_active.status:
-                     action["score"] += 5000
+                if target_pos == 0 and gs.my_active:
+                     if any("poison" in str(s).lower() for s in gs.my_active.status) or "NoRetreat" in gs.my_active.effects:
+                         action["score"] += 85000
+                     elif gs.my_active.status:
+                         action["score"] += 5000
 
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
@@ -1483,7 +1495,8 @@ def play(state, game):
                     retreat_cost = gs.my_active.retreat_cost if gs.my_active else 0
 
                     if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
-                        action["score"] += 35000
+                        if gs.my_active.hp <= 40 and not has_lethal_on_board:
+                            action["score"] += 35000
 
                     if retreat_cost > 0:
                         has_energy_hand = any("Energy" in c.name or c.name in ["Water", "Fire", "Grass", "Lightning", "Psychic", "Fighting", "Darkness", "Metal"] for c in gs.my_hand)
@@ -1532,42 +1545,39 @@ def play(state, game):
             if m:
                 action["type"] = "activate"
                 target_idx = int(m.group(1)) - 1
-                activating_for_opp = False
-                # If we have an active with HP > 0, and we are asked to activate,
-                # it might be an effect like Red Card or something forcing switch?
-                # Usually Activate() is for replacing KO'd pokemon.
-                if gs.my_active and gs.my_active.hp > 0:
-                    activating_for_opp = True
 
                 action["score"] = LETHAL_WIN_SCORE # Must activate to continue
 
-                if activating_for_opp:
-                    # Choosing for opponent (e.g. from Gust effect? No, usually that's automatic or different action)
-                    # If this happens, prioritize WORST opponent
-                    target = None
-                    if target_idx < len(gs.opp_bench):
-                        target = gs.opp_bench[target_idx]
-                    if target:
-                        action["score"] -= target.hp * 10
-                        action["score"] -= target.energy_count * 5000
-                else:
-                    # Choosing for self (after KO)
-                    target = gs.get_bench_card(target_idx)
-                    if target:
-                        # Prioritize ready attacker
-                        action["score"] += target.hp
-                        if not target.needs_energy():
-                             action["score"] += 5000
-                        if "ex" in target.name.lower():
-                            action["score"] += 1000
+                # Choosing for self (after KO or forced switch)
+                target = gs.get_bench_card(target_idx)
+                if target:
+                    # Penalty for putting something that dies immediately to lethal threat
+                    bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+                    if bench_threat >= target.hp:
+                        is_ex = "ex" in target.name.lower()
+                        points_lost = 2 if is_ex else 1
+                        opp_points_needed = 3 - gs.opp_points
 
-                        # Tie break for Carry Pokemon
-                        if target.name.lower() in CARRY_LIST:
-                            action["score"] += 2000
+                        if points_lost >= opp_points_needed:
+                            # This loses the game immediately! Huge penalty!
+                            action["score"] -= 500000
+                        else:
+                            action["score"] -= (bench_threat - target.hp) * 1000 + 50000
 
-                        # Check if this pokemon has energy to retreat if needed?
-                        if target.energy_count >= target.retreat_cost:
-                             action["score"] += 500
+                    # Prioritize ready attacker
+                    action["score"] += target.hp
+                    if not target.needs_energy():
+                         action["score"] += 5000
+                    if "ex" in target.name.lower():
+                        action["score"] += 1000
+
+                    # Tie break for Carry Pokemon
+                    if target.name.lower() in CARRY_LIST:
+                        action["score"] += 2000
+
+                    # Check if this pokemon has energy to retreat if needed?
+                    if target.energy_count >= target.retreat_cost:
+                         action["score"] += 500
 
         elif "Discard" in aname:
              action["type"] = "discard"
@@ -1897,8 +1907,11 @@ def play(state, game):
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
                          if threat_lethal and not is_lethal_attachment:
-                             if a["score"] < 90000:
-                                 a["score"] -= 10000 # Increased penalty
+                             if len(gs.my_bench) > 0:
+                                 a["score"] -= 50000 # Save energy for bench
+                             else:
+                                 if a["score"] < 90000:
+                                     a["score"] -= 10000 # Increased penalty
 
                     # Weakness check for Active Pokemon
                     if a["pos"] == 0 and gs.opp_active and not is_lethal_attachment:

@@ -74,6 +74,8 @@ class JulesClient:
             "automationMode": "AUTO_CREATE_PR"
         }
         response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
+        if response.status_code >= 400:
+            print(f"ERROR: create_session failed with {response.status_code}: {response.text}")
         response.raise_for_status()
         return response.json()
 

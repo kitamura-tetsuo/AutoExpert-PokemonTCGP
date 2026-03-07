@@ -71,6 +71,8 @@ GOAL: {goal}
         prompt += f"\nFEEDBACK (Errors or Performance): {feedback}\nPlease improve the code based on this feedback."
     
     if evaluation_log:
+        if len(evaluation_log) > 25000:
+            evaluation_log = evaluation_log[:25000] + "... [TRUNCATED DUE TO LENGTH]"
         prompt += f"\nEVALUATION LOG (100 matches results):\n```\n{evaluation_log}\n```"
         
     prompt += "\n\nWrite the `play(state, game)` function now."

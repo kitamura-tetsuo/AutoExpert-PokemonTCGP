@@ -423,7 +423,13 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    damage = float(atk.get("dmg", 0))
+
+    raw_dmg = atk.get("dmg", 0)
+    cleaned_dmg = re.sub(r'[^0-9.]', '', str(raw_dmg))
+    if cleaned_dmg == "":
+        cleaned_dmg = 0
+    damage = float(cleaned_dmg)
+
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
@@ -1624,7 +1630,7 @@ def play(state, game):
                             action["score"] += 1000
                             # If they will survive the threat, heavily boost them
                             if target.hp > threat:
-                                action["score"] += target.hp * 100
+                                action["score"] += target.hp * 1000
 
                         # Tie break for Carry Pokemon
                         if target.name.lower() in CARRY_LIST:

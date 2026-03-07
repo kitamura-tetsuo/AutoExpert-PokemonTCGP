@@ -1,0 +1,934 @@
+
+--- Deck-Specialized AI Evaluation Results ---
+Student deck : train_data/b7162a87.txt
+Matches / AI : 100
+
+New AI  wins : 5 / 86  (5.81%)
+Old AI  wins : 3 / 88  (3.41%)
+Improvement  : +2.40%  (threshold: +1.00%)
+
+=== SHORTEST_LOSS (21 steps) ===
+
+--- STEP 11 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    3
+  ],
+  "my_active": {
+    "name": "Greavard",
+    "hp": 70,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Zeraora",
+    "hp": 90,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Tadbulb",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cofagrigus",
+    "Cofagrigus",
+    "Houndstone",
+    "Houndstone"
+  ],
+  "opp_hand_known": [
+    "Tadbulb"
+  ],
+  "my_deck_contents": [
+    "Cyrus",
+    "Comfey",
+    "Yamask",
+    "Yamask",
+    "Klefki",
+    "Copycat",
+    "Lisia",
+    "Misdreavus",
+    "Misdreavus",
+    "Mismagius",
+    "Mismagius",
+    "Sightseer",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 10,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Rocky Helmet",
+    "Pok\u00e9 Ball",
+    "Copycat",
+    "Rocky Helmet"
+  ]
+}
+Selected Action: 28229 - AttachTool(Some(A2148RockyHelmet), 1)
+
+--- STEP 12 (Player 1 Turn) ---
+Diff from prev step: {
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Rocky Helmet",
+      "effects": []
+    },
+    {
+      "name": "Tadbulb",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 9811 - Place(Some(B2056Tadbulb), 3)
+
+--- STEP 13 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    4,
+    2
+  ],
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Rocky Helmet",
+      "effects": []
+    },
+    {
+      "name": "Tadbulb",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Tadbulb",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_hand_known": []
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 14 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 2,
+  "is_my_turn": true,
+  "flags": {
+    "support": false
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    2
+  ],
+  "opp_active": {
+    "energy": {
+      "Lightning": 1
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Rocky Helmet",
+      "effects": []
+    },
+    {
+      "name": "Tadbulb",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Tadbulb",
+      "hp": 50,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Cofagrigus",
+    "Cofagrigus",
+    "Houndstone",
+    "Houndstone",
+    "Professor's Research"
+  ],
+  "my_deck_contents": [
+    "Cyrus",
+    "Comfey",
+    "Yamask",
+    "Yamask",
+    "Klefki",
+    "Copycat",
+    "Lisia",
+    "Misdreavus",
+    "Misdreavus",
+    "Mismagius",
+    "Mismagius",
+    "Sightseer",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ]
+}
+Selected Action: 25977 - Play(Some(PA007ProfessorsResearch))
+
+--- STEP 15 (Player 0 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    6,
+    2
+  ],
+  "my_hand": [
+    "Cofagrigus",
+    "Cofagrigus",
+    "Houndstone",
+    "Houndstone",
+    "Sightseer",
+    "Lisia"
+  ],
+  "my_deck_contents": [
+    "Cyrus",
+    "Comfey",
+    "Yamask",
+    "Yamask",
+    "Klefki",
+    "Copycat",
+    "Misdreavus",
+    "Misdreavus",
+    "Mismagius",
+    "Mismagius",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "my_discard": [
+    "Professor's Research"
+  ]
+}
+Selected Action: 26128 - Attach(Psychic, 0)
+
+--- STEP 16 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Psychic": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "energy": {
+      "Psychic": 1
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 17 (Player 0 Turn) ---
+Diff from prev step: {
+  "my_active": {
+    "hp": 50
+  },
+  "opp_active": {
+    "hp": 60
+  }
+}
+Selected Action: 51930 - DiscardOwnCard(Some(B2150Sightseer))
+
+--- STEP 18 (Player 0 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    5,
+    2
+  ],
+  "my_hand": [
+    "Cofagrigus",
+    "Cofagrigus",
+    "Houndstone",
+    "Houndstone",
+    "Lisia"
+  ],
+  "my_discard": [
+    "Sightseer",
+    "Professor's Research"
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 19 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 3,
+  "is_my_turn": false,
+  "flags": {
+    "support": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    3
+  ],
+  "opp_deck_count": 9
+}
+Selected Action: 26124 - Attach(Lightning, 0)
+
+--- STEP 20 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 2
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+=== LONGEST_LOSS (85 steps) ===
+
+--- STEP 75 (Player 1 Turn) ---
+{
+  "turn": 16,
+  "points": [
+    2,
+    1
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Psychic": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    0,
+    2
+  ],
+  "my_active": {
+    "name": "Misdreavus",
+    "hp": 50,
+    "energy": {
+      "Psychic": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Mismagius",
+      "hp": 90,
+      "energy": {
+        "Psychic": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Cofagrigus",
+      "hp": 120,
+      "energy": {
+        "Psychic": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Bellibolt ex",
+    "hp": 160,
+    "energy": {
+      "Lightning": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Zeraora",
+      "hp": 90,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Zeraora",
+      "hp": 90,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Comfey",
+    "Houndstone"
+  ],
+  "opp_deck_count": 2,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Cofagrigus",
+    "Yamask",
+    "Greavard",
+    "Cyrus",
+    "Lisia",
+    "Mismagius",
+    "Houndstone",
+    "Sightseer",
+    "Klefki",
+    "Copycat"
+  ],
+  "opp_discard": [
+    "Electric Generator",
+    "Bellibolt ex",
+    "Tadbulb",
+    "Rocky Helmet",
+    "Professor's Research",
+    "Copycat",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball"
+  ]
+}
+Selected Action: 26127 - Attach(Lightning, 3)
+
+--- STEP 76 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Zeraora",
+      "hp": 90,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Pichu",
+      "hp": 30,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Zeraora",
+      "hp": 90,
+      "energy": {
+        "Lightning": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 77 (Player 1 Turn) ---
+Diff from prev step: {
+  "points": [
+    2,
+    2
+  ],
+  "my_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {
+      "Psychic": "<REMOVED>"
+    }
+  },
+  "my_discard": [
+    "Misdreavus",
+    "Cofagrigus",
+    "Yamask",
+    "Greavard",
+    "Cyrus",
+    "Lisia",
+    "Mismagius",
+    "Houndstone",
+    "Sightseer",
+    "Klefki"
+  ]
+}
+Selected Action: 37755 - Activate(3)
+
+--- STEP 78 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "my_active": {
+    "name": "Cofagrigus",
+    "hp": 120,
+    "energy": {
+      "Psychic": 1
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Mismagius",
+      "hp": 90,
+      "energy": {
+        "Psychic": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 79 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 17,
+  "is_my_turn": true,
+  "flags": {
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Psychic": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    2
+  ],
+  "my_hand": [
+    "Comfey"
+  ],
+  "my_deck_contents": [
+    "Houndstone"
+  ]
+}
+Selected Action: 26128 - Attach(Psychic, 0)
+
+--- STEP 80 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Psychic": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "energy": {
+      "Psychic": 2
+    }
+  }
+}
+Selected Action: 3473 - Place(Some(A3080Comfey), 1)
+
+--- STEP 81 (Player 0 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    0,
+    2
+  ],
+  "my_bench": [
+    {
+      "name": "Comfey",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Mismagius",
+      "hp": 90,
+      "energy": {
+        "Psychic": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": []
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 82 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 18,
+  "is_my_turn": false,
+  "flags": {
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    0,
+    3
+  ],
+  "my_bench": [
+    {
+      "name": "Comfey",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Mismagius",
+      "hp": 90,
+      "energy": {
+        "Psychic": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_deck_count": 1
+}
+Selected Action: 23436 - Play(Some(A1225Sabrina))
+
+--- STEP 83 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    0,
+    2
+  ],
+  "opp_discard": [
+    "Sabrina",
+    "Electric Generator",
+    "Bellibolt ex",
+    "Tadbulb",
+    "Rocky Helmet",
+    "Professor's Research",
+    "Copycat",
+    "Rocky Helmet",
+    "Rocky Helmet",
+    "Pok\u00e9 Ball"
+  ]
+}
+Selected Action: 37753 - Activate(1)
+
+--- STEP 84 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "my_active": {
+    "name": "Comfey",
+    "hp": 70,
+    "energy": {
+      "Psychic": "<REMOVED>"
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Cofagrigus",
+      "hp": 120,
+      "energy": {
+        "Psychic": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Mismagius",
+      "hp": 90,
+      "energy": {
+        "Psychic": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+Last match visualization saved to: vs_past_deck_battle.html

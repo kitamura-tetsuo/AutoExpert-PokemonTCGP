@@ -377,11 +377,17 @@ class GameStateWrapper:
         self.opp_hand_objs = state.get_hand(self.opp)
 
         self.my_active = Card("Active", self.my_active_obj) if self.my_active_obj else None
-        self.my_bench = [Card(f"Bench_{i}", b) for i, b in enumerate(self.my_bench_objs) if b]
+
+        self.my_bench_sparse = [Card(f"Bench_{i}", b) if b else None for i, b in enumerate(self.my_bench_objs)]
+        self.my_bench = [b for b in self.my_bench_sparse if b]
+
         self.my_hand = [Card(f"Hand_{i}", h) for i, h in enumerate(self.my_hand_objs)]
 
         self.opp_active = Card("OppActive", self.opp_active_obj) if self.opp_active_obj else None
-        self.opp_bench = [Card(f"OppBench_{i}", b) for i, b in enumerate(self.opp_bench_objs) if b]
+
+        self.opp_bench_sparse = [Card(f"OppBench_{i}", b) if b else None for i, b in enumerate(self.opp_bench_objs)]
+        self.opp_bench = [b for b in self.opp_bench_sparse if b]
+
         self.opp_hand = [Card(f"OppHand_{i}", h) for i, h in enumerate(self.opp_hand_objs)]
         self.opp_hand_count = len(self.opp_hand_objs)
 
@@ -403,8 +409,8 @@ class GameStateWrapper:
         return None
 
     def get_bench_card(self, idx):
-        if 0 <= idx < len(self.my_bench):
-            return self.my_bench[idx]
+        if 0 <= idx < len(self.my_bench_sparse):
+            return self.my_bench_sparse[idx]
         return None
 
 def can_use_attack(cost, energy_provided):
@@ -1792,8 +1798,7 @@ def play(state, game):
                 a["score"] = -200000
                 continue
 
-            # Stacking bonus
-            a["score"] += target.energy_count * 1500
+
 
             # Doomed Active Penalty
             if a["pos"] == 0 and len(gs.my_bench) > 0:
@@ -1857,6 +1862,26 @@ def play(state, game):
                          else:
                              a["score"] = LETHAL_WIN_SCORE - 1000
 
+            # Strategic Retreat Attachment
+            if a["pos"] == 0 and target.energy_count < target.retreat_cost:
+                active_dmg = 0
+                for i in range(len(target.attacks)):
+                    d = calculate_damage(target, i, gs)
+                    if d > active_dmg: active_dmg = d
+
+                better_bench_attacker = False
+                for b in gs.my_bench:
+                    bench_dmg = 0
+                    for i in range(len(b.attacks)):
+                        if can_use_attack(b.attacks[i].get("cost", []), b.energy):
+                            d = calculate_damage(b, i, gs)
+                            if d > bench_dmg: bench_dmg = d
+                    if bench_dmg > active_dmg + 30:
+                        better_bench_attacker = True
+                        break
+                if better_bench_attacker:
+                    a["score"] += 30000 # High priority to fuel retreat
+
             # Check if already fully powered
             is_fully_powered = True
             for atk in target.attacks:
@@ -1870,6 +1895,8 @@ def play(state, game):
                       a["score"] -= 20000
 
             if target.needs_energy():
+                # Stacking bonus
+                a["score"] += target.energy_count * 1500
                 is_compatible = False
                 if target.energy_type == "Colorless": is_compatible = True
                 elif a["energy_type"] == target.energy_type: is_compatible = True

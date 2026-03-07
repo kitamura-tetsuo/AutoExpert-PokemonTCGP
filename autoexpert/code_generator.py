@@ -16,6 +16,13 @@ class CodeGenerator:
         system_prompt = get_system_prompt(deck_path, opponent_deck_path, workflow_type=workflow_type)
         full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
+        # Enforce max prompt length to prevent Jules API 400 Bad Request (FAILED_PRECONDITION)
+        if len(full_prompt) > 25000:
+            print(f"Warning: Prompt length ({len(full_prompt)}) exceeds 25,000 characters. Truncating.")
+            # We want to keep the system prompt and the start of the task, but truncate the middle (likely the huge eval log)
+            half_allowed = 12000
+            full_prompt = full_prompt[:half_allowed] + "\n\n...[TRUNCATED TO PREVENT API ERROR]...\n\n" + full_prompt[-half_allowed:]
+
         # Create session
         session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")
         session_id = session["id"]

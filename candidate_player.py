@@ -312,7 +312,9 @@ class Card:
 
         # Override for evolving basics regardless of DB presence
         n_lower = self.name.lower()
-        if n_lower == "froakie": max_cost = 2 # Greninja Mist Slash needs 2.
+        if "exeggutor ex" in n_lower: max_cost = 1
+        elif "exeggcute" in n_lower: max_cost = 1
+        elif n_lower == "froakie": max_cost = 2 # Greninja Mist Slash needs 2.
         elif n_lower == "ralts": max_cost = 3 # For Gardevoir
         elif n_lower == "gastly": max_cost = 3 # For Gengar
         elif n_lower == "dratini": max_cost = 4 # Dragonite
@@ -611,6 +613,12 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "marowak ex" in name_lower and attack_idx == 0:
          damage = 80 # EV is 80 (2 * 0.5 * 80)
 
+    if "exeggutor ex" in name_lower and attack_idx == 0:
+        if mode == "ev":
+            damage = 60 # 40 + (0.5 * 40)
+        else:
+            damage = 80 # 40 + 40 max
+
     damage += extra_damage
 
     target = target_override if target_override else state.opp_active
@@ -889,13 +897,25 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     # Add ability damage (e.g. Greninja)
     # max_dmg += ability_damage # Disabled: Too pessimistic, causes excessive retreats
 
+    # Check for Poison Damage between turns
+    poison_dmg = 0
+    if final_target:
+        # Check if already poisoned
+        if any("poison" in str(s).lower() for s in final_target.status):
+            poison_dmg = 10
+        # Check if Weezing can poison us
+        elif opp_gs.my_active and not opp_gs.my_active.ability_used and "weezing" in opp_gs.my_active.name.lower():
+            poison_dmg = 10
+
+    max_dmg += poison_dmg
+
     # Add buffer only if we didn't account for Giovanni
     if not has_giovanni:
         max_dmg += 10
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
-        logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg}")
+        logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg} (Poison={poison_dmg})")
 
     return max_dmg
 
@@ -1583,6 +1603,15 @@ def play(state, game):
                     if target:
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        max_valid_dmg = 0
+                        for i, atk in enumerate(target.attacks):
+                            if can_use_attack(atk.get("cost", []), target.energy):
+                                d = calculate_damage(target, i, gs)
+                                if d > max_valid_dmg:
+                                    max_valid_dmg = d
+                        action["score"] += (max_valid_dmg * 100)
+
                         if not target.needs_energy():
                              action["score"] += 5000
                         if "ex" in target.name.lower():
@@ -1595,6 +1624,15 @@ def play(state, game):
                         # Check if this pokemon has energy to retreat if needed?
                         if target.energy_count >= target.retreat_cost:
                              action["score"] += 500
+
+                        # Apply penalty if the promoted target will be immediately knocked out
+                        opp_max_dmg_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+                        poison_threat = 0
+                        if gs.opp_active and not gs.opp_active.ability_used and "weezing" in gs.opp_active.name.lower():
+                            poison_threat = 10
+                        threat = opp_max_dmg_threat + poison_threat
+                        if threat >= target.hp:
+                            action["score"] -= 50000 + ((threat - target.hp) * 1000)
 
         elif "Discard" in aname:
              action["type"] = "discard"
@@ -1849,10 +1887,17 @@ def play(state, game):
 
             # Check if already fully powered
             is_fully_powered = True
-            for atk in target.attacks:
-                if not can_use_attack(atk.get("cost", []), target.energy):
+            if not target.attacks:
+                # Fallback if attacks are somehow empty for Exeggutor ex
+                if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                    pass
+                else:
                     is_fully_powered = False
-                    break
+            else:
+                for atk in target.attacks:
+                    if not can_use_attack(atk.get("cost", []), target.energy):
+                        is_fully_powered = False
+                        break
 
             # If fully powered, only attach if it's active and allows retreat, or allows strategic switch
             if is_fully_powered:
@@ -1931,7 +1976,26 @@ def play(state, game):
                                      a["score"] = LETHAL_KO_SCORE + 50000 # Ensure it overrides defensive penalties (Total > 100k)
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
+                         is_doomed = False
                          if threat_lethal and not is_lethal_attachment:
+                             if target.hp <= opp_max_dmg:
+                                 is_doomed = True
+
+                         # Also doomed if NoRetreat trapped facing lethal
+                         if "NoRetreat" in target.status and target.hp <= opp_max_dmg:
+                             is_doomed = True
+                         # NoRetreat effect check
+                         if hasattr(target.obj, 'effects') and "NoRetreat" in target.obj.effects and target.hp <= opp_max_dmg:
+                             is_doomed = True
+
+                         # Also doomed if Poisoned with very low HP
+                         if any("poison" in str(s).lower() for s in target.status) and target.hp <= 30:
+                             is_doomed = True
+
+                         if is_doomed and not is_lethal_attachment and len(gs.my_bench) > 0:
+                             # Strongly penalize attaching to doomed active if we have bench
+                             a["score"] = -200000
+                         elif threat_lethal and not is_lethal_attachment:
                              if a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
 
@@ -2239,12 +2303,15 @@ def play(state, game):
                 if r["type"] == "retreat" and r["score"] > best_retreat:
                     best_retreat = r["score"]
 
+            # Only consider Switch/X Speed if there is a valid target to retreat TO (hence > 0)
             if best_retreat > 0:
                  # Prioritize Switch/X Speed over manual retreat to save energy
                  # X Speed attaches tool, Switch uses item. Both good.
                  a["score"] = best_retreat + 2000
                  if is_switch: # Switch is immediate
                       a["score"] += 1000
+            else:
+                 a["score"] -= 100000 # Penalize wasting items if we don't want/need to retreat
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

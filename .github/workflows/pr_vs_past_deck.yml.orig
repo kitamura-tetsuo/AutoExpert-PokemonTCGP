@@ -9,7 +9,6 @@ jobs:
   vs-past-deck-check:
     if: "!startsWith(github.base_ref, 'student_vs_teacher/')"
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

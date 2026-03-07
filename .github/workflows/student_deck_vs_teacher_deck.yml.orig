@@ -12,7 +12,6 @@ jobs:
   explore-specialized-strategy:
     if: "startsWith(github.base_ref, 'student_vs_teacher/')"
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,7 +46,7 @@ jobs:
         run: |
           BRANCH_NAME="${{ github.base_ref }}"
           DECKS_PART="${BRANCH_NAME#student_vs_teacher/}"
-          
+
           if [[ "$DECKS_PART" == *"_vs_"* ]]; then
             STUDENT="${DECKS_PART%_vs_*}"
             TEACHER="${DECKS_PART#*_vs_}"
@@ -55,11 +54,11 @@ jobs:
             STUDENT="$DECKS_PART"
             TEACHER="teacher"
           fi
-          
+
           # Ensure extensions
           if [[ "$STUDENT" != *.txt ]]; then STUDENT="${STUDENT}.txt"; fi
           if [[ "$TEACHER" != *.txt ]] && [[ "$TEACHER" != *.csv ]]; then TEACHER="${TEACHER}.txt"; fi
-          
+
           uv run python vs_past_deck.py \
             --past_dir past_repo \
             --deck_a "train_data/$STUDENT" \

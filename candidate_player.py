@@ -181,12 +181,22 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
-        if m and m.group(1):
-             prefix = m.group(1)
-             name_part = m.group(2)
-             if len(prefix) <= 6:
-                 raw_name = name_part
+        m = re.match(r"^([A-Za-z\-]+?\d+)(.*)", raw_name)
+        if m:
+            prefix = m.group(1)
+            name_part = m.group(2)
+            if prefix and len(prefix) <= 7:
+                raw_name = name_part
+        else:
+            m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
+            if m and m.group(1):
+                 prefix = m.group(1)
+                 name_part = m.group(2)
+                 if len(prefix) <= 6:
+                     raw_name = name_part
+
+        if raw_name == "XSpeed":
+            raw_name = "X Speed"
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
@@ -1365,7 +1375,7 @@ def play(state, game):
             else:
                  action["score"] = 0
 
-        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
+        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname or "Heal" in aname:
             # Extract card name if possible
             card_name_lower = ""
             m_card = re.search(r"(?:Play|UseItem|UseSupporter)\((?:Some\()?(.*?)\)?\)", aname)
@@ -2239,6 +2249,10 @@ def play(state, game):
                 a["score"] -= 20000
             else:
                 a["score"] -= 2000
+
+            # Additional logic to not use Red Card if we can kill and don't need to disrupt
+            if has_lethal_on_board:
+                 a["score"] -= 50000
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass

@@ -157,7 +157,7 @@ def main():
             cmd.extend(["--deck_a", args.deck_a])
         if args.deck_b:
             cmd.extend(["--deck_b", args.deck_b])
-        if args.matches:
+        if getattr(args, 'matches', None):
             cmd.extend(["--matches", str(args.matches)])
         
         subprocess.run(cmd, check=True)

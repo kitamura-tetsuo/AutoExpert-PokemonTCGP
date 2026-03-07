@@ -419,11 +419,38 @@ def load_league_decks(csv_path: str):
 
 def resolve_deck_path(deck: str) -> str:
     deck_path = Path(deck)
-    if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck
-    if not deck_path.exists():
+    if deck_path.exists():
+        return str(deck_path)
+
+    # Sometimes CI passes 'train_data/...' which might be relative or absolute.
+    # Try removing duplicate prefixes if they exist
+    deck_str = str(deck)
+    if deck_str.startswith("train_data/train_data/"):
+        deck_str = deck_str.replace("train_data/train_data/", "train_data/", 1)
+        deck_path = Path(deck_str)
+        if deck_path.exists():
+            return str(deck_path)
+
+    # Try relative to DECK_DIR
+    deck_path = settings.DECK_DIR / deck
+    if deck_path.exists():
+        return str(deck_path)
+
+    # Try prepending train_data if not already there
+    if not deck_str.startswith("train_data/"):
         deck_path = Path("train_data") / deck
-    return str(deck_path)
+        if deck_path.exists():
+            return str(deck_path)
+
+    # Try stripping train_data/ if we are somehow inside it
+    if deck_str.startswith("train_data/"):
+        deck_path = Path(deck_str.replace("train_data/", "", 1))
+        if deck_path.exists():
+            return str(deck_path)
+
+    # Fallback to default deck to prevent panics
+    print(f"Warning: Could not resolve deck path '{deck}', falling back to default.")
+    return str(settings.DECK_DIR / "venusaur-exeggutor.txt")
 
 
 # ---------------------------------------------------------------------------

@@ -852,7 +852,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     is_poisoned = False
     if final_target and any("poison" in str(s).lower() for s in final_target.status):
         is_poisoned = True
-    elif opp_gs.my_active and "weezing" in opp_gs.my_active.name.lower() and not opp_gs.my_active.ability_used:
+    elif gs.opp_active and "weezing" in gs.opp_active.name.lower() and not gs.opp_active.ability_used:
         # Weezing will poison if active and ability available
         is_poisoned = True
 

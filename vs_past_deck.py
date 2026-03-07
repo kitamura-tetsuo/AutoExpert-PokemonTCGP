@@ -420,11 +420,22 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
+    # Strip duplicate 'train_data/' prefixes that might be added
+    if deck.startswith("train_data/train_data/"):
+        deck = deck.replace("train_data/train_data/", "train_data/")
+
     deck_path = Path(deck)
     if not deck_path.exists():
         deck_path = settings.DECK_DIR / deck
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        # If deck doesn't have train_data prefix yet, try adding it
+        if not deck.startswith("train_data/"):
+            deck_path = Path("train_data") / deck
+
+    if not deck_path.exists():
+         logging.warning(f"Could not resolve deck path for {deck}. Using default deck.")
+         return "deckgym-core/example_decks/venusaur-exeggutor.txt"
+
     return str(deck_path)
 
 

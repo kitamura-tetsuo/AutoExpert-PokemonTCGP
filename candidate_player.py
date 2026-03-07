@@ -857,7 +857,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
         is_poisoned = True
 
     if is_poisoned:
-        max_dmg += 10
+        max_dmg += 20
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -1214,6 +1214,9 @@ def play(state, game):
                 if target_pos == 0 and gs.my_active:
                      if any("NoRetreat" in str(e) for e in gs.my_active.effects):
                           action["score"] += 85000 # Cleanse NoRetreat trap
+                     elif any("poison" in str(s).lower() for s in gs.my_active.status):
+                          if gs.my_active.hp <= 60 and not threat_lethal:
+                              action["score"] += 35000
                      elif gs.my_active.status:
                           action["score"] += 5000
 
@@ -1363,7 +1366,7 @@ def play(state, game):
                         action["score"] -= 50000 # Don't heal full HP
                     else:
                         action["score"] += (missing_hp * 100) # Base missing HP scale
-                        if target.hp <= 60 or threat_lethal:
+                        if target.hp <= 60 or threat_lethal or any("poison" in str(s).lower() for s in target.status):
                             action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
                         # If it puts us out of lethal range
                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
@@ -1492,6 +1495,21 @@ def play(state, game):
                     action["score"] = -100000
                     continue
 
+                # Evasion Heuristic
+                opp_has_noretreat_lock = False
+                if gs.opp_active and gs.opp_active.attacks:
+                    for atk in gs.opp_active.attacks:
+                        if "retreat" in (atk.get("text") or "").lower():
+                            opp_has_noretreat_lock = True
+                            break
+                if opp_has_noretreat_lock and gs.my_active and gs.my_active.hp <= 70:
+                    action["score"] += 35000
+
+                # Status Cleanse Retreat
+                if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
+                    if gs.my_active.hp <= 60 and not threat_lethal:
+                         action["score"] += 35000
+
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
@@ -1586,20 +1604,45 @@ def play(state, game):
                 action["score"] = LETHAL_WIN_SCORE # Must activate to continue
 
                 if activating_for_opp:
-                    # Choosing for opponent (e.g. from Gust effect? No, usually that's automatic or different action)
-                    # If this happens, prioritize WORST opponent
                     target = None
                     if target_idx < len(gs.opp_bench):
                         target = gs.opp_bench[target_idx]
                     if target:
-                        action["score"] -= target.hp * 10
-                        action["score"] -= target.energy_count * 5000
+                        can_ko_immediately = False
+                        if gs.my_active:
+                            for atk in gs.my_active.attacks:
+                                if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                                    d = calculate_damage(gs.my_active, gs.my_active.attacks.index(atk), gs, target_override=target)
+                                    if d >= target.hp:
+                                        can_ko_immediately = True
+                                        break
+                        if can_ko_immediately:
+                             action["score"] += 50000
+                        else:
+                             action["score"] -= target.energy_count * 5000
+                             action["score"] += target.retreat_cost * 1000
                 else:
                     # Choosing for self (after KO)
                     target = gs.get_bench_card(target_idx)
                     if target:
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        max_valid_dmg = 0
+                        for i, atk in enumerate(target.attacks):
+                             if can_use_attack(atk.get("cost", []), target.energy):
+                                  d = calculate_damage(target, i, gs)
+                                  if d > max_valid_dmg:
+                                       max_valid_dmg = d
+                        action["score"] += (max_valid_dmg * 100)
+
+                        # Threat penalty
+                        threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+                        if target.hp <= threat:
+                             hp_deficit = threat - target.hp
+                             action["score"] -= 50000
+                             action["score"] -= (hp_deficit * 1000)
+
                         if not target.needs_energy():
                              action["score"] += 5000
                         if target.name.lower().endswith(" ex"):
@@ -1863,6 +1906,17 @@ def play(state, game):
             if target.energy_count >= 5:
                 a["score"] = -200000
                 continue
+
+            # Bench Setup Priority
+            if gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
+                active_can_attack = any(can_use_attack(atk.get("cost", []), gs.my_active.energy) for atk in gs.my_active.attacks)
+                if active_can_attack:
+                    if a["pos"] == 0:
+                        a["score"] -= 50000
+                    elif target and any(n in target.name.lower() for n in ["bulbasaur", "ivysaur", "venusaur ex"]):
+                        a["score"] += 15000
+                    elif target and any(n in target.name.lower() for n in ["exeggcute"]):
+                        a["score"] -= 5000
 
             # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
             if a["pos"] == 0:
@@ -2278,23 +2332,54 @@ def play(state, game):
                 is_switch = True
 
         if is_x_speed or is_switch:
-            if gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects):
-                if is_x_speed:
-                    a["score"] = -10000 # X Speed doesn't bypass NoRetreat
-                elif is_switch:
-                    a["score"] = 85000 # Switch does! Bypass normal scoring to save active
+            active_is_locked = False
+            if gs.my_active:
+                if any("NoRetreat" in str(e) for e in gs.my_active.effects):
+                    active_is_locked = True
+                if any(status in str(s).lower() for s in gs.my_active.status for status in ["asleep", "paralyzed"]):
+                    active_is_locked = True
+
+            is_critically_poisoned = False
+            if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60:
+                is_critically_poisoned = True
+
+            if is_switch and (active_is_locked or is_critically_poisoned):
+                a["score"] = 85000
+            elif is_x_speed and active_is_locked:
+                a["score"] = -100000
             else:
                 best_retreat = -100000
                 for r in actions:
                     if r["type"] == "retreat" and r["score"] > best_retreat:
                         best_retreat = r["score"]
 
-                if best_retreat > 0:
-                     # Prioritize Switch/X Speed over manual retreat to save energy
-                     # X Speed attaches tool, Switch uses item. Both good.
-                     a["score"] = best_retreat + 2000
-                     if is_switch: # Switch is immediate
-                          a["score"] += 1000
+                wants_to_retreat = False
+                if threat_lethal or is_critically_poisoned:
+                     wants_to_retreat = True
+
+                opp_has_noretreat_lock = False
+                if gs.opp_active and gs.opp_active.attacks:
+                    for atk in gs.opp_active.attacks:
+                        if "retreat" in (atk.get("text") or "").lower():
+                            opp_has_noretreat_lock = True
+                            break
+                if opp_has_noretreat_lock and gs.my_active and gs.my_active.hp <= 70 and not active_is_locked:
+                     wants_to_retreat = True
+
+                if best_retreat > ATTACK_BASE_SCORE:
+                     wants_to_retreat = True
+
+                if not wants_to_retreat:
+                     if is_switch:
+                         a["score"] = -100000
+                     # X speed remains unpenalized to thin hand
+                else:
+                     if best_retreat > 0:
+                          a["score"] = best_retreat + 2000
+                          if is_switch:
+                               a["score"] += 1000
+                     else:
+                          a["score"] = STRATEGIC_SWITCH_SCORE + 20000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

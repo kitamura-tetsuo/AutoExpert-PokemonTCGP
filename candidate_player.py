@@ -174,7 +174,12 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        raw_name = re.sub(r"^(?:[A-Za-z]+_?-?[A-Za-z]*\d+\s*)?", "", raw_name)
+        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
+        if m and m.group(1):
+             prefix = m.group(1)
+             name_part = m.group(2)
+             if len(prefix) <= 6:
+                 raw_name = name_part
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
@@ -423,13 +428,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-
-    raw_dmg = atk.get("dmg", 0)
-    cleaned_dmg = re.sub(r'[^0-9.]', '', str(raw_dmg))
-    if cleaned_dmg == "":
-        cleaned_dmg = 0
-    damage = float(cleaned_dmg)
-
+    damage = float(atk.get("dmg", 0))
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
@@ -871,7 +870,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     # Dynamically account for poison damage on the target
     if final_target and final_target == gs.my_active:
         if any("poison" in str(s).lower() for s in final_target.status):
-            max_dmg += 10
+            max_dmg += 20
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -1213,13 +1212,6 @@ def play(state, game):
                 key = evolution_name.lower()
                 if key in CARD_DB_FULL: evol_entry = CARD_DB_FULL[key][0]
                 elif key in CARD_DB: evol_entry = CARD_DB[key] if not isinstance(CARD_DB[key], list) else CARD_DB[key][0]
-
-                if evol_entry is None:
-                    # Retry with stripping spaces / prefixes just in case
-                    for db_k in CARD_DB_FULL:
-                        if db_k in key or key in db_k:
-                            evol_entry = CARD_DB_FULL[db_k][0]
-                            break
 
                 evol_hp = evol_entry.get("hp", 0) if evol_entry else 0
 
@@ -1642,6 +1634,9 @@ def play(state, game):
 
                         if target.hp <= threat:
                             action['score'] -= 50000 + (threat - target.hp) * 1000
+                        else:
+                            # Prioritize high HP targets even if not EX
+                            action["score"] += target.hp * 5
 
         elif "Discard" in aname:
              action["type"] = "discard"

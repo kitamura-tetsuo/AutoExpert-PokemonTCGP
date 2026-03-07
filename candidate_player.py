@@ -328,6 +328,7 @@ class Card:
             elif "venusaur" in n_lower: max_cost = 4
             elif "mega" in n_lower and n_lower.endswith(" ex"): max_cost = 4
             elif n_lower.endswith(" ex"): max_cost = 3
+            elif n_lower.endswith(" ex"): max_cost = 3
 
         if "pikachu ex" in self.name.lower():
             max_cost = 3 # Circle Circuit needs 2, but sometimes useful to have retreat energy or extra
@@ -1611,7 +1612,7 @@ def play(state, game):
                                  # Or if we are switching to a Tank (High HP) to stall
                                  is_tank = target and gs.my_active and target.hp >= (gs.my_active.hp + 40)
                                  if not ((is_valuable or is_tank) and threat_lethal):
-                                     action["score"] -= 50000
+                                     action["score"] -= 10000
 
                 # Strategic Switch
                 target_dmg = 0
@@ -1969,7 +1970,10 @@ def play(state, game):
                  if not allows_retreat:
                       a["score"] -= 20000
 
-            if target.energy_count >= 5:
+            if target.energy_count >= 4:
+                if "venusaur ex" not in target.name.lower() or target.energy_count >= 5:
+                    a["score"] = -200000
+            if "exeggutor ex" in target.name.lower() and target.energy_count >= 3:
                 a["score"] = -200000
 
             # Bench Setup Priority for multi-stage attackers
@@ -2047,8 +2051,7 @@ def play(state, game):
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
                          if threat_lethal and not is_lethal_attachment:
-                             if a["score"] < 90000:
-                                 a["score"] -= 10000 # Increased penalty
+                             pass # Increased penalty
 
                     # Weakness check for Active Pokemon
                     if a["pos"] == 0 and gs.opp_active and not is_lethal_attachment:

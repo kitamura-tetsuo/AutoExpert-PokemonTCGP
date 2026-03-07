@@ -1931,7 +1931,10 @@ def play(state, game):
             # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
             if a["pos"] == 0:
                 retreat_cost = target.retreat_cost
-                allows_retreat = target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost
+                has_noretreat = False
+                if target.effects and any("noretreat" in str(ef).lower() for ef in target.effects): has_noretreat = True
+                elif getattr(target.obj, "effects", None) and any("noretreat" in str(ef).lower() for ef in target.obj.effects): has_noretreat = True
+                allows_retreat = target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost and not has_noretreat
 
                 if allows_retreat:
                     has_safe_bench = False
@@ -1994,7 +1997,10 @@ def play(state, game):
 
             # If fully powered, only attach if it's active and allows retreat, or allows strategic switch
             if is_fully_powered:
-                 allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                 has_noretreat = False
+                 if target.effects and any("noretreat" in str(ef).lower() for ef in target.effects): has_noretreat = True
+                 elif getattr(target.obj, "effects", None) and any("noretreat" in str(ef).lower() for ef in target.obj.effects): has_noretreat = True
+                 allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost and not has_noretreat
                  if not allows_retreat:
                       a["score"] -= 20000
 
@@ -2112,7 +2118,10 @@ def play(state, game):
                              # and this attach energy does not give lethal, nor let it retreat.
                              # But don't do this if we can heal out of lethal range (e.g. Venusaur ex)
                              retreat_cost = target.retreat_cost
-                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
+                             has_noretreat = False
+                             if target.effects and any("noretreat" in str(ef).lower() for ef in target.effects): has_noretreat = True
+                             elif getattr(target.obj, "effects", None) and any("noretreat" in str(ef).lower() for ef in target.obj.effects): has_noretreat = True
+                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost) and not has_noretreat
                              can_heal_out_of_lethal = False
                              if getattr(target, 'name', None) and "venusaur ex" in target.name.lower() and (target.hp + 30) > opp_max_dmg_effective:
                                  can_heal_out_of_lethal = True
@@ -2130,7 +2139,10 @@ def play(state, game):
                         if is_weak:
                              # Check if attachment allows retreat
                              retreat_cost = target.retreat_cost
-                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
+                             has_noretreat = False
+                             if target.effects and any("noretreat" in str(ef).lower() for ef in target.effects): has_noretreat = True
+                             elif getattr(target.obj, "effects", None) and any("noretreat" in str(ef).lower() for ef in target.obj.effects): has_noretreat = True
+                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost) and not has_noretreat
 
                              if not allows_retreat:
                                  a["score"] -= 15000 # Penalize attaching to weak active if it doesn't help retreat or kill

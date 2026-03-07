@@ -314,6 +314,8 @@ class Card:
         elif "machamp ex" in n_lower: max_cost = 3
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
+        elif "bellibolt ex" in n_lower: max_cost = 4
+        elif n_lower == "tadbulb": max_cost = 4
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -545,7 +547,9 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "houndstone" in name_lower and attack_idx == 0:
         psychic_in_discard = 0
         for d in state.my_discard:
-            if d.db_entry and getattr(d.db_entry, "get", lambda x, y: y)("is_pokemon", False) and d.energy_type == "Psychic":
+            if getattr(d.obj, "is_pokemon", False) and getattr(d.obj, "energy_type", None) == "Psychic":
+                psychic_in_discard += 1
+            elif d.db_entry and getattr(d.db_entry, "get", lambda x, y: y)("is_pokemon", False) and d.energy_type == "Psychic":
                 psychic_in_discard += 1
             elif d.db_entry is None:
                 # Fallback: check names for known psychic pokemon
@@ -863,7 +867,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 def play(state, game):
     legal_actions = game.legal_actions()
     if not legal_actions:
-        raise ValueError("No legal actions available for the current player.")
+        return 0
 
     gs = GameStateWrapper(state)
 
@@ -1036,9 +1040,9 @@ def play(state, game):
                              action["score"] = INFERNO_DANCE_SCORE + (fire_needs * 5000)
 
                     if action["damage"] == 0 and gs.my_active and idx < len(gs.my_active.attacks):
-                         atk_text = ""
-                         if idx < len(gs.my_active.attacks):
-                             atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+                         atk_data = gs.my_active.attacks[idx]
+                         atk_text = (atk_data.get("text") or "").lower()
+                         base_dmg = atk_data.get("dmg", 0)
 
                          is_setup_attack = False
                          if "deck" in atk_text and "bench" in atk_text:
@@ -1059,7 +1063,10 @@ def play(state, game):
 
                          if not is_setup_attack:
                              # Strongly penalize 0 damage attacks that don't do anything useful
-                             action["score"] -= 200000
+                             if base_dmg == 0 and not atk_text:
+                                 action["score"] -= 500000
+                             else:
+                                 action["score"] -= 200000
 
                     if action["damage"] > 0 and action["damage"] <= 30 and gs.my_active:
                         n = gs.my_active.name.lower()
@@ -1157,6 +1164,7 @@ def play(state, game):
                  else:
                      action["type"] = "attach_tool"
                      action["score"] = ITEM_SCORE
+                     action["card_name"] = obj
 
         elif "Place" in aname or "PlayPokemon" in aname:
             m = re.search(r"(?:Place|PlayPokemon)\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
@@ -1261,7 +1269,15 @@ def play(state, game):
                         stage2 = EVOLUTION_MAP[evolved]
                         if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
-                if is_useful:
+                # Houndstone synergy
+                is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
+                is_psychic_pokemon = any(x in n_lower for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"])
+
+                if is_houndstone_active and is_psychic_pokemon and not is_useful:
+                    action["score"] = 60000 # Prioritize discarding psychic pokemon for Houndstone
+                elif is_houndstone_active and is_psychic_pokemon and is_useful:
+                    action["score"] = 10000 # Discarding carry psychic pokemon is OK but not ideal
+                elif is_useful:
                     action["score"] = -50000 # Keep good cards
                 else:
                     action["score"] = 50000 # Discard bad cards
@@ -1804,6 +1820,9 @@ def play(state, game):
                  if not allows_retreat:
                       a["score"] -= 20000
 
+            if target.energy_count >= 5:
+                a["score"] = -200000
+
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()
             if a["pos"] == 0 and target.energy_count < target.retreat_cost:
@@ -1960,7 +1979,9 @@ def play(state, game):
             is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
             psychic_pokemon_in_hand = 0
             for c in gs.my_hand:
-                if c.db_entry and getattr(c.db_entry, "get", lambda x, y: y)("is_pokemon", False) and c.energy_type == "Psychic":
+                if getattr(c.obj, "is_pokemon", False) and getattr(c.obj, "energy_type", None) == "Psychic":
+                    psychic_pokemon_in_hand += 1
+                elif c.db_entry and getattr(c.db_entry, "get", lambda x, y: y)("is_pokemon", False) and c.energy_type == "Psychic":
                     psychic_pokemon_in_hand += 1
                 elif c.db_entry is None:
                     n = c.name.lower()

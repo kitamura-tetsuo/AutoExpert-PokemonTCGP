@@ -304,6 +304,7 @@ class Card:
         elif n_lower == "charmander": max_cost = 4 # Charizard ex
         elif n_lower == "squirtle": max_cost = 5 # Blastoise ex (needs extra)
         elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
+        elif n_lower == "ivysaur": max_cost = 4 # Venusaur ex
         elif n_lower == "abra": max_cost = 3 # Alakazam
         elif n_lower == "machop": max_cost = 3 # Machamp
         elif "blastoise ex" in n_lower: max_cost = 5
@@ -316,6 +317,7 @@ class Card:
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif "exeggcute" in n_lower: max_cost = 1
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -931,7 +933,8 @@ def play(state, game):
     if gs.my_active:
          active_status = [str(s).lower() for s in gs.my_active.status]
          if "poisoned" in active_status:
-             poison_dmg = 10
+             # Poison hits once at end of my turn, once at end of opp turn. So 20 damage before I can act again.
+             poison_dmg = 20
 
     threat_lethal = False
     if gs.my_active and (opp_max_dmg + poison_dmg) >= gs.my_active.hp:
@@ -1225,8 +1228,9 @@ def play(state, game):
                           action["score"] += 85000 # Massive boost to break lock
                      elif "poisoned" in active_status:
                           # Only cure poison if HP is low to avoid wasting evolutions
-                          if gs.my_active.hp <= (opp_max_dmg + poison_dmg + 30):
-                              action["score"] += 30000
+                          # Evolving Exeggcute -> Exeggutor ex clears poison AND gives 160 HP.
+                          if gs.my_active.hp <= (opp_max_dmg + poison_dmg + 50):
+                              action["score"] += 35000
                           else:
                               action["score"] += 15000
                      elif gs.my_active.status:
@@ -1327,27 +1331,46 @@ def play(state, game):
             elif ("ice" in aname_lower and "pop" in aname_lower) or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
-                target = gs.my_active
+
+                heal_amount = 50 if "erika" in aname_lower else 20
+                target = None
+
                 m_p = re.search(r", (\d+)\)", aname)
                 if m_p:
                     t_idx = int(m_p.group(1))
                     if t_idx == 0: target = gs.my_active
                     else: target = gs.get_bench_card(t_idx - 1)
+                else:
+                    # Action doesn't specify target (like Play(Erika)). Find best target.
+                    best_missing = -1
+                    best_target = None
+                    for pkmn in [gs.my_active] + gs.my_bench:
+                         if pkmn and pkmn.hp < pkmn.max_hp:
+                             if "erika" in aname_lower and "Grass" not in pkmn.energy_type:
+                                  continue # Erika only heals Grass
+
+                             missing = pkmn.max_hp - pkmn.hp
+                             if missing > best_missing:
+                                 best_missing = missing
+                                 best_target = pkmn
+                    if best_target:
+                         target = best_target
+                    else:
+                         target = gs.my_active # Fallback
 
                 if target:
-                    heal_amount = 50 if "erika" in aname_lower else 20
                     missing_hp = target.max_hp - target.hp
-                    if target.hp >= target.max_hp:
-                        action["score"] -= 50000 # Don't heal full HP
+                    if target.hp >= target.max_hp or ("erika" in aname_lower and "Grass" not in target.energy_type):
+                        action["score"] -= 50000 # Don't heal full HP or invalid type
                     else:
                         action["score"] += (missing_hp * 100)
                         is_poisoned = "poisoned" in [str(s).lower() for s in target.status]
                         is_critical_hp = target.hp <= 60
 
-                        if is_critical_hp or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg) or (is_poisoned and target.hp <= 80):
+                        if target == gs.my_active and (is_critical_hp or threat_lethal or (target.hp <= opp_max_dmg + poison_dmg) or (is_poisoned and target.hp <= 80)):
                             action["score"] = POTION_CRITICAL_SCORE
                         # If it puts us out of lethal range
-                        if threat_lethal and (target.hp + heal_amount) > (opp_max_dmg + poison_dmg):
+                        if target == gs.my_active and threat_lethal and (target.hp + heal_amount) > (opp_max_dmg + poison_dmg):
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
@@ -1848,6 +1871,13 @@ def play(state, game):
                  if not (a["pos"] == 0 and threat_lethal):
                       a["score"] -= 20000
 
+                 # Strict cap for Exeggcute / Exeggutor ex unless emergency retreat
+                 if a["pos"] == 0 and ("exeggcute" in target.name.lower() or "exeggutor ex" in target.name.lower()):
+                      # Exeggutor needs 1 energy to attack. Retreat cost is 3. But we prefer to invest in Venusaur.
+                      # If it has 1 energy, penalize heavily.
+                      if target.energy_count >= 1 and not threat_lethal:
+                          a["score"] -= 50000
+
             if target.needs_energy():
                 is_compatible = False
                 if target.energy_type == "Colorless": is_compatible = True
@@ -1866,6 +1896,12 @@ def play(state, game):
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 
+                    # Huge bonus for powering up Venusaur line on the bench
+                    if a["pos"] > 0 and any(n in target.name.lower() for n in ["bulbasaur", "ivysaur", "venusaur ex"]):
+                         if gs.my_active and ("exeggutor ex" in gs.my_active.name.lower() or "exeggcute" in gs.my_active.name.lower()):
+                              if gs.my_active.energy_count >= 1:
+                                   a["score"] += 15000 # Prioritize getting Venusaur ready
+
                     is_lethal_attachment = False
 
                     if a["pos"] == 0:
@@ -1873,6 +1909,8 @@ def play(state, game):
 
                          # High priority to get the first energy on Exeggutor ex
                          if "exeggutor ex" in target.name.lower() and target.energy_count == 0:
+                              a["score"] += 15000
+                         elif "exeggcute" in target.name.lower() and target.energy_count == 0:
                               a["score"] += 15000
 
                          retreat_cost = target.retreat_cost

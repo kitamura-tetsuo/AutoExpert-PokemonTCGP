@@ -13,7 +13,7 @@ class CodeGenerator:
         """Calls Jules to generate a Python play function."""
 
         # Truncate evaluation log to prevent Jules API 400 Bad Request errors (payload too large)
-        max_log_length = 10000
+        max_log_length = 2000
         if evaluation_log and len(evaluation_log) > max_log_length:
             half = max_log_length // 2
             evaluation_log = evaluation_log[:half] + "\n\n... [LOG TRUNCATED DUE TO LENGTH] ...\n\n" + evaluation_log[-half:]

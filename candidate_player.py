@@ -1012,7 +1012,7 @@ def play(state, game):
                 if gs.opp_active:
                      # Overkill prevention
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
-                action["score"] = ATTACK_BASE_SCORE + (effective_damage * 100)
+                action["score"] = ATTACK_BASE_SCORE + min(effective_damage * 100, 15000)
 
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10

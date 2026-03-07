@@ -556,9 +556,6 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "charizard ex" in name_lower and attack_idx == 1 and damage < 200:
         damage = 200
 
-    if "exeggutor ex" in name_lower and attack_idx == 0:
-        damage = 60 # EV is 60 (40 + 0.5 * 40)
-
     if "marowak ex" in name_lower and attack_idx == 0:
          damage = 80 # EV is 80 (2 * 0.5 * 80)
 

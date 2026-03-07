@@ -2091,7 +2091,16 @@ def play(state, game):
                          if "benched" in text and "opponent" in text: is_snipe = True
                          elif "to each of your opponent's pokemon" in text or "to 1 of your opponent's pokemon" in text: is_snipe = True
 
-                     if not is_snipe:
+                     has_beneficial_effect = False
+                     if idx >= 0 and idx < len(gs.my_active.attacks):
+                         atk = gs.my_active.attacks[idx]
+                         text = (atk.get("text") or "").lower()
+                         if "heal" in text and gs.my_active.hp < gs.my_active.max_hp:
+                             has_beneficial_effect = True
+                         elif "attach" in text:
+                             has_beneficial_effect = True
+
+                     if not is_snipe and not has_beneficial_effect:
                          # Use a massive penalty, stronger than EndTurn
                          # Do not use a max() function after this point for attack!
                          a["score"] = -200000

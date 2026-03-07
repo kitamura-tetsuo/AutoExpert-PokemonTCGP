@@ -274,7 +274,8 @@ class Card:
 
     @property
     def is_ex(self):
-        return "ex" in self.name.lower()
+        n = self.name.lower()
+        return n.endswith(" ex") or n == "ex"
 
     @property
     def is_carry(self):
@@ -289,11 +290,11 @@ class Card:
         n = self.name.lower()
         if n in EVOLUTION_MAP:
             evolved = EVOLUTION_MAP[n]
-            if evolved in CARRY_LIST or "ex" in evolved: return True
+            if evolved in CARRY_LIST or (evolved.endswith(" ex") or evolved == "ex"): return True
             # Check stage 2
             if evolved in EVOLUTION_MAP:
                 stage2 = EVOLUTION_MAP[evolved]
-                if stage2 in CARRY_LIST or "ex" in stage2: return True
+                if stage2 in CARRY_LIST or (stage2.endswith(" ex") or stage2 == "ex"): return True
         return False
 
     def needs_energy(self):
@@ -348,8 +349,8 @@ class Card:
             elif "starmie ex" in n_lower: max_cost = 2
             elif "greninja" in n_lower: max_cost = 2
             elif "venusaur" in n_lower: max_cost = 4
-            elif "mega" in n_lower and "ex" in n_lower: max_cost = 4
-            elif "ex" in n_lower: max_cost = 3
+            elif "mega" in n_lower and (n_lower.endswith(" ex") or n_lower == "ex"): max_cost = 4
+            elif (n_lower.endswith(" ex") or n_lower == "ex"): max_cost = 3
 
         if "pikachu ex" in self.name.lower():
             max_cost = 3 # Circle Circuit needs 2, but sometimes useful to have retreat energy or extra
@@ -625,7 +626,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         if ability:
             effect = ability.get("effect", "").lower()
             if "prevent all damage" in effect and "pokémon ex" in effect:
-                if "ex" in attacker.name.lower():
+                if attacker.is_ex:
                     damage = 0
             elif "takes -20 damage" in effect:
                 damage -= 20
@@ -969,7 +970,7 @@ def play(state, game):
                  dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0, target_override=b)
                  if dmg >= b.hp:
                      can_ko_on_bench = True
-                     is_ex = "ex" in b.name.lower()
+                     is_ex = b.is_ex
                      points_gained = 2 if is_ex else 1
                      if points_gained > best_bench_ko_value:
                          best_bench_ko_value = points_gained
@@ -1037,7 +1038,7 @@ def play(state, game):
 
                     if gs.opp_active and dmg >= gs.opp_active.hp:
                         # Check prizes
-                        is_ex = "ex" in gs.opp_active.name.lower()
+                        is_ex = gs.opp_active.is_ex
                         points_gained = 2 if is_ex else 1
                         if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
                              # FOUND LETHAL WIN
@@ -1084,6 +1085,8 @@ def play(state, game):
                         # Exeggutor ex coin flips can be very rewarding
                         if "exeggutor ex" in gs.my_active.name.lower():
                             action["score"] += POTENTIAL_LETHAL_BONUS * 5
+                            # It's an early game attacker, make sure it keeps attacking instead of passing or retreating for no reason
+                            action["score"] += 5000
                         else:
                             action["score"] += POTENTIAL_LETHAL_BONUS
 
@@ -1162,7 +1165,7 @@ def play(state, game):
                         action["score"] = LETHAL_KO_SCORE
                         action["is_ko"] = True
 
-                        is_ex = "ex" in gs.opp_active.name.lower()
+                        is_ex = gs.opp_active.is_ex
                         points_gained = 2 if is_ex else 1
 
                         if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
@@ -1173,8 +1176,8 @@ def play(state, game):
                     if threat_lethal and is_ko:
                         action["score"] += 20000
                         # Aggressive Defense: If we can KO the threat, do it unless we lose significantly on prize trade
-                        is_my_ex = gs.my_active and "ex" in gs.my_active.name.lower()
-                        is_opp_ex = "ex" in gs.opp_active.name.lower()
+                        is_my_ex = gs.my_active and gs.my_active.is_ex
+                        is_opp_ex = gs.opp_active.is_ex
                         points_gained = 2 if is_opp_ex else 1
                         points_lost = 2 if is_my_ex else 1
 
@@ -1281,7 +1284,7 @@ def play(state, game):
                         if current_hp <= opp_max_dmg_effective and evol_hp > opp_max_dmg_effective:
                              # Check if losing this active means losing the game
                              opp_points_needed = 3 - gs.opp_points
-                             my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
+                             my_active_gives = 2 if (gs.my_active and gs.my_active.is_ex) else 1
                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                              if loses_game:
@@ -1336,7 +1339,7 @@ def play(state, game):
                              d = calculate_damage(evolved_card, i, gs)
                              if d >= gs.opp_active.hp:
                                  action["score"] = LETHAL_KO_SCORE + 30000 # Boost to 80k (above base 75.5k)
-                                 is_ex = "ex" in gs.opp_active.name.lower()
+                                 is_ex = gs.opp_active.is_ex
                                  points_gained = 2 if is_ex else 1
                                  if points_gained >= (3 - gs.my_points):
                                       action["score"] = LETHAL_WIN_SCORE
@@ -1352,13 +1355,13 @@ def play(state, game):
                 # Check utility
                 is_useful = False
                 n_lower = clean_name.lower()
-                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                if n_lower in CARRY_LIST or (n_lower.endswith(" ex") or n_lower == "ex"): is_useful = True
                 elif n_lower in EVOLUTION_MAP:
                     evolved = EVOLUTION_MAP[n_lower]
-                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                    if evolved in CARRY_LIST or (evolved.endswith(" ex") or evolved == "ex"): is_useful = True
                     elif evolved in EVOLUTION_MAP:
                         stage2 = EVOLUTION_MAP[evolved]
-                        if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+                        if stage2 in CARRY_LIST or (stage2.endswith(" ex") or stage2 == "ex"): is_useful = True
 
                 # Houndstone synergy
                 is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
@@ -1433,7 +1436,7 @@ def play(state, game):
                         # If it puts us out of lethal range (only matters for active pokemon)
                         if threat_lethal and target == gs.my_active and (target.hp + heal_amount) > opp_max_dmg_effective:
                              opp_points_needed = 3 - gs.opp_points
-                             my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
+                             my_active_gives = 2 if (gs.my_active and gs.my_active.is_ex) else 1
                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                              if loses_game:
@@ -1485,7 +1488,7 @@ def play(state, game):
 
                     if card.needs_energy(): s += 2000
                     if card.energy_count < 5: s += 1000
-                    if "ex" in card.name.lower(): s += 1000
+                    if card.is_ex: s += 1000
                     if card.name.lower() in CARRY_LIST: s += 1000
                     return s
 
@@ -1557,7 +1560,7 @@ def play(state, game):
                 if threat_lethal:
                     # Check if losing active means losing the game
                     opp_points_needed = 3 - gs.opp_points
-                    my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
+                    my_active_gives = 2 if (gs.my_active and gs.my_active.is_ex) else 1
                     loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
@@ -1570,7 +1573,7 @@ def play(state, game):
                     # AND the bench card isn't going to die immediately either
                     is_valuable = False
                     if gs.my_active:
-                        is_valuable = gs.my_active and ("ex" in gs.my_active.name.lower() or gs.my_active.energy_count >= 2)
+                        is_valuable = gs.my_active and (gs.my_active.is_ex or gs.my_active.energy_count >= 2)
 
                     bench_can_attack = False
                     if target:
@@ -1665,10 +1668,11 @@ def play(state, game):
                 action["type"] = "activate"
                 target_idx = int(m.group(1)) - 1
                 activating_for_opp = False
-                # If we have an active with HP > 0, and we are asked to activate,
-                # it might be an effect like Red Card or something forcing switch?
-                # Usually Activate() is for replacing KO'd pokemon.
-                if gs.my_active and gs.my_active.hp > 0:
+
+                # In deckgym, if the opponent's active is empty/dead and the current player gets an Activate action,
+                # it means the current player played an item like Sabrina/Gust that forces the opponent to switch.
+                # Conversely, if my active is empty/dead, I am activating for myself.
+                if (not gs.opp_active or gs.opp_active.hp == 0) and (gs.my_active and gs.my_active.hp > 0):
                     activating_for_opp = True
 
                 action["score"] = LETHAL_WIN_SCORE # Must activate to continue
@@ -1705,7 +1709,7 @@ def play(state, game):
                         # Apply score bonus based on energy count
                         action["score"] += target.energy_count * 2000
 
-                        if "ex" in target.name.lower():
+                        if target.is_ex:
                             action["score"] += 1000
 
                         # Tie break for Carry Pokemon
@@ -1739,10 +1743,10 @@ def play(state, game):
                 # Check utility
                 is_useful = False
                 n_lower = clean_name.lower()
-                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                if n_lower in CARRY_LIST or (n_lower.endswith(" ex") or n_lower == "ex"): is_useful = True
                 elif n_lower in EVOLUTION_MAP:
                     evolved = EVOLUTION_MAP[n_lower]
-                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                    if evolved in CARRY_LIST or (evolved.endswith(" ex") or evolved == "ex"): is_useful = True
 
                 # If we are forced to shuffle back (e.g. from hand or search fail),
                 # we prefer shuffling BAD cards (positive score) and avoiding GOOD cards (negative score).
@@ -1858,7 +1862,7 @@ def play(state, game):
                      # Lethal Logic (Guaranteed KO)
                      if target.hp <= 20:
                          action["score"] = LETHAL_KO_SCORE + 10000
-                         is_ex = "ex" in target.name.lower()
+                         is_ex = target.is_ex
                          if is_ex: action["score"] += 5000
                          points_gained = 2 if is_ex else 1
                          if points_gained >= points_needed_to_win:
@@ -1866,7 +1870,7 @@ def play(state, game):
 
                      # Pressure Logic
                      elif target.hp <= 50:
-                         if "ex" in target.name.lower():
+                         if target.is_ex:
                              action["score"] += 5000
                      else:
                          # Setup Logic
@@ -1911,7 +1915,7 @@ def play(state, game):
             if has_lethal_on_board:
                  # Check if lethal is actually a WIN
                  if gs.opp_active:
-                     is_ex = "ex" in gs.opp_active.name.lower()
+                     is_ex = gs.opp_active.is_ex
                      points_gained = 2 if is_ex else 1
                      if points_gained >= (3 - gs.my_points):
                          a["score"] -= 20000 # Deprioritize significantly
@@ -1919,7 +1923,17 @@ def play(state, game):
             # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
             if a["pos"] == 0:
                 retreat_cost = target.retreat_cost
-                allows_retreat = target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost
+
+                # Check NoRetreat effect
+                has_noretreat = False
+                if hasattr(target, "effects") and target.effects:
+                    for ef in target.effects:
+                        if "noretreat" in str(ef).lower(): has_noretreat = True
+                elif hasattr(target.obj, "effects") and getattr(target.obj, "effects", None):
+                    for ef in getattr(target.obj, "effects", []):
+                        if "noretreat" in str(ef).lower(): has_noretreat = True
+
+                allows_retreat = not has_noretreat and target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost
 
                 if allows_retreat:
                     has_safe_bench = False
@@ -1927,7 +1941,7 @@ def play(state, game):
                     best_bench_dmg = 0
 
                     opp_points_needed = 3 - gs.opp_points
-                    my_active_gives = 2 if target and "ex" in target.name.lower() else 1
+                    my_active_gives = 2 if target and target.is_ex else 1
                     loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     for b in gs.my_bench:
@@ -1981,12 +1995,55 @@ def play(state, game):
 
             # If fully powered, only attach if it's active and allows retreat, or allows strategic switch
             if is_fully_powered:
-                 allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
-                 if not allows_retreat:
-                      a["score"] -= 20000
+                 allows_retreat = False
+                 if a["pos"] == 0:
+                     retreat_cost = target.retreat_cost
+                     has_noretreat = False
+                     if hasattr(target, "effects") and target.effects:
+                         for ef in target.effects:
+                             if "noretreat" in str(ef).lower(): has_noretreat = True
+                     elif hasattr(target.obj, "effects") and getattr(target.obj, "effects", None):
+                         for ef in getattr(target.obj, "effects", []):
+                             if "noretreat" in str(ef).lower(): has_noretreat = True
 
-            if target.energy_count >= 5:
-                a["score"] = -200000
+                     if not has_noretreat and target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost:
+                         allows_retreat = True
+
+                 if not allows_retreat:
+                      a["score"] -= 100000 # Strictly penalize to prevent infinite attach stalls
+
+            # Hardcap check based on max cost
+            max_cost = 0
+            if target.db_entry:
+                for atk in target.attacks:
+                    cost = len(atk.get("cost", []))
+                    if cost > max_cost: max_cost = cost
+            if max_cost == 0: max_cost = 2
+
+            # Specific overrides
+            n_lower = target.name.lower()
+            if "exeggutor" in n_lower or "exeggcute" in n_lower: max_cost = 1
+            elif "venusaur" in n_lower or "ivysaur" in n_lower or "bulbasaur" in n_lower: max_cost = 4
+
+            hardcap = max_cost + 1
+            if target.energy_count >= hardcap:
+                allows_retreat = False
+                if a["pos"] == 0:
+                    retreat_cost = target.retreat_cost
+                    # Check NoRetreat effect
+                    has_noretreat = False
+                    if hasattr(target, "effects") and target.effects:
+                        for ef in target.effects:
+                            if "noretreat" in str(ef).lower(): has_noretreat = True
+                    elif hasattr(target.obj, "effects") and getattr(target.obj, "effects", None):
+                        for ef in getattr(target.obj, "effects", []):
+                            if "noretreat" in str(ef).lower(): has_noretreat = True
+
+                    if not has_noretreat and target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost:
+                        allows_retreat = True
+
+                if not allows_retreat:
+                    a["score"] = -200000
 
             # Venusaur / Exeggutor Setup Heuristic
             is_multi_stage_deck = False
@@ -2002,7 +2059,8 @@ def play(state, game):
                     a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
                 elif gs.my_active and any(x in gs.my_active.name.lower() for x in ["exeggutor ex", "exeggcute"]) and gs.my_active.energy_count >= 1:
                     if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
-                        a["score"] += 20000 # Boost attaching to late-game bench targets
+                        a["score"] += 25000 # Boost attaching to late-game bench targets
+                        if "venusaur ex" in target.name.lower(): a["score"] += 5000
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()
@@ -2022,7 +2080,7 @@ def play(state, game):
 
                 if is_compatible:
                     a["score"] += 2000
-                    if "ex" in target.name.lower():
+                    if target.is_ex:
                         a["score"] += 1000
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
@@ -2054,7 +2112,7 @@ def play(state, game):
 
                              if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
                                  is_lethal_attachment = True
-                                 is_ex = "ex" in gs.opp_active.name.lower()
+                                 is_ex = gs.opp_active.is_ex
                                  points_gained = 2 if is_ex else 1
                                  points_needed = 3 - gs.my_points
 
@@ -2115,7 +2173,15 @@ def play(state, game):
                         if is_weak:
                              # Check if attachment allows retreat
                              retreat_cost = target.retreat_cost
-                             allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
+                             has_noretreat = False
+                             if hasattr(target, "effects") and target.effects:
+                                 for ef in target.effects:
+                                     if "noretreat" in str(ef).lower(): has_noretreat = True
+                             elif hasattr(target.obj, "effects") and getattr(target.obj, "effects", None):
+                                 for ef in getattr(target.obj, "effects", []):
+                                     if "noretreat" in str(ef).lower(): has_noretreat = True
+
+                             allows_retreat = not has_noretreat and (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
 
                              if not allows_retreat:
                                  a["score"] -= 15000 # Penalize attaching to weak active if it doesn't help retreat or kill
@@ -2132,13 +2198,13 @@ def play(state, game):
             is_useful = False
             # We can't access Card object here easily, but we have card_name
             # Replicate is_useful logic
-            if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+            if n_lower in CARRY_LIST or (n_lower.endswith(" ex") or n_lower == "ex"): is_useful = True
             elif n_lower in EVOLUTION_MAP:
                  evolved = EVOLUTION_MAP[n_lower]
-                 if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                 if evolved in CARRY_LIST or (evolved.endswith(" ex") or evolved == "ex"): is_useful = True
                  elif evolved in EVOLUTION_MAP:
                      stage2 = EVOLUTION_MAP[evolved]
-                     if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+                     if stage2 in CARRY_LIST or (stage2.endswith(" ex") or stage2 == "ex"): is_useful = True
 
             if len(gs.my_bench) >= 2:
                 if not is_useful:
@@ -2290,7 +2356,7 @@ def play(state, game):
                     base_dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0)
                     if base_dmg < gs.opp_active.hp and (base_dmg + 10) >= gs.opp_active.hp:
                         needed = True
-                        is_ex = "ex" in gs.opp_active.name.lower()
+                        is_ex = gs.opp_active.is_ex
                         points_gained = 2 if is_ex else 1
                         if points_gained >= points_needed_to_win:
                             gives_win = True
@@ -2338,7 +2404,7 @@ def play(state, game):
 
             # Red only works if opponent active is EX
             is_opp_ex = False
-            if gs.opp_active and "ex" in gs.opp_active.name.lower():
+            if gs.opp_active and gs.opp_active.is_ex:
                 is_opp_ex = True
 
             if not is_opp_ex:

@@ -420,23 +420,21 @@ def load_league_decks(csv_path: str):
 def resolve_deck_path(deck: str) -> str:
     import re
     # Clean up duplicated path prefixes from CI environments
-    deck = re.sub(r'^(train_data/)+', 'train_data/', deck)
+    clean_deck = re.sub(r'^(train_data/)+', 'train_data/', deck)
 
-    deck_path = Path(deck)
+    deck_path = Path(clean_deck)
     if deck_path.exists():
         return str(deck_path)
 
-    deck_path = settings.DECK_DIR / deck
+    deck_path = settings.DECK_DIR / Path(clean_deck).name
     if deck_path.exists():
         return str(deck_path)
 
-    deck_path = Path("train_data") / Path(deck).name
+    deck_path = Path("train_data") / Path(clean_deck).name
     if deck_path.exists():
         return str(deck_path)
 
-    # Return the cleaned path as a string. If it doesn't exist, the Rust core will try to parse the string directly,
-    # throwing "Invalid card format" with the cleanly formatted name if it is invalid.
-    return str(deck_path)
+    return str(Path(clean_deck))
 
 
 # ---------------------------------------------------------------------------

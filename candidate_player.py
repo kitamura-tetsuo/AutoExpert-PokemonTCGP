@@ -867,6 +867,11 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     if not has_giovanni:
         max_dmg += 10
 
+    # Dynamically account for poison damage on the target
+    if final_target and final_target == gs.my_active:
+        if any("poison" in str(s).lower() for s in final_target.status):
+            max_dmg += 10
+
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
         logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg}")
@@ -946,7 +951,13 @@ def play(state, game):
     # Opponent Lethal Check
     opp_max_dmg = get_opponent_max_damage(gs)
     threat_lethal = False
-    if gs.my_active and opp_max_dmg >= gs.my_active.hp:
+
+    # Calculate effective max damage combining active poison
+    opp_max_dmg_effective = opp_max_dmg
+    if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
+         opp_max_dmg_effective += 10
+
+    if gs.my_active and opp_max_dmg_effective >= gs.my_active.hp:
         threat_lethal = True
 
     # Bench Threat Check (Gust)
@@ -1136,7 +1147,7 @@ def play(state, game):
 
                              if surviving_hp <= 0:
                                  action["score"] -= 200000 # Lethal Self KO
-                             elif gs.my_active.hp > opp_max_dmg and surviving_hp <= opp_max_dmg:
+                             elif gs.my_active.hp > opp_max_dmg_effective and surviving_hp <= opp_max_dmg_effective:
                                   if not action.get("is_ko"):
                                        action["score"] -= 50000 # Don't risk lethal if not KO/Lethal
 
@@ -1210,7 +1221,7 @@ def play(state, game):
                     if target_pos == 0: # Evolving active
                         current_hp = gs.my_active.hp if gs.my_active else 0
                         # If evolution saves us from lethal
-                        if current_hp <= opp_max_dmg and evol_hp > opp_max_dmg:
+                        if current_hp <= opp_max_dmg_effective and evol_hp > opp_max_dmg_effective:
                              # Check if losing this active means losing the game
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
@@ -1226,7 +1237,7 @@ def play(state, game):
                              action["score"] += 2000 # Small boost for HP increase
 
                     # Prevent evolution if it doesn't save from lethal and doesn't get a KO, and we have bench backup
-                    if evol_hp <= opp_max_dmg and not action.get("is_ko") and len(gs.my_bench) > 0:
+                    if evol_hp <= opp_max_dmg_effective and not action.get("is_ko") and len(gs.my_bench) > 0:
                         action["score"] -= 50000
 
                 # Check bench threats
@@ -1325,7 +1336,7 @@ def play(state, game):
                     elif target.hp <= 60 or threat_lethal:
                         action["score"] = POTION_CRITICAL_SCORE
                     # If it puts us out of lethal range
-                    if threat_lethal and (target.hp + 20) > opp_max_dmg:
+                    if threat_lethal and (target.hp + 20) > opp_max_dmg_effective:
                          opp_points_needed = 3 - gs.opp_points
                          my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
                          loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
@@ -1556,8 +1567,23 @@ def play(state, game):
                     if target:
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        # Evaluate immediate damage potential
+                        best_immediate_dmg = 0
+                        for i, atk in enumerate(target.attacks):
+                            if can_use_attack(atk.get("cost", []), target.energy):
+                                dmg = calculate_damage(target, i, gs)
+                                if dmg > best_immediate_dmg:
+                                    best_immediate_dmg = dmg
+
+                        action["score"] += best_immediate_dmg * 10
+
                         if not target.needs_energy():
-                             action["score"] += 5000
+                             action["score"] += 15000 # Memory suggested +15000
+
+                        # Apply score bonus based on energy count
+                        action["score"] += target.energy_count * 2000
+
                         if "ex" in target.name.lower():
                             action["score"] += 1000
 
@@ -1568,6 +1594,11 @@ def play(state, game):
                         # Check if this pokemon has energy to retreat if needed?
                         if target.energy_count >= target.retreat_cost:
                              action["score"] += 500
+
+                        # Apply a severe score penalty proportional to its HP deficit against the opponent's combined lethal threat
+                        threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+                        if target.hp <= threat:
+                            action['score'] -= (threat - target.hp) * 1000
 
         elif "Discard" in aname:
              action["type"] = "discard"
@@ -1620,7 +1651,7 @@ def play(state, game):
                             current_hp = gs.my_active.hp
                             if current_hp > 20:
                                 new_hp = current_hp - 20
-                                if current_hp > opp_max_dmg and new_hp <= opp_max_dmg:
+                                if current_hp > opp_max_dmg_effective and new_hp <= opp_max_dmg_effective:
                                     action["score"] -= 50000
                                 else:
                                     action["score"] += 4000

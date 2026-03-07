@@ -1600,8 +1600,29 @@ def play(state, game):
                     # Choosing for self (after KO)
                     target = gs.get_bench_card(target_idx)
                     if target:
+                        # Basic safety check: if we activate a pokemon that will instantly die to poison + next attack
+                        opp_max_dmg = get_opponent_max_damage(gs)
+                        threat = opp_max_dmg
+
+                        # Active poison is cleared when KO'd, so the NEW active won't be poisoned immediately
+                        # but we still need to survive the opponent's raw attack damage.
+                        if threat >= target.hp:
+                             action["score"] -= 50000 + ((threat - target.hp) * 1000)
+
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        max_valid_dmg = 0
+                        for atk in target.attacks:
+                            if can_use_attack(atk.get("cost", []), target.energy):
+                                # Just a rough estimate for immediate damage potential
+                                dmg = float(re.sub(r'[^0-9.]', '', str(atk.get("dmg", 0))) or 0)
+                                if dmg > max_valid_dmg:
+                                    max_valid_dmg = dmg
+
+                        if max_valid_dmg > 0:
+                            action["score"] += (max_valid_dmg * 100)
+
                         if not target.needs_energy():
                              action["score"] += 5000
                         if "ex" in target.name.lower():

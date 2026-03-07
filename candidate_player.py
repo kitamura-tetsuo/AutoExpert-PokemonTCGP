@@ -252,7 +252,8 @@ class Card:
 
     @property
     def is_ex(self):
-        return "ex" in self.name.lower()
+        n = self.name.lower()
+        return n.endswith(" ex") or n == "ex"
 
     @property
     def is_carry(self):
@@ -267,11 +268,11 @@ class Card:
         n = self.name.lower()
         if n in EVOLUTION_MAP:
             evolved = EVOLUTION_MAP[n]
-            if evolved in CARRY_LIST or "ex" in evolved: return True
+            if evolved in CARRY_LIST or evolved.endswith(" ex"): return True
             # Check stage 2
             if evolved in EVOLUTION_MAP:
                 stage2 = EVOLUTION_MAP[evolved]
-                if stage2 in CARRY_LIST or "ex" in stage2: return True
+                if stage2 in CARRY_LIST or stage2.endswith(" ex"): return True
         return False
 
     def needs_energy(self):
@@ -325,8 +326,8 @@ class Card:
             elif "starmie ex" in n_lower: max_cost = 2
             elif "greninja" in n_lower: max_cost = 2
             elif "venusaur" in n_lower: max_cost = 4
-            elif "mega" in n_lower and "ex" in n_lower: max_cost = 4
-            elif "ex" in n_lower: max_cost = 3
+            elif "mega" in n_lower and n_lower.endswith(" ex"): max_cost = 4
+            elif n_lower.endswith(" ex"): max_cost = 3
 
         if "pikachu ex" in self.name.lower():
             max_cost = 3 # Circle Circuit needs 2, but sometimes useful to have retreat energy or extra
@@ -597,7 +598,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         if ability:
             effect = ability.get("effect", "").lower()
             if "prevent all damage" in effect and "pokémon ex" in effect:
-                if "ex" in attacker.name.lower():
+                if attacker.name.lower().endswith(" ex"):
                     damage = 0
             elif "takes -20 damage" in effect:
                 damage -= 20
@@ -953,7 +954,7 @@ def play(state, game):
                  dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0, target_override=b)
                  if dmg >= b.hp:
                      can_ko_on_bench = True
-                     is_ex = "ex" in b.name.lower()
+                     is_ex = b.name.lower().endswith(" ex")
                      points_gained = 2 if is_ex else 1
                      if points_gained > best_bench_ko_value:
                          best_bench_ko_value = points_gained
@@ -1145,7 +1146,11 @@ def play(state, game):
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                            action["score"] += 1000
+                            missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                            heal_amount = missing_hp
+                            m_heal = re.search(r"heal (\d+)", atk_text)
+                            if m_heal: heal_amount = min(missing_hp, int(m_heal.group(1)))
+                            action["score"] += heal_amount * 100
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:
@@ -1226,6 +1231,11 @@ def play(state, game):
                 key = evolution_name.lower()
                 if key in CARD_DB_FULL: evol_entry = CARD_DB_FULL[key][0]
                 elif key in CARD_DB: evol_entry = CARD_DB[key] if not isinstance(CARD_DB[key], list) else CARD_DB[key][0]
+
+                if "venusaur ex" in evolution_name.lower():
+                    action["score"] += 5000
+                elif "ivysaur" in evolution_name.lower():
+                    action["score"] += 3000
 
                 if evol_entry is None:
                     # Retry with stripping spaces / prefixes just in case
@@ -1319,13 +1329,13 @@ def play(state, game):
                 # Check utility
                 is_useful = False
                 n_lower = clean_name.lower()
-                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                if n_lower in CARRY_LIST or n_lower.endswith(" ex"): is_useful = True
                 elif n_lower in EVOLUTION_MAP:
                     evolved = EVOLUTION_MAP[n_lower]
-                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                    if evolved in CARRY_LIST or evolved.endswith(" ex"): is_useful = True
                     elif evolved in EVOLUTION_MAP:
                         stage2 = EVOLUTION_MAP[evolved]
-                        if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+                        if stage2 in CARRY_LIST or stage2.endswith(" ex"): is_useful = True
 
                 # Houndstone synergy
                 is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
@@ -1341,6 +1351,33 @@ def play(state, game):
                     action["score"] = 50000 # Discard bad cards
             else:
                  action["score"] = 0
+
+
+        elif "Heal(" in aname:
+            action["type"] = "potion"
+            action["score"] = ITEM_SCORE
+            target = gs.my_active
+            m_h = re.search(r"Heal\((\d+)", aname)
+            if m_h:
+                t_idx = int(m_h.group(1))
+                if t_idx == 0: target = gs.my_active
+                else: target = gs.get_bench_card(t_idx - 1)
+
+            if target:
+                if target.hp >= target.max_hp:
+                    action["score"] -= 50000
+                elif target.hp <= 60 or threat_lethal:
+                    action["score"] = POTION_CRITICAL_SCORE
+                if threat_lethal and (target.hp + 20) > opp_max_dmg_effective:
+                     opp_points_needed = 3 - gs.opp_points
+                     my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
+                     loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                     if loses_game:
+                         action["score"] = LETHAL_WIN_SCORE
+                     elif risk_of_donk:
+                         action["score"] = DONK_SURVIVAL_SCORE
+                     else:
+                         action["score"] += 10000
 
         elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Extract card name if possible
@@ -1428,7 +1465,7 @@ def play(state, game):
 
                     if card.needs_energy(): s += 2000
                     if card.energy_count < 5: s += 1000
-                    if "ex" in card.name.lower(): s += 1000
+                    if card.name.lower().endswith(" ex"): s += 1000
                     if card.name.lower() in CARRY_LIST: s += 1000
                     return s
 
@@ -1455,7 +1492,7 @@ def play(state, game):
             elif "red card" in aname_lower:
                 action["type"] = "red_card"
                 action["score"] = RED_CARD_SCORE
-            elif card_name_lower == "red":
+            elif card_name_lower and card_name_lower == "red":
                 action["type"] = "red"
                 action["score"] = GIOVANNI_SCORE
             elif "ball" in aname_lower or "search" in aname_lower or "slab" in aname_lower: # Mythical Slab
@@ -1652,7 +1689,7 @@ def play(state, game):
                         # Apply score bonus based on energy count
                         action["score"] += target.energy_count * 2000
 
-                        if "ex" in target.name.lower():
+                        if target.name.lower().endswith(" ex"):
                             action["score"] += 1000
 
                         # Tie break for Carry Pokemon
@@ -1686,10 +1723,10 @@ def play(state, game):
                 # Check utility
                 is_useful = False
                 n_lower = clean_name.lower()
-                if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+                if n_lower in CARRY_LIST or n_lower.endswith(" ex"): is_useful = True
                 elif n_lower in EVOLUTION_MAP:
                     evolved = EVOLUTION_MAP[n_lower]
-                    if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                    if evolved in CARRY_LIST or evolved.endswith(" ex"): is_useful = True
 
                 # If we are forced to shuffle back (e.g. from hand or search fail),
                 # we prefer shuffling BAD cards (positive score) and avoiding GOOD cards (negative score).
@@ -1805,7 +1842,7 @@ def play(state, game):
                      # Lethal Logic (Guaranteed KO)
                      if target.hp <= 20:
                          action["score"] = LETHAL_KO_SCORE + 10000
-                         is_ex = "ex" in target.name.lower()
+                         is_ex = target.name.lower().endswith(" ex")
                          if is_ex: action["score"] += 5000
                          points_gained = 2 if is_ex else 1
                          if points_gained >= points_needed_to_win:
@@ -1813,7 +1850,7 @@ def play(state, game):
 
                      # Pressure Logic
                      elif target.hp <= 50:
-                         if "ex" in target.name.lower():
+                         if target.name.lower().endswith(" ex"):
                              action["score"] += 5000
                      else:
                          # Setup Logic
@@ -1874,7 +1911,7 @@ def play(state, game):
                     best_bench_dmg = 0
 
                     opp_points_needed = 3 - gs.opp_points
-                    my_active_gives = 2 if target and "ex" in target.name.lower() else 1
+                    my_active_gives = 2 if target and target.name.lower().endswith(" ex") else 1
                     loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     for b in gs.my_bench:
@@ -1944,6 +1981,8 @@ def play(state, game):
                         a["score"] -= 50000 # drastically penalize further energy attachments to it
                     elif target and target.name.lower() in ["bulbasaur", "ivysaur", "venusaur ex"]:
                         a["score"] += 15000 # apply massive score boost to late-game bench targets
+                        if target.name.lower() == "bulbasaur": a["score"] += 2000 # prioritize bulbasaur slightly more
+                        if target.name.lower() == "ivysaur": a["score"] += 1000
                     elif a["pos"] > 0 and target and target.name.lower() == "exeggcute":
                          a["score"] -= 5000 # minor penalize energy on exeggcute bench if early active is fine
 
@@ -1965,7 +2004,7 @@ def play(state, game):
 
                 if is_compatible:
                     a["score"] += 2000
-                    if "ex" in target.name.lower():
+                    if target.name.lower().endswith(" ex"):
                         a["score"] += 1000
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
@@ -2037,13 +2076,13 @@ def play(state, game):
             is_useful = False
             # We can't access Card object here easily, but we have card_name
             # Replicate is_useful logic
-            if n_lower in CARRY_LIST or "ex" in n_lower: is_useful = True
+            if n_lower in CARRY_LIST or n_lower.endswith(" ex"): is_useful = True
             elif n_lower in EVOLUTION_MAP:
                  evolved = EVOLUTION_MAP[n_lower]
-                 if evolved in CARRY_LIST or "ex" in evolved: is_useful = True
+                 if evolved in CARRY_LIST or evolved.endswith(" ex"): is_useful = True
                  elif evolved in EVOLUTION_MAP:
                      stage2 = EVOLUTION_MAP[evolved]
-                     if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
+                     if stage2 in CARRY_LIST or stage2.endswith(" ex"): is_useful = True
 
             if len(gs.my_bench) >= 2:
                 if not is_useful:

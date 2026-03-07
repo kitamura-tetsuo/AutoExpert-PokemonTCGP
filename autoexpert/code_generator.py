@@ -12,8 +12,8 @@ class CodeGenerator:
     def generate(self, goal: str, feedback: Optional[str] = None, wait_completion: bool = True, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past") -> str:
         """Calls Jules to generate a Python play function."""
         # Truncate evaluation log to prevent 400 Bad Request error (Payload Too Large)
-        if evaluation_log and len(evaluation_log) > 25000:
-            evaluation_log = evaluation_log[:25000] + "\n\n...[Log Truncated due to size limit]..."
+        if evaluation_log and len(evaluation_log) > 10000:
+            evaluation_log = evaluation_log[:10000] + "\n\n...[Log Truncated due to size limit]..."
 
         task_prompt = get_task_prompt(goal, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, evaluation_log)
         
@@ -21,7 +21,19 @@ class CodeGenerator:
         full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
         # Create session
-        session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")
+        import requests
+        try:
+            session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 400:
+                print(f"Jules API 400 Bad Request error. Likely payload too large. Attempting fallback without evaluation log. Error details: {e.response.text}")
+                # Try without evaluation log
+                fallback_task_prompt = get_task_prompt(goal, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, None)
+                fallback_full_prompt = f"{system_prompt}\n\nTASK:\n{fallback_task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
+                session = client.create_session(fallback_full_prompt, self.source_name, title="Generate TCG Strategy (Fallback)")
+            else:
+                raise
+
         session_id = session["id"]
         
         print(f"Jules session created: {session_id}.")

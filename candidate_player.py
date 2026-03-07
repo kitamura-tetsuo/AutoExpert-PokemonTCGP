@@ -181,22 +181,12 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^([A-Za-z\-]+?\d+)(.*)", raw_name)
-        if m:
-            prefix = m.group(1)
-            name_part = m.group(2)
-            if prefix and len(prefix) <= 7:
-                raw_name = name_part
-        else:
-            m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
-            if m and m.group(1):
-                 prefix = m.group(1)
-                 name_part = m.group(2)
-                 if len(prefix) <= 6:
-                     raw_name = name_part
-
-        if raw_name == "XSpeed":
-            raw_name = "X Speed"
+        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
+        if m and m.group(1):
+             prefix = m.group(1)
+             name_part = m.group(2)
+             if len(prefix) <= 6:
+                 raw_name = name_part
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
@@ -1375,7 +1365,7 @@ def play(state, game):
             else:
                  action["score"] = 0
 
-        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname or "Heal" in aname:
+        elif "UseSupporter" in aname or "Play" in aname or "UseItem" in aname:
             # Extract card name if possible
             card_name_lower = ""
             m_card = re.search(r"(?:Play|UseItem|UseSupporter)\((?:Some\()?(.*?)\)?\)", aname)
@@ -2265,10 +2255,8 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
         elif a["type"] == "red_card":
-            if has_lethal_on_board:
-                 a["score"] -= 50000
             if gs.opp_hand_count >= 5:
-                a["score"] = max(a["score"], 85000) # Beat Attach (75k) and Search (82k) to prioritize disruption
+                a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
             elif gs.opp_hand_count >= 4:
                 a["score"] += 2000
             elif gs.opp_hand_count < 3:

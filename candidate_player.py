@@ -257,7 +257,8 @@ class Card:
 
     @property
     def is_ex(self):
-        return "ex" in self.name.lower()
+        n = self.name.lower()
+        return n.endswith(" ex") or n == "ex"
 
     @property
     def is_carry(self):
@@ -318,9 +319,9 @@ class Card:
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "bellibolt ex" in n_lower: max_cost = 4
         elif n_lower == "tadbulb": max_cost = 4
-        elif "exeggutor ex" in n_lower: max_cost = 1
-        elif "exeggcute" in n_lower: max_cost = 1
-        elif "ivysaur" in n_lower: max_cost = 4
+        elif n_lower == "exeggutor ex": max_cost = 1
+        elif n_lower == "exeggcute": max_cost = 1
+        elif n_lower == "ivysaur": max_cost = 4
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -357,8 +358,20 @@ class Card:
 
     @property
     def status(self):
-        if self.obj and hasattr(self.obj, "status"):
-             return self.obj.status
+        s = []
+        if self.obj:
+            if hasattr(self.obj, "status"):
+                s.extend(self.obj.status)
+            if hasattr(self.obj, "poisoned") and self.obj.poisoned: s.append("poisoned")
+            if hasattr(self.obj, "asleep") and self.obj.asleep: s.append("asleep")
+            if hasattr(self.obj, "paralyzed") and self.obj.paralyzed: s.append("paralyzed")
+            if hasattr(self.obj, "confused") and self.obj.confused: s.append("confused")
+        return s
+
+    @property
+    def effects(self):
+        if self.obj and hasattr(self.obj, "effects"):
+            return self.obj.effects
         return []
 
 class GameStateWrapper:
@@ -376,11 +389,11 @@ class GameStateWrapper:
         self.opp_hand_objs = state.get_hand(self.opp)
 
         self.my_active = Card("Active", self.my_active_obj) if self.my_active_obj else None
-        self.my_bench = [Card(f"Bench_{i}", b) for i, b in enumerate(self.my_bench_objs) if b]
+        self.my_bench = [Card(f"Bench_{i}", b) if b else None for i, b in enumerate(self.my_bench_objs)]
         self.my_hand = [Card(f"Hand_{i}", h) for i, h in enumerate(self.my_hand_objs)]
 
         self.opp_active = Card("OppActive", self.opp_active_obj) if self.opp_active_obj else None
-        self.opp_bench = [Card(f"OppBench_{i}", b) for i, b in enumerate(self.opp_bench_objs) if b]
+        self.opp_bench = [Card(f"OppBench_{i}", b) if b else None for i, b in enumerate(self.opp_bench_objs)]
         self.opp_hand = [Card(f"OppHand_{i}", h) for i, h in enumerate(self.opp_hand_objs)]
         self.opp_hand_count = len(self.opp_hand_objs)
 
@@ -430,7 +443,8 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    damage = float(atk.get("dmg", 0))
+    raw_dmg = atk.get("dmg", 0)
+    damage = float(re.sub(r'[^0-9.]', '', str(raw_dmg))) if raw_dmg else 0.0
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
@@ -476,9 +490,9 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         count = 0
         if "benched" in text:
             if "opponent" in text:
-                count = len(state.opp_bench)
+                count = sum(1 for b in state.opp_bench if b)
             else:
-                count = len(state.my_bench)
+                count = sum(1 for b in state.my_bench if b)
                 if "pikachu ex" in name_lower and "lightning" in text:
                      # Pikachu ex counts lightning bench
                      count = 0
@@ -566,7 +580,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "pikachu ex" in name_lower and attack_idx == 0 and damage < 30:
          count = 0
          for b in state.my_bench:
-             if "Lightning" in b.energy_type: count += 1
+             if b and "Lightning" in b.energy_type: count += 1
          damage = 30 * count
 
     if "mewtwo ex" in name_lower and attack_idx == 1 and damage < 150:
@@ -657,6 +671,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     is_bench_target = False
     if final_target and not treat_as_active:
         for b in gs.my_bench:
+            if not b: continue
             if b.obj == final_target.obj:
                 is_bench_target = True
                 break
@@ -871,8 +886,8 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
 
     # Dynamically account for poison damage on the target
     if final_target and final_target == gs.my_active:
-        if any("poison" in str(s).lower() for s in final_target.status):
-            max_dmg += 10
+        if any("poison" in str(s).lower() for s in final_target.status) or (attacker and "weezing" in attacker.name.lower()):
+            max_dmg += 20
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -929,6 +944,7 @@ def play(state, game):
 
     if gs.my_active:
         for b in gs.opp_bench:
+             if not b: continue
              for idx in range(len(gs.my_active.attacks)):
                  # Check usability
                  atk = gs.my_active.attacks[idx]
@@ -939,7 +955,7 @@ def play(state, game):
                  dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0, target_override=b)
                  if dmg >= b.hp:
                      can_ko_on_bench = True
-                     is_ex = "ex" in b.name.lower()
+                     is_ex = getattr(b, "name", None) and "ex" in b.name.lower()
                      points_gained = 2 if is_ex else 1
                      if points_gained > best_bench_ko_value:
                          best_bench_ko_value = points_gained
@@ -969,6 +985,7 @@ def play(state, game):
     bench_threats_indices = []
     if opp_has_gust:
         for i, b in enumerate(gs.my_bench):
+            if not b: continue
             dmg = get_opponent_max_damage(gs, target=b)
             if dmg >= b.hp:
                 bench_threats_indices.append(i)
@@ -980,7 +997,7 @@ def play(state, game):
              d = calculate_damage(gs.my_active, i, gs)
              if d > active_dmg: active_dmg = d
 
-    risk_of_donk = (len(gs.my_bench) == 0)
+    risk_of_donk = (sum(1 for b in gs.my_bench if b) == 0)
 
     # 0. Immediate Lethal Check
     # If any action guarantees a win, take it immediately.
@@ -1009,7 +1026,7 @@ def play(state, game):
                         # Check prizes
                         is_ex = "ex" in gs.opp_active.name.lower()
                         points_gained = 2 if is_ex else 1
-                        if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
+                        if points_gained >= points_needed_to_win or sum(1 for b in gs.opp_bench if b) == 0:
                              # FOUND LETHAL WIN
                              return aid
 
@@ -1035,7 +1052,7 @@ def play(state, game):
                 if gs.opp_active:
                      # Overkill prevention
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
-                action["score"] = ATTACK_BASE_SCORE + (effective_damage * 100)
+                action["score"] = ATTACK_BASE_SCORE + min(effective_damage * 100, 15000)
 
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10
@@ -1071,6 +1088,7 @@ def play(state, game):
                     if gs.my_active and "moltres ex" in gs.my_active.name.lower() and idx == 0:
                          fire_needs = 0
                          for b in gs.my_bench:
+                             if not b: continue
                              if "Fire" in b.energy_type and b.needs_energy():
                                  fire_needs += 1
                          if fire_needs > 0:
@@ -1084,7 +1102,7 @@ def play(state, game):
                          is_setup_attack = False
                          if "deck" in atk_text and "bench" in atk_text:
                               is_setup_attack = True
-                              if len(gs.my_bench) < 3:
+                              if sum(1 for b in gs.my_bench if b) < 3:
                                    action["score"] += 5000
 
                          # Energy Absorption / Acceleration
@@ -1103,8 +1121,10 @@ def play(state, game):
                              is_setup_attack = True
                              # Boost if we have missing health
                              missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                             heal_match = re.search(r"heal (\d+)", atk_text)
+                             specific_heal_amount = int(heal_match.group(1)) if heal_match else 30
                              if missing_hp > 0:
-                                 action["score"] += min(missing_hp, 30) * 100
+                                 action["score"] += min(missing_hp, specific_heal_amount) * 100
                              else:
                                  action["score"] -= 200000 # Don't use heal if full hp and 0 damage
 
@@ -1131,11 +1151,18 @@ def play(state, game):
                     if is_ko:
                         action["score"] = LETHAL_KO_SCORE
                         action["is_ko"] = True
+                        if idx < len(gs.my_active.attacks):
+                            atk_data = gs.my_active.attacks[idx]
+                            atk_text = (atk_data.get("text") or "").lower()
+                            if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
+                                heal_match = re.search(r"heal (\d+)", atk_text)
+                                heal_amt = int(heal_match.group(1)) if heal_match else 30
+                                action["score"] += min(gs.my_active.max_hp - gs.my_active.hp, heal_amt) * 100
 
                         is_ex = "ex" in gs.opp_active.name.lower()
                         points_gained = 2 if is_ex else 1
 
-                        if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
+                        if points_gained >= points_needed_to_win or sum(1 for b in gs.opp_bench if b) == 0:
                             action["score"] = LETHAL_WIN_SCORE
                             action["is_lethal"] = True
 
@@ -1170,7 +1197,13 @@ def play(state, game):
                          elif "rocky helmet" in tname: recoil = 20
 
                          if recoil > 0 and action["damage"] > 0 and not action.get("is_lethal"):
-                             surviving_hp = gs.my_active.hp - recoil
+                             atk_data = gs.my_active.attacks[idx]
+                             atk_text = (atk_data.get("text") or "").lower()
+                             heal_amount = 0
+                             if "heal" in atk_text:
+                                 heal_match = re.search(r"heal (\d+)", atk_text)
+                                 heal_amount = int(heal_match.group(1)) if heal_match else 30
+                             surviving_hp = gs.my_active.hp + heal_amount - recoil
 
                              if surviving_hp <= 0:
                                  action["score"] -= 200000 # Lethal Self KO
@@ -1252,7 +1285,7 @@ def play(state, game):
                              # Check if losing this active means losing the game
                              opp_points_needed = 3 - gs.opp_points
                              my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                             loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                              if loses_game:
                                  action["score"] = LETHAL_WIN_SCORE
@@ -1264,7 +1297,7 @@ def play(state, game):
                              action["score"] += 2000 # Small boost for HP increase
 
                     # Prevent evolution if it doesn't save from lethal and doesn't get a KO, and we have bench backup
-                    if evol_hp <= opp_max_dmg_effective and not action.get("is_ko") and len(gs.my_bench) > 0:
+                    if evol_hp <= opp_max_dmg_effective and not action.get("is_ko") and sum(1 for b in gs.my_bench if b) > 0:
                         action["score"] -= 50000
 
                 # Check bench threats
@@ -1278,7 +1311,10 @@ def play(state, game):
                 # Status Cleanse (Defensive)
                 if target_pos == 0 and gs.my_active:
                      if gs.my_active.status:
-                         action["score"] += 5000
+                         if any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 60 and not threat_lethal:
+                             action["score"] += 35000
+                         else:
+                             action["score"] += 5000
                      # Look for NoRetreat effect
                      has_noretreat = False
                      if hasattr(gs.my_active, "effects") and gs.my_active.effects:
@@ -1380,6 +1416,7 @@ def play(state, game):
                         best_target = gs.my_active
                     # Evaluate bench
                     for b in gs.my_bench:
+                        if not b: continue
                         if b.max_hp - b.hp > max_missing:
                             max_missing = b.max_hp - b.hp
                             best_target = b
@@ -1390,7 +1427,7 @@ def play(state, game):
                     heal_amount = 50 # Assuming EV is around 50
 
                 if target:
-                    missing_hp = target.max_hp - target.hp
+                    missing_hp = getattr(target, "max_hp", 0) - getattr(target, "hp", 0)
                     if missing_hp <= 0:
                         action["score"] -= 50000 # Don't heal full HP
                     else:
@@ -1403,8 +1440,8 @@ def play(state, game):
                         # If it puts us out of lethal range (only matters for active pokemon)
                         if threat_lethal and target == gs.my_active and (target.hp + heal_amount) > opp_max_dmg_effective:
                              opp_points_needed = 3 - gs.opp_points
-                             my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                             my_active_gives = 2 if (gs.my_active and getattr(gs.my_active, 'name', None) and "ex" in gs.my_active.name.lower()) else 1
+                             loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                              if loses_game:
                                  action["score"] = LETHAL_WIN_SCORE
@@ -1468,6 +1505,7 @@ def play(state, game):
                          best_target_score = max(best_target_score, s)
 
                 for b in gs.my_bench:
+                     if not b: continue
                      s = score_misty_target(b)
                      if s > 0: best_target_score = max(best_target_score, s)
 
@@ -1511,7 +1549,7 @@ def play(state, game):
                 action["score"] = RETREAT_SCORE
 
                 target = gs.get_bench_card(bench_idx)
-                if not target or target.name == "Unknown":
+                if not target or target.name == "Unknown" or not target.obj:
                     action["score"] = -100000
                     continue
 
@@ -1528,7 +1566,7 @@ def play(state, game):
                     # Check if losing active means losing the game
                     opp_points_needed = 3 - gs.opp_points
                     my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
-                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                    loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                     bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                     bench_is_safer = target and target.hp > bench_threat
@@ -1610,7 +1648,7 @@ def play(state, game):
                     # Generally, if we can KO, we take it.
                     if not active_is_lethal:
                         # Exeggutor EX logic: If bench is a loaded Venusaur Ex, we might want to switch if Exeggutor is weak.
-                        is_bench_venusaur = target and "venusaur ex" in target.name.lower()
+                        is_bench_venusaur = target and getattr(target, 'name', None) and "venusaur ex" in target.name.lower()
                         is_active_exeggutor = gs.my_active and "exeggutor ex" in gs.my_active.name.lower()
 
                         if is_bench_venusaur and is_active_exeggutor and target_dmg >= 100:
@@ -1675,11 +1713,11 @@ def play(state, game):
                         # Apply score bonus based on energy count
                         action["score"] += target.energy_count * 2000
 
-                        if "ex" in target.name.lower():
+                        if getattr(target, 'name', None) and "ex" in target.name.lower():
                             action["score"] += 1000
 
                         # Tie break for Carry Pokemon
-                        if target.name.lower() in CARRY_LIST:
+                        if getattr(target, 'name', None) and target.name.lower() in CARRY_LIST:
                             action["score"] += 2000
 
                         # Check if this pokemon has energy to retreat if needed?
@@ -1735,7 +1773,7 @@ def play(state, game):
                 else:
                     target = gs.get_bench_card(idx - 1)
 
-                if target:
+                if target and getattr(target, 'name', None):
                     n_lower = target.name.lower()
                     if "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
@@ -1756,7 +1794,7 @@ def play(state, game):
 
                     elif "klefki" in n_lower: # Dismantling Keys
                         # Discards itself to remove opponent's tool
-                        if len(gs.my_bench) <= 1 and risk_of_donk:
+                        if sum(1 for b in gs.my_bench if b) <= 1 and risk_of_donk:
                             # Risk of donking ourselves
                             action["score"] -= 100000
                         else:
@@ -1771,6 +1809,7 @@ def play(state, game):
                         if gs.opp_bench:
                             min_hp = 1000
                             for b in gs.opp_bench:
+                                if not b: continue
                                 if b.hp < min_hp and b.hp > 0:
                                     min_hp = b.hp
                             if min_hp <= 20:
@@ -1788,6 +1827,7 @@ def play(state, game):
                         # Check bench
                         if not needs_dark:
                             for b in gs.my_bench:
+                                if not b: continue
                                 if "Darkness" in b.energy_type and b.needs_energy():
                                     needs_dark = True
                                     break
@@ -1822,13 +1862,13 @@ def play(state, game):
                      if bench_idx < len(gs.opp_bench):
                          target = gs.opp_bench[bench_idx]
 
-                 if target:
+                 if target and getattr(target, 'name', None):
                      action["score"] = 15000 # Base score (lower than attach energy)
 
                      # Lethal Logic (Guaranteed KO)
                      if target.hp <= 20:
                          action["score"] = LETHAL_KO_SCORE + 10000
-                         is_ex = "ex" in target.name.lower()
+                         is_ex = getattr(target, "name", None) and "ex" in target.name.lower()
                          if is_ex: action["score"] += 5000
                          points_gained = 2 if is_ex else 1
                          if points_gained >= points_needed_to_win:
@@ -1836,7 +1876,7 @@ def play(state, game):
 
                      # Pressure Logic
                      elif target.hp <= 50:
-                         if "ex" in target.name.lower():
+                         if getattr(target, 'name', None) and "ex" in target.name.lower():
                              action["score"] += 5000
                      else:
                          # Setup Logic
@@ -1853,7 +1893,7 @@ def play(state, game):
 
         actions.append(action)
 
-    if not gs.my_bench:
+    if sum(1 for b in gs.my_bench if b) == 0:
         has_place_action = False
         for a in actions:
             if a["type"] == "place":
@@ -1897,10 +1937,11 @@ def play(state, game):
                     best_bench_dmg = 0
 
                     opp_points_needed = 3 - gs.opp_points
-                    my_active_gives = 2 if target and "ex" in target.name.lower() else 1
-                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                    my_active_gives = 2 if target and getattr(target, 'name', None) and "ex" in target.name.lower() else 1
+                    loses_game = (my_active_gives >= opp_points_needed) or (sum(1 for b in gs.my_bench if b) == 0)
 
                     for b in gs.my_bench:
+                        if not b: continue
                         bench_threat = get_opponent_max_damage(gs, target=b, treat_as_active=True)
                         if b.hp > bench_threat:
                             has_safe_bench = True
@@ -1967,12 +2008,14 @@ def play(state, game):
             if not is_multi_stage_deck:
                 is_multi_stage_deck = any(x in n.lower() for x in ["bulbasaur", "ivysaur", "venusaur", "exeggcute", "exeggutor"] for n in [c.name for c in [gs.my_active] + gs.my_bench if c])
 
-            if is_multi_stage_deck:
+            if is_multi_stage_deck and getattr(target, 'name', None):
                 if "exeggutor ex" in target.name.lower() and target.energy_count >= 1 and gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
                     a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
                 elif gs.my_active and "exeggutor ex" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
                     if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
                         a["score"] += 35000 # Boost attaching to late-game bench targets
+                elif a["pos"] > 0 and "exeggcute" in target.name.lower():
+                    a["score"] -= 5000 # Penalize redundant early game bench
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()
@@ -1992,9 +2035,9 @@ def play(state, game):
 
                 if is_compatible:
                     a["score"] += 2000
-                    if "ex" in target.name.lower():
+                    if getattr(target, 'name', None) and "ex" in target.name.lower():
                         a["score"] += 1000
-                    if target.name.lower() in CARRY_LIST:
+                    if getattr(target, 'name', None) and target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 
                     if a["pos"] == 0:
@@ -2037,7 +2080,7 @@ def play(state, game):
                          if threat_lethal and not is_lethal_attachment:
                              # Strongly penalize attaching to an Active Pokemon that is mathematically doomed
                              # provided the player has at least one benched Pokemon
-                             has_bench = len(gs.my_bench) > 0
+                             has_bench = sum(1 for b in gs.my_bench if b) > 0
 
                              # Re-calculate has_noretreat locally
                              active_has_noretreat = False
@@ -2069,7 +2112,7 @@ def play(state, game):
                              retreat_cost = target.retreat_cost
                              allows_retreat = (target.energy_count < retreat_cost) and (target.energy_count + 1 >= retreat_cost)
                              can_heal_out_of_lethal = False
-                             if "venusaur ex" in target.name.lower() and (target.hp + 30) > opp_max_dmg_effective:
+                             if getattr(target, 'name', None) and "venusaur ex" in target.name.lower() and (target.hp + 30) > opp_max_dmg_effective:
                                  can_heal_out_of_lethal = True
 
                              if not allows_retreat and not can_heal_out_of_lethal and target.hp <= opp_max_dmg_effective:
@@ -2110,7 +2153,7 @@ def play(state, game):
                      stage2 = EVOLUTION_MAP[evolved]
                      if stage2 in CARRY_LIST or "ex" in stage2: is_useful = True
 
-            if len(gs.my_bench) >= 2:
+            if sum(1 for b in gs.my_bench if b) >= 2:
                 if not is_useful:
                     a["score"] -= 10000 # Increase penalty for junk on full bench
 
@@ -2162,17 +2205,18 @@ def play(state, game):
             # Smart Research: Discard energy is bad, UNLESS we can accelerate it back (Gardevoir)
             hand_names_lower = [c.name.lower() for c in gs.my_hand]
             has_energy = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names_lower)
-            has_gardevoir_line = any("gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
+            has_gardevoir_line = any(getattr(c, 'name', None) and "gardevoir" in c.name.lower() for c in gs.my_bench + gs.my_hand)
 
             # Houndstone Synergy Check: Discarding psychic pokemon is good
             is_houndstone_active = gs.my_active and "houndstone" in gs.my_active.name.lower()
             psychic_pokemon_in_hand = 0
             for c in gs.my_hand:
+                if not c: continue
                 if getattr(c.obj, "is_pokemon", False) and getattr(c.obj, "energy_type", None) == "Psychic":
                     psychic_pokemon_in_hand += 1
-                elif c.db_entry and getattr(c.db_entry, "get", lambda x, y: y)("is_pokemon", False) and c.energy_type == "Psychic":
+                elif getattr(c, 'db_entry', None) and getattr(c.db_entry, "get", lambda x, y: y)("is_pokemon", False) and c.energy_type == "Psychic":
                     psychic_pokemon_in_hand += 1
-                elif c.db_entry is None:
+                elif getattr(c, 'db_entry', None) is None and getattr(c, 'name', None):
                     n = c.name.lower()
                     if any(x in n for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"]):
                         psychic_pokemon_in_hand += 1
@@ -2233,6 +2277,7 @@ def play(state, game):
                  # Defensive Gust: Find safe target
                  safe_target_found = False
                  for b in gs.opp_bench:
+                     if not b: continue
                      # Heuristic: Safe if low energy and not EX (unless weak EX)
                      if b.energy_count < 2 and "ex" not in b.name.lower():
                           safe_target_found = True
@@ -2441,4 +2486,4 @@ def play(state, game):
 
         return best_action["id"]
 
-    return legal_actions[0]
+    return legal_actions[0] if legal_actions else 0

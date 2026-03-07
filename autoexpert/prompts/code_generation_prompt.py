@@ -70,8 +70,12 @@ GOAL: {goal}
     if feedback:
         prompt += f"\nFEEDBACK (Errors or Performance): {feedback}\nPlease improve the code based on this feedback."
     
+    # We do not append the full evaluation log here as it often triggers an HTTP 400 Payload Too Large
+    # error from the Jules API when combined with the large `candidate_player.py` file in the repo context.
     if evaluation_log:
-        prompt += f"\nEVALUATION LOG (100 matches results):\n```\n{evaluation_log}\n```"
+        # Extract just the top lines (e.g. win rates) to provide a tiny hint without breaking limits
+        summary = "\n".join(evaluation_log.split("\n")[:10])
+        prompt += f"\nEVALUATION SUMMARY:\n```\n{summary}\n```"
         
     prompt += "\n\nWrite the `play(state, game)` function now."
     return prompt

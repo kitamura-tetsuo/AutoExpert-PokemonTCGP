@@ -374,6 +374,12 @@ class Card:
              return self.obj.status
         return []
 
+    @property
+    def effects(self):
+        if self.obj and hasattr(self.obj, "effects"):
+             return self.obj.effects
+        return []
+
 class GameStateWrapper:
     def __init__(self, state, perspective_player=None):
         self.state = state
@@ -1626,11 +1632,8 @@ def play(state, game):
                              action["score"] += 500
 
                         # Apply penalty if the promoted target will be immediately knocked out
-                        opp_max_dmg_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
-                        poison_threat = 0
-                        if gs.opp_active and not gs.opp_active.ability_used and "weezing" in gs.opp_active.name.lower():
-                            poison_threat = 10
-                        threat = opp_max_dmg_threat + poison_threat
+                        # Note: get_opponent_max_damage already includes potential poison damage
+                        threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                         if threat >= target.hp:
                             action["score"] -= 50000 + ((threat - target.hp) * 1000)
 
@@ -1982,14 +1985,11 @@ def play(state, game):
                                  is_doomed = True
 
                          # Also doomed if NoRetreat trapped facing lethal
-                         if "NoRetreat" in target.status and target.hp <= opp_max_dmg:
-                             is_doomed = True
-                         # NoRetreat effect check
-                         if hasattr(target.obj, 'effects') and "NoRetreat" in target.obj.effects and target.hp <= opp_max_dmg:
+                         if target.effects and "NoRetreat" in target.effects and target.hp <= opp_max_dmg:
                              is_doomed = True
 
                          # Also doomed if Poisoned with very low HP
-                         if any("poison" in str(s).lower() for s in target.status) and target.hp <= 30:
+                         if target.status and any("poison" in str(s).lower() for s in target.status) and target.hp <= 30:
                              is_doomed = True
 
                          if is_doomed and not is_lethal_attachment and len(gs.my_bench) > 0:

@@ -420,11 +420,23 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
-    deck_path = Path(deck)
+    # Clean up double prefixes that might occur in CI
+    deck_clean = deck
+    if deck_clean.startswith("train_data/train_data/"):
+        deck_clean = deck_clean.replace("train_data/train_data/", "train_data/")
+
+    deck_path = Path(deck_clean)
     if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck
+        deck_path = settings.DECK_DIR / deck_clean
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        deck_path = Path("train_data") / deck_clean
+
+    # If it still doesn't exist, fallback to a safe default to prevent rust panics
+    if not deck_path.exists():
+        fallback = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
+        logging.warning(f"Could not resolve deck path '{deck}'. Falling back to '{fallback}'.")
+        return str(fallback)
+
     return str(deck_path)
 
 

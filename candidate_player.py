@@ -164,6 +164,7 @@ class Card:
         self.max_hp = getattr(obj, "total_hp", 0) if obj else 0
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
+        self.raw_energy_type = str(getattr(obj, "energy_type")) if obj and hasattr(obj, "energy_type") else None
         self.db_entry = self._get_db_entry()
         self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
         self.energy_count = len(self.energy)
@@ -222,11 +223,20 @@ class Card:
             return None
 
         # Logic to match variant
-        if self.max_hp > 0:
-            for e in entries:
-                # Basic matching: HP
-                if e.get("hp") == self.max_hp:
-                    return e
+        best_match = None
+        for e in entries:
+            match_score = 0
+            if self.max_hp > 0 and e.get("hp") == self.max_hp:
+                match_score += 1
+            if self.raw_energy_type and e.get("energy_type") == self.raw_energy_type:
+                match_score += 2 # Energy type is a much stronger indicator
+
+            if match_score > 0:
+                if not best_match or match_score > best_match[0]:
+                    best_match = (match_score, e)
+
+        if best_match:
+            return best_match[1]
 
         return entries[0]
 
@@ -566,8 +576,8 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         # Ability Defense (e.g., Hard Coat, Fur Coat)
         ability = target.db_entry.get("ability")
         if ability:
-            effect = ability.get("effect", "").lower()
-            if "prevent all damage" in effect and "pokémon ex" in effect:
+            effect = ability.get("effect", "").lower().replace("é", "e")
+            if "prevent all damage" in effect and "pokemon ex" in effect:
                 if attacker.name.lower().endswith(" ex"):
                     damage = 0
             elif "takes -20 damage" in effect:
@@ -1061,11 +1071,15 @@ def play(state, game):
                               # If it naturally does 0 damage and has no text, it's just passing
                               if not atk_text and base_dmg == 0:
                                   action["score"] = -500000
-                              elif "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                                  pass # Let heal logic handle this
                               elif base_dmg > 0 and action["damage"] == 0:
                                   # It's an attack that SHOULD do damage, but currently does 0 (e.g., due to safeguard)
-                                  action["score"] = -200000
+                                  # Only override penalty if healing is critical, otherwise penalize heavily
+                                  if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp and gs.my_active.hp <= opp_max_dmg:
+                                      action["score"] -= 10000 # Mild penalty, allows stall if desperate
+                                  else:
+                                      action["score"] = -200000
+                              elif "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
+                                  pass # Let heal logic handle this
                               elif base_dmg == 0 and action["damage"] == 0 and not atk_text:
                                   action["score"] = -200000
 

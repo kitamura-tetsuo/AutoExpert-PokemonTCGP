@@ -2241,18 +2241,16 @@ def play(state, game):
                 elif gs.opp_hand_count <= len(gs.my_hand):
                      a["score"] -= 5000
         elif a["type"] == "red_card":
+            if has_lethal_on_board:
+                 a["score"] -= 50000
             if gs.opp_hand_count >= 5:
-                a["score"] = 85000 # Beat Attach (75k) and Search (82k) to prioritize disruption
+                a["score"] = max(a["score"], 85000) # Beat Attach (75k) and Search (82k) to prioritize disruption
             elif gs.opp_hand_count >= 4:
                 a["score"] += 2000
             elif gs.opp_hand_count < 3:
                 a["score"] -= 20000
             else:
                 a["score"] -= 2000
-
-            # Additional logic to not use Red Card if we can kill and don't need to disrupt
-            if has_lethal_on_board:
-                 a["score"] = -50000
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass

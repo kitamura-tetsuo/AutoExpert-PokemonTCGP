@@ -39,11 +39,15 @@ class JulesClient:
         return response.json().get("sessions", [])
 
     def create_session(self, prompt: str, source_name: str, title: str = "AutoExpert Task") -> Dict[str, Any]:
-        try:
-            current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
-            if not current_branch:
-                current_branch = "main"
-        except Exception:
+        import os
+        current_branch = os.environ.get("GITHUB_REF_NAME")
+        if not current_branch:
+            try:
+                current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+            except Exception:
+                current_branch = ""
+
+        if not current_branch:
             current_branch = "main"
 
         # Check for existing active sessions on the same branch

@@ -11,6 +11,13 @@ class CodeGenerator:
 
     def generate(self, goal: str, feedback: Optional[str] = None, wait_completion: bool = True, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past") -> str:
         """Calls Jules to generate a Python play function."""
+
+        # Truncate evaluation log to prevent Jules API 400 Bad Request errors (payload too large)
+        max_log_length = 25000
+        if evaluation_log and len(evaluation_log) > max_log_length:
+            half = max_log_length // 2
+            evaluation_log = evaluation_log[:half] + "\n\n... [LOG TRUNCATED DUE TO LENGTH] ...\n\n" + evaluation_log[-half:]
+
         task_prompt = get_task_prompt(goal, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, evaluation_log)
         
         system_prompt = get_system_prompt(deck_path, opponent_deck_path, workflow_type=workflow_type)

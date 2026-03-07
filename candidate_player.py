@@ -2018,8 +2018,15 @@ def play(state, game):
 
             if is_multi_stage_deck and getattr(target, 'name', None):
                 if "exeggutor ex" in target.name.lower() and target.energy_count >= 1 and gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
-                    a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
-                elif gs.my_active and "exeggutor ex" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
+                    # Check if it needs energy to retreat
+                    retreat_cost = target.retreat_cost
+                    has_noretreat = False
+                    if target.effects and any("noretreat" in str(ef).lower() for ef in target.effects): has_noretreat = True
+                    elif getattr(target.obj, "effects", None) and any("noretreat" in str(ef).lower() for ef in target.obj.effects): has_noretreat = True
+                    if not (target.energy_count < retreat_cost and target.energy_count + 1 >= retreat_cost and not has_noretreat):
+                        a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
+
+                if gs.my_active and "exeggutor ex" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
                     if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
                         a["score"] += 35000 # Boost attaching to late-game bench targets
                 elif a["pos"] > 0 and "exeggcute" in target.name.lower():

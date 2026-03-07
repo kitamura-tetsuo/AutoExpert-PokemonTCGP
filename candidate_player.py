@@ -423,13 +423,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-
-    raw_dmg = atk.get("dmg", 0)
-    cleaned_dmg = re.sub(r'[^0-9.]', '', str(raw_dmg))
-    if cleaned_dmg == "":
-        cleaned_dmg = 0
-    damage = float(cleaned_dmg)
-
+    damage = float(atk.get("dmg", 0))
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
@@ -1623,9 +1617,14 @@ def play(state, game):
                         # Apply score bonus based on energy count
                         action["score"] += target.energy_count * 2000
 
+                        # Apply a severe score penalty proportional to its HP deficit against the opponent's combined lethal threat
+                        threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+
                         if "ex" in target.name.lower():
                             action["score"] += 1000
-                            action["score"] += target.hp * 10 # EXs should definitely be heavily prioritized over low hp targets if they are ready!
+                            # If they will survive the threat, heavily boost them
+                            if target.hp > threat:
+                                action["score"] += target.hp * 100
 
                         # Tie break for Carry Pokemon
                         if target.name.lower() in CARRY_LIST:
@@ -1635,8 +1634,6 @@ def play(state, game):
                         if target.energy_count >= target.retreat_cost:
                              action["score"] += 500
 
-                        # Apply a severe score penalty proportional to its HP deficit against the opponent's combined lethal threat
-                        threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
                         if target.hp <= threat:
                             action['score'] -= 50000 + (threat - target.hp) * 1000
 

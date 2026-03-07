@@ -1922,7 +1922,7 @@ def play(state, game):
                     elif target and any(n in target.name.lower() for n in ["bulbasaur", "ivysaur", "venusaur ex"]):
                         if target.needs_energy():
                              a["score"] += 15000
-                    elif target and any(n in target.name.lower() for n in ["exeggcute"]):
+                    elif target and any(n in target.name.lower() for n in ["exeggcute", "exeggutor ex"]):
                         if not target.needs_energy():
                             a["score"] -= 50000
 

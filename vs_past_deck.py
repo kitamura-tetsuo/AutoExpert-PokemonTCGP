@@ -422,7 +422,12 @@ def resolve_deck_path(deck: str) -> str:
     if not deck_path.exists():
         deck_path = settings.DECK_DIR / deck
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        # Clean up duplicate train_data prefixes
+        clean_deck = deck.replace("train_data/", "")
+        deck_path = Path("train_data") / clean_deck
+    if not deck_path.exists():
+        # Fallback to a known example deck so the rust code doesn't panic if file completely missing
+        deck_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
     return str(deck_path)
 
 

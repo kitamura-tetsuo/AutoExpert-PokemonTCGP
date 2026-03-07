@@ -1307,7 +1307,7 @@ def play(state, game):
                 # Cofagrigus / Houndstone synergy
                 has_houndstone_threat = False
                 for p in ([gs.my_active] + gs.my_bench):
-                    if p and "houndstone" in p.name.lower():
+                    if p and ("houndstone" in p.name.lower() or "greavard" in p.name.lower()):
                         has_houndstone_threat = True
                         break
 
@@ -2034,7 +2034,7 @@ def play(state, game):
             # Houndstone Synergy Check: Discarding psychic pokemon is good
             has_houndstone_threat = False
             for p in ([gs.my_active] + gs.my_bench):
-                if p and "houndstone" in p.name.lower():
+                if p and ("houndstone" in p.name.lower() or "greavard" in p.name.lower()):
                     has_houndstone_threat = True
                     break
 
@@ -2276,4 +2276,4 @@ def play(state, game):
 
         return best_action["id"]
 
-    return legal_actions[0]
+    return legal_actions[0] if legal_actions else 0

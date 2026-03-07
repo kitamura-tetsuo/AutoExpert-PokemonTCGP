@@ -1301,11 +1301,6 @@ def play(state, game):
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
-                # If we are trapped by NoRetreat, use Gust to break the lock!
-                if gs.my_active:
-                    has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
-                    if has_no_retreat:
-                        action["score"] = GUST_LETHAL_SCORE + 5000
             elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
                 heal_amount = 50 if "erika" in aname_lower else 20
@@ -1452,11 +1447,11 @@ def play(state, game):
                     # Poison Status Cure Logic
                     active_status = [str(s).lower() for s in gs.my_active.status]
                     if "poisoned" in active_status:
-                        if gs.my_active.hp <= 30:
-                            action["score"] += 15000
+                        if gs.my_active.hp <= 40:
+                            action["score"] += 35000
                         else:
                             # Prioritize retreat if poisoned and bench is ready
-                            action["score"] += 5000
+                            action["score"] += 15000
 
                 if threat_lethal:
                     # Check if losing active means losing the game
@@ -1822,6 +1817,9 @@ def play(state, game):
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 
+                    if "exegg" in target.name.lower() and target.energy_count == 0:
+                        a["score"] += 5000 # Priority to fast attacker
+
                     if a["pos"] == 0:
                          a["score"] += 1000
 
@@ -1864,10 +1862,10 @@ def play(state, game):
                          is_dying_from_poison = "poisoned" in active_status and target.hp <= 30
 
                          if threat_lethal and not is_lethal_attachment:
-                             if a["score"] < 90000:
+                             if len(gs.my_bench) > 0 and a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
                          elif (is_dying_from_poison or (has_no_retreat and threat_lethal)) and not is_lethal_attachment:
-                             if a["score"] < 90000:
+                             if len(gs.my_bench) > 0 and a["score"] < 90000:
                                  a["score"] -= 20000 # Strongly penalize attaching to a doomed active pokemon
 
                     # Weakness check for Active Pokemon
@@ -2151,14 +2149,32 @@ def play(state, game):
              has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if gs.my_active and hasattr(gs.my_active, "effects") else False
 
              wants_to_retreat = False
-             if "poisoned" in active_status: wants_to_retreat = True
+             if "poisoned" in active_status and gs.my_active and gs.my_active.hp <= 40: wants_to_retreat = True
              if threat_lethal: wants_to_retreat = True
+
+             # Check strategic switch if not already wanting to retreat
+             if not wants_to_retreat and gs.my_active:
+                  active_dmg = 0
+                  for i in range(len(gs.my_active.attacks)):
+                       if can_use_attack(gs.my_active.attacks[i].get("cost", []), gs.my_active.energy):
+                            d = calculate_damage(gs.my_active, i, gs)
+                            if d > active_dmg: active_dmg = d
+                  for b in gs.my_bench:
+                       target_dmg = 0
+                       for i in range(len(b.attacks)):
+                            if can_use_attack(b.attacks[i].get("cost", []), b.energy):
+                                 d = calculate_damage(b, i, gs)
+                                 if d > target_dmg: target_dmg = d
+                       if target_dmg > active_dmg + 20:
+                            wants_to_retreat = True
+                            break
+
              # Check if we naturally have a high retreat score anyway
              best_retreat = -100000
              for r in actions:
                   if r["type"] == "retreat" and r["score"] > best_retreat:
                        best_retreat = r["score"]
-             if best_retreat > 0:
+             if best_retreat > 20000:
                   wants_to_retreat = True
 
              if is_switch:

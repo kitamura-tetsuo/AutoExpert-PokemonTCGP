@@ -418,11 +418,26 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
+    # Fix duplicate paths caused by earlier script
+    if deck.startswith("train_data/train_data/"):
+        deck = deck.replace("train_data/train_data/", "train_data/")
+
     deck_path = Path(deck)
     if not deck_path.exists():
         deck_path = settings.DECK_DIR / deck
     if not deck_path.exists():
         deck_path = Path("train_data") / deck
+
+    # Also try just the filename in train_data/fix/
+    if not deck_path.exists() and "fix" in str(deck):
+        deck_path = Path("train_data/fix") / Path(deck).name
+
+    # Fallback to known default deck if invalid
+    if not deck_path.exists():
+        fallback_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
+        if fallback_path.exists():
+            return str(fallback_path)
+
     return str(deck_path)
 
 

@@ -874,7 +874,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
         max_dmg += 10
 
     if final_target and any("poison" in str(s).lower() for s in final_target.status):
-        max_dmg += 10
+        max_dmg += 20
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -1546,38 +1546,79 @@ def play(state, game):
                 action["type"] = "activate"
                 target_idx = int(m.group(1)) - 1
 
+                activating_for_opp = False
+                # If we have an active with HP > 0, and we are asked to activate,
+                # it might be an effect like Sabrina forcing switch.
+                if gs.my_active and gs.my_active.hp > 0:
+                    activating_for_opp = True
+
                 action["score"] = LETHAL_WIN_SCORE # Must activate to continue
 
-                # Choosing for self (after KO or forced switch)
-                target = gs.get_bench_card(target_idx)
-                if target:
-                    # Penalty for putting something that dies immediately to lethal threat
-                    bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
-                    if bench_threat >= target.hp:
-                        is_ex = "ex" in target.name.lower()
-                        points_lost = 2 if is_ex else 1
-                        opp_points_needed = 3 - gs.opp_points
+                if activating_for_opp:
+                    # Choosing for opponent (e.g. from Gust effect)
+                    target = None
+                    if target_idx < len(gs.opp_bench):
+                        target = gs.opp_bench[target_idx]
+                    if target:
+                        # Find out if we can immediately KO this target
+                        can_ko = False
+                        if gs.my_active:
+                            for idx in range(len(gs.my_active.attacks)):
+                                if can_use_attack(gs.my_active.attacks[idx].get("cost", []), gs.my_active.energy):
+                                    dmg = calculate_damage(gs.my_active, idx, gs, target_override=target)
+                                    if dmg >= target.hp:
+                                        can_ko = True
+                                        break
 
-                        if points_lost >= opp_points_needed:
-                            # This loses the game immediately! Huge penalty!
-                            action["score"] -= 500000
+                        if can_ko:
+                            action["score"] += 100000 # Heavily prioritize easy KOs!
+                            is_ex = "ex" in target.name.lower()
+                            if is_ex: action["score"] += 50000
+
+                            points_gained = 2 if is_ex else 1
+                            if points_gained >= (3 - gs.my_points):
+                                action["score"] += 500000 # Game winning gust!
                         else:
-                            action["score"] -= (bench_threat - target.hp) * 1000 + 50000
+                            # Prioritize high retreat cost, high HP (stall targets), low energy
+                            action["score"] += target.retreat_cost * 10000
+                            action["score"] -= target.energy_count * 5000
 
-                    # Prioritize ready attacker
-                    action["score"] += target.hp
-                    if not target.needs_energy():
-                         action["score"] += 5000
-                    if "ex" in target.name.lower():
-                        action["score"] += 1000
+                            # If they have no energy, higher HP is better (stalls them longer)
+                            if target.energy_count == 0:
+                                action["score"] += target.hp * 10
+                            else:
+                                action["score"] -= target.hp * 10
+                else:
+                    # Choosing for self (after KO or forced switch)
+                    target = gs.get_bench_card(target_idx)
+                    if target:
+                        # Penalty for putting something that dies immediately to lethal threat
+                        bench_threat = get_opponent_max_damage(gs, target=target, treat_as_active=True)
+                        if bench_threat >= target.hp:
+                            is_ex = "ex" in target.name.lower()
+                            points_lost = 2 if is_ex else 1
+                            opp_points_needed = 3 - gs.opp_points
 
-                    # Tie break for Carry Pokemon
-                    if target.name.lower() in CARRY_LIST:
-                        action["score"] += 2000
+                            if points_lost >= opp_points_needed:
+                                # This loses the game immediately! Huge penalty!
+                                action["score"] -= 500000
+                            else:
+                                action["score"] -= (bench_threat - target.hp) * 1000 + 50000
 
-                    # Check if this pokemon has energy to retreat if needed?
-                    if target.energy_count >= target.retreat_cost:
-                         action["score"] += 500
+                        # Prioritize ready attacker
+                        action["score"] += target.hp
+                        if not target.needs_energy():
+                             action["score"] += 5000
+                        if "ex" in target.name.lower():
+                            action["score"] += 1000
+
+                        # Tie break for Carry Pokemon
+                        if target.name.lower() in CARRY_LIST:
+                            action["score"] += 2000
+
+                        # Check if this pokemon has energy to retreat if needed?
+                        if target.energy_count >= target.retreat_cost:
+                             action["score"] += 500
 
         elif "Discard" in aname:
              action["type"] = "discard"

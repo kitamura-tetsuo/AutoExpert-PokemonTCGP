@@ -556,8 +556,12 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "charizard ex" in name_lower and attack_idx == 1 and damage < 200:
         damage = 200
 
-    if "exeggutor ex" in name_lower and attack_idx == 0:
-        damage = 60 # EV is 60 (40 + 0.5 * 40)
+    # Better Exeggutor ex EV logic depending on the mode
+    if "exeggutor ex" in name_lower and attack_idx == 0 and damage < 40:
+        if mode == "ev":
+            damage = 60 # EV is 60 (40 + 0.5 * 40)
+        else:
+            damage = 80 # Max damage is 80
 
     if "marowak ex" in name_lower and attack_idx == 0:
          damage = 80 # EV is 80 (2 * 0.5 * 80)
@@ -1692,42 +1696,6 @@ def play(state, game):
                          # Don't help them switch if they have no energy
                          elif gs.opp_active and gs.opp_active.energy_count <= 1:
                              action["score"] -= 10000
-
-
-        elif "Heal(" in aname:
-             m = re.search(r"Heal\((\d+)\)", aname)
-             if m:
-                 idx = int(m.group(1))
-                 action["type"] = "heal"
-                 action["score"] = ITEM_SCORE
-                 target = None
-                 if idx == 0:
-                     target = gs.my_active
-                 elif idx > 0:
-                     bench_idx = idx - 1
-                     if bench_idx < len(gs.my_bench):
-                         target = gs.my_bench[bench_idx]
-                 if target:
-                     missing_hp = target.max_hp - target.hp
-                     if missing_hp <= 0:
-                         action["score"] -= 50000
-                     else:
-                         action["score"] += (missing_hp * 100)
-                         if target.hp <= 60 or threat_lethal:
-                             action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
-
-                         heal_amt = 20 # Can't be 100% sure but 20 is safe
-                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
-                              opp_points_needed = 3 - gs.opp_points
-                              my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
-
-                              if loses_game:
-                                  action["score"] = LETHAL_WIN_SCORE
-                              elif risk_of_donk:
-                                  action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
-                              else:
-                                  action["score"] += 10000
 
 
         elif "Heal(" in aname:

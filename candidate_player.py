@@ -1625,6 +1625,7 @@ def play(state, game):
 
                         if "ex" in target.name.lower():
                             action["score"] += 1000
+                            action["score"] += target.hp * 10 # EXs should definitely be heavily prioritized over low hp targets if they are ready!
 
                         # Tie break for Carry Pokemon
                         if target.name.lower() in CARRY_LIST:

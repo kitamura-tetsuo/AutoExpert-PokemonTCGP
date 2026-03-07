@@ -74,5 +74,5 @@ jobs:
             --past_dir past_repo \
             --deck_a "train_data/$STUDENT" \
             $( [[ "$TEACHER" == *.csv ]] && echo "--league_decks_teacher train_data/$TEACHER" || echo "--deck_b train_data/$TEACHER" ) \
-            --num_matches 1000 \
+            --matches 1000 \
             --threshold 0.01

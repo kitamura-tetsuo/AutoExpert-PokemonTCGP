@@ -55,6 +55,6 @@ jobs:
           uv run python vs_past_deck.py \
             --past_dir past_repo \
             --deck_a train_data/${{ github.base_ref || github.ref_name }}.txt \
-            --num_matches 1000 \
+            --matches 1000 \
             --threshold 0.01 \
             --league_decks_teacher train_data/teacher.csv

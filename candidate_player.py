@@ -1795,8 +1795,25 @@ def play(state, game):
                     is_doomed = True
 
                 if is_doomed:
-                    a["score"] = -200000
-                    continue
+                    # Exception: If attaching this energy enables a lethal KO, do NOT penalize
+                    is_lethal_attachment = False
+                    if target and target.db_entry and gs.opp_active:
+                        current_max_dmg = 0
+                        potential_max_dmg = 0
+                        new_energy = target.energy + [a["energy_type"]]
+                        for i, atk in enumerate(target.attacks):
+                            if can_use_attack(atk.get("cost", []), target.energy):
+                                d = calculate_damage(target, i, gs)
+                                if d > current_max_dmg: current_max_dmg = d
+                            if can_use_attack(atk.get("cost", []), new_energy):
+                                d = calculate_damage(target, i, gs)
+                                if d > potential_max_dmg: potential_max_dmg = d
+                        if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
+                            is_lethal_attachment = True
+
+                    if not is_lethal_attachment:
+                        a["score"] = -200000
+                        continue
 
             # Lethal Win Prevention (Don't attach if we can already win)
             if has_lethal_on_board:
@@ -2200,6 +2217,7 @@ def play(state, game):
                  if needs_cure:
                      if is_switch:
                          a["score"] = max(a["score"], 85000)
+                         wants_to_retreat = True
                      elif is_x_speed and best_retreat > -50000 and not has_no_retreat:
                          # Only boost X speed if it enables a valid retreat
                          a["score"] = max(a["score"], 85000)
@@ -2208,6 +2226,7 @@ def play(state, game):
                  # X Speed cannot bypass NoRetreat lock
                  if has_no_retreat and is_x_speed:
                      a["score"] = -10000
+                     wants_to_retreat = False
                      continue
 
             if best_retreat > 0:

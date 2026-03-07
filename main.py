@@ -49,19 +49,33 @@ def main():
     args = parser.parse_args()
     
     if args.command == "learn":
+        import re
         # Auto-detect deck based on branch name
         current_branch = ""
         try:
             current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
         except Exception:
             pass
+            
+        is_valid_branch = False
+        if current_branch == "main":
+            is_valid_branch = True
+        elif re.match(r"^[a-fA-F0-9]{8}$", current_branch):
+            is_valid_branch = True
+        elif re.match(r"^(origin/)?student_vs_teacher/[a-fA-F0-9]{8}_vs_[a-fA-F0-9]{8}$", current_branch):
+            is_valid_branch = True
+
+        if not is_valid_branch:
+            print(f"Error: Invalid branch name '{current_branch}' for learning. Must be 'main', a deck hash, or 'student_vs_teacher/hash_vs_hash'.")
+            sys.exit(1)
 
         deck_a_str = args.deck_a
         deck_b_str = args.deck_b
 
-        if current_branch.startswith("student_vs_teacher/"):
+        if current_branch.startswith("student_vs_teacher/") or current_branch.startswith("origin/student_vs_teacher/"):
             # Format: student_vs_teacher/DeckA_vs_DeckB
-            decks_part = current_branch[len("student_vs_teacher/"):]
+            prefix = "origin/student_vs_teacher/" if current_branch.startswith("origin/") else "student_vs_teacher/"
+            decks_part = current_branch[len(prefix):]
             if "_vs_" in decks_part:
                 student, teacher = decks_part.split("_vs_", 1)
                 
@@ -80,6 +94,14 @@ def main():
                 if not student.endswith(".txt"): student += ".txt"
                 deck_a_str = f"train_data/{student}"
                 print(f"Branch '{current_branch}' detected. Using student deck: {deck_a_str}")
+        elif re.match(r"^[a-fA-F0-9]{8}$", current_branch):
+            branch_deck = Path(f"train_data/{current_branch}.txt")
+            if branch_deck.exists():
+                print(f"Detected deck for branch '{current_branch}': {branch_deck}")
+                deck_a_str = str(branch_deck)
+            else:
+                print(f"Error: Target deck 'train_data/{current_branch}.txt' not found for hash branch '{current_branch}'.")
+                sys.exit(1)
         elif deck_a_str == "venusaur-exeggutor.txt":
             # Original auto-detection for simple branch decks
             if current_branch and current_branch != "main":

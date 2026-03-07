@@ -11,6 +11,10 @@ class CodeGenerator:
 
     def generate(self, goal: str, feedback: Optional[str] = None, wait_completion: bool = True, deck_path: Optional[str] = None, deck_contents: Optional[str] = None, opponent_deck_path: Optional[str] = None, opponent_deck_contents: Optional[str] = None, evaluation_log: Optional[str] = None, workflow_type: str = "pr_vs_past") -> str:
         """Calls Jules to generate a Python play function."""
+        # Truncate evaluation log to prevent 400 Bad Request error (Payload Too Large)
+        if evaluation_log and len(evaluation_log) > 25000:
+            evaluation_log = evaluation_log[:25000] + "\n\n...[Log Truncated due to size limit]..."
+
         task_prompt = get_task_prompt(goal, feedback, deck_path, deck_contents, opponent_deck_path, opponent_deck_contents, evaluation_log)
         
         system_prompt = get_system_prompt(deck_path, opponent_deck_path, workflow_type=workflow_type)

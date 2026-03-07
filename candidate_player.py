@@ -1980,18 +1980,6 @@ def play(state, game):
                  if not allows_retreat:
                       a["score"] -= 20000
 
-            max_allowed = 4
-            if target and target.db_entry:
-                cost_max = 0
-                for atk in target.attacks:
-                    c = len(atk.get("cost", []))
-                    if c > cost_max: cost_max = c
-                max_allowed = max(cost_max, target.retreat_cost, 1) + 1 # Allowance for retreat + 1 extra
-
-            # Hard cap to prevent infinite attach/retreat loops causing draws
-            if target.energy_count >= max_allowed:
-                a["score"] = -200000
-
             # Venusaur / Exeggutor Setup Heuristic
             is_multi_stage_deck = False
             if hasattr(gs, 'my_deck_contents') and gs.my_deck_contents:
@@ -2133,6 +2121,23 @@ def play(state, game):
                      a["score"] -= 1000
             else:
                 a["score"] -= 5000 # Relaxed penalty: if nothing else to do, attach.
+
+            # FINAL OVERRIDE: Hard cap to prevent infinite attach/retreat loops causing draws
+            max_allowed = 4
+            if target and target.db_entry:
+                cost_max = 0
+                for atk in target.attacks:
+                    c = len(atk.get("cost", []))
+                    if c > cost_max: cost_max = c
+                max_allowed = max(cost_max, target.retreat_cost, 1) + 1 # Allowance for retreat + 1 extra
+            elif target:
+                n_lower = target.name.lower()
+                if "venusaur" in n_lower or "charizard" in n_lower or "blastoise" in n_lower or "dragonite" in n_lower: max_allowed = 5
+                elif "exeggutor" in n_lower: max_allowed = 2
+
+            if target and target.energy_count >= max_allowed:
+                a["score"] = -200000
+
     for a in actions:
         if a["type"] == "place":
             n_lower = a.get("card_name", "").lower()

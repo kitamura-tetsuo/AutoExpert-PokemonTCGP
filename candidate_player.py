@@ -1349,7 +1349,7 @@ def play(state, game):
                             is_threatened = get_opponent_max_damage(gs, target=t) >= t.hp
 
                         if is_threatened:
-                            weight += 1000
+                            weight += 30
 
                         if weight > max_missing:
                             max_missing = weight
@@ -1762,7 +1762,7 @@ def play(state, game):
                          if target.hp <= 60 or is_target_threatened:
                              crit_score = POTION_CRITICAL_SCORE
                              if is_active:
-                                 crit_score += 5000
+                                 crit_score += 2000
                              action["score"] = max(action["score"], crit_score)
 
                          heal_amt = 20
@@ -1954,8 +1954,7 @@ def play(state, game):
                     a["score"] += (target.energy_count * 1500) # Energy Stacking logic
                     if target.name.lower().endswith(" ex"):
                         a["score"] += 1000
-                    if target.name.lower() == "exeggutor ex":
-                        a["score"] += 5000
+
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 

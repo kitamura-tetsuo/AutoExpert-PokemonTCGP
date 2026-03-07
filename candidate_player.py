@@ -174,12 +174,7 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
-        if m and m.group(1):
-             prefix = m.group(1)
-             name_part = m.group(2)
-             if len(prefix) <= 6:
-                 raw_name = name_part
+        raw_name = re.sub(r"^(?:[A-Za-z]+_?-?[A-Za-z]*\d+\s*)?", "", raw_name)
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
 
@@ -310,7 +305,7 @@ class Card:
         elif n_lower == "lapras": max_cost = 4
         elif "charizard ex" in n_lower: max_cost = 4
         elif "venusaur ex" in n_lower: max_cost = 4
-        elif n_lower == "ivysaur": max_cost = 3
+        elif n_lower == "ivysaur": max_cost = 4
         elif "mewtwo ex" in n_lower: max_cost = 4
         elif "dragonite" in n_lower: max_cost = 4
         elif "machamp ex" in n_lower: max_cost = 3
@@ -860,7 +855,7 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
         is_poisoned = True
 
     if is_poisoned:
-        max_dmg += 10
+        max_dmg += 20
 
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
@@ -1118,18 +1113,24 @@ def play(state, game):
                              action["score"] = LETHAL_KO_SCORE + AGGRESSIVE_DEFENSE_BONUS # 550,000 -> Beats Retreat (501k)
 
                     # Status Effect / Heal Bonus
-                    if not is_ko and gs.my_active and idx < len(gs.my_active.attacks):
+                    if gs.my_active and idx < len(gs.my_active.attacks):
                         atk_data = gs.my_active.attacks[idx]
                         atk_text = (atk_data.get("text") or "").lower()
-                        if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
-                            action["score"] += 2000
+
+                        if not is_ko:
+                            if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
+                                action["score"] += 2000
+
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
                             # Prioritize attacks that heal when we are injured
-                            heal_bonus = min(gs.my_active.max_hp - gs.my_active.hp, 30) * 100
+                            m_heal = re.search(r"heal (\d+)", atk_text)
+                            specific_heal_amount = int(m_heal.group(1)) if m_heal else 30
+                            missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                            heal_bonus = min(missing_hp, specific_heal_amount) * 100
                             action["score"] += heal_bonus
 
                             # Give a massive boost if it saves from lethal
-                            if threat_lethal and (gs.my_active.hp + 30) > opp_max_dmg:
+                            if threat_lethal and (gs.my_active.hp + specific_heal_amount) > opp_max_dmg:
                                 action["score"] += 20000
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
@@ -1217,6 +1218,11 @@ def play(state, game):
                 if target_pos == 0 and gs.my_active:
                      if any("NoRetreat" in str(e) for e in gs.my_active.effects):
                           action["score"] += 85000 # Cleanse NoRetreat trap
+                     elif any("poison" in str(s).lower() for s in gs.my_active.status):
+                          if gs.my_active.hp <= 60 and not threat_lethal:
+                              action["score"] += 35000 # Critical poison, cleanse and gain HP
+                          else:
+                              action["score"] += 5000
                      elif gs.my_active.status:
                           action["score"] += 5000
 
@@ -1495,6 +1501,18 @@ def play(state, game):
                     action["score"] = -100000
                     continue
 
+                # Critical Poison Retreat
+                if gs.my_active and gs.my_active.hp <= 60 and any("poison" in str(s).lower() for s in gs.my_active.status) and not threat_lethal:
+                    action["score"] += 35000
+
+                # 'NoRetreat' evasion logic
+                if gs.opp_active and hasattr(gs.opp_active, 'attacks') and gs.my_active:
+                    for atk in gs.opp_active.attacks:
+                        if "retreat" in (atk.get("text") or "").lower():
+                            if gs.my_active.hp <= 80 or gs.my_active.energy_count == 0:
+                                action["score"] += 20000
+                            break
+
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
@@ -1563,7 +1581,9 @@ def play(state, game):
                     # If active is lethal, don't switch unless bench is somehow better (e.g. EX vs non-EX?)
                     # Generally, if we can KO, we take it.
                     if not active_is_lethal:
-                        if target_dmg > active_dmg + 30:
+                        if active_dmg == 0 and gs.my_active and gs.my_active.retreat_cost > 0 and target_dmg < 40:
+                             pass # Don't waste energy retreating a 0-damage active for minor chip damage
+                        elif target_dmg > active_dmg + 30:
                              should_retreat = True
                              # Boost to override current attack score (10000 + active_dmg)
                              new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
@@ -1595,16 +1615,40 @@ def play(state, game):
                     if target_idx < len(gs.opp_bench):
                         target = gs.opp_bench[target_idx]
                     if target:
-                        action["score"] -= target.hp * 10
-                        action["score"] -= target.energy_count * 5000
+                        can_ko = False
+                        if gs.my_active:
+                            for i in range(len(gs.my_active.attacks)):
+                                if can_use_attack(gs.my_active.attacks[i].get("cost", []), gs.my_active.energy):
+                                    d = calculate_damage(gs.my_active, i, gs, target_override=target)
+                                    if d >= target.hp:
+                                        can_ko = True
+                                        break
+                        if can_ko:
+                            action["score"] += 50000
+                        else:
+                            action["score"] -= target.hp * 10
+                            action["score"] -= target.energy_count * 5000
+                            action["score"] += target.retreat_cost * 1000
                 else:
                     # Choosing for self (after KO)
                     target = gs.get_bench_card(target_idx)
                     if target:
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        max_valid_dmg = 0
+                        for i, atk in enumerate(target.attacks):
+                            if can_use_attack(atk.get("cost", []), target.energy):
+                                d = calculate_damage(target, i, gs)
+                                if d > max_valid_dmg:
+                                    max_valid_dmg = d
+                        action["score"] += max_valid_dmg * 100
+
                         if not target.needs_energy():
-                             action["score"] += 5000
+                             action["score"] += 15000
+                        else:
+                             action["score"] += target.energy_count * 2000
+
                         if target.name.lower().endswith(" ex"):
                             action["score"] += 1000
 
@@ -1615,6 +1659,15 @@ def play(state, game):
                         # Check if this pokemon has energy to retreat if needed?
                         if target.energy_count >= target.retreat_cost:
                              action["score"] += 500
+
+                        # Apply HP deficit penalty
+                        is_poisoned = False
+                        if gs.opp_active and "weezing" in gs.opp_active.name.lower() and not gs.opp_active.ability_used:
+                            is_poisoned = True
+                        poison_dmg = 20 if is_poisoned else 0
+                        threat = get_opponent_max_damage(gs) + poison_dmg
+                        if target.hp <= threat:
+                            action["score"] -= 50000 + (threat - target.hp) * 1000
 
         elif "Discard" in aname:
              action["type"] = "discard"
@@ -1938,7 +1991,17 @@ def play(state, game):
                  if allows_retreat and target.effects and any("NoRetreat" in str(e) for e in target.effects):
                      allows_retreat = False
                  if not allows_retreat:
-                      a["score"] -= 20000
+                      a["score"] -= 50000
+
+            # Bench Setup Priority: If active is fully powered, boost bench attachments
+            if a["pos"] > 0 and gs.my_active:
+                active_fully_powered = True
+                for atk in gs.my_active.attacks:
+                    if not can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                        active_fully_powered = False
+                        break
+                if active_fully_powered and not is_fully_powered:
+                    a["score"] += 15000
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()
@@ -2329,6 +2392,8 @@ def play(state, game):
                      a["score"] = best_retreat + 2000
                      if is_switch: # Switch is immediate
                           a["score"] += 1000
+                else:
+                     a["score"] = -100000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

@@ -222,6 +222,18 @@ class Card:
             return None
 
         # Logic to match variant
+
+        # Try matching by energy type if available
+        obj_energy_type = getattr(self.obj, "energy_type", None)
+        if obj_energy_type:
+            for e in entries:
+                if e.get("energy_type") == obj_energy_type:
+                    # If multiple match type, try matching HP too
+                    if self.max_hp > 0 and e.get("hp") != self.max_hp:
+                        continue
+                    return e
+
+        # Fallback to HP matching
         if self.max_hp > 0:
             for e in entries:
                 # Basic matching: HP
@@ -232,6 +244,10 @@ class Card:
 
     @property
     def energy_type(self):
+        obj_energy_type = getattr(self.obj, "energy_type", None)
+        if obj_energy_type:
+            # Need to handle if it's an enum or an object in Rust binding
+            return str(obj_energy_type)
         if self.db_entry:
             return self.db_entry.get("energy_type", "Colorless")
         n = self.name.lower()
@@ -310,12 +326,13 @@ class Card:
         elif n_lower == "lapras": max_cost = 4
         elif "charizard ex" in n_lower: max_cost = 4
         elif "venusaur ex" in n_lower: max_cost = 4
-        elif n_lower == "ivysaur": max_cost = 3
+        elif "ivysaur" in n_lower: max_cost = 4
         elif "mewtwo ex" in n_lower: max_cost = 4
         elif "dragonite" in n_lower: max_cost = 4
         elif "machamp ex" in n_lower: max_cost = 3
         elif "gengar ex" in n_lower: max_cost = 3
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif "exeggcute" in n_lower: max_cost = 1
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
 
         if not self.db_entry:
@@ -477,8 +494,10 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
         count = 0
         if "benched" in text:
-            if "opponent" in text:
+            if "opponent" in text and "yours" not in text and "both" not in text:
                 count = len(state.opp_bench)
+            elif "both yours and your opponent's" in text or "both" in text:
+                count = len(state.my_bench) + len(state.opp_bench)
             else:
                 count = len(state.my_bench)
                 if "pikachu ex" in name_lower and "lightning" in text:
@@ -571,7 +590,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         ability = target.db_entry.get("ability")
         if ability:
             effect = ability.get("effect", "").lower()
-            if "prevent all damage" in effect and "pokémon ex" in effect:
+            if "prevent all damage" in effect and ("pokémon ex" in effect or "pokemon ex" in effect):
                 if attacker.name.lower().endswith(" ex"):
                     damage = 0
             elif "takes -20 damage" in effect:
@@ -1067,8 +1086,21 @@ def play(state, game):
                               # If it naturally does 0 damage and has no text, it's just passing
                               if not atk_text and base_dmg == 0:
                                   action["score"] = -500000
-                              elif "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                                  pass # Let heal logic handle this
+                              elif "heal" in atk_text:
+                                  # If it heals but we're full HP, and does 0 damage, don't spam it.
+                                  # But if we aren't full HP, it's useful to stall by healing.
+                                  if gs.my_active.hp < gs.my_active.max_hp:
+                                      action["score"] += 2000
+                                  elif base_dmg > 0 and action["damage"] == 0:
+                                      # Even if blocked, attacking is better than just ending turn to pass time?
+                                      # No, if we're hitting a safeguard we should retreat!
+                                      # We penalize attacking an immune target heavily so that we retreat to another Pokemon.
+                                      # BUT if we can't retreat, we must not let action["score"] fall below EndTurn (-10000)
+                                      # Otherwise we just EndTurn forever. Wait! EndTurn is -10000. Retreat is -15000 (plus penalties).
+                                      # If Attack is -200000, we choose EndTurn instead of attacking! That's fine if we're blocked.
+                                      # But wait, if we are completely blocked, why do we EndTurn? Because Retreat costs energy.
+                                      # If we want to force retreat when blocked, we must make Retreat score HIGHER than EndTurn.
+                                      action["score"] = -200000
                               elif base_dmg > 0 and action["damage"] == 0:
                                   # It's an attack that SHOULD do damage, but currently does 0 (e.g., due to safeguard)
                                   action["score"] = -200000

@@ -1333,20 +1333,22 @@ def play(state, game):
                         action["score"] -= 50000 # Don't heal full HP
                     else:
                         action["score"] += (missing_hp * 100) # Base missing HP scale
-                        if target.hp <= 60 or threat_lethal:
-                            action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
-                        # If it puts us out of lethal range
-                        if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
-                             opp_points_needed = 3 - gs.opp_points
-                             my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                             loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
-                             if loses_game:
-                                 action["score"] = LETHAL_WIN_SCORE
-                             elif risk_of_donk:
-                                 action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
-                             else:
-                                 action["score"] += 10000
+                        # Only apply survival logic if target is Active
+                        if target == gs.my_active and threat_lethal:
+                            action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
+                            # If it puts us out of lethal range
+                            if (target.hp + heal_amt) > opp_max_dmg:
+                                 opp_points_needed = 3 - gs.opp_points
+                                 my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
+                                 loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+
+                                 if loses_game:
+                                     action["score"] = LETHAL_WIN_SCORE
+                                 elif risk_of_donk:
+                                     action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
+                                 else:
+                                     action["score"] += 10000
                 else:
                     # No valid targets found for healing (e.g., Erika with no grass pokemon)
                     action["score"] -= 50000
@@ -1735,57 +1737,26 @@ def play(state, game):
                          action["score"] -= 50000
                      else:
                          action["score"] += (missing_hp * 100)
-                         if target.hp <= 60 or threat_lethal:
+
+                         # Check if target is the active pokemon to apply survival logic
+                         if idx == 0 and threat_lethal:
                              action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
+                             heal_amt = 50 # Erika is 50, potion is 20. If we underestimate we might not use it, so checking 50. But what if it's 20? Safer to check if any heal works.
+                             if (target.hp + 20) > opp_max_dmg:
+                                  opp_points_needed = 3 - gs.opp_points
+                                  my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
+                                  loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
-                         heal_amt = 20 # Can't be 100% sure but 20 is safe
-                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
-                              opp_points_needed = 3 - gs.opp_points
-                              my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
-
-                              if loses_game:
-                                  action["score"] = LETHAL_WIN_SCORE
-                              elif risk_of_donk:
-                                  action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
-                              else:
-                                  action["score"] += 10000
-
-
-        elif "Heal(" in aname:
-             m = re.search(r"Heal\((\d+)\)", aname)
-             if m:
-                 idx = int(m.group(1))
-                 action["type"] = "heal"
-                 action["score"] = ITEM_SCORE
-                 target = None
-                 if idx == 0:
-                     target = gs.my_active
-                 elif idx > 0:
-                     bench_idx = idx - 1
-                     if bench_idx < len(gs.my_bench):
-                         target = gs.my_bench[bench_idx]
-                 if target:
-                     missing_hp = target.max_hp - target.hp
-                     if missing_hp <= 0:
-                         action["score"] -= 50000
-                     else:
-                         action["score"] += (missing_hp * 100)
-                         if target.hp <= 60 or threat_lethal:
-                             action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
-
-                         heal_amt = 20
-                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
-                              opp_points_needed = 3 - gs.opp_points
-                              my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
-
-                              if loses_game:
-                                  action["score"] = LETHAL_WIN_SCORE
-                              elif risk_of_donk:
-                                  action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
-                              else:
-                                  action["score"] += 10000
+                                  if loses_game:
+                                      action["score"] = LETHAL_WIN_SCORE
+                                  elif risk_of_donk:
+                                      action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
+                                  else:
+                                      action["score"] += 10000
+                         elif idx > 0:
+                             # For benched pokemon, they are not facing active threat directly unless gust.
+                             # But we should not give them LETHAL_WIN_SCORE anyway for healing.
+                             pass
 
         elif "ApplyDamage" in aname:
              # ApplyDamage(idx) usually from Greninja (20 dmg) or other selection effects
@@ -2293,7 +2264,8 @@ def play(state, game):
                 elif is_switch:
                     a["score"] = 85000 # Switch does! Bypass normal scoring to save active
                     wants_to_retreat = True
-            elif gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 30:
+            elif gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 40:
+                # Increased HP threshold to 40 for poison to prevent dying between turns (Weezing is 10 dmg poison, Arbok hits for 60-70)
                 a["score"] = 85000
                 wants_to_retreat = True
             elif gs.my_active and any(status in str(gs.my_active.status).lower() for status in ["asleep", "paralyzed"]):
@@ -2312,6 +2284,11 @@ def play(state, game):
                      a["score"] = best_retreat + (retreat_cost * 1000)
                      if is_switch: # Switch is immediate
                           a["score"] += 1000
+
+                     if is_x_speed and gs.my_active and gs.my_active.retreat_cost > 1:
+                          # If X Speed doesn't reduce cost to 0, check if we have enough energy to retreat after X Speed
+                          # A bit complex, but generally X Speed is still good to play before manual retreat
+                          pass
 
             if not wants_to_retreat:
                 a["score"] -= 10000

@@ -92,6 +92,7 @@ EVOLUTION_MAP = {
     "squirtle": "wartortle", "wartortle": "blastoise ex",
     "greavard": "houndstone", "yamask": "cofagrigus", "misdreavus": "mismagius", "tadbulb": "bellibolt ex",
     "bulbasaur": "ivysaur", "ivysaur": "venusaur ex",
+    "exeggcute": "exeggutor ex",
     "dratini": "dragonair", "dragonair": "dragonite",
     "deino": "zweilous", "zweilous": "hydreigon",
     "gastly": "haunter", "haunter": "gengar ex",
@@ -1086,7 +1087,7 @@ def play(state, game):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
                             missing_hp = gs.my_active.max_hp - gs.my_active.hp
-                            action["score"] += (missing_hp * 10)
+                            action["score"] += (min(missing_hp, 30) * 100) # Boost up to 3000 to value healing attacks highly
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:
@@ -1203,8 +1204,10 @@ def play(state, game):
                           action["score"] += 30000 # Save bench from Gust KO
 
                 # Status Cleanse (Defensive)
-                if target_pos == 0 and gs.my_active and gs.my_active.status:
-                     action["score"] += 5000
+                if target_pos == 0 and gs.my_active:
+                     has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
+                     if has_no_retreat or gs.my_active.status:
+                         action["score"] += 15000
 
                 # Lethal Check (Offensive Evolution)
                 if target_pos == 0 and gs.opp_active:
@@ -1298,6 +1301,11 @@ def play(state, game):
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
+                # If we are trapped by NoRetreat, use Gust to break the lock!
+                if gs.my_active:
+                    has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
+                    if has_no_retreat:
+                        action["score"] = GUST_LETHAL_SCORE + 5000
             elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
                 heal_amount = 50 if "erika" in aname_lower else 20
@@ -1306,23 +1314,25 @@ def play(state, game):
                 for p in [gs.my_active] + gs.my_bench:
                     if p and p.hp < p.max_hp:
                         missing_hp = p.max_hp - p.hp
-                        score = ITEM_SCORE + (missing_hp * 100)
-                        if p == gs.my_active:
-                            if p.hp <= 60 or threat_lethal:
-                                score = POTION_CRITICAL_SCORE
-                            if threat_lethal and (p.hp + heal_amount) > opp_max_dmg:
-                                opp_points_needed = 3 - gs.opp_points
-                                my_active_gives = 2 if ("ex" in p.name.lower()) else 1
-                                loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
-                                if loses_game:
-                                    score = LETHAL_WIN_SCORE
-                                elif risk_of_donk:
-                                    score = DONK_SURVIVAL_SCORE
-                                else:
-                                    score += 10000
-                        if score > best_score:
-                            best_score = score
-                            best_target = p
+                        # Only value healing if it actually heals a significant amount or is critical
+                        if missing_hp >= (heal_amount - 10) or p.hp <= 60 or threat_lethal:
+                            score = ITEM_SCORE + (missing_hp * 100)
+                            if p == gs.my_active:
+                                if p.hp <= 60 or threat_lethal:
+                                    score = POTION_CRITICAL_SCORE
+                                if threat_lethal and (p.hp + heal_amount) > opp_max_dmg:
+                                    opp_points_needed = 3 - gs.opp_points
+                                    my_active_gives = 2 if ("ex" in p.name.lower()) else 1
+                                    loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                                    if loses_game:
+                                        score = LETHAL_WIN_SCORE
+                                    elif risk_of_donk:
+                                        score = DONK_SURVIVAL_SCORE
+                                    else:
+                                        score += 10000
+                            if score > best_score:
+                                best_score = score
+                                best_target = p
 
                 if best_target:
                     action["score"] = best_score
@@ -1409,7 +1419,7 @@ def play(state, game):
 
             elif "speed" in aname_lower:
                 action["type"] = "x_speed"
-                action["score"] = ITEM_SCORE
+                action["score"] = -10000
             elif "brock" in aname_lower:
                 action["type"] = "energy_retrieval"
                 action["score"] = ITEM_SCORE
@@ -1849,9 +1859,16 @@ def play(state, game):
                                      a["score"] = LETHAL_KO_SCORE + 50000 # Ensure it overrides defensive penalties (Total > 100k)
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
+                         active_status = [str(s).lower() for s in target.status]
+                         has_no_retreat = any("noretreat" in str(e).lower() for e in target.effects) if hasattr(target, "effects") else False
+                         is_dying_from_poison = "poisoned" in active_status and target.hp <= 30
+
                          if threat_lethal and not is_lethal_attachment:
                              if a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
+                         elif (is_dying_from_poison or (has_no_retreat and threat_lethal)) and not is_lethal_attachment:
+                             if a["score"] < 90000:
+                                 a["score"] -= 20000 # Strongly penalize attaching to a doomed active pokemon
 
                     # Weakness check for Active Pokemon
                     if a["pos"] == 0 and gs.opp_active and not is_lethal_attachment:
@@ -2130,24 +2147,46 @@ def play(state, game):
                 is_switch = True
 
         if is_x_speed or is_switch:
-            best_retreat = -100000
-            for r in actions:
-                if r["type"] == "retreat" and r["score"] > best_retreat:
-                    best_retreat = r["score"]
+             active_status = [str(s).lower() for s in gs.my_active.status] if gs.my_active else []
+             has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if gs.my_active and hasattr(gs.my_active, "effects") else False
 
-            if best_retreat > 0:
-                 # Prioritize Switch/X Speed over manual retreat to save energy
-                 # X Speed attaches tool, Switch uses item. Both good.
-                 a["score"] = best_retreat + 2000
-                 if is_switch: # Switch is immediate
-                      a["score"] += 1000
+             wants_to_retreat = False
+             if "poisoned" in active_status: wants_to_retreat = True
+             if threat_lethal: wants_to_retreat = True
+             # Check if we naturally have a high retreat score anyway
+             best_retreat = -100000
+             for r in actions:
+                  if r["type"] == "retreat" and r["score"] > best_retreat:
+                       best_retreat = r["score"]
+             if best_retreat > 0:
+                  wants_to_retreat = True
 
-            # Status Effect Cure Logic
-            if gs.my_active:
-                 active_status = [str(s).lower() for s in gs.my_active.status]
-                 has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
-                 if any(s in active_status for s in ["poisoned", "asleep", "paralyzed"]) or has_no_retreat:
-                      a["score"] = max(a["score"], 85000)
+             if is_switch:
+                  if "asleep" in active_status or "paralyzed" in active_status or has_no_retreat:
+                       a["score"] = max(a["score"], 85000)
+                  elif wants_to_retreat:
+                       a["score"] = max(a["score"], best_retreat + 3000) if best_retreat > 0 else 85000
+                  else:
+                       a["score"] = -10000
+
+             elif is_x_speed:
+                  if "asleep" in active_status or "paralyzed" in active_status or has_no_retreat:
+                       a["score"] = -10000 # Useless to play X Speed
+                  else:
+                       retreat_cost = gs.my_active.retreat_cost if gs.my_active else 0
+                       energy_count = gs.my_active.energy_count if gs.my_active else 0
+                       if retreat_cost > 0 and energy_count >= (retreat_cost - 1):
+                            if wants_to_retreat:
+                                 # If we have a calculated positive retreat score, use it
+                                 if best_retreat > 0:
+                                      a["score"] = max(a["score"], best_retreat + 2000)
+                                 else:
+                                      # Force a retreat if poisoned/threatened but not yet scored highly
+                                      a["score"] = 85000
+                            else:
+                                 a["score"] = -10000
+                       else:
+                            a["score"] = -10000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

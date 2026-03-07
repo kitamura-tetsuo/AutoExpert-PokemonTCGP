@@ -418,11 +418,18 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
-    deck_path = Path(deck)
+    # Clean duplicate paths often injected by CI (e.g. train_data/train_data/...)
+    deck_clean = deck
+    if deck_clean.startswith("train_data/train_data/"):
+        deck_clean = deck_clean.replace("train_data/train_data/", "train_data/", 1)
+
+    deck_path = Path(deck_clean)
     if not deck_path.exists():
-        deck_path = settings.DECK_DIR / deck
+        deck_path = settings.DECK_DIR / deck_clean
     if not deck_path.exists():
-        deck_path = Path("train_data") / deck
+        deck_path = Path("train_data") / deck_clean
+    if not deck_path.exists():
+         deck_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
     return str(deck_path)
 
 

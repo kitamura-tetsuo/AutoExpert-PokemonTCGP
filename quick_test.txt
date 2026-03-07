@@ -1,0 +1,984 @@
+2026-03-07 20:34:24,575 - INFO - Using candidate_player.play for new AI.
+2026-03-07 20:34:24,576 - INFO - Using existing past repository at past_repo_main
+2026-03-07 20:34:24,577 - INFO - Using candidate_player.play from branch 'main' for old AI.
+2026-03-07 20:34:24,626 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:24,726 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:24,839 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:25,129 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:25,340 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:25,571 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:25,659 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:25,734 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:25,887 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:26,007 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+
+--- Deck-Specialized AI Evaluation Results ---
+Student deck : /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt
+Matches / AI : 5
+
+New AI  wins : 2 / 5  (40.00%)
+Old AI  wins : 1 / 5  (20.00%)
+Improvement  : +20.00%  (threshold: +1.00%)
+
+=== SHORTEST_LOSS (47 steps) ===
+
+--- STEP 37 (Player 1 Turn) ---
+{
+  "turn": 7,
+  "points": [
+    0,
+    1
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Darkness": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    4
+  ],
+  "my_active": {
+    "name": "Exeggutor ex",
+    "hp": 110,
+    "energy": {
+      "Grass": 1
+    },
+    "status": [
+      "Poisoned"
+    ],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Exeggcute",
+      "hp": 50,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Naganadel",
+    "hp": 50,
+    "energy": {
+      "Darkness": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Guzzlord ex",
+      "hp": 169,
+      "energy": {
+        "Darkness": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Poison Barb",
+      "effects": []
+    },
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Erika"
+  ],
+  "opp_hand_known": [
+    "Will"
+  ],
+  "my_deck_contents": [
+    "Bulbasaur",
+    "Ivysaur",
+    "Ivysaur",
+    "Venusaur ex",
+    "Venusaur ex",
+    "Exeggutor ex",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "Red Card",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 6,
+  "opp_deck_known": [],
+  "my_discard": [
+    "X Speed",
+    "Erika",
+    "Bulbasaur",
+    "Sabrina",
+    "Pok\u00e9 Ball"
+  ],
+  "opp_discard": [
+    "Pok\u00e9mon Center Lady",
+    "Pok\u00e9 Ball",
+    "Copycat",
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 24602 - Play(Some(A4156Will))
+
+--- STEP 38 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "opp_hand_known": [],
+  "opp_discard": [
+    "Will",
+    "Pok\u00e9mon Center Lady",
+    "Pok\u00e9 Ball",
+    "Copycat",
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 39 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 8,
+  "is_my_turn": true,
+  "flags": {
+    "support": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  },
+  "hand_counts": [
+    2,
+    3
+  ],
+  "my_active": {
+    "hp": 40
+  },
+  "my_hand": [
+    "Erika",
+    "Bulbasaur"
+  ],
+  "my_deck_contents": [
+    "Ivysaur",
+    "Ivysaur",
+    "Venusaur ex",
+    "Venusaur ex",
+    "Exeggutor ex",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "Red Card",
+    "Professor's Research",
+    "Professor's Research"
+  ]
+}
+Selected Action: 23430 - Play(Some(A1219Erika))
+
+--- STEP 40 (Player 0 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "my_hand": [
+    "Bulbasaur"
+  ],
+  "my_discard": [
+    "Erika",
+    "X Speed",
+    "Erika",
+    "Bulbasaur",
+    "Sabrina",
+    "Pok\u00e9 Ball"
+  ]
+}
+Selected Action: 52297 - Heal(0)
+
+--- STEP 41 (Player 0 Turn) ---
+Diff from prev step: {
+  "my_active": {
+    "hp": 90
+  }
+}
+Selected Action: 14 - Place(Some(A1001Bulbasaur), 2)
+
+--- STEP 42 (Player 0 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    0,
+    3
+  ],
+  "my_bench": [
+    {
+      "name": "Exeggcute",
+      "hp": 50,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Bulbasaur",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": []
+}
+Selected Action: 26114 - Attach(Grass, 2)
+
+--- STEP 43 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Exeggcute",
+      "hp": 50,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Bulbasaur",
+      "hp": 70,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 44 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 9,
+  "is_my_turn": false,
+  "flags": {
+    "support": false
+  },
+  "energy": {
+    "current": {
+      "Darkness": 1
+    }
+  },
+  "hand_counts": [
+    0,
+    4
+  ],
+  "my_active": {
+    "hp": 60
+  },
+  "my_bench": [
+    {
+      "name": "Exeggcute",
+      "hp": 50,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Bulbasaur",
+      "hp": 70,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "hp": 10
+  },
+  "opp_deck_count": 5
+}
+Selected Action: 25975 - Play(Some(PA005PokeBall))
+
+--- STEP 45 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    0,
+    3
+  ],
+  "opp_discard": [
+    "Pok\u00e9 Ball",
+    "Will",
+    "Pok\u00e9mon Center Lady",
+    "Pok\u00e9 Ball",
+    "Copycat",
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 26137 - Attach(Darkness, 1)
+
+--- STEP 46 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Darkness": "<REMOVED>"
+    }
+  },
+  "opp_bench": [
+    {
+      "name": "Guzzlord ex",
+      "hp": 169,
+      "energy": {
+        "Darkness": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Poison Barb",
+      "effects": []
+    },
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+=== LONGEST_LOSS (103 steps) ===
+
+--- STEP 93 (Player 1 Turn) ---
+{
+  "turn": 19,
+  "points": [
+    2,
+    0
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    0,
+    4
+  ],
+  "my_active": {
+    "name": "Exeggutor ex",
+    "hp": 40,
+    "energy": {
+      "Grass": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Exeggutor ex",
+      "hp": 90,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Ivysaur",
+      "hp": 90,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Oricorio",
+    "hp": 90,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Rocky Helmet",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Mega Kangaskhan ex",
+      "hp": 120,
+      "energy": {
+        "Lightning": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Oricorio",
+      "hp": 90,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [],
+  "opp_hand_known": [
+    "Red"
+  ],
+  "my_deck_contents": [
+    "Venusaur ex"
+  ],
+  "opp_deck_count": 0,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "Erika",
+    "Red Card",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "X Speed",
+    "Professor's Research",
+    "X Speed",
+    "Erika"
+  ],
+  "opp_discard": [
+    "Professor's Research",
+    "Pichu",
+    "Pok\u00e9 Ball",
+    "Copycat",
+    "Lucky Ice Pop",
+    "Ilima",
+    "Starting Plains",
+    "Pichu",
+    "Pok\u00e9 Ball",
+    "Sabrina"
+  ]
+}
+Selected Action: 26124 - Attach(Lightning, 0)
+
+--- STEP 94 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 1
+    }
+  }
+}
+Selected Action: 5 - Retreat(1)
+
+--- STEP 95 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "opp_active": {
+    "name": "Mega Kangaskhan ex",
+    "hp": 120,
+    "energy": {
+      "Lightning": 3
+    },
+    "tool": "None"
+  },
+  "opp_bench": [
+    {
+      "name": "Oricorio",
+      "hp": 90,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Rocky Helmet",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Oricorio",
+      "hp": 90,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 25977 - Play(Some(PA007ProfessorsResearch))
+
+--- STEP 96 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    0,
+    3
+  ],
+  "opp_discard": [
+    "Professor's Research",
+    "Professor's Research",
+    "Pichu",
+    "Pok\u00e9 Ball",
+    "Copycat",
+    "Lucky Ice Pop",
+    "Ilima",
+    "Starting Plains",
+    "Pichu",
+    "Pok\u00e9 Ball"
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 97 (Player 1 Turn) ---
+Diff from prev step: {
+  "points": [
+    2,
+    2
+  ],
+  "my_active": {
+    "name": "Empty",
+    "hp": 0,
+    "energy": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_discard": [
+    "Exeggutor ex",
+    "Exeggcute",
+    "Sabrina",
+    "Erika",
+    "Red Card",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "X Speed",
+    "Professor's Research"
+  ]
+}
+Selected Action: 37753 - Activate(1)
+
+--- STEP 98 (Player 1 Turn) ---
+Diff from prev step: {
+  "my_active": {
+    "name": "Exeggutor ex",
+    "hp": 90,
+    "energy": {
+      "Grass": 1
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Ivysaur",
+      "hp": 90,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 99 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 20,
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": true
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "my_hand": [
+    "Venusaur ex"
+  ],
+  "my_deck_contents": []
+}
+Selected Action: 11627 - Evolve(Some(A1004VenusaurEx), 3)
+
+--- STEP 100 (Player 0 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    0,
+    3
+  ],
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": []
+}
+Selected Action: 26115 - Attach(Grass, 3)
+
+--- STEP 101 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 2
+      },
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 102 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 21,
+  "is_my_turn": false,
+  "flags": {
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 2
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "hp": 40
+  }
+}2026-03-07 20:34:26,185 - INFO - HTML visualization saved to vs_past_deck_battle.html
+2026-03-07 20:34:26,185 - WARNING - Number of matches (5) is less than 1000. This would fail in CI.
+2026-03-07 20:34:26,186 - INFO - CI check passed. New AI improved by +20.00%.
+
+Selected Action: 1 - Attack(0)
+
+Last match visualization saved to: vs_past_deck_battle.html

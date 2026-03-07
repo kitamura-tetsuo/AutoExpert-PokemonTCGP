@@ -1,0 +1,1375 @@
+2026-03-07 20:33:04,619 - INFO - Using candidate_player.play for new AI.
+2026-03-07 20:33:04,620 - INFO - Using existing past repository at past_repo_main
+2026-03-07 20:33:04,623 - INFO - Using candidate_player.play from branch 'main' for old AI.
+2026-03-07 20:33:04,671 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:04,714 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:04,836 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:04,970 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:05,181 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:05,303 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:05,580 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:05,741 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,016 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,229 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,465 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,590 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,872 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,896 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:06,983 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:07,207 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:07,371 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:07,504 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:07,743 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:07,884 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,090 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,252 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,378 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,582 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,683 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,846 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:08,988 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:09,282 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:09,551 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:09,763 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:10,042 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:10,167 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:10,418 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:11,106 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:11,422 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:11,798 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:11,966 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:12,168 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:12,401 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:12,587 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:12,804 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:12,961 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:13,090 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:13,345 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:13,540 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:13,659 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:13,760 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:13,873 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:14,183 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:14,352 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:14,409 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:14,675 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:14,961 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:15,156 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:15,399 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:15,498 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:15,685 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:15,978 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:16,263 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:16,522 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:16,718 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:17,143 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:17,412 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:17,813 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:18,159 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:18,487 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:18,778 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:19,059 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:19,306 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:19,516 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:19,581 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:19,802 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:19,906 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:20,247 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:20,384 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:20,591 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:20,732 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:20,883 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:21,191 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:21,499 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:21,799 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:21,903 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:22,023 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:22,302 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:22,519 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:22,731 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:22,905 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:23,066 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:23,181 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:23,399 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:23,809 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:24,171 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:24,605 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:24,710 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:24,795 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:24,971 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:25,084 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:25,527 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:25,822 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:25,870 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:26,062 - WARNING - [NEW] 100/200 done, wins=35
+2026-03-07 20:33:26,062 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:26,230 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:26,366 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:26,490 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:26,722 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:27,107 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:27,225 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:27,457 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:27,628 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:27,806 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:27,956 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:28,070 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:28,294 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:28,342 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:28,667 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:28,836 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:28,982 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:29,253 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:29,413 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:29,662 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:29,779 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:29,940 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:30,193 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:30,437 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:30,659 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:30,784 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:31,026 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:31,292 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:31,520 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:31,769 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:31,965 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:32,218 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:32,544 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:32,792 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:32,933 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:33,038 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:33,260 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:33,595 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:33,744 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:33,998 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:34,202 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:34,446 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:34,521 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:34,624 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:34,908 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:35,165 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:35,391 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:35,625 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:35,759 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:35,974 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:36,439 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:36,565 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:36,743 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:36,872 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:37,182 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:37,285 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:37,512 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:37,710 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:37,926 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:38,076 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:38,364 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:38,522 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:38,602 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:38,847 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:39,027 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:39,330 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:39,431 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:39,713 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:39,979 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:40,086 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:40,280 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:40,552 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:40,750 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:40,921 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:41,070 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:41,238 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:41,388 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:41,525 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:41,686 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:41,777 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:42,015 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:42,390 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:42,770 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:42,831 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:43,124 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:43,361 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:43,642 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:43,870 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:44,050 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:44,256 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:45,103 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:45,284 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:45,364 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:45,623 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:45,751 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,084 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,234 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,494 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,568 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,715 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,954 - WARNING - [NEW] 200/200 done, wins=71
+2026-03-07 20:33:46,954 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:46,983 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,061 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,149 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,255 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,313 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,461 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,546 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,664 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,723 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,877 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:47,957 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,092 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,114 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,172 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,294 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,392 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,505 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,604 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,707 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,817 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,911 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:48,993 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,125 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,192 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,286 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,370 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,499 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,654 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,770 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:49,925 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,026 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,140 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,386 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,484 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,648 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,739 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,821 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:50,907 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,000 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,107 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,194 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,276 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,397 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,497 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,576 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,632 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,713 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,857 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:51,979 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,021 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,155 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,278 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,389 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,504 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,570 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,682 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,775 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:52,930 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,048 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,186 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,284 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,365 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,465 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,565 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,691 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,767 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:53,910 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,041 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,180 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,246 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,367 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,438 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,572 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,658 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,766 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,870 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:54,956 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,139 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,235 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,422 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,494 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,571 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,724 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,854 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:55,996 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,101 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,202 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,269 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,435 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,499 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,739 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:56,972 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,059 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,140 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,301 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,387 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,687 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,930 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:57,973 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,119 - WARNING - [OLD] 100/200 done, wins=28
+2026-03-07 20:33:58,119 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,217 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,334 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,444 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,565 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,732 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,813 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:58,975 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,064 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,150 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,229 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,305 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,417 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,462 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,631 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,751 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,854 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:33:59,982 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,074 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,212 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,279 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,371 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,501 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,617 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,754 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,828 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:00,916 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,075 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,227 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,375 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,488 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,594 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,740 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,863 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:01,958 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,016 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,087 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,158 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,239 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,357 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,444 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,565 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,615 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,670 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,748 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:02,879 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,069 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,204 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,301 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,430 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,727 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,818 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:03,914 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,005 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,157 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,225 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,376 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,507 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,633 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,730 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:04,934 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,026 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,074 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,212 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,384 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,564 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,639 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,820 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:05,966 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,032 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,146 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,306 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,456 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,554 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,679 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,776 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,867 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:06,960 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,061 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,127 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,276 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,480 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,730 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,779 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:07,956 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,097 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,238 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,428 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,501 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,598 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,798 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,889 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:08,945 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,115 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,185 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,321 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,407 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,564 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,618 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,698 - WARNING - Deck path /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt not found. Falling back to deckgym-core/example_decks/venusaur-exeggutor.txt
+2026-03-07 20:34:09,826 - WARNING - [OLD] 200/200 done, wins=63
+
+--- Deck-Specialized AI Evaluation Results ---
+Student deck : /home/runner/work/AutoExpert-PokemonTCGP/AutoExpert-PokemonTCGP/deckgym-core/example_decks/venusaur-exeggutor.txt
+Matches / AI : 200
+
+New AI  wins : 71 / 200  (35.50%)
+Old AI  wins : 63 / 200  (31.50%)
+Improvement  : +4.00%  (threshold: +1.00%)
+
+=== SHORTEST_LOSS (17 steps) ===
+
+--- STEP 7 (Player 1 Turn) ---
+{
+  "turn": 1,
+  "points": [
+    0,
+    0
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": true,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Darkness": 1
+    }
+  },
+  "hand_counts": [
+    4,
+    4
+  ],
+  "my_active": {
+    "name": "Bulbasaur",
+    "hp": 70,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Deino",
+    "hp": 60,
+    "energy": {},
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": true,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Exeggutor ex",
+    "Exeggutor ex",
+    "Venusaur ex",
+    "Erika"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [
+    "Bulbasaur",
+    "Ivysaur",
+    "Ivysaur",
+    "Venusaur ex",
+    "Exeggcute",
+    "Exeggcute",
+    "Erika",
+    "Sabrina",
+    "X Speed",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Red Card",
+    "Professor's Research",
+    "Professor's Research"
+  ],
+  "opp_deck_count": 12,
+  "opp_deck_known": [],
+  "my_discard": [],
+  "opp_discard": [
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 29876 - AttachTool(Some(A3146PoisonBarb), 0)
+
+--- STEP 8 (Player 1 Turn) ---
+Diff from prev step: {
+  "opp_active": {
+    "tool": "Poison Barb"
+  }
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 9 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 2,
+  "is_my_turn": true,
+  "flags": {
+    "support": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    4
+  ],
+  "opp_bench": [
+    {
+      "name": "Nihilego",
+      "hp": 70,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Exeggutor ex",
+    "Exeggutor ex",
+    "Venusaur ex",
+    "Erika",
+    "Ivysaur"
+  ],
+  "my_deck_contents": [
+    "Bulbasaur",
+    "Ivysaur",
+    "Venusaur ex",
+    "Exeggcute",
+    "Exeggcute",
+    "Erika",
+    "Sabrina",
+    "X Speed",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "Pok\u00e9 Ball",
+    "Red Card",
+    "Professor's Research",
+    "Professor's Research"
+  ]
+}
+Selected Action: 26112 - Attach(Grass, 0)
+
+--- STEP 10 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "energy": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 11 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 3,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Darkness": 1
+    }
+  },
+  "hand_counts": [
+    5,
+    5
+  ],
+  "opp_deck_count": 11
+}
+Selected Action: 25977 - Play(Some(PA007ProfessorsResearch))
+
+--- STEP 12 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    5,
+    6
+  ],
+  "opp_deck_count": 9,
+  "opp_discard": [
+    "Professor's Research",
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 26136 - Attach(Darkness, 0)
+
+--- STEP 13 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Darkness": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Darkness": 1
+    }
+  }
+}
+Selected Action: 24141 - Play(Some(A3144RareCandy))
+
+--- STEP 14 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    5,
+    5
+  ],
+  "opp_discard": [
+    "Rare Candy",
+    "Professor's Research",
+    "Poison Barb",
+    "Professor's Research"
+  ]
+}
+Selected Action: 20076 - Evolve(Some(B1157Hydreigon), 0)
+
+--- STEP 15 (Player 1 Turn) ---
+Diff from prev step: {
+  "hand_counts": [
+    5,
+    4
+  ],
+  "opp_active": {
+    "name": "Hydreigon",
+    "hp": 150,
+    "played_this_turn": true
+  }
+}
+Selected Action: 8 - UseAbility(0)
+
+--- STEP 16 (Player 1 Turn) ---
+Diff from prev step: {
+  "opp_active": {
+    "hp": 120,
+    "energy": {
+      "Darkness": 3
+    },
+    "ability_used": true
+  }
+}
+Selected Action: 1 - Attack(0)
+
+=== LONGEST_LOSS (127 steps) ===
+
+--- STEP 117 (Player 1 Turn) ---
+{
+  "turn": 34,
+  "points": [
+    1,
+    2
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": false,
+    "retreat": false,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {
+      "Lightning": 1
+    },
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    0,
+    3
+  ],
+  "my_active": {
+    "name": "Venusaur ex",
+    "hp": 189,
+    "energy": {
+      "Grass": 4
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Exeggutor ex",
+      "hp": 110,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Exeggutor ex",
+      "hp": 160,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Oricorio",
+    "hp": 90,
+    "energy": {
+      "Lightning": 3
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Giant Cape",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Oricorio",
+      "hp": 70,
+      "energy": {
+        "Lightning": 6
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 6
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [],
+  "opp_hand_known": [],
+  "my_deck_contents": [],
+  "opp_deck_count": 0,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "Venusaur ex",
+    "Ivysaur",
+    "Bulbasaur",
+    "Pok\u00e9 Ball",
+    "Erika",
+    "Red Card",
+    "Pok\u00e9 Ball",
+    "Erika",
+    "X Speed"
+  ],
+  "opp_discard": [
+    "Copycat",
+    "Magneton",
+    "Magnemite",
+    "Giant Cape",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Red Card",
+    "Professor's Research",
+    "Giant Cape",
+    "Copycat"
+  ]
+}2026-03-07 20:34:09,846 - INFO - HTML visualization saved to vs_past_deck_battle.html
+2026-03-07 20:34:09,846 - WARNING - Number of matches (200) is less than 1000. This would fail in CI.
+2026-03-07 20:34:09,846 - INFO - CI check passed. New AI improved by +4.00%.
+
+Selected Action: 23733 - Play(Some(A2150Cyrus))
+
+--- STEP 118 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "support": true
+  },
+  "hand_counts": [
+    0,
+    2
+  ],
+  "opp_discard": [
+    "Cyrus",
+    "Copycat",
+    "Magneton",
+    "Magnemite",
+    "Giant Cape",
+    "Pok\u00e9 Ball",
+    "Professor's Research",
+    "Red Card",
+    "Professor's Research",
+    "Giant Cape"
+  ]
+}
+Selected Action: 37754 - Activate(2)
+
+--- STEP 119 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "my_active": {
+    "name": "Exeggutor ex",
+    "hp": 110,
+    "energy": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 4
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Exeggutor ex",
+      "hp": 160,
+      "energy": {
+        "Grass": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ]
+}
+Selected Action: 26124 - Attach(Lightning, 0)
+
+--- STEP 120 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 4
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 121 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 35,
+  "is_my_turn": true,
+  "flags": {
+    "support": false,
+    "retreat": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  },
+  "my_active": {
+    "hp": 60
+  }
+}
+Selected Action: 26112 - Attach(Grass, 0)
+
+--- STEP 122 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "energy": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 123 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 36,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 124 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 37,
+  "is_my_turn": true,
+  "energy": {
+    "current": {
+      "Grass": 1,
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "hp": 10
+  }
+}
+Selected Action: 26112 - Attach(Grass, 0)
+
+--- STEP 125 (Player 0 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Grass": "<REMOVED>"
+    }
+  },
+  "my_active": {
+    "energy": {
+      "Grass": 2
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+--- STEP 126 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 38,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1
+    }
+  }
+}
+Selected Action: 1 - Attack(0)
+
+=== LONGEST_DRAW (266 steps) ===
+
+--- STEP 256 (Player 1 Turn) ---
+{
+  "turn": 94,
+  "points": [
+    1,
+    0
+  ],
+  "is_my_turn": false,
+  "flags": {
+    "support": false,
+    "retreat": true,
+    "ko_last_turn": false
+  },
+  "energy": {
+    "current": {},
+    "my_next": {
+      "Grass": 1
+    },
+    "opp_next": {
+      "Lightning": 1
+    }
+  },
+  "hand_counts": [
+    1,
+    3
+  ],
+  "my_active": {
+    "name": "Venusaur ex",
+    "hp": 189,
+    "energy": {
+      "Grass": 5
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "None",
+    "effects": []
+  },
+  "my_bench": [
+    {
+      "name": "Exeggutor ex",
+      "hp": 160,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Exeggutor ex",
+      "hp": 160,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Venusaur ex",
+      "hp": 189,
+      "energy": {
+        "Grass": 5
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "opp_active": {
+    "name": "Oricorio",
+    "hp": 90,
+    "energy": {
+      "Lightning": 1
+    },
+    "status": [],
+    "played_this_turn": false,
+    "ability_used": false,
+    "tool": "Giant Cape",
+    "effects": []
+  },
+  "opp_bench": [
+    {
+      "name": "Empty",
+      "hp": 0,
+      "energy": {},
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    },
+    {
+      "name": "Oricorio",
+      "hp": 90,
+      "energy": {
+        "Lightning": 1
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "Giant Cape",
+      "effects": []
+    },
+    {
+      "name": "Magnezone",
+      "hp": 150,
+      "energy": {
+        "Lightning": 3
+      },
+      "status": [],
+      "played_this_turn": false,
+      "ability_used": false,
+      "tool": "None",
+      "effects": []
+    }
+  ],
+  "my_hand": [
+    "Erika"
+  ],
+  "opp_hand_known": [],
+  "my_deck_contents": [],
+  "opp_deck_count": 0,
+  "opp_deck_known": [],
+  "my_discard": [
+    "Sabrina",
+    "X Speed",
+    "Pok\u00e9 Ball",
+    "X Speed",
+    "Red Card",
+    "Erika",
+    "Professor's Research",
+    "Pok\u00e9 Ball",
+    "Professor's Research"
+  ],
+  "opp_discard": [
+    "Giant Cape",
+    "Professor's Research",
+    "Professor's Research",
+    "Giant Cape",
+    "Clemont",
+    "Magneton",
+    "Magnemite",
+    "Copycat",
+    "Red Card",
+    "Copycat"
+  ]
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 257 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 95,
+  "is_my_turn": true,
+  "flags": {
+    "retreat": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 2 - Attack(1)
+
+--- STEP 258 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 96,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1,
+      "Grass": "<REMOVED>"
+    }
+  }
+}
+Selected Action: 26124 - Attach(Lightning, 0)
+
+--- STEP 259 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 2
+    }
+  }
+}
+Selected Action: 6 - Retreat(2)
+
+--- STEP 260 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 1
+    }
+  }
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 261 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 97,
+  "is_my_turn": true,
+  "flags": {
+    "retreat": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 2 - Attack(1)
+
+--- STEP 262 (Player 1 Turn) ---
+Diff from prev step: {
+  "turn": 98,
+  "is_my_turn": false,
+  "energy": {
+    "current": {
+      "Lightning": 1,
+      "Grass": "<REMOVED>"
+    }
+  }
+}
+Selected Action: 26124 - Attach(Lightning, 0)
+
+--- STEP 263 (Player 1 Turn) ---
+Diff from prev step: {
+  "energy": {
+    "current": {
+      "Lightning": "<REMOVED>"
+    }
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 2
+    }
+  }
+}
+Selected Action: 6 - Retreat(2)
+
+--- STEP 264 (Player 1 Turn) ---
+Diff from prev step: {
+  "flags": {
+    "retreat": true
+  },
+  "opp_active": {
+    "energy": {
+      "Lightning": 1
+    }
+  }
+}
+Selected Action: 0 - EndTurn
+
+--- STEP 265 (Player 0 Turn) ---
+Diff from prev step: {
+  "turn": 99,
+  "is_my_turn": true,
+  "flags": {
+    "retreat": false
+  },
+  "energy": {
+    "current": {
+      "Grass": 1
+    }
+  }
+}
+Selected Action: 2 - Attack(1)
+
+Last match visualization saved to: vs_past_deck_battle.html

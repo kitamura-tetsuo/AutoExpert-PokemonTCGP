@@ -1039,9 +1039,19 @@ def play(state, game):
                              action["score"] = INFERNO_DANCE_SCORE + (fire_needs * 5000)
 
                     if action["damage"] == 0 and gs.my_active and idx < len(gs.my_active.attacks):
+                         raw_dmg = str(gs.my_active.attacks[idx].get("dmg", 0))
+                         clean_dmg = re.sub(r"[^0-9.]", "", raw_dmg)
+                         base_dmg = float(clean_dmg) if clean_dmg else 0.0
+
                          atk_text = ""
                          if idx < len(gs.my_active.attacks):
                              atk_text = (gs.my_active.attacks[idx].get("text") or "").lower()
+
+                         if base_dmg > 0:
+                             action["score"] -= 200000
+                         elif base_dmg == 0 and not atk_text:
+                             action["score"] -= 500000
+
                          if "deck" in atk_text and "bench" in atk_text:
                               if len(gs.my_bench) < 3:
                                    action["score"] += 5000
@@ -1869,6 +1879,13 @@ def play(state, game):
                       a["score"] -= 20000
 
             if target.needs_energy():
+                # Anti-Safeguard Heuristic
+                if gs.opp_active and gs.opp_active.db_entry and gs.opp_active.db_entry.get("ability"):
+                     ability_effect = gs.opp_active.db_entry["ability"].get("effect", "").lower()
+                     if "prevent all damage" in ability_effect and "pokémon ex" in ability_effect:
+                          if "ex" not in target.name.lower():
+                               a["score"] += 20000
+
                 is_compatible = False
                 if target.energy_type == "Colorless": is_compatible = True
                 elif a["energy_type"] == target.energy_type: is_compatible = True
@@ -1967,6 +1984,13 @@ def play(state, game):
 
             if is_useful:
                 a["score"] += CARRY_BONUS
+
+            # Anti-Safeguard Heuristic
+            if gs.opp_active and gs.opp_active.db_entry and gs.opp_active.db_entry.get("ability"):
+                ability_effect = gs.opp_active.db_entry["ability"].get("effect", "").lower()
+                if "prevent all damage" in ability_effect and "pokémon ex" in ability_effect:
+                     if "ex" not in n_lower:
+                          a["score"] += 20000
 
             # Starter Heuristic: Prioritize Tank/Mobile starters
             if not gs.my_bench and a.get("pos") == 0:
@@ -2079,6 +2103,12 @@ def play(state, game):
             elif gs.opp_bench and any("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower() for b in gs.opp_bench):
                 if not threat_lethal:
                     a["score"] += 30000
+
+            elif gs.opp_active and gs.opp_active.db_entry and gs.opp_active.db_entry.get("ability"):
+                 ability_effect = gs.opp_active.db_entry["ability"].get("effect", "").lower()
+                 if "prevent all damage" in ability_effect and "pokémon ex" in ability_effect:
+                      if gs.my_active and "ex" in gs.my_active.name.lower():
+                           a["score"] = 85000
 
             elif threat_lethal:
                  # Defensive Gust: Find safe target

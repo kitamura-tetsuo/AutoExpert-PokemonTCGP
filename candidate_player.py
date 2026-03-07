@@ -1575,6 +1575,17 @@ def play(state, game):
                     elif "kirlia" in n_lower or "cinccino" in n_lower or "liepard" in n_lower: # Draw
                         action["score"] += 3000
 
+                    elif "klefki" in n_lower: # Dismantling Keys
+                        # Discards itself to remove opponent's tool
+                        if len(gs.my_bench) <= 1 and risk_of_donk:
+                            # Risk of donking ourselves
+                            action["score"] -= 100000
+                        else:
+                            if gs.opp_active and gs.opp_active.attached_tool:
+                                action["score"] += 15000
+                            else:
+                                action["score"] -= 100000
+
                     elif "greninja" in n_lower: # Water Shuriken
                         action["score"] += 1000
                         # Check for bench sniping lethal
@@ -1696,26 +1707,61 @@ def play(state, game):
                      if points_gained >= (3 - gs.my_points):
                          a["score"] -= 20000 # Deprioritize significantly
 
-            # Emergency Retreat Logic: If Active is threatened and this energy allows retreat to safety
-            if a["pos"] == 0 and threat_lethal:
+            # Emergency Retreat / Strategic Switch: If Active is threatened or weak, and this energy allows retreat
+            if a["pos"] == 0:
                 retreat_cost = target.retreat_cost
-                if target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost:
+                allows_retreat = target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost
+
+                if allows_retreat:
                     has_safe_bench = False
+                    has_better_attacker = False
+                    best_bench_dmg = 0
+
                     opp_points_needed = 3 - gs.opp_points
-                    my_active_gives = 2 if "ex" in target.name.lower() else 1
+                    my_active_gives = 2 if target and "ex" in target.name.lower() else 1
                     loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
 
                     for b in gs.my_bench:
                         bench_threat = get_opponent_max_damage(gs, target=b, treat_as_active=True)
                         if b.hp > bench_threat:
                             has_safe_bench = True
-                            break
 
-                    if has_safe_bench:
-                         if loses_game:
-                             a["score"] = LETHAL_WIN_SCORE
-                         else:
-                             a["score"] = LETHAL_WIN_SCORE - 1000
+                        # Check if bench is a strong attacker
+                        for i in range(len(b.attacks)):
+                            if can_use_attack(b.attacks[i].get("cost", []), b.energy):
+                                d = calculate_damage(b, i, gs)
+                                if d > best_bench_dmg:
+                                    best_bench_dmg = d
+
+                    # Active's current max damage
+                    active_current_dmg = 0
+                    if target:
+                        for i in range(len(target.attacks)):
+                            if can_use_attack(target.attacks[i].get("cost", []), target.energy):
+                                d = calculate_damage(target, i, gs)
+                                if d > active_current_dmg:
+                                    active_current_dmg = d
+
+                    # If bench damage is significantly better (e.g. 40+ difference), or it's a safe switch under threat
+                    if best_bench_dmg > active_current_dmg + 30:
+                        has_better_attacker = True
+
+                    if threat_lethal:
+                        if has_safe_bench:
+                             if loses_game:
+                                 a["score"] = LETHAL_WIN_SCORE
+                             else:
+                                 a["score"] = LETHAL_WIN_SCORE - 1000
+                        elif has_better_attacker:
+                             # Not completely safe, but retreating to a better attacker is better than dying with a weak one
+                             if loses_game:
+                                  pass # If we lose anyway, we shouldn't unless it has high HP? But if active dies, we lose now.
+                             else:
+                                  a["score"] += 80000 # Massively boost to attach to active for retreat
+
+                    elif has_better_attacker:
+                        # Strategic switch (no lethal threat, but active is weak and bench is strong)
+                        a["score"] += 60000
 
             # Check if already fully powered
             is_fully_powered = True
@@ -1724,12 +1770,18 @@ def play(state, game):
                     is_fully_powered = False
                     break
 
-            # If fully powered, only attach if it's active and threatened (for retreat)
+            # If fully powered, only attach if it's active and allows retreat, or allows strategic switch
             if is_fully_powered:
-                 if not (a["pos"] == 0 and threat_lethal):
+                 allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                 if not allows_retreat:
                       a["score"] -= 20000
 
-            if target.needs_energy():
+            # Override needs_energy if we need energy to retreat
+            needs_energy = target.needs_energy()
+            if a["pos"] == 0 and target.energy_count < target.retreat_cost:
+                needs_energy = True
+
+            if needs_energy:
                 is_compatible = False
                 if target.energy_type == "Colorless": is_compatible = True
                 elif a["energy_type"] == target.energy_type: is_compatible = True

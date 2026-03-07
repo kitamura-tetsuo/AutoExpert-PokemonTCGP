@@ -81,7 +81,7 @@ WEAKNESS_MAP = {
     "Lightning": ["Fighting"],
     "Psychic": ["Darkness"],
     "Fighting": ["Psychic"],
-    "Darkness": ["Fighting", "Grass", "Fire"],
+    "Darkness": ["Fighting"],
     "Metal": ["Fire"],
     "Dragon": ["Fairy"],
     "Colorless": ["Fighting"]
@@ -111,7 +111,7 @@ EVOLUTION_MAP = {
     "blitzle": "zebstrika",
     "weedle": "kakuna", "kakuna": "beedrill",
     "caterpie": "metapod", "metapod": "butterfree",
-    "zubat": "golbat",
+    "zubat": "golbat", "exeggcute": "exeggutor", "exeggutor": "exeggutor ex",
     "ekans": "arbok",
     "sandshrew": "sandslash",
     "clefairy": "clefable",
@@ -311,6 +311,7 @@ class Card:
         elif "venusaur ex" in n_lower: max_cost = 4
         elif "mewtwo ex" in n_lower: max_cost = 4
         elif "dragonite" in n_lower: max_cost = 4
+        elif "exeggutor ex" in n_lower: max_cost = 1
         elif "machamp ex" in n_lower: max_cost = 3
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
@@ -1037,7 +1038,19 @@ def play(state, game):
                              action["score"] += 5000
 
                     if is_ko:
-                        action["score"] = LETHAL_KO_SCORE
+                        # Base KO score, but keep higher scores for higher damage and healing
+                        # to break ties between multiple lethal attacks
+                        base_ko_score = LETHAL_KO_SCORE
+
+                        # Apply heal bonus even if it's a KO, as it helps for next turn survival
+                        if gs.my_active and idx < len(gs.my_active.attacks):
+                             atk_data = gs.my_active.attacks[idx]
+                             atk_text = (atk_data.get("text") or "").lower()
+                             if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
+                                 missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                                 base_ko_score += missing_hp * 10
+
+                        action["score"] = max(action["score"], base_ko_score) + action["damage"]
                         action["is_ko"] = True
 
                         is_ex = "ex" in gs.opp_active.name.lower()
@@ -1066,7 +1079,8 @@ def play(state, game):
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                            action["score"] += 1000
+                            missing_hp = gs.my_active.max_hp - gs.my_active.hp
+                            action["score"] += missing_hp * 10
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:
@@ -1389,6 +1403,10 @@ def play(state, game):
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
+
+                if gs.my_active and gs.my_active.status and any("poison" in str(s).lower() for s in gs.my_active.status):
+                     if gs.my_active.hp <= 30: # 10 hp per turn, 3 turns
+                         action["score"] += 15000
 
                 if threat_lethal:
                     # Check if losing active means losing the game
@@ -2065,8 +2083,11 @@ def play(state, game):
                  if is_switch: # Switch is immediate
                       a["score"] += 1000
                       # Status Cure via Switch Items
-                      if gs.my_active and gs.my_active.status and any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis"]):
+                      if gs.my_active and gs.my_active.status and any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed", "sleeping", "sleep", "paralysis", "poisoned"]):
                            a["score"] = max(a["score"], 85000)
+                 elif is_x_speed: # X Speed helps retreat
+                      if gs.my_active and gs.my_active.status and any("poison" in str(s).lower() for s in gs.my_active.status):
+                           a["score"] += 10000
             else:
                  a["score"] = -10000
 

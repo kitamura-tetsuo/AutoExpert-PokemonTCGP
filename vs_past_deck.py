@@ -418,8 +418,8 @@ def load_league_decks(csv_path: str):
 
 
 def resolve_deck_path(deck: str) -> str:
-    # Resolve duplicated paths passed by CI
     import re
+    # Clean up duplicated path prefixes from CI environments
     deck = re.sub(r'^(train_data/)+', 'train_data/', deck)
 
     deck_path = Path(deck)
@@ -434,11 +434,8 @@ def resolve_deck_path(deck: str) -> str:
     if deck_path.exists():
         return str(deck_path)
 
-    # Fallback to avoid failing CI run entirely
-    fallback = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
-    if fallback.exists():
-        return str(fallback)
-
+    # Return the cleaned path as a string. If it doesn't exist, the Rust core will try to parse the string directly,
+    # throwing "Invalid card format" with the cleanly formatted name if it is invalid.
     return str(deck_path)
 
 

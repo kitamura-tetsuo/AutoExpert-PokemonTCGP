@@ -300,6 +300,7 @@ class Card:
         elif n_lower == "charmander": max_cost = 4 # Charizard ex
         elif n_lower == "squirtle": max_cost = 5 # Blastoise ex (needs extra)
         elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
+        elif n_lower == "ivysaur": max_cost = 4 # Venusaur ex
         elif n_lower == "abra": max_cost = 3 # Alakazam
         elif n_lower == "machop": max_cost = 3 # Machamp
         elif "blastoise ex" in n_lower: max_cost = 5
@@ -1933,6 +1934,18 @@ def play(state, game):
 
             if target.energy_count >= 5:
                 a["score"] = -200000
+
+            # Bench Setup Priority for multi-stage attackers
+            if gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
+                # early game attacker fully powered (Exeggutor ex needs 1 energy usually, fully powered handles this)
+                # Or simply check if Exeggutor has >= 1 energy
+                if gs.my_active.energy_count >= 1:
+                    if a["pos"] == 0:
+                        a["score"] -= 50000 # drastically penalize further energy attachments to it
+                    elif target and target.name.lower() in ["bulbasaur", "ivysaur", "venusaur ex"]:
+                        a["score"] += 15000 # apply massive score boost to late-game bench targets
+                    elif a["pos"] > 0 and target and target.name.lower() == "exeggcute":
+                         a["score"] -= 5000 # minor penalize energy on exeggcute bench if early active is fine
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()

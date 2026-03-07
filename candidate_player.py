@@ -931,6 +931,11 @@ def play(state, game):
 
     # Opponent Lethal Check
     opp_max_dmg = get_opponent_max_damage(gs)
+    poison_dmg = 0
+    if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
+        poison_dmg = 10
+        opp_max_dmg += poison_dmg
+
     threat_lethal = False
     if gs.my_active and opp_max_dmg >= gs.my_active.hp:
         threat_lethal = True
@@ -1457,6 +1462,14 @@ def play(state, game):
                     action["score"] = -100000
                     continue
 
+                if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status):
+                    if gs.my_active.hp <= 40:
+                        # Prioritize retreat if critically poisoned and low HP
+                        action["score"] += 35000
+                    else:
+                        # Otherwise penalize unnecessarily retreating a poisoned active (wasting energy)
+                        action["score"] -= 100000
+
                 # Cost Penalty
                 if gs.my_active:
                     action["score"] -= (gs.my_active.retreat_cost * 1000)
@@ -1525,16 +1538,20 @@ def play(state, game):
                     # If active is lethal, don't switch unless bench is somehow better (e.g. EX vs non-EX?)
                     # Generally, if we can KO, we take it.
                     if not active_is_lethal:
-                        if target_dmg > active_dmg + 30:
-                             should_retreat = True
-                             # Boost to override current attack score (10000 + active_dmg)
-                             new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
-                             action["score"] = max(action["score"], new_score)
-                        elif target_dmg > active_dmg and gs.my_active and target.hp > (gs.my_active.hp + 40):
-                             # Switch to tank if damage is comparable
-                             should_retreat = True
-                             new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 2000
-                             action["score"] = max(action["score"], new_score)
+                        if active_dmg == 0 and gs.my_active and gs.my_active.retreat_cost > 0 and target_dmg < 40:
+                            # Do not retreat a 0-damage active pokemon (which costs energy) for minor chip damage unless target is 0-retreat or active is completely bricked
+                            pass
+                        elif target_dmg >= 40 or (active_dmg == 0 and (gs.my_active and gs.my_active.retreat_cost == 0)):
+                            if target_dmg > active_dmg + 30 or active_dmg == 0:
+                                should_retreat = True
+                                # Boost to override current attack score (10000 + active_dmg)
+                                new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 5000
+                                action["score"] = max(action["score"], new_score)
+                            elif target_dmg > active_dmg and gs.my_active and target.hp > (gs.my_active.hp + 40):
+                                # Switch to tank if damage is comparable
+                                should_retreat = True
+                                new_score = ATTACK_BASE_SCORE + (target_dmg * 100) + 2000
+                                action["score"] = max(action["score"], new_score)
 
         elif "Activate" in aname:
             m = re.search(r"Activate\((\d+)\)", aname)
@@ -1577,6 +1594,11 @@ def play(state, game):
                         # Check if this pokemon has energy to retreat if needed?
                         if target.energy_count >= target.retreat_cost:
                              action["score"] += 500
+
+                        # Penalize choosing a target that would be immediately knocked out
+                        threat = opp_max_dmg + poison_dmg
+                        if target.hp <= threat:
+                             action["score"] -= (threat - target.hp) * 1000
 
         elif "Discard" in aname:
              action["type"] = "discard"
@@ -2263,11 +2285,20 @@ def play(state, game):
                 is_switch = True
 
         if is_x_speed or is_switch:
+            wants_to_retreat = False
+
             if gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects):
                 if is_x_speed:
                     a["score"] = -10000 # X Speed doesn't bypass NoRetreat
                 elif is_switch:
                     a["score"] = 85000 # Switch does! Bypass normal scoring to save active
+                    wants_to_retreat = True
+            elif gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 30:
+                a["score"] = 85000
+                wants_to_retreat = True
+            elif gs.my_active and any(status in str(gs.my_active.status).lower() for status in ["asleep", "paralyzed"]):
+                a["score"] = 85000
+                wants_to_retreat = True
             else:
                 best_retreat = -100000
                 for r in actions:
@@ -2275,11 +2306,15 @@ def play(state, game):
                         best_retreat = r["score"]
 
                 if best_retreat > 0:
+                     wants_to_retreat = True
                      # Prioritize Switch/X Speed over manual retreat to save energy
-                     # X Speed attaches tool, Switch uses item. Both good.
-                     a["score"] = best_retreat + 2000
+                     retreat_cost = gs.my_active.retreat_cost if gs.my_active else 0
+                     a["score"] = best_retreat + (retreat_cost * 1000)
                      if is_switch: # Switch is immediate
                           a["score"] += 1000
+
+            if not wants_to_retreat:
+                a["score"] -= 10000
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

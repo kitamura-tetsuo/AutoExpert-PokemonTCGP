@@ -357,7 +357,8 @@ def run_match(game, play_funcs, record_history=False, record_detail=False, card_
             action_id = play_funcs[current_player](state, game)
             action_name = game.action_name(action_id)
         except Exception as e:
-            logging.error(f"Error during play_func: {e}")
+            import traceback
+            logging.error(f"Error during play_func: {e}\n{traceback.format_exc()}")
             action_id = random.choice(game.legal_actions())
             action_name = f"ERROR_FALLBACK: {game.action_name(action_id)}"
 

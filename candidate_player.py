@@ -848,6 +848,17 @@ def get_opponent_max_damage(gs: GameStateWrapper, target: Optional[Card] = None,
     if not has_giovanni:
         max_dmg += 10
 
+    # Poison Damage Consideration
+    is_poisoned = False
+    if final_target and any("poison" in str(s).lower() for s in final_target.status):
+        is_poisoned = True
+    elif opp_gs.my_active and "weezing" in opp_gs.my_active.name.lower() and not opp_gs.my_active.ability_used:
+        # Weezing will poison if active and ability available
+        is_poisoned = True
+
+    if is_poisoned:
+        max_dmg += 10
+
     if logger.isEnabledFor(logging.DEBUG):
         tgt_name = target.name if target else (gs.my_active.name if gs.my_active else "None")
         logger.debug(f"ThreatCalc for {tgt_name}: MaxDmg={max_dmg}")
@@ -1110,7 +1121,13 @@ def play(state, game):
                         if any(x in atk_text for x in ["paralyzed", "asleep", "confused"]):
                             action["score"] += 2000
                         if "heal" in atk_text and gs.my_active.hp < gs.my_active.max_hp:
-                            action["score"] += 1000
+                            # Prioritize attacks that heal when we are injured
+                            heal_bonus = min(gs.my_active.max_hp - gs.my_active.hp, 30) * 100
+                            action["score"] += heal_bonus
+
+                            # Give a massive boost if it saves from lethal
+                            if threat_lethal and (gs.my_active.hp + 30) > opp_max_dmg:
+                                action["score"] += 20000
 
                 # Check for Self-Harm (Poison Barb / Rocky Helmet)
                 if gs.opp_active:
@@ -1320,8 +1337,22 @@ def play(state, game):
 
                     for t in potential_targets:
                         missing = t.max_hp - t.hp
-                        if missing > max_missing:
-                            max_missing = missing
+                        weight = missing
+                        is_active = (t == gs.my_active)
+                        if is_active:
+                            weight += 50
+
+                        is_threatened = False
+                        if is_active:
+                            is_threatened = threat_lethal
+                        else:
+                            is_threatened = get_opponent_max_damage(gs, target=t) >= t.hp
+
+                        if is_threatened:
+                            weight += 1000
+
+                        if weight > max_missing:
+                            max_missing = weight
                             best_target = t
 
                     target = best_target
@@ -1717,21 +1748,36 @@ def play(state, game):
                          action["score"] -= 50000
                      else:
                          action["score"] += (missing_hp * 100)
-                         if target.hp <= 60 or threat_lethal:
-                             action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
+
+                         is_active = (idx == 0)
+                         if is_active:
+                             action["score"] += 10000 # Strong bias to heal active
+
+                         is_target_threatened = False
+                         if is_active:
+                             is_target_threatened = threat_lethal
+                         else:
+                             is_target_threatened = get_opponent_max_damage(gs, target=target) >= target.hp
+
+                         if target.hp <= 60 or is_target_threatened:
+                             crit_score = POTION_CRITICAL_SCORE
+                             if is_active:
+                                 crit_score += 5000
+                             action["score"] = max(action["score"], crit_score)
 
                          heal_amt = 20
-                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
+                         opp_dmg = opp_max_dmg if is_active else get_opponent_max_damage(gs, target=target)
+                         if is_target_threatened and (target.hp + heal_amt) > opp_dmg:
                               opp_points_needed = 3 - gs.opp_points
-                              my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
-                              loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
+                              my_gives = 2 if target.name.lower().endswith(" ex") else 1
+                              loses_game = (my_gives >= opp_points_needed) or (is_active and len(gs.my_bench) == 0)
 
                               if loses_game:
                                   action["score"] = LETHAL_WIN_SCORE
-                              elif risk_of_donk:
+                              elif risk_of_donk and is_active:
                                   action["score"] = max(action["score"], DONK_SURVIVAL_SCORE)
                               else:
-                                  action["score"] += 10000
+                                  action["score"] += 15000
 
         elif "ApplyDamage" in aname:
              # ApplyDamage(idx) usually from Greninja (20 dmg) or other selection effects
@@ -1908,6 +1954,8 @@ def play(state, game):
                     a["score"] += (target.energy_count * 1500) # Energy Stacking logic
                     if target.name.lower().endswith(" ex"):
                         a["score"] += 1000
+                    if target.name.lower() == "exeggutor ex":
+                        a["score"] += 5000
                     if target.name.lower() in CARRY_LIST:
                         a["score"] += CARRY_BONUS
 

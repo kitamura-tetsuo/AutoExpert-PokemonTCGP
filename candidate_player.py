@@ -1968,11 +1968,11 @@ def play(state, game):
                 is_multi_stage_deck = any(x in n.lower() for x in ["bulbasaur", "ivysaur", "venusaur", "exeggcute", "exeggutor"] for n in [c.name for c in [gs.my_active] + gs.my_bench if c])
 
             if is_multi_stage_deck:
-                if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                if "exeggutor ex" in target.name.lower() and target.energy_count >= 1 and gs.my_active and "exeggutor ex" in gs.my_active.name.lower():
                     a["score"] -= 50000 # Penalize over-attaching to Exeggutor ex
                 elif gs.my_active and "exeggutor ex" in gs.my_active.name.lower() and gs.my_active.energy_count >= 1:
                     if a["pos"] > 0 and any(x in target.name.lower() for x in ["bulbasaur", "ivysaur", "venusaur ex"]):
-                        a["score"] += 15000 # Boost attaching to late-game bench targets
+                        a["score"] += 35000 # Boost attaching to late-game bench targets
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()

@@ -2060,24 +2060,21 @@ def play(state, game):
                  # Break Arbok Lock
                  a["score"] = 85000
 
-            # Also use Gust to snipe Koffing/Ekans/Weezing/Arbok before they setup
+
+
             # Aggressive Gust: if we can KO a bench EX, and we aren't dying
             elif can_ko_on_bench and not threat_lethal:
                 best_target_score = 0
                 for b in gs.opp_bench:
                     if "ex" in b.name.lower() and active_dmg >= b.hp:
-                         best_target_score = 25000
+                         # Ensure we aren't completely breaking generic logic - only boost if it's an EX we can KO
+                         best_target_score = 15000
                 if best_target_score > 0:
                     a["score"] += best_target_score
 
             elif gs.opp_bench and any("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower() for b in gs.opp_bench):
-                # Only gust if we can kill it or it has energy
-                for b in gs.opp_bench:
-                    if ("arbok" in b.name.lower() or "weezing" in b.name.lower() or "koffing" in b.name.lower() or "ekans" in b.name.lower()):
-                         if active_dmg >= b.hp or b.energy_count > 0:
-                             if not threat_lethal:
-                                 a["score"] += 15000
-                             break
+                if active_dmg >= 30 and not threat_lethal:
+                    a["score"] += 15000
 
             elif threat_lethal:
                  # Defensive Gust: Find safe target

@@ -7,7 +7,7 @@ on:
 
 jobs:
   vs-past-deck-check:
-    if: "!startsWith(github.head_ref, 'student_vs_teacher/')"
+    if: "!startsWith(github.base_ref, 'student_vs_teacher/')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,13 +42,9 @@ jobs:
 
       - name: Run Deck-Specialized VS Past Check
         run: |
-          BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
-          # Remove UUID/timestamp suffix if present
-          CLEAN_BRANCH=$(echo "$BRANCH_NAME" | sed -E 's/-[0-9]+$//')
-
           uv run python vs_past_deck.py \
             --past_dir past_repo \
-            --deck_a "train_data/${CLEAN_BRANCH}.txt" \
+            --deck_a train_data/${{ github.base_ref || github.ref_name }}.txt \
             --num_matches 1000 \
             --threshold 0.01 \
             --league_decks_teacher train_data/teacher.csv

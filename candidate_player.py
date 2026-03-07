@@ -1598,7 +1598,15 @@ def play(state, game):
                         # In activate, we are about to face the active opponent.
                         threat = opp_max_dmg + poison_dmg
                         if target.hp <= threat:
-                            action["score"] -= (threat - target.hp) * 1000
+                            # If it dies anyway, heavily penalize it so we prefer Pokemon that survive.
+                            # If everything dies, we want to sacrifice the LEAST valuable Pokemon.
+                            # So we apply severe penalties based on its value.
+                            action["score"] -= 50000 # Base doomed penalty
+                            action["score"] -= target.energy_count * 5000
+                            if "ex" in target.name.lower():
+                                action["score"] -= 50000
+                            if target.name.lower() in CARRY_LIST:
+                                action["score"] -= 20000
 
         elif "Discard" in aname:
              action["type"] = "discard"

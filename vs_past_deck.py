@@ -423,6 +423,16 @@ def resolve_deck_path(deck: str) -> str:
         deck_path = settings.DECK_DIR / deck
     if not deck_path.exists():
         deck_path = Path("train_data") / deck
+
+    # Handle duplicate train_data prefix caused by CI workflow
+    if not deck_path.exists() and "train_data/train_data/" in str(deck_path):
+        deck_path = Path(str(deck_path).replace("train_data/train_data/", "train_data/"))
+
+    # Graceful fallback to avoid panics on missing decks
+    if not deck_path.exists():
+        logging.warning(f"Deck file {deck} not found. Falling back to default venusaur-exeggutor.")
+        deck_path = Path("deckgym-core/example_decks/venusaur-exeggutor.txt")
+
     return str(deck_path)
 
 

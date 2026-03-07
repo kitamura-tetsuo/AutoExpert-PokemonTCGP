@@ -927,6 +927,8 @@ def play(state, game):
 
     # Opponent Lethal Check
     opp_max_dmg = get_opponent_max_damage(gs)
+    poison_dmg = 10 if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) else 0
+    opp_max_dmg += poison_dmg
     threat_lethal = False
     if gs.my_active and opp_max_dmg >= gs.my_active.hp:
         threat_lethal = True
@@ -1452,6 +1454,9 @@ def play(state, game):
                 if gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects):
                     action["score"] = -100000
                     continue
+
+                if gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 40:
+                    action["score"] += 35000
 
                 # Cost Penalty
                 if gs.my_active:
@@ -2187,11 +2192,27 @@ def play(state, game):
                 is_switch = True
 
         if is_x_speed or is_switch:
-            if gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects):
+            has_no_retreat = gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects)
+            is_asleep = gs.my_active and any("asleep" in str(s).lower() for s in gs.my_active.status)
+            is_paralyzed = gs.my_active and any("paralyzed" in str(s).lower() for s in gs.my_active.status)
+            is_critically_poisoned = gs.my_active and any("poison" in str(s).lower() for s in gs.my_active.status) and gs.my_active.hp <= 30
+
+            needs_switch_cure = has_no_retreat or is_asleep or is_paralyzed or is_critically_poisoned
+            needs_x_speed_cure = is_critically_poisoned
+
+            if has_lethal_on_board:
+                needs_switch_cure = False
+                needs_x_speed_cure = False
+
+            if has_no_retreat or is_asleep or is_paralyzed:
                 if is_x_speed:
-                    a["score"] = -10000 # X Speed doesn't bypass NoRetreat
+                    a["score"] = -10000 # X Speed doesn't bypass NoRetreat, Asleep, or Paralyzed
                 elif is_switch:
-                    a["score"] = 85000 # Switch does! Bypass normal scoring to save active
+                    a["score"] = 85000 # Switch bypasses these
+            elif is_switch and needs_switch_cure:
+                a["score"] = 85000
+            elif is_x_speed and needs_x_speed_cure:
+                a["score"] = 85000
             else:
                 best_retreat = -100000
                 for r in actions:

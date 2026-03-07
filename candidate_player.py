@@ -59,7 +59,7 @@ AGGRESSIVE_DEFENSE_BONUS = 500000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
-LETHAL_KO_SCORE = 85000
+LETHAL_KO_SCORE = 50000
 STRATEGIC_SWITCH_SCORE = 30000
 ATTACK_BASE_SCORE = 10000
 RETREAT_SCORE = -15000 # Don't retreat unless necessary
@@ -1441,7 +1441,8 @@ def play(state, game):
                     # Poison Status Cure Logic
                     active_status = [str(s).lower() for s in gs.my_active.status]
                     if "poisoned" in active_status and gs.my_active.hp <= 30:
-                        action["score"] += 15000
+                        if not has_lethal_on_board:
+                            action["score"] += 15000
 
                 if threat_lethal:
                     # Check if losing active means losing the game
@@ -2131,11 +2132,19 @@ def play(state, game):
                       a["score"] += 1000
 
             # Status Effect Cure Logic
-            if gs.my_active:
+            if gs.my_active and not has_lethal_on_board:
                  active_status = [str(s).lower() for s in gs.my_active.status]
                  has_no_retreat = any("noretreat" in str(e).lower() for e in gs.my_active.effects) if hasattr(gs.my_active, "effects") else False
-                 if any(s in active_status for s in ["poisoned", "asleep", "paralyzed"]) or has_no_retreat:
-                      a["score"] = max(a["score"], 85000)
+
+                 is_critical_poison = "poisoned" in active_status and gs.my_active.hp <= 30
+                 needs_cure = any(s in active_status for s in ["asleep", "paralyzed"]) or has_no_retreat or is_critical_poison
+
+                 if needs_cure:
+                     if is_switch:
+                         a["score"] = max(a["score"], 85000)
+                     elif is_x_speed and best_retreat > -50000:
+                         # Only boost X speed if it enables a valid retreat
+                         a["score"] = max(a["score"], 85000)
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:

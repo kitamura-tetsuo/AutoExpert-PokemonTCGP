@@ -174,12 +174,14 @@ class Card:
         if raw_name.startswith("Some(") and raw_name.endswith(")"):
             raw_name = raw_name[5:-1]
 
-        # Strip prefixes like A1219, P_A002
-        raw_name = re.sub(r"^(?:[A-Za-z]+_?[A-Za-z]*\d+)?", "", raw_name)
+        m = re.match(r"^([A-Za-z0-9]+)?([A-Z][a-z].*)", raw_name)
+        if m and m.group(1):
+             prefix = m.group(1)
+             name_part = m.group(2)
+             if len(prefix) <= 6:
+                 raw_name = name_part
 
         cleaned = re.sub(r"([a-z])([A-Z])", r"\1 \2", raw_name)
-        # Handle cases like XSpeed -> X Speed
-        cleaned = re.sub(r"([A-Z])([A-Z][a-z])", r"\1 \2", cleaned)
 
         if cleaned.endswith(" Ex"):
             cleaned = cleaned[:-3] + " ex"

@@ -559,7 +559,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
 
 
     # Better Exeggutor ex EV logic depending on the mode
-    if "exeggutor ex" in name_lower and attack_idx == 0 and damage < 40:
+    if "exeggutor ex" in name_lower and attack_idx == 0 and damage <= 40:
         if mode == "ev":
             damage = 60 # EV is 60 (40 + 0.5 * 40)
         else:
@@ -1014,7 +1014,7 @@ def play(state, game):
                 if gs.opp_active:
                      # Overkill prevention
                      effective_damage = min(action["damage"], gs.opp_active.hp + 10)
-                action["score"] = ATTACK_BASE_SCORE + min(effective_damage * 100, 15000)
+                action["score"] = ATTACK_BASE_SCORE + min(effective_damage * 100, 20000)
 
                 if gs.opp_active:
                     dmg_with_giovanni = action["damage"] + 10
@@ -1723,7 +1723,7 @@ def play(state, game):
                              action["score"] = max(action["score"], POTION_CRITICAL_SCORE)
 
                          heal_amt = 20
-                         if threat_lethal and (target.hp + heal_amt) > opp_max_dmg:
+                         if threat_lethal and target == gs.my_active and (target.hp + heal_amt) > opp_max_dmg:
                               opp_points_needed = 3 - gs.opp_points
                               my_active_gives = 2 if (gs.my_active and gs.my_active.name.lower().endswith(" ex")) else 1
                               loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)

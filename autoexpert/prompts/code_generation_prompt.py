@@ -72,7 +72,7 @@ GOAL: {goal}
     
     if evaluation_log:
         # Truncate the log to avoid 400 Bad Request on large prompts
-        max_log_len = 4000
+        max_log_len = 2000
         if len(evaluation_log) > max_log_len:
             evaluation_log = evaluation_log[:max_log_len] + "\n... [LOG TRUNCATED] ..."
         prompt += f"\nEVALUATION LOG (100 matches results):\n```\n{evaluation_log}\n```"

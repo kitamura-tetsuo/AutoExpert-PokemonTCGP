@@ -39,14 +39,11 @@ class JulesClient:
         return response.json().get("sessions", [])
 
     def create_session(self, prompt: str, source_name: str, title: str = "AutoExpert Task") -> Dict[str, Any]:
-        import os
-        current_branch = os.environ.get("GITHUB_HEAD_REF") or os.environ.get("GITHUB_REF_NAME")
-        if not current_branch:
-            try:
-                current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
-            except Exception:
-                pass
-        if not current_branch:
+        try:
+            current_branch = subprocess.check_output(["git", "branch", "--show-current"], text=True).strip()
+            if not current_branch:
+                current_branch = "main"
+        except Exception:
             current_branch = "main"
 
         # Check for existing active sessions on the same branch
@@ -73,14 +70,11 @@ class JulesClient:
                 }
             },
             "title": title,
-            "requirePlanApproval": False
+            "requirePlanApproval": False,
+            "automationMode": "AUTO_CREATE_PR"
         }
         response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
-        try:
-            response.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            print(f"API Error Response: {response.text}")
-            raise e
+        response.raise_for_status()
         return response.json()
 
     def get_session(self, session_id: str) -> Dict[str, Any]:

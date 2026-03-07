@@ -316,6 +316,7 @@ class Card:
         elif "gengar ex" in n_lower: max_cost = 3
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif "exeggcute" in n_lower: max_cost = 1
 
         if not self.db_entry:
             # Fallback if DB missing
@@ -1581,6 +1582,14 @@ def play(state, game):
                     if target:
                         # Prioritize ready attacker
                         action["score"] += target.hp
+
+                        target_dmg = 0
+                        for i in range(len(target.attacks)):
+                            if can_use_attack(target.attacks[i].get("cost", []), target.energy):
+                                d = calculate_damage(target, i, gs)
+                                if d > target_dmg: target_dmg = d
+                        action["score"] += target_dmg * 100
+
                         if not target.needs_energy():
                              action["score"] += 5000
                         if "ex" in target.name.lower():

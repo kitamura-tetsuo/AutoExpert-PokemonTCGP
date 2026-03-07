@@ -69,12 +69,14 @@ class JulesClient:
                     "startingBranch": current_branch
                 }
             },
-            "title": title,
-            "requirePlanApproval": False,
-            "automationMode": "AUTOMATION_MODE_AUTO_CREATE_PR"
+            "title": title
         }
         response = self.session.post(f"{self.base_url}/sessions", headers=self.headers, json=data)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            print(f"Jules API Error: {response.text}")
+            raise
         return response.json()
 
     def get_session(self, session_id: str) -> Dict[str, Any]:

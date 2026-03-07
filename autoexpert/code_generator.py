@@ -17,8 +17,8 @@ class CodeGenerator:
         full_prompt = f"{system_prompt}\n\nTASK:\n{task_prompt}\n\nPlease write the function to 'candidate_player.py' in the root directory. Also You can edit all files in the repository."
 
         # Truncate prompt to prevent 400 Bad Request
-        if len(full_prompt) > 25000:
-            full_prompt = full_prompt[:24997] + "..."
+        if len(full_prompt) > 15000:
+            full_prompt = full_prompt[:14997] + "..."
 
         # Create session
         session = client.create_session(full_prompt, self.source_name, title="Generate TCG Strategy")

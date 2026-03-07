@@ -426,7 +426,11 @@ class GameStateWrapper:
         return None
 
 def can_use_attack(cost, energy_provided):
-    available = list(energy_provided)
+    # Ensure energy_provided is a list of strings to prevent 'is not iterable' or type mismatch errors
+    if not isinstance(energy_provided, (list, tuple)):
+        energy_provided = [str(energy_provided)]
+
+    available = [str(e) for e in energy_provided]
     remaining_cost = []
     for c in cost:
         if c != "Colorless":

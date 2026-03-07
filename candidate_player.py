@@ -316,6 +316,7 @@ class Card:
         elif "machamp ex" in n_lower: max_cost = 3
         elif "gengar ex" in n_lower: max_cost = 3
         elif "exeggutor ex" in n_lower: max_cost = 1
+        elif n_lower == "exeggcute": max_cost = 1
         elif "mega altaria ex" in n_lower: max_cost = 4 # Ensure energy for attack + retreat or other needs
 
         if not self.db_entry:
@@ -432,7 +433,9 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
-    damage = float(atk.get("dmg", 0))
+    raw_dmg = atk.get("dmg", 0)
+    clean_dmg = re.sub(r'[^0-9.]', '', str(raw_dmg))
+    damage = float(clean_dmg) if clean_dmg else 0.0
     text = (atk.get("text") or "").lower()
     name_lower = attacker.name.lower()
 
@@ -1868,6 +1871,8 @@ def play(state, game):
             if a["pos"] == 0:
                 retreat_cost = target.retreat_cost
                 allows_retreat = target.energy_count < retreat_cost and (target.energy_count + 1) >= retreat_cost
+                if allows_retreat and target.effects and any("NoRetreat" in str(e) for e in target.effects):
+                    allows_retreat = False
 
                 if allows_retreat:
                     has_safe_bench = False
@@ -1930,13 +1935,16 @@ def play(state, game):
             # If fully powered, only attach if it's active and allows retreat, or allows strategic switch
             if is_fully_powered:
                  allows_retreat = a["pos"] == 0 and target.energy_count < target.retreat_cost and (target.energy_count + 1) >= target.retreat_cost
+                 if allows_retreat and target.effects and any("NoRetreat" in str(e) for e in target.effects):
+                     allows_retreat = False
                  if not allows_retreat:
                       a["score"] -= 20000
 
             # Override needs_energy if we need energy to retreat
             needs_energy = target.needs_energy()
             if a["pos"] == 0 and target.energy_count < target.retreat_cost:
-                needs_energy = True
+                if not (target.effects and any("NoRetreat" in str(e) for e in target.effects)):
+                    needs_energy = True
 
             if needs_energy:
                 is_compatible = False
@@ -1965,8 +1973,9 @@ def play(state, game):
                          retreat_cost = target.retreat_cost
                          # Only boost weak attach if not threatened OR if attachment allows retreat
                          if target.energy_count < retreat_cost:
-                             if not threat_lethal or (target.energy_count + 1 >= retreat_cost):
-                                 a["score"] += ACTIVE_WEAK_ATTACH_BONUS
+                             if not (target.effects and any("NoRetreat" in str(e) for e in target.effects)):
+                                 if not threat_lethal or (target.energy_count + 1 >= retreat_cost):
+                                     a["score"] += ACTIVE_WEAK_ATTACH_BONUS
 
                          # Lethal Lookahead
                          is_lethal_attachment = False
@@ -1997,7 +2006,15 @@ def play(state, game):
 
                          # Defensive Logic: If lethal threat, and we can't kill them, don't attach to dying active
                          if threat_lethal and not is_lethal_attachment:
-                             if a["score"] < 90000:
+                             is_doomed = False
+                             if target.hp <= 30 and any("poison" in str(s).lower() for s in target.status):
+                                 is_doomed = True
+                             if opp_max_dmg >= target.hp and target.effects and any("NoRetreat" in str(e) for e in target.effects):
+                                 is_doomed = True
+
+                             if is_doomed and len(gs.my_bench) > 0:
+                                 a["score"] = -200000
+                             elif a["score"] < 90000:
                                  a["score"] -= 10000 # Increased penalty
 
                     # Weakness check for Active Pokemon
@@ -2279,12 +2296,28 @@ def play(state, game):
                 is_switch = True
 
         if is_x_speed or is_switch:
-            if gs.my_active and any("NoRetreat" in str(e) for e in gs.my_active.effects):
+            is_locked = gs.my_active and (any("NoRetreat" in str(e) for e in gs.my_active.effects) or any(s in [str(x).lower() for x in gs.my_active.status] for s in ["asleep", "paralyzed"]))
+            if is_locked:
                 if is_x_speed:
-                    a["score"] = -10000 # X Speed doesn't bypass NoRetreat
+                    a["score"] = -100000 # X Speed doesn't bypass NoRetreat/Asleep/Paralyzed
                 elif is_switch:
                     a["score"] = 85000 # Switch does! Bypass normal scoring to save active
             else:
+                # X speed should only be used if active pokemon has reason to retreat
+                wants_to_retreat = False
+                if threat_lethal or (gs.my_active and gs.my_active.hp <= 60 and any("poison" in str(s).lower() for s in gs.my_active.status)):
+                    wants_to_retreat = True
+                else:
+                    # check if we actually have a retreat planned
+                    for r in actions:
+                        if r["type"] == "retreat" and r["score"] > RETREAT_SCORE:
+                            wants_to_retreat = True
+                            break
+
+                if not wants_to_retreat:
+                     a["score"] = -100000
+                     continue
+
                 best_retreat = -100000
                 for r in actions:
                     if r["type"] == "retreat" and r["score"] > best_retreat:

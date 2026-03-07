@@ -165,7 +165,16 @@ class Card:
         if self.max_hp == 0 and obj:
              self.max_hp = getattr(obj, "hp", 0)
         self.db_entry = self._get_db_entry()
-        self.energy = [str(e) for e in getattr(obj, "attached_energy", [])] if obj else []
+
+        self.energy = []
+        if obj:
+            attached = getattr(obj, "attached_energy", {})
+            if isinstance(attached, dict):
+                for k, v in attached.items():
+                    self.energy.extend([str(k)] * int(v))
+            else:
+                self.energy = [str(e) for e in attached]
+
         self.energy_count = len(self.energy)
 
     @staticmethod

@@ -33,7 +33,7 @@
                 "--deck_b",
                 "4ff0d50e.txt",
                 "--matches",
-                "10",
+                "1000",
                 "--threshold",
                 "0.01"
             ]

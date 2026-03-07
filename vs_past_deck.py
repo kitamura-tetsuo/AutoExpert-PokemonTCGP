@@ -568,7 +568,7 @@ def main():
 
     # Output detailed steps for extreme cases in NEW AI
     for case_name, (steps, history) in new_extreme.items():
-        if not history:
+        if not history or case_name not in ["shortest_loss", "longest_loss"]:
             continue
         print(f"\n=== {case_name.upper()} ({steps} steps) ===")
         prev_obs = None

@@ -447,7 +447,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             attacks = [{"dmg": 50, "text": "This attack does 20 more damage for each [P] Pokémon in your discard pile.", "cost": ["Psychic", "Colorless"]}]
             attacker.db_entry = {"attacks": attacks, "hp": 130, "retreat": 3}
         elif "cofagrigus" in name_lower and attack_idx == 0:
-            attacks = [{"dmg": 120, "text": "Discard 2 cards from your hand.", "cost": ["Psychic", "Psychic"]}]
+            attacks = [{"dmg": 120, "text": "Discard 2 cards from your hand.", "cost": ["Psychic", "Psychic", "Colorless"]}]
             attacker.db_entry = {"attacks": attacks, "hp": 120, "retreat": 2}
         elif "mismagius" in name_lower:
             if "ex" in name_lower:
@@ -582,15 +582,9 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
     if "houndstone" in name_lower and attack_idx == 0:
         psychic_in_discard = 0
         for d in state.my_discard:
-            if getattr(d.obj, "is_pokemon", False) and getattr(d.obj, "energy_type", None) == "Psychic":
+            d_name = d.name.lower()
+            if any(x in d_name for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter", "comfey", "klefki"]):
                 psychic_in_discard += 1
-            elif d.db_entry and getattr(d.db_entry, "get", lambda x, y: y)("is_pokemon", False) and d.energy_type == "Psychic":
-                psychic_in_discard += 1
-            elif d.db_entry is None:
-                # Fallback: check names for known psychic pokemon
-                n = d.name.lower()
-                if any(x in n for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"]):
-                    psychic_in_discard += 1
         damage = 50 + (20 * psychic_in_discard)
 
     if "pikachu ex" in name_lower and attack_idx == 0 and damage < 30:
@@ -1103,7 +1097,7 @@ def play(state, game):
                              else:
                                  action["score"] -= 200000
 
-                    if action["damage"] > 0 and action["damage"] <= 30 and gs.my_active:
+                    if action["damage"] > 0 and action["damage"] <= 40 and gs.my_active:
                         n = gs.my_active.name.lower()
                         if "houndstone" in n or "cofagrigus" in n:
                              if not is_ko:
@@ -1311,7 +1305,7 @@ def play(state, game):
                         has_houndstone_threat = True
                         break
 
-                is_psychic_pokemon = any(x in n_lower for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"])
+                is_psychic_pokemon = any(x in n_lower for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter", "comfey", "klefki"])
 
                 if has_houndstone_threat and is_psychic_pokemon and not is_useful:
                     action["score"] = 60000 # Prioritize discarding psychic pokemon for Houndstone
@@ -1661,7 +1655,7 @@ def play(state, game):
 
                     elif "klefki" in n_lower: # Dismantling Keys
                         # Discards itself to remove opponent's tool
-                        if len(gs.my_bench) <= 1 and risk_of_donk:
+                        if len(gs.my_bench) == 0:
                             # Risk of donking ourselves
                             action["score"] -= 100000
                         else:
@@ -1919,6 +1913,9 @@ def play(state, game):
                                      d = calculate_damage(target, i, gs, extra_damage=10 if has_giovanni else 0)
                                      if d > potential_max_dmg: potential_max_dmg = d
 
+                             if potential_max_dmg > current_max_dmg:
+                                 a["score"] += 25000 # Boost significantly if attachment enables a better attack
+
                              if potential_max_dmg >= gs.opp_active.hp and current_max_dmg < gs.opp_active.hp:
                                  is_lethal_attachment = True
                                  is_ex = "ex" in gs.opp_active.name.lower()
@@ -2046,7 +2043,7 @@ def play(state, game):
                     psychic_pokemon_in_hand += 1
                 elif c.db_entry is None:
                     n = c.name.lower()
-                    if any(x in n for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter"]):
+                    if any(x in n for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter", "comfey", "klefki"]):
                         psychic_pokemon_in_hand += 1
 
             # Check if we have any basic pokemon to play

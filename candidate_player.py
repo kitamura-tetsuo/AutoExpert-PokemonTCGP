@@ -995,6 +995,8 @@ def play(state, game):
     best_lethal_action = None
     best_lethal_score = -1
 
+    # First, collect all lethal attacks
+    lethal_attacks = []
     for aid in legal_actions:
         aname = game.action_name(aid)
         if "Attack" in aname:
@@ -1003,22 +1005,23 @@ def play(state, game):
                 idx = int(m.group(1))
                 # Quick check
                 if gs.my_active:
-                    dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0) # Base damage
-                    # Check Giovanni/Red if available
-                    if has_giovanni:
-                         # This is complex because we need to play Giovanni first.
-                         # This loop only checks ATOMIC actions.
-                         # So we can't see "Play Giovanni THEN Attack" here as one action.
-                         # But if current attack is lethal WITHOUT supporters, take it.
-                         pass
+                    # Check if attack is usable!
+                    atk = gs.my_active.attacks[idx] if idx < len(gs.my_active.attacks) else None
+                    if atk and can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                        dmg = calculate_damage(gs.my_active, idx, gs, extra_damage=0) # Base damage
 
-                    if gs.opp_active and dmg >= gs.opp_active.hp:
-                        # Check prizes
-                        is_ex = "ex" in gs.opp_active.name.lower()
-                        points_gained = 2 if is_ex else 1
-                        if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
-                             # FOUND LETHAL WIN
-                             return aid
+                        if gs.opp_active and dmg >= gs.opp_active.hp:
+                            # Check prizes
+                            is_ex = "ex" in gs.opp_active.name.lower()
+                            points_gained = 2 if is_ex else 1
+                            if points_gained >= points_needed_to_win or len(gs.opp_bench) == 0:
+                                 # FOUND LETHAL WIN
+                                 lethal_attacks.append(aid)
+
+    if lethal_attacks:
+        # Before returning, double check if it's in legal actions
+        if lethal_attacks[0] in legal_actions:
+            return lethal_attacks[0]
 
     for aid in legal_actions:
         aname = game.action_name(aid)
@@ -1560,7 +1563,7 @@ def play(state, game):
                 if gs.my_active and gs.my_active.hp > 0:
                     activating_for_opp = True
 
-                action["score"] = LETHAL_WIN_SCORE # Must activate to continue
+                action["score"] = 990000 # Must activate to continue
 
                 if activating_for_opp:
                     # Choosing for opponent (e.g. from Gust effect? No, usually that's automatic or different action)
@@ -2245,12 +2248,12 @@ def play(state, game):
 
     mewtwo_attacks = [a for a in actions if a["type"] == "attack" and gs.my_active and "mewtwo ex" in gs.my_active.name.lower()]
     if len(mewtwo_attacks) > 1:
-        lethal_attacks = [a for a in mewtwo_attacks if a.get("is_ko")]
-        if len(lethal_attacks) > 1:
+        lethal_attacks_m2 = [a for a in mewtwo_attacks if a.get("is_ko")]
+        if len(lethal_attacks_m2) > 1:
              standard_lethal = None
              psydrive_lethal = None
 
-             for atk in lethal_attacks:
+             for atk in lethal_attacks_m2:
                  if atk["damage"] == 50: standard_lethal = atk
                  elif atk["damage"] == 150: psydrive_lethal = atk
 
@@ -2263,14 +2266,45 @@ def play(state, game):
                          a["score"] += 1000
 
     if actions:
-        actions.sort(key=lambda x: x["score"], reverse=True)
-        best_action = actions[0]
+        legal_actions_set = set(legal_actions)
+        legal_scored_actions = [a for a in actions if a["id"] in legal_actions_set]
 
-        if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f"Turn: Hand={len(gs.my_hand)}, Bench={len(gs.my_bench)}")
-            for a in actions[:5]:
-                 logger.debug(f"Action: {a['name']} Type: {a['type']} Score: {a['score']} Dmg: {a.get('damage', 0)}")
+        if legal_scored_actions:
+            # We must force Activate to be picked if it's the only legal move or if it's required.
+            activate_actions = [a for a in legal_scored_actions if a["type"] == "activate"]
+            if activate_actions:
+                activate_actions.sort(key=lambda x: x["score"], reverse=True)
+                return activate_actions[0]["id"]
 
-        return best_action["id"]
+            # Same for ApplyDamage
+            apply_damage_actions = [a for a in legal_scored_actions if a["type"] == "apply_damage"]
+            if apply_damage_actions:
+                apply_damage_actions.sort(key=lambda x: x["score"], reverse=True)
+                return apply_damage_actions[0]["id"]
 
-    return legal_actions[0] if legal_actions else 0
+            # Add a small random jitter to break ties (especially for EndTurn vs bad actions)
+            for a in legal_scored_actions:
+                a["score"] += random.uniform(0, 0.1)
+
+            legal_scored_actions.sort(key=lambda x: x["score"], reverse=True)
+
+            best_action = legal_scored_actions[0]
+
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug(f"Turn: Hand={len(gs.my_hand)}, Bench={len(gs.my_bench)}")
+                for a in legal_scored_actions[:5]:
+                     logger.debug(f"Action: {a['name']} Type: {a['type']} Score: {a['score']} Dmg: {a.get('damage', 0)}")
+
+            if best_action["id"] in legal_actions:
+                return best_action["id"]
+
+    if legal_actions:
+        for aid in legal_actions:
+            if game.action_name(aid) == "EndTurn":
+                return aid
+        return legal_actions[0]
+
+    # We should really not return anything if there are no legal actions.
+    # The environment will likely panic if we return an illegal action.
+    # But returning 0 as a desperate fallback just in case...
+    return 0

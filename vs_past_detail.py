@@ -298,6 +298,10 @@ def main():
         legal_names = {aid: game.action_name(aid) for aid in legal}
         print(f"Legal Actions: {legal_names}")
         
+        if not legal:
+            print("No legal actions available, breaking out of the loop...")
+            break
+
         action_id = play_funcs[curr_p](state, game)
         action_name = game.action_name(action_id)
         print(f"Selected Action: {action_id} - {action_name}")

@@ -371,6 +371,10 @@ def run_match(game, play_funcs, record_history=False, record_detail=False, card_
             detail_history[-1]["action_id"] = action_id
             detail_history[-1]["action_name"] = action_name
 
+        if not game.legal_actions():
+            logging.warning("No legal actions available, breaking out of the loop...")
+            break
+
         game.step_with_id(action_id)
         step_count += 1
 

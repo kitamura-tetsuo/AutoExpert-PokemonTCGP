@@ -1555,9 +1555,8 @@ def play(state, game):
 
                 if target:
                     n_lower = target.name.lower()
-                    if "venusaur ex" in n_lower: # Giant Bloom isn't an ability, wait, Venusaur ex has Giant Bloom which heals but also an ability? No, Venusaur ex in pocket has an ability!
-                        # Pocket Venusaur ex ability: Giant Bloom? No, Pocket Venusaur ex has ability "Giant Bloom" - wait, Pocket Venusaur ex has ability "Jungle Totem" (maybe? No, Venusaur ex in pocket has attack Giant Bloom which heals). Let's check DB.
-                        action["score"] += 5000
+                    if "venusaur ex" in n_lower:
+                        action["score"] += 50000 # Heals 30
 
                     elif "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
@@ -1759,10 +1758,14 @@ def play(state, game):
 
                          # Deprioritize attach to Exeggutor ex if it has energy already
                          if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
-                             a["score"] -= 15000
+                             a["score"] -= 20000
+                         elif "exeggutor ex" in target.name.lower() and target.energy_count == 0:
+                             a["score"] += 20000
                     else: # attach to bench
                          if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
-                             a["score"] -= 15000
+                             a["score"] -= 20000
+                         elif "exeggutor ex" in target.name.lower() and target.energy_count == 0:
+                             a["score"] += 20000
 
                     if a["pos"] == 0:
                          # Lethal Lookahead
@@ -1922,6 +1925,9 @@ def play(state, game):
                 a["score"] -= 20000
             else:
                 a["score"] -= 2000
+
+            if "weezing" in gs.opp_active.name.lower() or "arbok" in gs.opp_active.name.lower():
+                a["score"] += 10000 # More disruptive
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass
@@ -1958,7 +1964,7 @@ def play(state, game):
                     a["score"] = ITEM_SCORE + 15000
                 elif "weezing" in gs.opp_active.name.lower() or "arbok" in gs.opp_active.name.lower():
                     # specifically to disrupt their loop
-                    a["score"] = ITEM_SCORE + 20000
+                    a["score"] = ITEM_SCORE + 60000
                 elif gs.opp_active.hp > 80:
                     a["score"] += 2000
                 else:
@@ -1967,7 +1973,7 @@ def play(state, game):
         elif a["type"] == "retreat":
             # For Venusaur / Exeggutor we want to be able to retreat a poisoned pokemon
             if gs.my_active and gs.my_active.status and "poison" in str(gs.my_active.status).lower():
-                a["score"] += 25000 # boost retreat if poisoned
+                a["score"] += 150000 # boost retreat if poisoned
         elif a["type"] == "giovanni":
             needed = False
             gives_win = False

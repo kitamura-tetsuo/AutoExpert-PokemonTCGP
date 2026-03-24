@@ -585,7 +585,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
         psychic_in_discard = 0
         for d in state.my_discard:
             d_name = d.name.lower()
-            if any(x in d_name for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter", "comfey", "klefki"]):
+            if any(x in d_name for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter", "comfey", "klefki", "jynx", "abra", "kadabra", "alakazam"]):
                 psychic_in_discard += 1
         damage = 50 + (20 * psychic_in_discard)
 
@@ -1208,11 +1208,19 @@ def play(state, game):
                 action["type"] = "place"
                 action["pos"] = pos
                 action["score"] = PLACE_BASIC_SCORE
-                action["card_name"] = Card._clean_name(card_name_raw)
+                clean_name = Card._clean_name(card_name_raw)
+                action["card_name"] = clean_name
+                if "greavard" in clean_name.lower():
+                    action["score"] += 5000
 
         elif "Evolve" in aname:
             action["type"] = "evolve"
             action["score"] = EVOLVE_SCORE
+            m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
+            if m:
+                evo_name = Card._clean_name(m.group(1)).lower()
+                if "houndstone" in evo_name:
+                    action["score"] += 5000
 
             # Enhanced Defensive Evolution Logic
             m = re.search(r"Evolve\((?:Some\()?(.*?)\)?, (\d+)\)", aname)
@@ -1313,7 +1321,7 @@ def play(state, game):
                 is_psychic_pokemon = any(x in n_lower for x in ["greavard", "houndstone", "yamask", "cofagrigus", "misdreavus", "mismagius", "ralts", "kirlia", "gardevoir", "mewtwo", "gengar", "gastly", "haunter", "comfey", "klefki"])
 
                 if has_houndstone_threat and is_psychic_pokemon and not is_useful:
-                    action["score"] = 60000 # Prioritize discarding psychic pokemon for Houndstone
+                    action["score"] = 85000 # Prioritize discarding psychic pokemon for Houndstone
                 elif has_houndstone_threat and is_psychic_pokemon and is_useful:
                     action["score"] = 10000 # Discarding carry psychic pokemon is OK but not ideal
                 elif is_useful:
@@ -1338,6 +1346,9 @@ def play(state, game):
             # Specific Item Parsing
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
+                action["score"] = ITEM_SCORE
+            elif "cyrus" in aname_lower:
+                action["type"] = "cyrus"
                 action["score"] = ITEM_SCORE
             elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower:
                 action["type"] = "potion"
@@ -1367,11 +1378,40 @@ def play(state, game):
                          else:
                              action["score"] += 10000
 
-            elif "research" in aname_lower or "professor" in aname_lower or "sightseer" in aname_lower:
+            elif "lisia" in aname_lower:
+                action["type"] = "lisia"
+                action["score"] = SEARCH_SCORE
+                if risk_of_donk:
+                    action["score"] = DONK_SEARCH_SCORE
+                else:
+                    has_target = True # Assume we have it if we don't know deck contents exactly
+                    if not has_target:
+                        action["score"] -= 10000
+
+            elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
                 action["score"] = RESEARCH_SCORE
                 if risk_of_donk:
                     action["score"] = DONK_DRAW_SCORE + 1000 # Prefer Research over Copycat
+            elif "sightseer" in aname_lower:
+                action["type"] = "sightseer"
+                action["score"] = RESEARCH_SCORE
+                if risk_of_donk:
+                    action["score"] = DONK_DRAW_SCORE + 1000
+                else:
+                    needs_evolution = False
+                    for p in ([gs.my_active] + gs.my_bench):
+                        if p and p.name.lower() in ["greavard", "yamask", "misdreavus"]:
+                            needs_evolution = True
+                            break
+                    if needs_evolution:
+                        has_evolution_in_deck = True # Assume we have it
+                        if has_evolution_in_deck:
+                            action["score"] += 15000
+                        else:
+                            action["score"] -= 10000
+                    else:
+                        action["score"] -= 10000
 
             elif "copycat" in aname_lower:
                 action["type"] = "copycat"
@@ -2027,7 +2067,7 @@ def play(state, game):
                  a["score"] += 5000
 
     for a in actions:
-        if a["type"] == "research":
+        if a["type"] in ["research", "sightseer"]:
             # Smart Research: Discard energy is bad, UNLESS we can accelerate it back (Gardevoir)
             hand_names_lower = [c.name.lower() for c in gs.my_hand]
             has_energy = any("energy" in n or n in ["water", "fire", "grass", "lightning", "psychic", "fighting", "darkness", "metal"] for n in hand_names_lower)
@@ -2120,6 +2160,27 @@ def play(state, game):
                 a["score"] += 2000
             else:
                 a["score"] = ITEM_SCORE - 10000
+        elif a["type"] == "cyrus":
+            has_damaged_bench = False
+            can_ko_damaged_bench = False
+            for b in gs.opp_bench:
+                if b.hp < b.max_hp:
+                    has_damaged_bench = True
+                    if gs.my_active:
+                         for idx in range(len(gs.my_active.attacks)):
+                             atk = gs.my_active.attacks[idx]
+                             if can_use_attack(atk.get("cost", []), gs.my_active.energy):
+                                 dmg = calculate_damage(gs.my_active, idx, gs, target_override=b)
+                                 if dmg >= b.hp:
+                                     can_ko_damaged_bench = True
+                                     break
+
+            if can_ko_damaged_bench:
+                a["score"] = GUST_LETHAL_SCORE
+            elif has_damaged_bench:
+                a["score"] = ITEM_SCORE + 2000
+            else:
+                a["score"] -= 50000
         elif a["type"] == "giovanni":
             needed = False
             gives_win = False

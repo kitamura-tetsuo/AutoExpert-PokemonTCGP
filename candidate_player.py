@@ -59,7 +59,7 @@ AGGRESSIVE_DEFENSE_BONUS = 500000
 
 CARRY_BONUS = 2000
 ACTIVE_WEAK_ATTACH_BONUS = 5000
-LETHAL_KO_SCORE = 50000
+LETHAL_KO_SCORE = 85000
 STRATEGIC_SWITCH_SCORE = 30000
 ATTACK_BASE_SCORE = 10000
 RETREAT_SCORE = -15000 # Don't retreat unless necessary
@@ -234,6 +234,8 @@ class Card:
                 return {"hp": 60, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 10, "cost": ["Psychic"]}]}
             if "klefki" in name_lower:
                 return {"hp": 50, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 10, "cost": ["Colorless"]}]}
+            if "comfey" in name_lower:
+                return {"hp": 70, "energy_type": "Psychic", "retreat": 1, "attacks": [{"dmg": 30, "cost": ["Psychic", "Colorless"]}]}
             return None
 
         # Logic to match variant
@@ -447,7 +449,7 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
             attacks = [{"dmg": 50, "text": "This attack does 20 more damage for each [P] Pokémon in your discard pile.", "cost": ["Psychic", "Colorless"]}]
             attacker.db_entry = {"attacks": attacks, "hp": 130, "retreat": 3}
         elif "cofagrigus" in name_lower and attack_idx == 0:
-            attacks = [{"dmg": 120, "text": "Discard 2 cards from your hand.", "cost": ["Psychic", "Psychic", "Colorless"]}]
+            attacks = [{"dmg": 120, "text": "Discard 2 cards from your hand.", "cost": ["Psychic", "Psychic"]}]
             attacker.db_entry = {"attacks": attacks, "hp": 120, "retreat": 2}
         elif "mismagius" in name_lower:
             if "ex" in name_lower:

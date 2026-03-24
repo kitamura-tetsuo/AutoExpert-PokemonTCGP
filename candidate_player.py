@@ -91,6 +91,7 @@ EVOLUTION_MAP = {
     "charmander": "charmeleon", "charmeleon": "charizard ex",
     "squirtle": "wartortle", "wartortle": "blastoise ex",
     "bulbasaur": "ivysaur", "ivysaur": "venusaur ex",
+    "exeggcute": "exeggutor ex",
     "dratini": "dragonair", "dragonair": "dragonite",
     "deino": "zweilous", "zweilous": "hydreigon",
     "gastly": "haunter", "haunter": "gengar ex",
@@ -298,10 +299,14 @@ class Card:
         if n_lower == "froakie": max_cost = 2 # Greninja Mist Slash needs 2.
         elif n_lower == "ralts": max_cost = 3 # For Gardevoir
         elif n_lower == "gastly": max_cost = 3 # For Gengar
+        elif n_lower == "exeggcute": max_cost = 1
+        elif n_lower == "exeggutor ex": max_cost = 1
+        elif n_lower == "bulbasaur": max_cost = 4
+        elif n_lower == "ivysaur": max_cost = 4
+        elif n_lower == "venusaur ex": max_cost = 4
         elif n_lower == "dratini": max_cost = 4 # Dragonite
         elif n_lower == "charmander": max_cost = 4 # Charizard ex
         elif n_lower == "squirtle": max_cost = 5 # Blastoise ex (needs extra)
-        elif n_lower == "bulbasaur": max_cost = 4 # Venusaur ex
         elif n_lower == "abra": max_cost = 3 # Alakazam
         elif n_lower == "machop": max_cost = 3 # Machamp
         elif "blastoise ex" in n_lower: max_cost = 5
@@ -1243,7 +1248,7 @@ def play(state, game):
             if "catcher" in aname_lower or "sabrina" in aname_lower or "boss" in aname_lower:
                 action["type"] = "gust"
                 action["score"] = ITEM_SCORE
-            elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower:
+            elif "ice" in aname_lower and "pop" in aname_lower or "potion" in aname_lower or "heal" in aname_lower or "erika" in aname_lower:
                 action["type"] = "potion"
                 action["score"] = ITEM_SCORE
                 target = gs.my_active
@@ -1253,13 +1258,18 @@ def play(state, game):
                     if t_idx == 0: target = gs.my_active
                     else: target = gs.get_bench_card(t_idx - 1)
 
+                # Special healing values
+                heal_amount = 50 if "erika" in aname_lower else 20
+
                 if target:
                     if target.hp >= target.max_hp:
                         action["score"] -= 50000 # Don't heal full HP
-                    elif target.hp <= 60 or threat_lethal:
+                    elif target.hp <= target.max_hp - heal_amount:
+                        action["score"] = POTION_CRITICAL_SCORE
+                    elif threat_lethal:
                         action["score"] = POTION_CRITICAL_SCORE
                     # If it puts us out of lethal range
-                    if threat_lethal and (target.hp + 20) > opp_max_dmg:
+                    if threat_lethal and (target.hp + heal_amount) > opp_max_dmg:
                          opp_points_needed = 3 - gs.opp_points
                          my_active_gives = 2 if (gs.my_active and "ex" in gs.my_active.name.lower()) else 1
                          loses_game = (my_active_gives >= opp_points_needed) or (len(gs.my_bench) == 0)
@@ -1270,6 +1280,10 @@ def play(state, game):
                              action["score"] = DONK_SURVIVAL_SCORE
                          else:
                              action["score"] += 10000
+                if "erika" in aname_lower and target and target.energy_type != "Grass" and not "venusaur ex" in target.name.lower():
+                    # Check if it's Grass Type
+                    if not "Grass" in target.energy_type:
+                        action["score"] -= 50000 # Erka requires grass
 
             elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
@@ -1545,7 +1559,10 @@ def play(state, game):
 
                 if target:
                     n_lower = target.name.lower()
-                    if "gardevoir" in n_lower: # Psy Shadow
+                    if "venusaur ex" in n_lower:
+                        action["score"] += 50000 # Heals 30
+
+                    elif "gardevoir" in n_lower: # Psy Shadow
                         if gs.my_active and "Psychic" in gs.my_active.energy_type:
                             current_hp = gs.my_active.hp
                             if current_hp > 20:
@@ -1743,6 +1760,22 @@ def play(state, game):
                              if not threat_lethal or (target.energy_count + 1 >= retreat_cost):
                                  a["score"] += ACTIVE_WEAK_ATTACH_BONUS
 
+                         # Deprioritize attach to Exeggutor ex if it has energy already
+                         if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                             a["score"] -= 1000
+                         elif "exeggutor ex" in target.name.lower() and target.energy_count == 0:
+                             a["score"] += 1000
+
+                    if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                        # Prevent attaching extra to exeggutor ex
+                        a["score"] -= 1000
+                    else: # attach to bench
+                         if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                             a["score"] -= 1000
+                         elif "exeggutor ex" in target.name.lower() and target.energy_count == 0:
+                             a["score"] += 1000
+
+                    if a["pos"] == 0:
                          # Lethal Lookahead
                          is_lethal_attachment = False
                          if target and target.db_entry and gs.opp_active:
@@ -1900,6 +1933,9 @@ def play(state, game):
                 a["score"] -= 20000
             else:
                 a["score"] -= 2000
+
+            if "weezing" in gs.opp_active.name.lower() or "arbok" in gs.opp_active.name.lower():
+                a["score"] += 5000 # More disruptive
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass
@@ -1923,10 +1959,39 @@ def play(state, game):
                       a["score"] = DONK_SURVIVAL_SCORE
                  else:
                       a["score"] = ITEM_SCORE
-            elif gs.opp_active and gs.opp_active.hp > 80:
-                a["score"] += 2000
-            else:
-                a["score"] = ITEM_SCORE - 10000
+            elif gs.opp_active:
+                # Disruption Gust logic
+                # If opponent's active is powerful or has low retreat cost, try to pull out something with high retreat cost
+                target_retreat = 0
+                for b in gs.opp_bench:
+                    if b.retreat_cost > target_retreat and b.energy_count < b.retreat_cost:
+                        target_retreat = b.retreat_cost
+
+                # If we can force out a heavy pokemon that can't retreat
+                if target_retreat >= 2 and gs.opp_active.retreat_cost < 2:
+                    a["score"] = ITEM_SCORE + 15000
+                elif gs.opp_active.hp > 80:
+                    a["score"] += 2000
+                else:
+                    a["score"] = ITEM_SCORE - 10000
+
+        elif a["type"] == "potion":
+            if threat_lethal:
+                a["score"] += 20000
+
+        elif a["type"] == "retreat":
+            # For Venusaur / Exeggutor we want to be able to retreat a poisoned pokemon
+            if gs.my_active and gs.my_active.status and "poison" in str(gs.my_active.status).lower():
+                # Check if we have a viable attacker on bench or a high HP tank
+                can_retreat_safely = False
+                for b in gs.my_bench:
+                    if b.hp > 60:
+                        can_retreat_safely = True
+                        break
+                if can_retreat_safely:
+                    a["score"] += 15000 # boost retreat if poisoned
+            if gs.opp_active and "weezing" in gs.opp_active.name.lower():
+                a["score"] -= 10000
         elif a["type"] == "giovanni":
             needed = False
             gives_win = False

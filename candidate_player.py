@@ -1280,6 +1280,10 @@ def play(state, game):
                              action["score"] = DONK_SURVIVAL_SCORE
                          else:
                              action["score"] += 10000
+                if "erika" in aname_lower and target and target.energy_type != "Grass" and not "venusaur ex" in target.name.lower():
+                    # Check if it's Grass Type
+                    if not "Grass" in target.energy_type:
+                        action["score"] -= 50000 # Erka requires grass
 
             elif "research" in aname_lower or "professor" in aname_lower:
                 action["type"] = "research"
@@ -1758,14 +1762,18 @@ def play(state, game):
 
                          # Deprioritize attach to Exeggutor ex if it has energy already
                          if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
-                             a["score"] -= 20000
+                             a["score"] -= 1000
                          elif "exeggutor ex" in target.name.lower() and target.energy_count == 0:
-                             a["score"] += 20000
+                             a["score"] += 1000
+
+                    if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
+                        # Prevent attaching extra to exeggutor ex
+                        a["score"] -= 1000
                     else: # attach to bench
                          if "exeggutor ex" in target.name.lower() and target.energy_count >= 1:
-                             a["score"] -= 20000
+                             a["score"] -= 1000
                          elif "exeggutor ex" in target.name.lower() and target.energy_count == 0:
-                             a["score"] += 20000
+                             a["score"] += 1000
 
                     if a["pos"] == 0:
                          # Lethal Lookahead
@@ -1927,7 +1935,7 @@ def play(state, game):
                 a["score"] -= 2000
 
             if "weezing" in gs.opp_active.name.lower() or "arbok" in gs.opp_active.name.lower():
-                a["score"] += 10000 # More disruptive
+                a["score"] += 5000 # More disruptive
         elif a["type"] == "potion":
             # Already handled in parsing, but can refine here?
             pass
@@ -1962,18 +1970,28 @@ def play(state, game):
                 # If we can force out a heavy pokemon that can't retreat
                 if target_retreat >= 2 and gs.opp_active.retreat_cost < 2:
                     a["score"] = ITEM_SCORE + 15000
-                elif "weezing" in gs.opp_active.name.lower() or "arbok" in gs.opp_active.name.lower():
-                    # specifically to disrupt their loop
-                    a["score"] = ITEM_SCORE + 60000
                 elif gs.opp_active.hp > 80:
                     a["score"] += 2000
                 else:
                     a["score"] = ITEM_SCORE - 10000
 
+        elif a["type"] == "potion":
+            if threat_lethal:
+                a["score"] += 20000
+
         elif a["type"] == "retreat":
             # For Venusaur / Exeggutor we want to be able to retreat a poisoned pokemon
             if gs.my_active and gs.my_active.status and "poison" in str(gs.my_active.status).lower():
-                a["score"] += 150000 # boost retreat if poisoned
+                # Check if we have a viable attacker on bench or a high HP tank
+                can_retreat_safely = False
+                for b in gs.my_bench:
+                    if b.hp > 60:
+                        can_retreat_safely = True
+                        break
+                if can_retreat_safely:
+                    a["score"] += 15000 # boost retreat if poisoned
+            if gs.opp_active and "weezing" in gs.opp_active.name.lower():
+                a["score"] -= 10000
         elif a["type"] == "giovanni":
             needed = False
             gives_win = False

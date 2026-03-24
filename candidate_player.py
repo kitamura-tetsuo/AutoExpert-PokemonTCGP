@@ -460,6 +460,13 @@ def calculate_damage(attacker: Card, attack_idx: int, state: GameStateWrapper, e
                 attacks = [{"dmg": 70, "cost": ["Psychic", "Psychic"]}]
                 attacker.db_entry = {"attacks": attacks, "hp": 90, "retreat": 1}
 
+    # If the attack data was pulled from the DB but has 0 damage (e.g. Cursed Prose)
+    if "mismagius" in name_lower and not "ex" in name_lower and attacks:
+        for a in attacks:
+            if a.get("dmg", 0) == 0:
+                a["dmg"] = 70
+                a["cost"] = ["Psychic", "Psychic"]
+
     if not attacks or attack_idx >= len(attacks): return 0
 
     atk = attacks[attack_idx]
@@ -1323,7 +1330,7 @@ def play(state, game):
                 if has_houndstone_threat and is_psychic_pokemon and not is_useful:
                     action["score"] = 85000 # Prioritize discarding psychic pokemon for Houndstone
                 elif has_houndstone_threat and is_psychic_pokemon and is_useful:
-                    action["score"] = 10000 # Discarding carry psychic pokemon is OK but not ideal
+                    action["score"] = 65000 # Discarding carry psychic pokemon is still highly desirable for Houndstone damage
                 elif is_useful:
                     action["score"] = -50000 # Keep good cards
                 else:
@@ -1626,6 +1633,10 @@ def play(state, game):
                              action["score"] += 5000
                         if "ex" in target.name.lower():
                             action["score"] += 1000
+
+                        # Avoid putting up weak unpowered pokemon if we have better ones
+                        if target.hp <= 70 and target.needs_energy():
+                             action["score"] -= 1000
 
                         # Tie break for Carry Pokemon
                         if target.name.lower() in CARRY_LIST:
@@ -2098,14 +2109,14 @@ def play(state, game):
                  if has_gardevoir_line:
                      a["score"] += 1000 # Good to discard for Psy Shadow
                  elif has_houndstone_threat and psychic_pokemon_in_hand >= 1:
-                     a["score"] += (psychic_pokemon_in_hand * 3000) # Good to discard psychic pokemon for Houndstone
+                     a["score"] += (psychic_pokemon_in_hand * 8000) # Very good to discard psychic pokemon for Houndstone
                  else:
                      # Only penalize if we have a bench. If Donk risk, ignore penalty.
                      if not risk_of_donk:
                          a["score"] -= 10000 # Bad to discard
 
             if has_houndstone_threat and not has_energy and psychic_pokemon_in_hand >= 1:
-                 a["score"] += (psychic_pokemon_in_hand * 5000)
+                 a["score"] += (psychic_pokemon_in_hand * 15000) # Extremely good if no energy is discarded
 
             # Dead Hand Logic
             if not has_energy and not has_basic_to_play:
